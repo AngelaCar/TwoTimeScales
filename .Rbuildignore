@@ -1,0 +1,7 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+fit2ts_w_original.txt
+^\data-raw
+^data-raw$
+^vignettes
+old_plot_haz2ts.txt
