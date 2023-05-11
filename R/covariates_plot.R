@@ -15,6 +15,8 @@
 #'   If `FALSE`, then CIs are obtained by exponentiating the CIs for the betas.
 #'  * `main` The title of the plot.
 #'  * `ylab` The label of the second time axis (plotted on the y axis).
+#'  * `ylim` A vector with two elements defining the limits of the time scale
+#'      on the y axis.
 #'  * `col_beta` The color for the plot of the covariates' effects.
 #'  * `pch` The symbol for plotting the point estimates.
 #'  * `cex_main` The magnification factor for the main of the plot.
@@ -37,6 +39,7 @@ covariates_plot <- function(fitted_model,
     symmetric_CI = TRUE,
     main = NULL,
     ylab = NULL,
+    ylim = NULL,
     col_beta = "blue",
     pch = 20,
     cex_main = 1.2,
@@ -86,6 +89,9 @@ covariates_plot <- function(fitted_model,
     UCIs <- y + zval * se_y
   }
 
+  if(is.null(opts$ylim)) {
+      opts$ylim <- c(min(LCIs, na.rm = T)+.005, max(UCIs, na.rm = T)+.005)
+  }
   # ---- Plot ----
   p <- length(HR_SE$beta)
   x <- 1:p
@@ -97,7 +103,7 @@ covariates_plot <- function(fitted_model,
     ylab = opts$ylab,
     xaxt = "n",
     xlim = c(0, p + 1),
-    ylim = c(min(LCIs) - 0.05, max(UCIs) + 0.05),
+    ylim = opts$ylim,
     pch = opts$pch,
     col = opts$col_beta,
     main = opts$main,

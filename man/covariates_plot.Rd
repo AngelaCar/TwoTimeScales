@@ -22,6 +22,8 @@ based on the SEs for the HRs calculated by delta method.
 If \code{FALSE}, then CIs are obtained by exponentiating the CIs for the betas.
 \item \code{main} The title of the plot.
 \item \code{ylab} The label of the second time axis (plotted on the y axis).
+\item \code{ylim} A vector with two elements defining the limits of the time scale
+on the y axis.
 \item \code{col_beta} The color for the plot of the covariates' effects.
 \item \code{pch} The symbol for plotting the point estimates.
 \item \code{cex_main} The magnification factor for the main of the plot.

@@ -6,6 +6,7 @@ Authors@R: c(person("Angela", "Carollo", email = "carollo@demogr.mpg.de",  role 
            person("Paul H.C.", "Eilers", email = "p.eilers@erasmusmc.nl", role = "aut"),
            person("Jutta", "Gampe", email = "gampe@demogr.mpg.de", role = "aut"))
 Mantainer: Angela Carollo <carollo@demogr.mpg.de>
+URL: https://github.com/AngelaCar/TwoTimeScales
 Description: A collection of functions that are used to perform analysis of time to event data with two time scales.
     The main goal of the analysis is to estimate a smooth two dimensional hazard curve, while also respecting the constraint imposed by the relation between the two time scales.
     Analyses are based on the P-splines model of Poisson data with offset. Regression model to study the effect of covariates on the baseline hazard are possible in a proportional hazards fashion. 
@@ -15,7 +16,8 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
 Roxygen: list(markdown = TRUE)
-Imports: Epi,
+Imports: colorspace,
+         Epi,
          fields,
          JOPS,
          popEpi,

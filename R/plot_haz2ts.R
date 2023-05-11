@@ -56,8 +56,6 @@
 #'      on the x axis.
 #'   * `ylim` A vector with two elements defining the limits of the time scale
 #'      on the y axis.
-#'   * `xmin` The minimum value on the x-axis.
-#'   * `ymin` The minimum value on the y-axis.
 #'   * `contour_lines` A Boolean. Default is `FALSE`. If `TRUE` white contour
 #'     lines are added to the surfaces.
 #'   * `contour_col` The color for the contour lines. Default is `white`.
@@ -111,8 +109,6 @@ plot_haz2ts <- function(fitted_model,
     ylab = NULL,
     xlim = NULL,
     ylim = NULL,
-    xmin = NULL,
-    ymin = NULL,
     contour_lines = TRUE,
     contour_col = NULL,
     contour_cex = .8,
@@ -262,7 +258,7 @@ plot_haz2ts <- function(fitted_model,
 
       t <- unique(grid_us$t)
 
-      intt <- t[t <= tmax]
+      intt <- t[t <= opts$tmax]
 
       grid_ts <- expand.grid(t = intt, s = new_grid$ints)
       plotgrid_ts <- merge(grid_ts, grid_us, all.x = TRUE)
@@ -297,8 +293,6 @@ plot_haz2ts <- function(fitted_model,
         ylab = opts$ylab,
         xlim = opts$xlim,
         ylim = opts$ylim,
-        xmin = opts$xmin,
-        ymin = opts$ymin,
         contour_lines = opts$contour_lines,
         contour_col = opts$contour_col,
         contour_cex = opts$contour_cex,

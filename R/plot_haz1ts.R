@@ -105,6 +105,7 @@ plot_haz1ts <- function(fitted_model,
                              symmetric_CI = opts$symmetric_CI,
                              main = opts$main,
                              ylab = opts$ylab,
+                             ylim = opts$ylim,
                              col_beta = opts$col_beta,
                              pch = opts$pch,
                              cex_main = opts$cex_main,
@@ -151,10 +152,12 @@ plot_haz1ts <- function(fitted_model,
       if(is.null(opts$main)) opts$main <- "hazard"
       if(is.null(opts$ylab)) opts$ylab <- "hazard"
     }
+
+    if(is.null(opts$col_CI)) col_CI <- adjustcolor(opts$col, alpha.f = 0.5)
+
     if(is.null(opts$ylim)) {
       if(opts$add_CI){
         opts$ylim <- c(min(lci, na.rm = T), max(uci, na.rm = T))
-        if(is.null(opts$col_CI)) col_CI <- adjustcolor(opts$col, alpha.f = 0.5)
       } else {
         opts$ylim <- c(min(to_plot), max(to_plot))
       }

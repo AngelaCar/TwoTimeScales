@@ -71,8 +71,6 @@ this should be of length \code{n_shades + 1}.
 on the x axis.
 \item \code{ylim} A vector with two elements defining the limits of the time scale
 on the y axis.
-\item \code{xmin} The minimum value on the x-axis.
-\item \code{ymin} The minimum value on the y-axis.
 \item \code{contour_lines} A Boolean. Default is \code{FALSE}. If \code{TRUE} white contour
 lines are added to the surfaces.
 \item \code{contour_col} The color for the contour lines. Default is \code{white}.

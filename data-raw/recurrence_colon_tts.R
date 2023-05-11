@@ -64,6 +64,9 @@ reccolon2ts[, sex := factor(sex, labels = c("female", "male"))]
 reccolon2ts[, differ := factor(differ, labels = c("well", "moderate", "poor"))]
 reccolon2ts[, extent := factor(extent, labels = c("submucosa", "muscle", "serosa", "contstruct"))]
 reccolon2ts[, surg := factor(surg, labels = c("short", "long"))]
+
+# remove individuals with exit from the risk set equal to entry in the risk set
+reccolon2ts <- reccolon2ts[!(entrys == timesr)]
 reccolon2ts <- as.data.frame(reccolon2ts)
 ## Save the data
 #save(reccolon2ts, file = "../data/reccolon2ts")

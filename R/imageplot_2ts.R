@@ -40,8 +40,6 @@
 #'    on the y axis.
 #'  * `cex_main` The magnification to be used for the main title, default is `1.2`.
 #'  * `cex_lab` The magnification to be used for the axis labels, default is `1`.
-#'  * `xmin` The minimum value on the x-axis.
-#'  * `ymin` The minimum value on the y-axis.
 #'  * `contour_lines` A Boolean. Default is `FALSE`. If `TRUE` white contour
 #'    lines are added to the surfaces.
 #'  * `contour_col` The color for the contour lines. Default is `white`.
@@ -53,7 +51,7 @@
 #'
 #' @importFrom fields image.plot
 #' @importFrom viridis plasma
-#' @importFrom graphics axis contour
+#' @importFrom graphics axis box contour
 #'
 #' @export
 #'
@@ -73,8 +71,6 @@ imageplot_2ts <- function(x, y, z,
     ylab = NULL,
     xlim = NULL,
     ylim = NULL,
-    xmin = NULL,
-    ymin = NULL,
     contour_lines = TRUE,
     contour_col = NULL,
     contour_cex = .8,
@@ -97,7 +93,9 @@ imageplot_2ts <- function(x, y, z,
 
   # ---- Set breaks and color palette ----
   if (is.null(opts$breaks)) {
-    opts$breaks <- seq(min(z, na.rm = T), max(z, na.rm = T), length = (opts$n_shades + 1))
+    K <- (max(z, na.rm = T)-min(z, na.rm = T))/(opts$n_shades + 1)
+    opts$breaks <- seq(min(z, na.rm = T), min(z, na.rm = T) + K*(opts$n_shades + 1),
+                       length = (opts$n_shades + 1))
   } else {
     opts$n_shades <- length(opts$breaks) - 1
   }
@@ -118,13 +116,15 @@ imageplot_2ts <- function(x, y, z,
     if (is.null(opts$tmax)) {
       opts$xlim <- c(min(unique(x)), max(unique(x)))
     } else {
-      opts$xlim <- c(min(unique(x)), opts$tmax)
+      if(!opts$original){
+        opts$xlim <- c(min(unique(x)), max(unique(x)))
+      } else {
+        opts$xlim <- c(min(unique(x)), opts$tmax)
+      }
     }
   }
   if (is.null(opts$ylim)) opts$ylim <- c(min(unique(y)), max(unique(y)))
-  if (is.null(opts$xmin)) opts$xmin <- min(unique(x))
-  if (is.null(opts$ymin)) opts$ymin <- min(unique(y))
-  # ---- No contour if original and not rectangular_grid
+   # ---- No contour if original and not rectangular_grid
   if (opts$original & (!opts$rectangular_grid)) opts$contour_lines <- FALSE
 
   # ---- Plot ----
@@ -136,15 +136,13 @@ imageplot_2ts <- function(x, y, z,
       ylim = opts$ylim,
       col = col_palette,
       breaks = opts$breaks,
+      midpoint = !(opts$rectangular_grid),
       main = opts$main,
       cex.main = opts$cex_main,
       xlab = opts$xlab,
       ylab = opts$ylab,
-      cex.lab = opts$cex_lab,
-      axes = F
-    )
-    axis(1, pos = opts$ymin)
-    axis(2, pos = opts$xmin)
+      cex.lab = opts$cex_lab
+      )
     if (opts$contour_lines) {
       contour(x, y,
         z,
@@ -154,6 +152,7 @@ imageplot_2ts <- function(x, y, z,
         nlevels = opts$contour_nlev
       )
     }
+    box()
   }
 
   return(plt)

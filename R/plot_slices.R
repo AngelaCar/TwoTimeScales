@@ -28,6 +28,7 @@
 #' @return A plot of the slices of the hazard cut at selected points.
 #'
 #' @importFrom grDevices gray.colors
+#' @importFrom graphics matplot
 #' @export
 #'
 plot_slices <- function(x, y,

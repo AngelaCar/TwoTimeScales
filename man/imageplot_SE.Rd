@@ -46,8 +46,6 @@ on the x axis.
 on the y axis.
 \item \code{cex_main} The magnification to be used for the main title, default is \code{1.2}.
 \item \code{cex_lab} The magnification to be used for the axis labels, default is \code{1}.
-\item \code{xmin} The minimum value on the x-axis.
-\item \code{ymin} The minimum value on the y-axis.
 \item \code{contour_lines} A Boolean. Default is \code{FALSE}. If \code{TRUE} white contour
 lines are added to the surfaces.
 \item \code{contour_col} The color for the contour lines. Default is \code{white}.
