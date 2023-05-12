@@ -180,6 +180,7 @@ GLAM_1d_covariates <- function(R, Y,
 
   # ---- Save results in list ----
   alpha <- array(alpha, dim = cs)
+  beta <- array(beta, dim = p)
   names(beta) <- attributes(Z)$dimnames[[2]]
   SE_alpha <- array(SE[1:cs], dim = cs)
   SE_beta <- array(SE[(cs + 1):(cs + p)], dim = p)

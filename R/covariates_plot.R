@@ -36,7 +36,7 @@ covariates_plot <- function(fitted_model,
   # ---- Set plotting options ----
   opts <- list(
     HR = FALSE,
-    symmetric_CI = TRUE,
+    symmetric_CI = FALSE,
     main = NULL,
     ylab = NULL,
     ylim = NULL,
@@ -80,7 +80,7 @@ covariates_plot <- function(fitted_model,
 
   namesb <- attributes(fitted_model$optimal_model$beta)$dimnames[[1]]
 
-  if(opts$symmetric_CI){
+  if(opts$HR & !(opts$symmetric_CI)){
     LCIs <- exp(y - zval * se_y)
     UCIs <- exp(y + zval * se_y)
     y <- exp(y)
