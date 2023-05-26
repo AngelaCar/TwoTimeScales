@@ -8,7 +8,8 @@ get_hazard_2d(
   fitted_model,
   plot_grid = NULL,
   where_slices = NULL,
-  direction = c("u", "s", NULL)
+  direction = c("u", "s", NULL),
+  tmax = NULL
 )
 }
 \arguments{
@@ -39,6 +40,8 @@ values of \code{u} (indicated by \code{where_slices}), hence obtaining one-dimen
 curves over \code{s}. If \code{s}, then the surface will be cut at the seleced values
 of \code{s} (indicated by \code{where_slices}), hence obtaining one-dimensional curves
 over \code{u}.}
+
+\item{tmax}{The maximum value of \code{t} that should be plotted.}
 }
 \value{
 A list with the following elements:

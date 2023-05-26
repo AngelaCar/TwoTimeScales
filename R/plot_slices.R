@@ -76,7 +76,7 @@ plot_slices <- function(x, y,
 
   # ---- Title and labels ----
   if (is.null(opts$main)) opts$main <- ifelse(opts$loghazard, "log-hazard", "hazard")
-  if (is.null(opts$xlab)) opts$xlab <- ifelse(direction == "s", "u", "s")
+  if (is.null(opts$xlab)) opts$xlab <- ifelse(direction == "s", "t", "s")
   if (is.null(opts$ylab)) opts$ylab <- ifelse(opts$loghazard, "log-hazard", "hazard")
 
   # ---- Axes limits ----

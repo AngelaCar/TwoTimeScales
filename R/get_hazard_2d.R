@@ -13,6 +13,7 @@
 #' accordingly and a warning will be returned.
 #'
 #' @inheritParams plot_haz2ts
+#' @param tmax The maximum value of `t` that should be plotted.
 #'
 #' @return A list with the following elements:
 #'   * `new_plot_grid` A list of new specifications of the grid for plotting.
@@ -24,10 +25,12 @@
 #'
 get_hazard_2d <- function(fitted_model, plot_grid = NULL,
                           where_slices = NULL,
-                          direction = c("u", "s", NULL)) {
+                          direction = c("u", "s", NULL),
+                          tmax = NULL) {
   Bbases <- fitted_model$optimal_model$Bbases
   direction <- match.arg(direction)
 
+  # ---- Make grid ----
   if (!is.null(plot_grid)) {
     # check if all information are provided
     if ((length(plot_grid[[1]]) != 3) | (length(plot_grid[[2]]) != 3)) {
@@ -84,20 +87,41 @@ get_hazard_2d <- function(fitted_model, plot_grid = NULL,
     new_grid <- NULL
   }
 
+  # ---- Adjust grid and B-splines if slices are required ----
   if(!is.null(where_slices)){
     if(is.null(direction)) stop("Direction for cutting slices missing.")
     if(direction == "u" ){
       if(min(where_slices) < attributes(Bbases$Bu)$xl | max(where_slices) > attributes(Bbases$Bu)$xr){
         stop ("Desired cutting points outside of range of `B_u`.")
       } else {
-        Bu <- JOPS::bbase(where_slices, nseg = attributes(Bbases$Bu)$nseg, bdeg = attributes(Bbases$Bu)$bdeg)
+        newu <- unique(sort(c(new_grid$intu, where_slices)))
+        Bu <- JOPS::bbase(newu, nseg = attributes(Bbases$Bu)$nseg, bdeg = attributes(Bbases$Bu)$bdeg)
+        new_grid$intu <- newu
       }
     }
     if(direction == "s"){
       if(min(where_slices) < attributes(Bbases$Bs)$xl | max(where_slices) > attributes(Bbases$Bs)$xr){
         stop ("Desired cutting points outside of range of `B_s`.")
       } else {
-        Bs <- JOPS::bbase(where_slices, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg)
+        news <- unique(sort(c(new_grid$ints, where_slices)))
+        Bs <- JOPS::bbase(news, nseg = attributes(Bbases$Bs)$nseg,
+                          bdeg = attributes(Bbases$Bs)$bdeg)
+        new_grid$ints <- news
+        grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
+        grid_us$t <- with(grid_us, u + s)
+        t <- unique(grid_us$t)
+        if(!is.null(tmax)){
+        new_grid$intt <- t[t <= tmax]
+        } else {
+          new_grid$intt <- t
+        }
+        grid_ts <- expand.grid(t = new_grid$intt, s = new_grid$ints)
+        grid_ts$u <- grid_ts$t - grid_ts$s
+        newu <- unique(grid_ts$u)
+        newu <- newu[newu >= new_grid$umin & newu <= new_grid$umax]
+        new_grid$intu <- sort(newu)
+        Bu <- JOPS::bbase(new_grid$intu, nseg = attributes(Bbases$Bu)$nseg,
+                          bdeg = attributes(Bbases$Bu)$bdeg)
       }
     }
 

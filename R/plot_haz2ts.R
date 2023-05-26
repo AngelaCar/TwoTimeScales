@@ -178,9 +178,12 @@ plot_haz2ts <- function(fitted_model,
   # ---- Get (baseline) (log-)hazard and hazard ratios if needed ----
   if (which_plot != "covariates") { # the only case in which we don't need to call
     # get_hazard_2d
-    hazard_SE <- get_hazard_2d(fitted_model, plot_grid = plot_grid,
-                               where_slices = where_slices,
-                               direction = direction)
+    hazard_SE <- get_hazard_2d(fitted_model,
+      plot_grid = plot_grid,
+      where_slices = where_slices,
+      direction = direction,
+      tmax = opts$tmax
+    )
     new_grid <- hazard_SE$new_plot_grid
     if (which_plot %in% c("hazard", "slices", "3dhazard")) {
       if (opts$loghazard == TRUE) {
@@ -206,37 +209,18 @@ plot_haz2ts <- function(fitted_model,
   # ---- Cut extrapolated hazard ----
   if (opts$cut_extrapolated) {
     cut <- matrix(NA, nrow(to_plot), ncol(to_plot))
-    if (which_plot %in% c("hazard", "SE")){
-      for (row in 1:nrow(to_plot)) {
-        for (col in 1:ncol(to_plot)) {
-          cut[row, col] <- ifelse((new_grid$ints[col] + new_grid$intu[row] > opts$tmax + new_grid$du) &
-                                    (new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) >= -1, NA, 1)
-        }
+    for (row in 1:nrow(to_plot)) {
+      for (col in 1:ncol(to_plot)) {
+        cut[row, col] <- ifelse((new_grid$ints[col] + new_grid$intu[row] > opts$tmax + new_grid$du) &
+          (new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) >= -1, NA, 1)
       }
     }
-    if(which_plot == "slices"){
-      if(direction == "u"){
-        for (row in 1:nrow(to_plot)) {
-          for (col in 1:ncol(to_plot)) {
-            cut[row, col] <- ifelse((new_grid$ints[col] + where_slices[row] > opts$tmax + new_grid$du) &
-                                      (new_grid$smax - new_grid$ints[col]) / (new_grid$umax - where_slices[row]) >= -1, NA, 1)
-          }
-        }
-      }
-      if(direction == "s"){
-        for (row in 1:nrow(to_plot)) {
-          for (col in 1:ncol(to_plot)) {
-            cut[row, col] <- ifelse((where_slices[col] + new_grid$intu[row] > opts$tmax + new_grid$du) &
-                                      (new_grid$smax - where_slices[col]) / (new_grid$umax - new_grid$intu[row]) >= -1, NA, 1)
-          }
-        }
-      }
-    }
+
     to_plot <- to_plot * cut
   }
 
 
-  # ---- Create grid of parallelograms corners for plotting ----
+  # ---- If surface plot, create grid of parallelograms corners for plotting ----
   if (opts$original) {
     if (!opts$rectangular_grid) {
       inty <- expand.grid(new_grid$intu, new_grid$ints)
@@ -253,7 +237,7 @@ plot_haz2ts <- function(fitted_model,
     } else {
       #  ------ transform to (t,s)-plane --------
       grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
-      grid_us$t <- with(grid_us, u + s)
+      grid_us$t <- grid_us$u + grid_us$s
       grid_us$to_plot <- as.vector(to_plot)
 
       t <- unique(grid_us$t)
@@ -275,8 +259,30 @@ plot_haz2ts <- function(fitted_model,
     X2 <- new_grid$ints
   }
 
+  # ---- If slices, organize on grid and select only values where slices are ----
+  if (which_plot == "slices") {
+    if (direction == "s") {
+      grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
+      grid_us$t <- grid_us$u + grid_us$s
+      grid_us$to_plot <- as.vector(to_plot)
+      onlyslic <- subset(grid_us, s %in% where_slices)
+      grid_ts <- expand.grid(s = where_slices, t = unique(sort(onlyslic$t)))
+      final_grid <- merge(grid_ts, onlyslic, all.x = T)
+      to_plot_v <- final_grid$to_plot
+      dim(to_plot_v) <- c(length(unique(sort(final_grid$t))), length(where_slices))
+      to_plot <- to_plot_v
+      X1 <- unique(sort(final_grid$t))
+    } else {
+      grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
+      grid_us$to_plot <- c(to_plot)
+      onlyslic <- subset(grid_us, u %in% where_slices)
+      to_plot_v <- onlyslic$to_plot
+      dim(to_plot_v) <- c(length(where_slices), length(new_grid$ints))
+      to_plot <- to_plot_v
+    }
+  }
 
-  # ---- Plot surfaces ----
+  # ---- Plot (log-)hazard ----
   if (which_plot == "hazard") {
     plt <- imageplot_2ts(
       x = X1, y = X2, z = to_plot,
@@ -304,6 +310,7 @@ plot_haz2ts <- function(fitted_model,
     return(invisible(plt))
   }
 
+  # ---- Plot SEs ----
   if (which_plot == "SE") {
     plt <- imageplot_SE(
       x = X1, y = X2, z = to_plot,
@@ -333,23 +340,25 @@ plot_haz2ts <- function(fitted_model,
     return(invisible(plt))
   }
 
-  if( which_plot == "slices"){
-    if(direction == "u") x <- new_grid$ints else x <- new_grid$intu
-    plt <- plot_slices(x = x,
-                       y = to_plot,
-                       direction = direction,
-                       plot_options = list(
-                         loghazard = opts$loghazard,
-                         col_palette = opts$col_palette,
-                         main = opts$main,
-                         xlab = opts$xlab,
-                         ylab = opts$ylab,
-                         xlim = opts$xlim,
-                         ylim = opts$ylim,
-                         cex_main = opts$cex_main,
-                         cex_lab = opts$cex_lab,
-                         lwd = opts$lwd
-                       )
+  # ---- Plot slices ----
+  if (which_plot == "slices") {
+    if (direction == "u") x <- new_grid$ints else x <- X1
+    plt <- plot_slices(
+      x = x,
+      y = to_plot,
+      direction = direction,
+      plot_options = list(
+        loghazard = opts$loghazard,
+        col_palette = opts$col_palette,
+        main = opts$main,
+        xlab = opts$xlab,
+        ylab = opts$ylab,
+        xlim = opts$xlim,
+        ylim = opts$ylim,
+        cex_main = opts$cex_main,
+        cex_lab = opts$cex_lab,
+        lwd = opts$lwd
+      )
     )
   }
 }
