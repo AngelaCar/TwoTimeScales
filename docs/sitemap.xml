@@ -1,126 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/404.html</loc>
+    <loc>/404.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/articles/index.html</loc>
+    <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/articles/onetime.html</loc>
+    <loc>/articles/onetime.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/articles/twotimes.html</loc>
+    <loc>/articles/twotimes.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/articles/TwoTimeScales.html</loc>
+    <loc>/articles/TwoTimeScales.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/articles/visualization.html</loc>
+    <loc>/articles/visualization.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/authors.html</loc>
+    <loc>/authors.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/index.html</loc>
+    <loc>/index.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/LICENSE-text.html</loc>
+    <loc>/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/covariates_plot.html</loc>
+    <loc>/reference/covariates_plot.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/exposures_events_1d.html</loc>
+    <loc>/reference/exposures_events_1d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/exposures_events_2d.html</loc>
+    <loc>/reference/exposures_events_2d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/exposures_events_Lexis.html</loc>
+    <loc>/reference/exposures_events_Lexis.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/fit1ts.html</loc>
+    <loc>/reference/fit1ts.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/fit1tsmodel_ucminf.html</loc>
+    <loc>/reference/fit1tsmodel_ucminf.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/fit2ts.html</loc>
+    <loc>/reference/fit2ts.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/fit2tsmodel_ucminf.html</loc>
+    <loc>/reference/fit2tsmodel_ucminf.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/get_aic_fit_1d.html</loc>
+    <loc>/reference/get_aic_fit_1d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/get_aic_fit_2d.html</loc>
+    <loc>/reference/get_aic_fit_2d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/get_bic_fit_1d.html</loc>
+    <loc>/reference/get_bic_fit_1d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/get_bic_fit_2d.html</loc>
+    <loc>/reference/get_bic_fit_2d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/get_hazard_1d.html</loc>
+    <loc>/reference/get_hazard_1d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/get_hazard_2d.html</loc>
+    <loc>/reference/get_hazard_2d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/get_hr.html</loc>
+    <loc>/reference/get_hr.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/GLAM_1d_covariates.html</loc>
+    <loc>/reference/GLAM_1d_covariates.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/GLAM_2d_covariates.html</loc>
+    <loc>/reference/GLAM_2d_covariates.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/GLAM_2d_no_covariates.html</loc>
+    <loc>/reference/GLAM_2d_no_covariates.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/grid_search_1d.html</loc>
+    <loc>/reference/grid_search_1d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/grid_search_2d.html</loc>
+    <loc>/reference/grid_search_2d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/haz2ts_summary.html</loc>
+    <loc>/reference/haz2ts_summary.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/imageplot_2ts.html</loc>
+    <loc>/reference/imageplot_2ts.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/imageplot_SE.html</loc>
+    <loc>/reference/imageplot_SE.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/index.html</loc>
+    <loc>/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/iwls_1d.html</loc>
+    <loc>/reference/iwls_1d.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/make_bins.html</loc>
+    <loc>/reference/make_bins.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/plot.haz1ts.html</loc>
+    <loc>/reference/plot.haz1ts.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/plot.haz2ts.html</loc>
+    <loc>/reference/plot.haz2ts.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/plot_slices.html</loc>
+    <loc>/reference/plot_slices.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/prepare_data.html</loc>
+    <loc>/reference/prepare_data.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/print.data2ts.html</loc>
+    <loc>/reference/print.data2ts.html</loc>
   </url>
   <url>
-    <loc>https://AngelaCar.github.io/TwoTimeScales/reference/reccolon2ts.html</loc>
+    <loc>/reference/reccolon2ts.html</loc>
   </url>
 </urlset>
