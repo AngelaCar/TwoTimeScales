@@ -1,4 +1,92 @@
-url: ~
+url: https://AngelaCar.github.io/TwoTimeScales
+
+home:
+  title: Analysis of event data with two time scales
+
 template:
   bootstrap: 5
+  bootswatch: sandstone
 
+navbar:
+  title: "TwoTimeScales"
+  left:
+    - icon: fa-home
+      href: index.html
+    - text: "Vignettes"
+      href: articles/index.html
+  right:
+    - icon: fa-file-code-o
+      text: "functions"
+      href: reference/index.html
+    - icon: fa-github fa-lg fab
+      text: "github"
+      href: https://github.com/AngelaCar/TwoTimeScales
+
+articles:
+  - title: "Introduction to TwoTimeScales"
+    desc: >
+      This vignette provides an introduction to the TwoTimeScales package.
+    contents:
+      - TwoTimeScales
+  - title: "Smooth hazards with one time scale"
+    desc: >
+      This vignette describes in details how to use the functions in the package
+      to estimate smooth hazards over one time scale and visualizing the
+      results
+    contents:
+      - onetime
+  - title: "Smooth hazards with two time scales"
+    desc: >
+      This vignette describes in details how to use the functions in the package
+      to estimate smooth hazards over two time scales
+    contents:
+      - twotimes
+  - title: "Visualizing smooth hazards with two time scales"
+    desc: >
+      This vignette is dedicated to the plotting functions of the package
+    contents:
+      - visualization
+
+reference:
+- title: Data
+- contents:
+  - reccolon2ts
+- title: Data processing
+- contents:
+  - prepare_data
+  - make_bins
+  - exposures_events_1d
+  - exposures_events_2d
+  - exposures_events_Lexis
+  - print.data2ts
+- title: One time scale
+- contents:
+  - fit1ts
+  - fit1tsmodel_ucminf
+  - grid_search_1d
+  - get_aic_fit_1d
+  - get_bic_fit_1d
+  - iwls_1d
+  - GLAM_1d_covariates
+  - get_hazard_1d
+  - get_hr
+- title: Two time scales
+- contents:
+  - fit2ts
+  - fit2tsmodel_ucminf
+  - grid_search_2d
+  - get_aic_fit_2d
+  - get_bic_fit_2d
+  - GLAM_2d_no_covariates
+  - GLAM_2d_covariates
+  - get_hazard_2d
+  - get_hr
+  - haz2ts_summary
+- title: Plotting functions
+- contents:
+  - plot.haz1ts
+  - plot.haz2ts
+  - plot_slices
+  - imageplot_2ts
+  - imageplot_SE
+  - covariates_plot

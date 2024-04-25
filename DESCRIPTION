@@ -10,8 +10,7 @@ URL: https://github.com/AngelaCar/TwoTimeScales
 Description: A collection of functions for the analysis of time to event data with two time scales.
     The main goal of the analysis is to estimate a smooth two dimensional hazard curve, while also respecting the constraint imposed by the relation between the two time scales.
     Analyses are based on the P-splines model of Poisson data with offset. Regression model to study the effect of covariates on the baseline hazard are possible in a proportional hazards fashion. 
-    Functions to plot the (baseline) hazard are also provided. Functions to calculate cumulated quantities, such as cumulated (cause-specific) hazards,
-    survival function and cumulated incidence function are implemented.
+    Functions to plot the (baseline) hazard are also provided.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
