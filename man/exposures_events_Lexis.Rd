@@ -33,10 +33,25 @@ A list with the following elements:
 }
 }
 \description{
-\code{exposures_events_Lexis()} computes aggregated matrices of exposure times and event counts over two time
+\code{exposures_events_Lexis()} computes aggregated matrices of
+exposure times and event counts over two time
 scales, on the Lexis diagram.
 
-The time scales are \code{t} and \code{s}. This function uses several functions of
-the package \code{popEpi} and of the package Epi. See also \code{\link[=prepare_data]{prepare_data()}} to conveniently prepare individual data
-for the analysis with one, or two time scales.
+The time scales are \code{t} and \code{s}. This function uses functions from
+the package \code{popEpi} and from the package \code{Epi}, and code shared by Bendix Carstensen
+on the website bendixcarstensen.com. See also \code{\link[=prepare_data]{prepare_data()}}
+to conveniently prepare individual data for the analysis with one,
+or two time scales.
+}
+\references{
+Carstensen B, Plummer M, Laara E, Hills M (2022).
+Epi: A Package for Statistical Analysis in Epidemiology.
+R package version 2.47.1, https://CRAN.R-project.org/package=Epi.
+
+Miettinen J, Rantanen M, Seppa K (2023).
+popEpi: Functions for Epidemiological Analysis using Population Data.
+R package version 0.4.11, https://cran.r-project.org/package=popEpi.
+}
+\author{
+Angela Carollo \email{carollo@demogr.mpg.de}
 }

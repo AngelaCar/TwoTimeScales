@@ -9,6 +9,7 @@ GLAM_1d_covariates(
   Y,
   Bs,
   Z = Z,
+  Wprior = NULL,
   P,
   control_algorithm = list(maxiter = 20, conv_crit = 1e-05, verbose = FALSE)
 )
@@ -21,6 +22,8 @@ GLAM_1d_covariates(
 \item{Bs}{A matrix of B-splines for the \code{s} time scale of dimension ns by cs.}
 
 \item{Z}{A regression matrix of covariates values of dimensions n by p.}
+
+\item{Wprior}{An optional vector of length ns of a-priori weights.}
 
 \item{P}{The penalty matrix of dimension cs by cs.}
 

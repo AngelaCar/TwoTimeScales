@@ -9,6 +9,7 @@ iwls_1d(
   y,
   Bs,
   P,
+  Wprior = NULL,
   control_algorithm = list(maxiter = 20, conv_crit = 1e-05, verbose = FALSE)
 )
 }
@@ -20,6 +21,8 @@ iwls_1d(
 \item{Bs}{A matrix of B-splines for the \code{s} time scale of dimension ns by cs.}
 
 \item{P}{The penalty matrix of dimension cs by cs.}
+
+\item{Wprior}{An optional vector of length ns of a-priori weights.}
 
 \item{control_algorithm}{A list with optional values for the parameters of
 the iterative processes:

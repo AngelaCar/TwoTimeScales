@@ -10,7 +10,7 @@
 #' @details The fixed-time variable `u` and the second time scale `s`
 #'   are divided into nu and ns intervals, respectively. The extremes of these
 #'   intervals are provided as input to the function. First, the fixed-time at
-#'   entry is located in one of the nu bins which cover the whole range of
+#'   entry is located in one of the nu bins that cover the whole range of
 #'   `u`. Then, the time-at-risk for each individual is split according to
 #'   the ns bins that span the whole range of values for `s`, and an event
 #'   indicator is placed in the bin where the exit time is located. This is done
@@ -23,9 +23,10 @@
 #'   for the analysis with one, or two time scales.
 #'
 #' @inheritParams exposures_events_1d
-#' @param u A vector of fixed-times at entry in the process, measured over the
+#' @param u A vector of fixed times at entry in the process, measured over the
 #'   first time scale.
-#' @param bins_list is a list with the following (necessary) elements:
+#' @param bins_list is a list with the following (necessary) elements
+#' (usually prepared by [make_bins()]):
 #'   * `bins_u` a vector of extreme values for the bins over the u axis
 #'   * `bins_s` a vector of extreme values for the bins over the s axis
 #' @param individual A Boolean. Default is `FALSE`: if `FALSE` computes the matrices
@@ -40,8 +41,6 @@
 #'   then `Y` is an array of
 #'   dimension nu by ns by n, otherwise is an array of dimension nu by ns
 #'
-#' @export
-#'
 #' @examples
 #' # ---- Bin colon cancer data by time at randomization and time since recurrence ----
 #' # First create vectors of bins (using function `make_bins()`)
@@ -50,6 +49,10 @@
 #' # Now bin data (note: the s_in argument is omitted because data are not left truncated)
 #' bindata2d <- exposures_events_2d(u = reccolon2ts$timer,
 #' s_out = reccolon2ts$timesr, ev = reccolon2ts$status, bins = bins)
+#'
+#' @author Angela Carollo \email{carollo@@demogr.mpg.de}
+#'
+#' @export
 #'
 exposures_events_2d <- function(u,
                              s_in = NULL,
@@ -94,11 +97,6 @@ exposures_events_2d <- function(u,
   ns <- bins_list$ns
 
   liu <- bins_list$bins_u[1:nu]
-  #lis <- bins_list$bins_s[1:ns]
-  #ris <- bins_list$bins_s[-1]
-
-  #du <- bins_list$bins_u[2] - bins_list$bins_u[1]
-  #ds <- bins_list$bins_s[2] - bins_list$bins_s[1]
 
   # ---- Calculation of individual exposure and event counts ----
   R <- Y <- array(NA, dim = c(nu, ns, n))

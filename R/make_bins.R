@@ -3,10 +3,10 @@
 #' @description `make_bins()` constructs the bins over the time axes and saves the extremes
 #' of the bins in a vector.
 #'
-#' @details  It allows construction of bins over the time scales `t`and
-#'   `s` and  over the fixed-time axis `u`. At least the time scale
-#'    `s` is required. See also [prepare_data()] to conveniently prepare individual data
-#'   for the analysis with one, or two time scales.
+#' @details  It allows construction of bins over the time scales `t` and
+#'   `s` and/or over the fixed-time axis `u`. The time scale
+#'    `s` is always required. See also [prepare_data()] to conveniently
+#'     prepare individual data for the analysis with one, or two time scales.
 #'
 #' @param t_in (optional) A vector of entry times on the time scale `t`.
 #' @param t_out (optional) A vector of exit times on the time scale `t`.
@@ -49,44 +49,43 @@ make_bins <- function(t_in = NULL, t_out = NULL,
                       min_u = NULL, max_u = NULL,
                       min_s = NULL, max_s = NULL,
                       dt = NULL, du = NULL, ds) {
-
   # ---- Make bins ----
   # bins for t (if 2D bins over t and s)
   if (!is.null(t_out)) {
     if (is.null(t_in)) {
       t_in <- t_out - s_out
       message("`t_in` not provided. I will use `t_in = t_out - s_in`.")
-      }
+    }
     if (is.null(dt)) dt <- ds
     if (is.null(min_t)) min_t <- min(t_in)
-    if (is.null(max_t))  max_t <- max(t_out)
-    if (!is.null(max_t) & (max_t < max(t_out))){
+    if (is.null(max_t)) max_t <- max(t_out)
+    if (!is.null(max_t) & (max_t < max(t_out))) {
       message("`max_t < max(t_out)`; will use `max(t_out)`.")
       max_t <- max(t_out)
     }
-    if(!is.null(min_t) & (min_t > min(t_in))){
-      message("`min_t < min(t_out)`; will use `min(t_in)`.")
+    if (!is.null(min_t) & (min_t > min(t_in))) {
+      message("`min_t > min(t_out)`; will use `min(t_in)`.")
       min_t <- min(t_in)
     }
-    K <- ceiling((max_t - min_t)/dt )
+    K <- ceiling((max_t - min_t) / dt)
     bins_t <- seq(min_t, min_t + K * dt, by = dt)
   }
 
   # bins for u (if 2D bins over u and s)
   if (!is.null(u)) {
-    if (is.null(du))   du <- ds
-    if (is.null(min_u))  min_u <- min(u)
-    if (is.null(max_u))  max_u <- max(u)
-    if (!is.null(max_u) & (max_u < max(u))){
+    if (is.null(du)) du <- ds
+    if (is.null(min_u)) min_u <- min(u)
+    if (is.null(max_u)) max_u <- max(u)
+    if (!is.null(max_u) & (max_u < max(u))) {
       message("`max_u < max(u)`; will use `max(u)`.")
       max_u <- max(u)
     }
-    if(!is.null(min_u) & (min_u > min(u))){
-      message("`min_u < min(u)`; will use `min(u)`.")
+    if (!is.null(min_u) & (min_u > min(u))) {
+      message("`min_u > min(u)`; will use `min(u)`.")
       min_u <- min(u)
     }
-    K <- ceiling((max_u - min_u)/du )
-    bins_u <- seq(min_u, min_u + K*du, by = du)
+    K <- ceiling((max_u - min_u) / du)
+    bins_u <- seq(min_u, min_u + K * du, by = du)
   }
   # bins for s
   if (is.null(s_in)) {
@@ -95,17 +94,16 @@ make_bins <- function(t_in = NULL, t_out = NULL,
   }
   if (is.null(min_s)) min_s <- min(s_in)
   if (is.null(max_s)) max_s <- max(s_out)
-  if (!is.null(max_s) & (max_s < max(s_out))){
+  if (!is.null(max_s) & (max_s < max(s_out))) {
     message("`max_s < max(s_out)`; will use `max(s_out)`.")
     max_s <- max(s_out)
   }
-  if(!is.null(min_s) & (min_s > min(s_in))){
-    message("`min_s < min(s_out)`; will use `min(s_in)`.")
+  if (!is.null(min_s) & (min_s > min(s_in))) {
+    message("`min_s > min(s_out)`; will use `min(s_in)`.")
     min_s <- min(s_in)
   }
-  K <- ceiling((max_s - min_s)/ds )
+  K <- ceiling((max_s - min_s) / ds)
   bins_s <- seq(min_s, min_s + K * ds, by = ds)
-
 
 
   # ---- Return results ----
@@ -113,20 +111,19 @@ make_bins <- function(t_in = NULL, t_out = NULL,
 
   if (!is.null(t_out)) {
     bins$bins_t <- bins_t
-    bins$midt <- bins_t[-1] - dt/2
+    bins$midt <- bins_t[-1] - dt / 2
     bins$nt <- length(bins$midt)
   }
 
   if (!is.null(u)) {
     bins$bins_u <- bins_u
-    bins$midu <- bins_u[-1] - du/2
+    bins$midu <- bins_u[-1] - du / 2
     bins$nu <- length(bins$midu)
   }
 
   bins$bins_s <- bins_s
-  bins$mids <- bins_s[-1] - ds/2
+  bins$mids <- bins_s[-1] - ds / 2
   bins$ns <- length(bins$mids)
-
 
   return(bins)
 }

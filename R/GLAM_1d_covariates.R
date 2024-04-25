@@ -7,6 +7,7 @@
 #' @param Y A 2d-array of dimensions ns by n containing events' indicators.
 #' @param Bs A matrix of B-splines for the `s` time scale of dimension ns by cs.
 #' @param Z A regression matrix of covariates values of dimensions n by p.
+#' @param Wprior An optional vector of length ns of a-priori weights.
 #' @param P The penalty matrix of dimension cs by cs.
 #' @param control_algorithm A list with optional values for the parameters of
 #'   iterative processes:
@@ -38,6 +39,7 @@
 #'
 GLAM_1d_covariates <- function(R, Y,
                                Bs, Z = Z,
+                               Wprior = NULL,
                                P,
                                control_algorithm = list(maxiter = 20,
                                                         conv_crit = 1e-5,
@@ -60,6 +62,14 @@ GLAM_1d_covariates <- function(R, Y,
   one.p <- matrix(1, p, 1)
   one.ns <- matrix(1, ns, 1)
 
+  # Weights
+  # if Wprior is null, initialize an array of 1 of dimensions ns, n
+  if (is.null(Wprior)) {
+    Weight <- array(1, dim = c(ns, n))
+  } else { # or we transform the vector Wprior in a two-dimensional array
+    Weight <- array(Wprior, dim = c(ns, n))
+  }
+
   # Row tensor product
   TBs <- Rtens(Bs)
   B1 <- Rtens(one.ns, Bs)
@@ -78,7 +88,7 @@ GLAM_1d_covariates <- function(R, Y,
     Risk <- RHt(Z, RHt(one.ns, beta))
     Eta <- Base + Risk
     Mu <- R * exp(Eta)
-    W <- Mu
+    W <- Mu * Weight
     vx <- apply(W, 2, sum)
 
     # Compute inner product and inverse
@@ -140,7 +150,7 @@ GLAM_1d_covariates <- function(R, Y,
   Risk <- RHt(Z, RHt(one.ns, beta))
   Eta <- Base + Risk
   Mu <- R * exp(Eta)
-  W <- Mu
+  W <- Mu * Weight
   eta0 <- RHt(Bs, alpha)
 
   # Compute Effective Dimension
@@ -170,7 +180,8 @@ GLAM_1d_covariates <- function(R, Y,
   Mu_c[Mu_c == 0] <- 1e-7
   dev <- 2 * sum(Y_c * log(Y_c / Mu_c))
   aic <- dev + 2 * ed
-  n_obs <- prod(dim(Y))
+  #n_obs <- prod(dim(Y)) #
+  n_obs <- sum(Weight)
   bic <- dev + ed * log(n_obs)
 
   # Variance-covariance matrix and SEs

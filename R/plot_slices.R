@@ -10,10 +10,14 @@
 #' @param direction Either `"u"` or `"s"`.
 #' @param plot_options A list of options for the plot:
 #'  * `loghazard` A Boolean. Default is `FALSE`. If `FALSE` the function
-#'     returns a plot of the hazard surface, if `TRUE` the function returns
-#'     a plot of the log-hazard surface.
+#'     returns a plot of cross-sections from the hazard surface,
+#'     if `TRUE` the function returns a plot of cross-sections from the
+#'     log-hazard surface.
+#'  * `log10hazard` A Boolean. Default is `FALSE`. If `TRUE` returns a plot of
+#'     cross-sections from the log10-hazard surface.
 #'  * `col_palette` A function defining the color palette. The default palette
 #'    is `grDevices::gray.colors()`.
+#'  * `n_shades` The number of color shades to plot, default is 50.
 #'  * `main` The title of the plot.
 #'  * `xlab` The label of the first time axis (plotted on the x axis).
 #'  * `ylab` The label of the second time axis (plotted on the y axis).
@@ -43,7 +47,9 @@ plot_slices <- function(x, y,
   # ---- Set options for plotting ----
   opts <- list(
     loghazard = FALSE,
+    log10hazard = FALSE,
     col_palette = NULL,
+    n_shades = NULL,
     main = NULL,
     xlab = NULL,
     ylab = NULL,
@@ -66,19 +72,39 @@ plot_slices <- function(x, y,
     )
   }
 
+  if(is.null(opts$n_shades)) {opts$n_shades <- ncol(to_plot)}
+
   # ---- Set color palette ----
   if (is.null(opts$col_palette)) {
-    n_shades <- ncol(to_plot)
-    col_palette <- grDevices::gray.colors(n_shades)
+    col_palette <- grDevices::gray.colors(opts$n_shades)
   } else {
-    col_palette <- opts$col_palette(n_shades)
+    col_palette <- opts$col_palette(opts$n_shades)
   }
 
   # ---- Title and labels ----
-  if (is.null(opts$main)) opts$main <- ifelse(opts$loghazard, "log-hazard", "hazard")
+  if (is.null(opts$main)) {
+    if (opts$loghazard) {
+      opts$main <- "log-hazard"
+    } else {
+      if (opts$log10hazard) {
+        opts$main <- "log10-hazard"
+      } else {
+        opts$main <- "hazard"
+      }
+    }
+  }
   if (is.null(opts$xlab)) opts$xlab <- ifelse(direction == "s", "t", "s")
-  if (is.null(opts$ylab)) opts$ylab <- ifelse(opts$loghazard, "log-hazard", "hazard")
-
+  if (is.null(opts$main)) {
+    if (opts$loghazard) {
+      opts$ylab <- "log-hazard"
+    } else {
+      if (opts$log10hazard) {
+        opts$ylab <- "log10-hazard"
+      } else {
+        opts$ylab <- "hazard"
+      }
+    }
+  }
   # ---- Axes limits ----
   if (is.null(opts$xlim)) opts$xlim <- c(min(unique(x)), max(unique(x)))
   if (is.null(opts$ylim)) opts$ylim <- c(min(to_plot, na.rm = T), max(to_plot, na.rm = T))

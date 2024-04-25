@@ -11,6 +11,7 @@ fit1tsmodel_ucminf(
   lrho = 0,
   Bs,
   Ds,
+  Wprior = NULL,
   optim_criterion = c("aic", "bic"),
   control_algorithm = list()
 )
@@ -29,6 +30,8 @@ by n.}
 \item{Bs}{A matrix of B-splines for the time scale \code{s}.}
 
 \item{Ds}{The difference matrix of the penalty.}
+
+\item{Wprior}{An optional vector of a-priori weights.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
 \code{"aic"} (default) or \code{"bic"}.}

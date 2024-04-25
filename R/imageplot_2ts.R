@@ -19,6 +19,8 @@
 #'  * `loghazard` A Boolean. Default is `FALSE`. If `FALSE` the function
 #'     returns a plot of the hazard surface, if `TRUE` the function returns
 #'     a plot of the log-hazard surface.
+#'   * `log10hazard` A Boolean. Default is `FALSE`. If `TRUE`,
+#'     then a log10-hazard surface is plotted.
 #'  * `original` A Boolean. Default is `TRUE`. Plot the (log-)hazard in the
 #'    (t,s)-plane. If `FALSE`, the (log-)hazard will be plotted in the (u,s)-plane.
 #'  * `rectangular_grid` A Boolean. Default is `FALSE`. If `TRUE`, a
@@ -30,6 +32,9 @@
 #'  * `breaks` The vector of breaks for the color legend. If `n_shades` is provided,
 #'    this should be of length `n_shades + 1`. Otherwise, `n_shades` will be
 #'    recalculated accordingly.
+#'   * `show_legend` A Boolean. Default is `TRUE`. If `FALSE` no legend will be
+#'     plotted, useful for multi-panel figures with common legend. Works only
+#'     for plots on rectangular grid!
 #'  * `tmax` The maximum value of `t` that should be plotted.
 #'  * `main` The title of the plot.
 #'  * `xlab` The label of the first time axis (plotted on the x axis).
@@ -46,25 +51,29 @@
 #'  * `contour_cex` The magnification to be used for the contour lines.
 #'    Default is `.8`.
 #'  * `contour_nlev` The number of contour levels. Default is `10`.
+#' @param \dots Further arguments to image.plot or image
 #'
 #' @return An image plot of the (log-) hazard surface.
 #'
 #' @importFrom fields image.plot
 #' @importFrom viridis plasma
-#' @importFrom graphics axis box contour
+#' @importFrom graphics axis box contour image
 #'
 #' @export
 #'
 imageplot_2ts <- function(x, y, z,
-                          plot_options = list()) {
+                          plot_options = list(),
+                          ...) {
   # ---- Set options for plotting ----
   opts <- list(
     loghazard = FALSE,
+    log10hazard = FALSE,
     original = FALSE,
     rectangular_grid = TRUE,
     col_palette = NULL,
-    n_shades = 50,
+    n_shades = NULL,
     breaks = NULL,
+    show_legend = TRUE,
     tmax = NULL,
     main = NULL,
     xlab = NULL,
@@ -92,6 +101,7 @@ imageplot_2ts <- function(x, y, z,
   }
 
   # ---- Set breaks and color palette ----
+  if (is.null(opts$n_shades)) {opts$n_shades <- 50}
   if (is.null(opts$breaks)) {
     K <- (max(z, na.rm = T)-min(z, na.rm = T))/(opts$n_shades + 1)
     opts$breaks <- seq(min(z, na.rm = T), min(z, na.rm = T) + K*(opts$n_shades + 1),
@@ -107,7 +117,17 @@ imageplot_2ts <- function(x, y, z,
   if (is.null(opts$contour_col)) opts$contour_col <- "white"
 
   # ---- Title and labels ----
-  if (is.null(opts$main)) opts$main <- ifelse(opts$loghazard, "log-hazard", "hazard")
+  if (is.null(opts$main)) {
+  if (opts$loghazard) {
+    opts$main <- "log-hazard"
+  } else {
+    if (opts$log10hazard) {
+      opts$main <- "log10-hazard"
+    } else {
+      opts$main <- "hazard"
+      }
+    }
+  }
   if (is.null(opts$xlab)) opts$xlab <- ifelse(opts$original, "t", "u")
   if (is.null(opts$ylab)) opts$ylab <- "s"
 
@@ -129,6 +149,7 @@ imageplot_2ts <- function(x, y, z,
 
   # ---- Plot ----
   plt <- {
+    if(opts$show_legend){
     image.plot(
       x, y,
       z,
@@ -141,8 +162,24 @@ imageplot_2ts <- function(x, y, z,
       cex.main = opts$cex_main,
       xlab = opts$xlab,
       ylab = opts$ylab,
-      cex.lab = opts$cex_lab
-      )
+      cex.lab = opts$cex_lab,
+      ...
+    )} else {
+      if(! opts$rectangular_grid) stop("Cannot plot without a legend using a non rectangular grid...")
+      image(
+        x, y,
+        z,
+        xlim = opts$xlim,
+        ylim = opts$ylim,
+        col = col_palette,
+        breaks = opts$breaks,
+        main = opts$main,
+        cex.main = opts$cex_main,
+        xlab = opts$xlab,
+        ylab = opts$ylab,
+        cex.lab = opts$cex_lab,
+        ...
+      )}
     if (opts$contour_lines) {
       contour(x, y,
         z,

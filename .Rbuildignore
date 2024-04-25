@@ -5,3 +5,6 @@ fit2ts_w_original.txt
 ^data-raw$
 old_plot_haz2ts.txt
 ^vignettes
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

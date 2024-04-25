@@ -1,0 +1,243 @@
+---
+title: "Introduction to TwoTimeScales"
+output: rmarkdown::html_vignette
+bibliography: vignette.bib
+vignette: >
+  %\VignetteIndexEntry{Introduction to TwoTimeScales}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+knitr::opts_chunk$set(eval = TRUE)
+```
+
+Disclaimer: the current version of the package and of this vignette is a work-in-progress!
+Details might change with future updates and this vignette will be updated consequently.
+
+```{r setup}
+library(TwoTimeScales)
+```
+
+Time-to-event data can involve more than one time scale.
+In such cases, the hazard of one event can be expressed as a function of two time dimensions.
+The two time scales act jointly to determine the hazard levels.
+
+The `TwoTimeScales` package allows the user to estimate and visualize the hazard of one event as a smooth function of two time dimensions (the two time scales).
+Additionally, it provides functions to estimate and visualize a smooth hazard with one time scale.
+
+Estimation is performed using $P$-splines (univariate or bivariate) and Poisson regression.
+
+When working with time-to-event data with multiple time scales, there are three main steps involved:
+
+-   data wrangling and preparation
+-   estimation of the smooth hazard model
+-   visualization of the results
+
+This document introduces the main tools in the package `TwoTimeScales` and demonstrates how to apply them to smooth hazards with one or two time scales.
+This vignette serves as an introduction to the package, and it is therefore a good place to start for new users of the package.
+We also provide three additional, more specialized vignettes.
+
+### Data: reccolon2ts
+
+We use data from a clinical trial on colon cancer and the effects of two adjuvant therapies after colon resection [@Laurie:1989; @Moertel:1995].
+The original data are included in the R-package `survival` [@R:survival], see `help(survival::colon)`.
+Patients were followed, after resection of the colon, from randomization into one of the two treatment groups or the control group (no treatment), to death or end of the study.
+The two treatments were either Levamisole, a drug showing immunostimulatory activity, or a combination of Levamisole and Fluorouracil, a moderately toxic chemotherapy agent.
+
+The dataset `colon` contains 929 individuals, and 468 (50.4%) experienced a recurrence of the cancer during follow-up period.
+However, seven patients with recurrence left the risk set at the recorded time of recurrence, leaving 461 who were followed up further.
+In the dataset `reccolon2ts` we include these 461 individuals.
+A description of the data and the variables can be accessed through `help(reccolon2ts)`.
+
+There are two time scales in the `reccolon2ts` data: The time from randomization to death or censoring, measured in days since randomization `reccolon2ts$timedc` and the time since recurrence of the cancer `reccolon2ts$timesr`, also measured in days.
+Additionally, we consider another variable, measuring the time from randomization to recurrence `reccolon2ts$timer`.
+The latter is not a time scale, but a fixed time covariate which varies among individuals in the data.
+
+In the original dataset, each individual enters the risk set after recurrence at the exact time of the recurrence.
+Therefore, individual's observations are not left truncated.
+However, to show how the model can easily incorporate left truncation, we introduced some artificial left truncated entry times for 40 individuals in the dataset, `reccolon2ts$entrys` (on the time since recurrence scale), and `reccolon2ts$entryt` (on the time since randomization scale).
+
+```{r data}
+str(reccolon2ts)
+```
+
+Before we illustrate how to work with the package, a clarification about notation is needed.
+In our two time scales model notation, we indicate the two time scales with $t$ and $s$, and the fixed time at entry in the process is indicated with $u$.
+Whenever we refer to models with one time scale only, we mostly consider this to be the time scale indicated by $s$ (as opposed to the most common used notation $t$).
+Therefore, in all the functions that require the individual times as inputs, the only required inputs will be indicated with $s$ (rather than $t$).
+
+### Step 1: data preparation
+
+Time-to-event data come in the form of a time variable, indicated with $s$, where $s \ge 0$ and a variable which contains the event's indicator.
+In the simplest time-to-event models, there is only one type of event, so that this event's indicator can only assume values 0 and 1.
+
+To apply the $P$-splines model for the hazard we need to bin the individual data into aggregated vectors of exposure times and events' indicators.
+Therefore, the first step of the analysis, will be data preparation.
+This step involves the construction of the bins and the actual binning of the data.
+Both steps are implemented and performed by the function `prepare_data()`, which requires as inputs the individual data vectors, and the desired specification for the bins.
+This function works in the same way for the case of data with one time scale only, and for data over two time scales.
+The only difference is in the inputs required in each of the cases.
+We will now illustrate its use in both cases.
+
+#### One time scale only
+
+For data over one time scale, the function requires as minimal inputs only a vector of exit times (`s_out`), a vector of events' indicators (`events`) and the desired bins' size (`ds`).
+If the data are left truncated, the entry times can be passed to the argument `s_in`.
+
+```{r 1ts-data-prep, cache=T}
+dt1ts <- prepare_data(s_in = reccolon2ts$entrys,
+                      s_out = reccolon2ts$timesr,
+                      events = reccolon2ts$status,
+                      ds = 30)
+str(dt1ts)
+print(dt1ts)
+```
+
+The object `dt1ts` is a list with two elements.
+The first element is a list of bins (`bins_s`) with their midpoints (`mids`) and the number of bins (`ns`).
+The second element of the list is another list with the data binned, a vector of exposures called `r` and a vector of events' counts `y`.
+By calling the method `print(dt1ts)`, we obtain additional information about the data, such as the range covered by the bins, the total exposure time and the total number of events.
+
+#### Two time scales
+
+The same function is used to bin the individual data in a two-dimensional grid of rectangles (or squares) over $u$ and $s$, or parallelograms in a Lexis diagram over $t$ and $s$.
+The two time scales model is estimated over the half-plane $(u,s)$.
+Therefore, we will here discuss only preparation of the data over $u$ and $s$, and defer the discussion of the preparation over the Lexis diagram to the vignette dedicated to the analysis with two time scales.
+
+```{r 2ts-data-prep, cache=TRUE}
+dt2ts <- prepare_data(u = reccolon2ts$timer,
+                      s_in = reccolon2ts$entrys,
+                      s_out = reccolon2ts$timesr,
+                      events = reccolon2ts$status,
+                      ds = 30)
+str(dt2ts)
+print(dt2ts)
+```
+
+We have now included only one additional input `u`, that is the vector with the individuals' time at recurrence of the cancer.
+The object `dt2ts` has the same structure as `dt1ts`, but with additional bins over $u$ (`bins_u`, `midu` and `nu`).
+The data are now matrices `R` and `Y` of dimension `nu` by `ns`.
+
+#### Including covariates
+
+If we want to estimate a proportional hazard model with covariates a different structure of the data is required (see @Carollo:2023).
+The data are augmented by one dimension.
+So, for the model with one time scale only, we need to create a matrix of exposure times `R` with dimension `n` (number of individuals in the data) by `ns` (number of bins).
+The same goes for the matrix of events' count.
+For the model with two time scales, each observation in the sample will be represented by its own matrix of exposure times and matrix of events' indicator.
+Therefore, the data for the whole sample can be arranged in three-dimensional arrays, with dimensions `nu` by `ns` by `n`.
+The function `prepare_data()` does exactly so by specifying the optional input `individual = TRUE`.
+It is possible, and recommended, to provide the covariates that one wishes to use in the PH model in the extra argument `covs`.
+The function will take care of the preparation of the regression matrix `Z`.
+However, if desired, this can also be prepared externally (in which case a warning will be returned).
+
+```{r 2ts-data-cov, cache=TRUE}
+covs <- subset(reccolon2ts, select = c("rx", "node4", "sex"))
+dt2ts_cov <- prepare_data(u = reccolon2ts$timer,
+                          s_in = reccolon2ts$entrys,
+                          s_out = reccolon2ts$timesr,
+                          events = reccolon2ts$status,
+                          ds = 30,
+                          individual = TRUE, 
+                          covs = covs)
+str(dt2ts_cov)
+print(dt2ts_cov)
+```
+
+The data are now the three-dimensional arrays, `R` and `Y` and a regression matrix `Z`, where the covariates are transformed in dummy variables (where needed).
+The print method returns also the names of the dummy variables, so we can see that from the variable `rx` we obtained the two dummies `Lev` and `Lev+5FU` and from the variable `sex` we obtained now the dummy variable `male` (`Obs` and `female` are reference categories, as well as not having more than four nodes).
+
+### Step 2: Estimation
+
+#### One time scale
+
+To estimate the model we use the function `fit1ts()`.
+As input to this function we pass the object returned from `prepare_data`.
+Without specifying additional parameters, the function estimates a $P$-splines model, by using numerical optimization of the AIC to find the optimal smoothing parameter.
+The $B$-splines basis is built using default options (see `help(fit1ts)` for details).
+However, for illustration, we now show how to specify the $B$-splines basis to more closely match the data structure.
+
+```{r 1ts-model, dependson = "1ts-data-prep", cache=TRUE}
+m1ts <- fit1ts(data1ts = dt1ts,
+               Bbases_spec = list(bdeg = 3,
+                                  nseg_s = 20,
+                                  min_s = 0,
+                                  max_s = 2730))
+str(m1ts)
+```
+
+Here, we specify a cubic (`bdeg = 3`) $B$-splines basis that covers the range of $s$ from 0 to 2730 days (`min_s` and `max_s` respectively), and is built on 20 segments (`nseg_s = 20`).
+The object returned by `fit1ts` is of class `"haz1ts"`.
+The first element is a list with the results of the optimal model.
+The second element is the optimal smoothing parameter (on the $\log_{10}$-scale) and the last element is the penalty matrix, which incorporates the optimal value of $\varrho$, `P_optim`.
+
+The vignette *Smooth hazards with one time scale* discusses alternative options for estimation, in particular concerning the search for the optimal smoothing parameter.
+
+#### Two time scales
+
+Estimation over the half-plane $(u,s)$ is performed in the same way.
+Here, we illustrate how to use the function `fit2ts()`, and again we will change the default specifications of the marginal $B$-spline bases, but otherwise use default values for the remaining inputs.
+
+```{r 2ts-mod, dependson = "2ts-data-prep", cache=TRUE}
+m2ts <- fit2ts(data2ts = dt2ts,
+               Bbases_spec = list(bdeg = 3,
+                                  nseg_s = 20,
+                                  min_s = 0,
+                                  max_s = 2730,
+                                  nseg_u = 16,
+                                  min_u = 0,
+                                  max_u = 2300))
+str(m2ts)
+```
+
+Whereas the estimates from `fit1ts` are vectors, the ones from `fit2ts` are organized in matrices: The matrix `optimal_model$Alpha`, containing the estimated $B$-splines' coefficients $\alpha_{lm}$, for $l \in 1,\dots,c_u$ (here $c_u = 19$) and $m \in 1,\dots, c_s$ ($c_s = 23$).
+And the matrix Eta of dimension $n_u$ by $n_s$ (90 by 91).
+Additionally, we have a list with the marginal $B$-splines used for estimation (`optimal_model$Bbases`), a vector of $\log_{10}\varrho_u$ and $\log_{10}\varrho_s$ values (`optimal_logrho`) and finally the penalty matrix (`P_optim`) that incorporates the optimal penalty parameters.
+
+### Step 3: Visualize the results
+
+#### One time scale
+
+Once the model is estimated, we can represent the results with the function `plot()`.The minimal input for `plot()` is the fitted model.
+Here, we show how to evaluate the $B$-splines basis on a finer grid of intervals that are only 10 days apart (as opposite to 30, option that was used for the estimating $B$-splines).
+Moreover, we pass as inputs some graphical parameters to obtain a nicer plot.
+The result is a plot of the one-dimensional hazard curve over $s$ (time since recurrence), with accompany 95% confidence bands.
+
+```{r 1ts-plot, fig = T, dependson="1ts-mod", fig.width=5, fig.align='center', fig.height=4}
+plot(x = m1ts,
+     plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10),
+     plot_options= list(
+       col = "darkblue",
+       main = "Hazard",
+       ylab = "hazard",
+       xlab = "time since recurrence",
+       cex_main = 1))
+```
+
+#### Two time scales
+
+There are several options to represent the smooth hazard with two time scales.
+Here, we will present only the most simple, yet very informative, way, which is also the default plot returned by the function `plot()`, applied to an object of class `"haz2ts"`.
+This is a surface plot of the hazard over the $(u,s)$-plane with white contour lines.
+We provide a vignette that only focus on visualization of the hazard with two time scales *Visualize hazards with two time scales*.
+
+```{r 2ts-plot, cache = T, fig = T, dependson="2ts-mod", fig.width=6, fig.height=4.5, fig.align='center'}
+plot(x = m2ts,
+     plot_grid = list(c("umin" = 0, "umax" = 2300, "du" = 10),
+                      c("smin" = 0, "smax" = 2730, "ds" = 10)),
+     plot_options= list(
+       main = "Bi-dimensional hazard",
+       ylab = "time since recurrence",
+       xlab = "time since randomization",
+       cex_main = 1))
+```
+
+## References

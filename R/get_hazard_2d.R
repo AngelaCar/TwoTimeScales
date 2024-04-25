@@ -12,18 +12,24 @@
 #' the B-splines for estimating the model. If not, the grid will be adjusted
 #' accordingly and a warning will be returned.
 #'
-#' @inheritParams plot_haz2ts
+#' @inheritParams plot.haz2ts
+#' @param fitted_model is an object of class `"haz2ts"`, the output of the function `fit2ts()`.
 #' @param tmax The maximum value of `t` that should be plotted.
 #'
 #' @return A list with the following elements:
 #'   * `new_plot_grid` A list of new specifications of the grid for plotting.
+#'   * `nBu` The B-spline basis for `u`, evaluated over the new grid.
+#'   * `nBs` The B-spline basis for `s`, evaluated over the new grid.
 #'   * `hazard` A matrix containing the estimated hazard.
 #'   * `loghazard` A matrix containing the estimated log-hazard.
+#'   * `log10hazard`A matrix containing the estimated log10-hazard.
 #'   * `SE_hazard` A matrix containing the estimated SEs for the hazard
 #'   * `SE_loghazard` A matrix containing the estimated SEs for the log-hazard
+#'   * `SE_log10haz` A matrix containing the estimated SEs for the log10-hazard
 #' @export
 #'
-get_hazard_2d <- function(fitted_model, plot_grid = NULL,
+get_hazard_2d <- function(fitted_model,
+                          plot_grid = NULL,
                           where_slices = NULL,
                           direction = c("u", "s", NULL),
                           tmax = NULL) {
@@ -32,7 +38,7 @@ get_hazard_2d <- function(fitted_model, plot_grid = NULL,
 
   # ---- Make grid ----
   if (!is.null(plot_grid)) {
-    # check if all information are provided
+    # check if all information is provided
     if ((length(plot_grid[[1]]) != 3) | (length(plot_grid[[2]]) != 3)) {
       stop("One or more arguments from plot_grid are missing.")
     } else {
@@ -130,6 +136,7 @@ get_hazard_2d <- function(fitted_model, plot_grid = NULL,
   # ---- Calculate (baseline) hazard ----
   Eta <- Bu %*% fitted_model$optimal_model$Alpha %*% t(Bs)
   Haz <- exp(Eta)
+  Log10Haz <- log10(Haz)
 
   # ---- Calculate Standard Errors for the log-hazard ----
   cu <- ncol(Bu)
@@ -137,7 +144,7 @@ get_hazard_2d <- function(fitted_model, plot_grid = NULL,
   # Calculate the row tensor products
   TBu <- Rtens(Bu)
   TBs <- Rtens(Bs)
-  B <- kronecker(Bs, Bu)
+  #B <- kronecker(Bs, Bu)
 
   Cov_Alpha <- array(fitted_model$optimal_model$Cov_Alpha, c(cu, cs, cu, cs))
   Cov_Alpha <- aperm(Cov_Alpha, c(1, 3, 2, 4))
@@ -149,13 +156,21 @@ get_hazard_2d <- function(fitted_model, plot_grid = NULL,
   # ---- Calculate Standard Errors for the hazard ----
   SE_Haz <- Haz * SE_Eta
 
+  # ---- Calculates Standard Errors for log10(hazard) ----
+  const <- log(10)
+  SE_log10haz <- abs(1/(Haz)*const) * SE_Haz
+
   # ---- Return results in a list ----
   results <- list(
     "new_plot_grid" = new_grid,
+    "nBu" = Bu,
+    "nBs" = Bs,
     "hazard" = Haz,
     "loghazard" = Eta,
+    "log10hazard" = Log10Haz,
     "SE_hazard" = SE_Haz,
-    "SE_loghazard" = SE_Eta
+    "SE_loghazard" = SE_Eta,
+    "SE_log10hazard" = SE_log10haz
   )
 
   return(results)

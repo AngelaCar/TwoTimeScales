@@ -11,6 +11,7 @@ fit1ts(
   Z = NULL,
   bins = NULL,
   Bbases_spec = list(),
+  Wprior = NULL,
   pord = 2,
   optim_method = c("ucminf", "grid_search"),
   optim_criterion = c("aic", "bic"),
@@ -22,7 +23,7 @@ fit1ts(
 }
 \arguments{
 \item{data1ts}{(optional) an object created by the function
-\code{prepare_data()}. Proving this input is the easiest way to use the function
+\code{prepare_data()}. Providing this input is the easiest way to use the function
 \code{fit1ts}. However, the user can also provide the input data together with
 a list of bins, as explained by the following parameters' descriptions.}
 
@@ -35,8 +36,8 @@ by n.}
 \item{Z}{(optional) A regression matrix of covariates of dimension n by p.}
 
 \item{bins}{a list with the specification for the bins. This is created by
-the function \code{prepare_data}. If a list prepared externally from such function
-if provided, it should contain the following elements:
+the function \code{prepare_data}. Alternatively, a list with the following elements
+can be provided:
 * \code{bins_s} is a vector of bins extremes for the time scale \code{s}.
 * \code{mids} is a vector with the midpoints of the bins over \code{s}.
 * \code{ns} is the number of bins over \code{s}.}
@@ -51,6 +52,8 @@ Default is \code{min(bins_s)}.
 \item \code{max_s} (optional) The upper limit of the domain of \code{Bs}.
 Default is \code{max(bins_s)}.
 }}
+
+\item{Wprior}{An optional vector of a-priori weights.}
 
 \item{pord}{The order of the penalty. Default is 2.}
 
@@ -97,17 +100,17 @@ values is returned, marks the optimal \code{log_10(rho_s)} in the plot.
 }}
 }
 \value{
-An object of class \code{h1tsfit} with the following elements:
+An object of class \code{haz1ts} with the following elements:
 \itemize{
-\item \code{optimal_model} A list with :
+\item \code{optimal_model} A list with:
 \itemize{
 \item \code{alpha} The vector of estimated P-splines coefficients of length cs.
 \item \code{SE_alpha} The vector of estimated Standard Errors for the \code{alpha} coefficients,
 of length cs.
-\item \code{beta} The vector of length p of estimated covariates coefficients
+\item \code{beta} The vector of estimated covariates coefficients of length p
 (if model with covariates).
-\item \code{se_beta} The vector of length p of estimated Standard Errors for the
-\code{beta} coefficients (if model with covariates).
+\item \code{se_beta} The vector of estimated Standard Errors for the
+\code{beta} coefficients of length p (if model with covariates).
 \item \code{eta} or \code{eta0}. The vector of values of the (baseline) linear predictor
 (log-hazard).
 \item \code{H} The hat-matrix.

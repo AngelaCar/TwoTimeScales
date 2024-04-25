@@ -5,13 +5,13 @@
 #'
 #'   It checks the dimensions of the data matrices and if provided, the matrix
 #'   containing the covariates values. If the user provides a matrix of weights,
-#'   the dimensions of this matrix are also checked. This is an internal
+#'   the dimension of this matrix is also checked. This is an internal
 #'   function called by the function `fit2ts`.
 #'
 #' @param R A matrix of exposure times of dimension nu by ns, if `Z` is not
-#'   provided, or an array of dimensions nu by ns by n, if `Z` is provided.
+#'   provided, or a three-dimensional array of dimensions nu by ns by n, if `Z` is provided.
 #' @param Y A matrix of events of dimension nu by ns, if `Z` is not provided, or
-#'   an array of dimensions nu by ns by n, if `Z` is provided.
+#'   a three-dimensional array of dimensions nu by ns by n, if `Z` is provided.
 #' @param Z An optional regression matrix of covariates.
 #'   If provided, it must have n rows.
 #' @param Wprior An optional matrix of a-priori weights provided by the user.
@@ -32,7 +32,7 @@ check_inputs <- function(R, Y,
 
   if (!is.null(Z)) {
     if (length(dim(R)) < 3) {
-      stop("`Z` is provided but `R` is not a 3-dimensional array.")
+      stop("`Z` is provided but `R` is not a three-dimensional array.")
     } else {
       if (nrow(Z) != dim(R)[3]) {
         stop("The number of rows of Z should be equal to the third dimension of R.")

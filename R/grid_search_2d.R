@@ -226,8 +226,7 @@ grid_search_2d <- function(lru, lrs,
     results$BIC <- NULL
   }
 
-  class(results) <- "h2tsfit"
-
+  class(results) <- "haz2ts"
   return(results)
 
 }

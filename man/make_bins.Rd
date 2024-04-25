@@ -75,8 +75,8 @@ A list with the following elements:
 of the bins in a vector.
 }
 \details{
-It allows construction of bins over the time scales \code{t}and
-\code{s} and  over the fixed-time axis \code{u}. At least the time scale
-\code{s} is required. See also \code{\link[=prepare_data]{prepare_data()}} to conveniently prepare individual data
-for the analysis with one, or two time scales.
+It allows construction of bins over the time scales \code{t} and
+\code{s} and/or over the fixed-time axis \code{u}. The time scale
+\code{s} is always required. See also \code{\link[=prepare_data]{prepare_data()}} to conveniently
+prepare individual data for the analysis with one, or two time scales.
 }

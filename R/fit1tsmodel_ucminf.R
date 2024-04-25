@@ -24,6 +24,7 @@ fit1tsmodel_ucminf <- function(r, y,
                                lrho = 0,
                                Bs,
                                Ds,
+                               Wprior = NULL,
                                optim_criterion = c("aic", "bic"),
                                control_algorithm = list()) {
 
@@ -53,6 +54,7 @@ fit1tsmodel_ucminf <- function(r, y,
       Z = Z,
       Bs = Bs,
       Ds = Ds,
+      Wprior = Wprior,
       control_algorithm = con
     )
   }
@@ -64,6 +66,7 @@ fit1tsmodel_ucminf <- function(r, y,
       Z = Z,
       Bs = Bs,
       Ds = Ds,
+      Wprior = Wprior,
       control_algorithm = con
     )
   }
@@ -88,6 +91,7 @@ fit1tsmodel_ucminf <- function(r, y,
                                   Z = Z,
                                   Bs = Bs,
                                   P = P,
+                                  Wprior = Wprior,
                                   control_algorithm = con)
   }
 
@@ -97,6 +101,6 @@ fit1tsmodel_ucminf <- function(r, y,
     "optimal_logrho" = optim_lr,
     "P_optim" = P)
 
-  class(results) <- "h1tsfit"
+  class(results) <- "haz1ts"
   return(results)
 }

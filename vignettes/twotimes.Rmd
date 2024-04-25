@@ -1,0 +1,205 @@
+---
+title: "Smooth hazards with two time scales"
+output: rmarkdown::html_vignette
+bibliography: vignette.bib
+vignette: >
+  %\VignetteIndexEntry{Smooth hazards with two time scales}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  markdown: 
+    wrap: sentence
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Disclaimer: the current version of the package and of this vignette is a work-in-progress!
+Details might change with future updates and this vignette will be updated consequently.
+
+```{r setup}
+library(TwoTimeScales)
+```
+
+## Introduction
+
+This vignette focuses on the analysis of time-to-event data with two time scales.
+We show how to use the functions of the package `TwoTimeScales` with their different options.
+In particular we show:
+
+-   how to bin data over the $(u,s)$- or the $(t,s)$-plane
+-   how to bin data when covariates are presents
+-   how to perform a grid search of the optimal couple of smoothing parameters
+-   how to plot the AIC or BIC grid
+-   how to perform a numerical optimization of the model
+-   how to estimate a model with covariates
+
+However, this vignette does not deal with visualization of the estimated smooth hazard with two time scales.
+Visualization is the topic of the vignette *Visualize hazards with two time scales*.
+We assume that the reader of this vignette has some familiarity with the model, and with the basic functions of the package introduced in *Introduction to TwoTimeScales*.
+For a full exposition of the model, we refer to @Carollo:2023.
+
+In the following, we once again analyse the dataset `reccolon2ts`, which includes data on patients with recurrence of colon cancer.
+The first part of this vignette deals with the model without covariates, and the proportional hazards model for the same analysis follows in the second part.
+
+## Hazard of death by time since randomization and time since recurrence
+
+The two time variables are $t$ = time since randomization and $s$ = time since recurrence.
+Additionally, $u$ = time at recurrence, is the fixed time at entry in the risk set recorded as number of days from randomization to recurrence.
+The analysis is performed over the $(u,s)$-plane, so we need to bin the data over $u$ and $s$.
+We consider bins of width 30 days on both axes, and we obtain 77 bins on the $u$ axis and $91$ bins on the $s$ axis.
+
+```{r bindata_nocov, cache=T}
+dt2ts <- prepare_data(u = reccolon2ts$timer,
+                      s_out = reccolon2ts$timesr,
+                      events = reccolon2ts$status,
+                      ds = 30, du = 30)
+print(dt2ts)
+```
+
+Here, we do not use the artificially created left truncated entry times on the $s$ axis, therefore the function returns a message informing the user that an entry time of 0 is imputed to all observations.
+
+After having prepared the data we can estimate the model.
+In the analysis presented in @Carollo:2023, we build 23 $B$-splines over each of the two dimensions, for a total of 529 $\alpha$ parameters.
+The optimal smoothing parameters are chosen by numerical optimization of the AIC of the model as function of the smoothing parameters.
+We use cubic $B$-splines bases and a second order penalty.
+Here we explicitly specify all these parameters, even though some of them are the default options.
+The last argument `control_algorithm` is a list of optional controls for the iterative processes.
+With the option `monitor_ev = TRUE`, we ask the function to return mid-level evaluations of the model, that is it will return AIC's value for each couple of $\log_{10}\varrho_u$ and $\log_{10}\varrho_s$ evaluated.
+
+```{r mod-paper, dependson="bindata_nocov", cache=TRUE}
+mod1 <- fit2ts(data2ts = dt2ts,
+               Bbases_spec = list(bdeg = 3,
+                                  nseg_s = 20,
+                                  min_s = 0,
+                                  max_s = 2730,
+                                  nseg_u = 20,
+                                  min_u = 0,
+                                  max_u = 2300),
+               pord = 2,
+               optim_method = "ucminf",
+               optim_criterion = "aic",
+               control_algorithm = list(monitor_ev = T)) 
+```
+
+The object returned by `fit2ts()` is of class `"haz2ts"`.
+The optimal smoothing parameters are $\varrho_u = 10^{2.4}$ and $\varrho_s=10^{0.3}$, and the effective dimension of the model is 11.1.
+
+```{r, dependson="mod-paper"}
+str(mod1)
+```
+
+We can change the optimization criterion to BIC, and compare the results in terms of smoothing parameters and effective dimensions:
+
+```{r bic, dependson="bindata_nocov", cache=TRUE}
+mod2 <- fit2ts(data2ts = dt2ts,
+               Bbases_spec = list(bdeg = 3,
+                                  nseg_s = 20,
+                                  min_s = 0,
+                                  max_s = 2730,
+                                  nseg_u = 20,
+                                  min_u = 0,
+                                  max_u = 2300),
+               pord = 2,
+               optim_method = "ucminf",
+               optim_criterion = "bic")
+
+mod2$optimal_logrho
+mod2$optimal_model$ed
+```
+
+As expected, choosing BIC as optimization criterion results in larger smoothing parameters and a smaller effective dimension, as BIC penalizes model complexity more strongly than AIC.
+Finally, we see how to use the grid search method to select the optimal pair of smoothing parameters and at the same time to produce plots of the AIC and BIC values of the grid of $\log_{10}$ values of both smoothing parameters.
+
+To do so, we divide the graphical window in two parts, and we specify that the plots of the AIC and BIC are required, plus additional options:
+
+```{r grid-search, dependson="bindata_nocov", cache=TRUE, fig = T, fig.align='center', fig.width=6.5, fig.height=4.5}
+par(mfrow = c(1,2))
+
+mod3 <- fit2ts(data2ts = dt2ts,
+               Bbases_spec = list(bdeg = 3,
+                                  nseg_s = 20,
+                                  min_s = 0,
+                                  max_s = 2730,
+                                  nseg_u = 20,
+                                  min_u = 0,
+                                  max_u = 2300),
+               optim_method = "grid_search",
+               optim_criterion = "aic",
+               lrho = list(seq(-1, 3, by=.2),
+                           seq(-1, 3, by = .2)),
+               par_gridsearch = list(
+                 plot_aic = T,
+                 plot_bic = T,
+                 mark_optimal = T,
+                 plot_contour = T
+               ))
+```
+
+Alternatively, we can ask the function to return the matrices of AIC and/or BIC values as part of the fitted object and then plot them separately (here not shown).
+
+## PH regression for the colon cancer data
+
+We first show how to prepare the data for the analysis with covariates, then we see that there is no need to modify the estimation command, as the function `fit2ts()` automatically recognizes that the data object includes a covariates' matrix and then it correctly estimates a GLAM PH model.
+
+To prepare the covariates' matrix, we need to pass a matrix with the individual values of the covariates, to the argument `covs` in `prepare_data`.
+We do so by subsetting the dataset and selecting the desired covariates.
+
+```{r data-prep-cov, cache=TRUE}
+covs <- subset(reccolon2ts, select = c("rx", "sex", "adhere", "obstruct", "node4"))
+dt2ts_cov <- prepare_data(u = reccolon2ts$timer,
+                          s_out = reccolon2ts$timesr,
+                          events = reccolon2ts$status,
+                          ds = 30,
+                          individual = TRUE, 
+                          covs = covs)
+str(dt2ts_cov)
+```
+
+Then, we pass the object `d2ts_cov` to `fit2ts()` with the same arguments as before.
+We do not show the fitted object here, but encourage the readers to run the code on their console.
+
+```{r, eval = F}
+mod_cov <- fit2ts(data2ts = dt2ts_cov,
+                  Bbases_spec = list(bdeg = 3,
+                                     nseg_s = 20,
+                                     min_s = 0,
+                                     max_s = 2730,
+                                     nseg_u = 20,
+                                     min_u = 0,
+                                     max_u = 2300),
+                  pord = 2,
+                  optim_method = "ucminf",
+                  optim_criterion = "aic")
+```
+
+### Prepare the data over the Lexis diagram
+
+It is, in principle, possible to prepare the data over the $(t,s)$-plane.
+To do so, we pass as arguments to the function `prepare_data()` a vector of entry times and a vector of exit times over the $t$ axis, rather than the vector of entry times $u$.
+From the image plot of the exposure times, we can see how the data are only present in the lower half-plane where $t\ge s$.
+
+```{r prep-data-Lexis, cache=TRUE, fig.width = 5, fig.height = 4}
+dt2tsLex <- prepare_data(t_in = reccolon2ts$timer,
+                         t_out = reccolon2ts$timedc,
+                         s_out = reccolon2ts$timesr,
+                         events = reccolon2ts$status,
+                         ds = 30, dt = 30)
+fields::image.plot(dt2tsLex$bins$midt, 
+                   dt2tsLex$bins$mids,
+                   dt2tsLex$bindata$R,
+                   main = "Exposure",
+                   xlab = "time since randomization",
+                   ylab = "time since recurrence",
+                   col = c("white", rev(viridis::plasma(20))))
+abline(a=0,b=1)
+box()
+```
+
+Note: estimation over the $(t,s)$-plane with the same model is theoretically possible, but special care is needed to deal with the larger areas without data support (especially those where $t < s$).
+Comparison with the estimation over the $(u,s)$-plane is currently under investigation.
+A future version of the package will include options for estimation over the $(t,s)$-plane.

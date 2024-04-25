@@ -1,10 +1,10 @@
 #' Plot of the covariates' effects
 #'
-#' @description `covariates_plot()` produces a plot of the covariates' effects
-#'   with confidence intervals, or of the Hazard Ratios with confidence intervals.
+#' @description `covariates_plot()` produces a plot of the covariates' effects (beta)
+#'   with confidence intervals, or of the Hazard Ratios (exp(beta)) with confidence intervals.
 #'
 #' @param fitted_model A list returned by the function `fit2ts` or `fit1ts`.
-#' @param confidence_lev The level of confidence for the CIs. Default is .95 (alpha
+#' @param confidence_lev The level of confidence for the CIs. Default is 0.95 (alpha
 #'   = 0.05).
 #' @param plot_options A list of options for the plot:
 #'  * `HR` A Boolean. If `TRUE` the HRs with their CIs will be plotted.
@@ -14,12 +14,13 @@
 #'   based on the SEs for the HRs calculated by delta method.
 #'   If `FALSE`, then CIs are obtained by exponentiating the CIs for the betas.
 #'  * `main` The title of the plot.
-#'  * `ylab` The label of the second time axis (plotted on the y axis).
-#'  * `ylim` A vector with two elements defining the limits of the time scale
-#'      on the y axis.
+#'  * `ylab` The label for the y-axis.
+#'  * `ylim` A vector with two elements defining the limits for the y-axis.
 #'  * `col_beta` The color for the plot of the covariates' effects.
 #'  * `pch` The symbol for plotting the point estimates.
 #'  * `cex_main` The magnification factor for the main of the plot.
+#' @param \dots further arguments passed to plot()
+#'
 #' @return A plot of the covariates' effects.
 #' @importFrom stats qnorm
 #' @importFrom graphics abline axis
@@ -28,7 +29,7 @@
 
 covariates_plot <- function(fitted_model,
                             confidence_lev = .95,
-                            plot_options = list()){
+                            plot_options = list(), ...){
 
   # ---- Get estimates ----
   HR_SE <- get_hr(fitted_model)
@@ -108,7 +109,8 @@ covariates_plot <- function(fitted_model,
     col = opts$col_beta,
     main = opts$main,
     cex.main = opts$cex_main,
-    cex.lab = opts$cex_lab
+    cex.lab = opts$cex_lab,
+    ...
   )
   abline(h = 0, col = "grey", lty = 2)
   segments(x, LCIs, x, UCIs,

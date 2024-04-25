@@ -4,12 +4,17 @@
 \alias{covariates_plot}
 \title{Plot of the covariates' effects}
 \usage{
-covariates_plot(fitted_model, confidence_lev = 0.95, plot_options = list())
+covariates_plot(
+  fitted_model,
+  confidence_lev = 0.95,
+  plot_options = list(),
+  ...
+)
 }
 \arguments{
 \item{fitted_model}{A list returned by the function \code{fit2ts} or \code{fit1ts}.}
 
-\item{confidence_lev}{The level of confidence for the CIs. Default is .95 (alpha
+\item{confidence_lev}{The level of confidence for the CIs. Default is 0.95 (alpha
 = 0.05).}
 
 \item{plot_options}{A list of options for the plot:
@@ -21,18 +26,19 @@ required (\code{HR == TRUE}), then plot symmetrical Confidence Intervals,
 based on the SEs for the HRs calculated by delta method.
 If \code{FALSE}, then CIs are obtained by exponentiating the CIs for the betas.
 \item \code{main} The title of the plot.
-\item \code{ylab} The label of the second time axis (plotted on the y axis).
-\item \code{ylim} A vector with two elements defining the limits of the time scale
-on the y axis.
+\item \code{ylab} The label for the y-axis.
+\item \code{ylim} A vector with two elements defining the limits for the y-axis.
 \item \code{col_beta} The color for the plot of the covariates' effects.
 \item \code{pch} The symbol for plotting the point estimates.
 \item \code{cex_main} The magnification factor for the main of the plot.
 }}
+
+\item{\dots}{further arguments passed to plot()}
 }
 \value{
 A plot of the covariates' effects.
 }
 \description{
-\code{covariates_plot()} produces a plot of the covariates' effects
-with confidence intervals, or of the Hazard Ratios with confidence intervals.
+\code{covariates_plot()} produces a plot of the covariates' effects (beta)
+with confidence intervals, or of the Hazard Ratios (exp(beta)) with confidence intervals.
 }

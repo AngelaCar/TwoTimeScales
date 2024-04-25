@@ -12,6 +12,7 @@
 #' @param lrho A starting value for `log_10(rho_s)`. Default is 0.
 #' @param Bs A matrix of B-splines for the time scale `s`.
 #' @param Ds The difference matrix of the penalty.
+#' @param Wprior An optional vector of a-priori weights.
 #' @param control_algorithm A list with optional values for the parameters of
 #'   the iterative processes:
 #'   * `maxiter` The maximum number of iteration for the IWSL algorithm.
@@ -31,6 +32,7 @@ get_aic_fit_1d <- function(lrho,
                            Z = NULL,
                            Bs,
                            Ds,
+                           Wprior = NULL,
                            control_algorithm = list(
                              maxiter = 20,
                              conv_crit = 1e-5,
@@ -46,6 +48,7 @@ get_aic_fit_1d <- function(lrho,
       r = r, y = y,
       Bs = Bs,
       P = P,
+      Wprior = Wprior,
       control_algorithm = control_algorithm
     )
   } else {
@@ -55,6 +58,7 @@ get_aic_fit_1d <- function(lrho,
       Z = Z,
       Bs = Bs,
       P = P,
+      Wprior = Wprior,
       control_algorithm = control_algorithm
     )
   }

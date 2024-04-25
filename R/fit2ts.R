@@ -241,6 +241,7 @@ fit2ts <- function(data2ts = NULL,
 
   # ---- Save results in list and return list ----
   results <- optimal_model
+  #class(results) <- "haz2ts"
 
   return(results)
 }

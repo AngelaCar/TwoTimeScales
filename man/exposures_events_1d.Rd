@@ -13,19 +13,19 @@ observations.}
 
 \item{s_out}{A vector of times at event or censoring.}
 
-\item{ev}{A vector of event's indicators (possible values 0/1).}
+\item{ev}{A vector of events' indicators (possible values 0/1).}
 
-\item{bins}{A vector of interval breaks for discretization.}
+\item{bins}{A vector of interval breaks for discretization (see also \code{\link[=make_bins]{make_bins()}}).}
 }
 \value{
 A list with the following elements:
 \itemize{
-\item \code{R} A matrix of dimension n by ns containing the exposure times for each
+\item \code{R}  A matrix of dimension n by ns containing the exposure times for each
 individual separately.
-\item \code{r} A vector of exposure times.
-\item \code{Y} A matrix of dimension n by ns containing the event counts for each
+\item \code{r}  A vector of exposure times.
+\item \code{Y}  A matrix of dimension n by ns containing the event counts for each
 individual separately
-\item \code{y} A vector of event counts.
+\item \code{y}  A vector of event counts.
 }
 
 If the length of the input vectors do not match, an error message is
@@ -34,24 +34,26 @@ returned.
 \description{
 \code{exposure_events_1d()} computes aggregated measures of exposure
 times and event counts starting from individual records of time at entry,
-time at exit and event's indicator.
+time at exit and event's indicator, over one time scale (\code{s}).
 }
 \details{
 The time scale \code{s} is divided into bins of equal size, which are
-provided as input in the function. Then, the time-at-risk for each
+provided as input to the function. Then, the time-at-risk for each
 individual is split according to these bins, and an event indicator is
 placed in the bin where the exit time is located. Finally, the individual
 contributions are summed in each bin to provide a vector of total exposure
-time and total event counts in each bin. See also \code{\link[=prepare_data]{prepare_data()}} to
+time and total event counts. See also \code{\link[=prepare_data]{prepare_data()}} to
 conveniently prepare individual data for the analysis with one, or two time
 scales.
 }
 \examples{
 # ---- Bin colon cancer data by time since recurrence ----
 # First create vector of bins
-K <- ceiling((max(reccolon2ts$timesr) - min(reccolon2ts$timesr)) / 30)
-bins_s <- seq(min(reccolon2ts$timesr), min(reccolon2ts$timesr) + K * 30, by = 30)
-# Now bin data (note: the s_in argument is omitted because data are not left truncated)
-bindata <- exposures_events_1d(s_out = reccolon2ts$timesr, ev = reccolon2ts$status, bins = bins_s)
+bins1ts <- make_bins(s_in = reccolon2ts$entrys, s_out = reccolon2ts$timesr, ds = 30)
+bindata <- exposures_events_1d(s_in = reccolon2ts$entrys,
+s_out = reccolon2ts$timesr, ev = reccolon2ts$status, bins = bins1ts$bins_s)
 
+}
+\author{
+Angela Carollo \email{carollo@demogr.mpg.de} and Paul Eilers \email{"p.eilers@erasmusmc.nl}
 }

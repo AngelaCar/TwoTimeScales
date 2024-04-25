@@ -14,6 +14,7 @@ get_bic_fit_1d <- function(lrho,
                            Z = NULL,
                            Bs,
                            Ds,
+                           Wprior = NULL,
                            control_algorithm = list(
                              maxiter = 20,
                              conv_crit = 1e-5,
@@ -29,6 +30,7 @@ get_bic_fit_1d <- function(lrho,
       r = r, y = y,
       Bs = Bs,
       P = P,
+      Wprior = Wprior,
       control_algorithm = control_algorithm
     )
   } else {
@@ -38,6 +40,7 @@ get_bic_fit_1d <- function(lrho,
       Z = Z,
       Bs = Bs,
       P = P,
+      Wprior = Wprior,
       control_algorithm = control_algorithm
     )
   }

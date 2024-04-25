@@ -37,6 +37,7 @@ grid_search_1d <- function(r, y,
                            lrho,
                            Bs,
                            Ds,
+                           Wprior = NULL,
                            optim_criterion = c("aic", "bic"),
                            control_algorithm = list(
                              maxiter = 20,
@@ -70,6 +71,7 @@ grid_search_1d <- function(r, y,
         r = r, y = y,
         Bs = Bs,
         P = P,
+        Wprior = Wprior,
         control_algorithm = con
       )
     } else {
@@ -78,6 +80,8 @@ grid_search_1d <- function(r, y,
         Y = y,
         Z = Z,
         Bs = Bs,
+        P = P,
+        Wprior = Wprior,
         control_algorithm = con
       )
     }
@@ -150,6 +154,7 @@ grid_search_1d <- function(r, y,
       r = r, y = y,
       Bs = Bs,
       P = P,
+      Wprior = Wprior,
       control_algorithm = con
     )
   } else {
@@ -158,6 +163,8 @@ grid_search_1d <- function(r, y,
       Y = y,
       Z = Z,
       Bs = Bs,
+      Wprior = Wprior,
+      P = P,
       control_algorithm = con
     )
   }
@@ -178,6 +185,6 @@ grid_search_1d <- function(r, y,
     results$BIC <- NULL
   }
 
-  class(results) <- "h1tsfit"
+  class(results) <- "haz1ts"
   return(results)
 }

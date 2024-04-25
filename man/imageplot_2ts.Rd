@@ -4,7 +4,7 @@
 \alias{imageplot_2ts}
 \title{Image Plot of 2ts hazard}
 \usage{
-imageplot_2ts(x, y, z, plot_options = list())
+imageplot_2ts(x, y, z, plot_options = list(), ...)
 }
 \arguments{
 \item{x}{The coordinates for the x-axis. This is a vector of intervals
@@ -25,6 +25,8 @@ hazard.}
 \item \code{loghazard} A Boolean. Default is \code{FALSE}. If \code{FALSE} the function
 returns a plot of the hazard surface, if \code{TRUE} the function returns
 a plot of the log-hazard surface.
+\item \code{log10hazard} A Boolean. Default is \code{FALSE}. If \code{TRUE},
+then a log10-hazard surface is plotted.
 \item \code{original} A Boolean. Default is \code{TRUE}. Plot the (log-)hazard in the
 (t,s)-plane. If \code{FALSE}, the (log-)hazard will be plotted in the (u,s)-plane.
 \item \code{rectangular_grid} A Boolean. Default is \code{FALSE}. If \code{TRUE}, a
@@ -36,6 +38,9 @@ is \code{rev(viridis::plasma())}.
 \item \code{breaks} The vector of breaks for the color legend. If \code{n_shades} is provided,
 this should be of length \code{n_shades + 1}. Otherwise, \code{n_shades} will be
 recalculated accordingly.
+\item \code{show_legend} A Boolean. Default is \code{TRUE}. If \code{FALSE} no legend will be
+plotted, useful for multi-panel figures with common legend. Works only
+for plots on rectangular grid!
 \item \code{tmax} The maximum value of \code{t} that should be plotted.
 \item \code{main} The title of the plot.
 \item \code{xlab} The label of the first time axis (plotted on the x axis).
@@ -53,6 +58,8 @@ lines are added to the surfaces.
 Default is \code{.8}.
 \item \code{contour_nlev} The number of contour levels. Default is \code{10}.
 }}
+
+\item{\dots}{Further arguments to image.plot or image}
 }
 \value{
 An image plot of the (log-) hazard surface.

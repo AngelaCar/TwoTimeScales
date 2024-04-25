@@ -7,7 +7,7 @@
 get_hazard_1d(fitted_model, plot_grid = NULL)
 }
 \arguments{
-\item{fitted_model}{The output of the function \code{fit1ts}.}
+\item{fitted_model}{is an object of class \code{"haz1ts"}, the output of the function \code{fit1ts()}.}
 
 \item{plot_grid}{(optional) A named vector containing the parameters to build a new
 grid of intervals over \code{s} for plotting the estimated hazard on a finer
@@ -26,8 +26,10 @@ A list with the following elements:
 \item \code{new_plot_grid} A list of new specifications of the grid for plotting.
 \item \code{hazard} A vector containing the estimated hazard.
 \item \code{loghazard} A vector containing the estimated log-hazard.
-\item \code{SE_hazard} A vector containing the estimated SEs for the hazard
-\item \code{SE_loghazard} A vector containing the estimated SEs for the log-hazard
+\item \code{log10hazard} A vector containing the estimated log10-hazard.
+\item \code{SE_hazard} A vector containing the estimated SEs for the hazard.
+\item \code{SE_loghazard} A vector containing the estimated SEs for the log-hazard.
+\item \code{SE_log10hazard} A vector containing the estimated SEs for the log10-hazard
 }
 }
 \description{

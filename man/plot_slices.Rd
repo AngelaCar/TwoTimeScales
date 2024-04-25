@@ -17,10 +17,14 @@ the axis opposite to the one where the sliced are cut.}
 \item{plot_options}{A list of options for the plot:
 \itemize{
 \item \code{loghazard} A Boolean. Default is \code{FALSE}. If \code{FALSE} the function
-returns a plot of the hazard surface, if \code{TRUE} the function returns
-a plot of the log-hazard surface.
+returns a plot of cross-sections from the hazard surface,
+if \code{TRUE} the function returns a plot of cross-sections from the
+log-hazard surface.
+\item \code{log10hazard} A Boolean. Default is \code{FALSE}. If \code{TRUE} returns a plot of
+cross-sections from the log10-hazard surface.
 \item \code{col_palette} A function defining the color palette. The default palette
 is \code{grDevices::gray.colors()}.
+\item \code{n_shades} The number of color shades to plot, default is 50.
 \item \code{main} The title of the plot.
 \item \code{xlab} The label of the first time axis (plotted on the x axis).
 \item \code{ylab} The label of the second time axis (plotted on the y axis).

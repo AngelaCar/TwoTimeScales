@@ -12,14 +12,17 @@
 #' the B-splines for estimating the model. If not, the grid will be adjusted
 #' accordingly and a warning will be returned.
 #'
-#' @inheritParams plot_haz1ts
+#' @inheritParams plot.haz1ts
+#' @param fitted_model is an object of class `"haz1ts"`, the output of the function `fit1ts()`.
 #'
 #' @return A list with the following elements:
 #'   * `new_plot_grid` A list of new specifications of the grid for plotting.
 #'   * `hazard` A vector containing the estimated hazard.
 #'   * `loghazard` A vector containing the estimated log-hazard.
-#'   * `SE_hazard` A vector containing the estimated SEs for the hazard
-#'   * `SE_loghazard` A vector containing the estimated SEs for the log-hazard
+#'   * `log10hazard` A vector containing the estimated log10-hazard.
+#'   * `SE_hazard` A vector containing the estimated SEs for the hazard.
+#'   * `SE_loghazard` A vector containing the estimated SEs for the log-hazard.
+#'   * `SE_log10hazard` A vector containing the estimated SEs for the log10-hazard
 #' @export
 #'
 get_hazard_1d <- function(fitted_model, plot_grid = NULL) {
@@ -64,19 +67,27 @@ get_hazard_1d <- function(fitted_model, plot_grid = NULL) {
   haz <- exp(eta)
 
   # ---- Calculate Standard Errors for the log-hazard ----
-  var_eta <- Bs %*% fitted_model$optimal_model$SE_alpha
-  se_eta <- sqrt(var_eta)
+  se_eta <- Bs %*% fitted_model$optimal_model$SE_alpha
+
+  # ---- Calculate the log10-hazard (baseline) ----
+  log10haz <- log10(haz)
 
   # ---- Calculate Standard Errors for the hazard ----
   se_haz <- haz * se_eta
+
+  # ---- Calculate Standard Errors for the log10-hazard ----
+  const <- log(10)
+  se_log10haz <- abs(1/(haz * const)) * se_haz
 
   # ---- Return results in a list ----
   results <- list(
     "new_plot_grid" = new_grid,
     "hazard" = haz,
     "loghazard" = eta,
+    "log10hazard" = log10haz,
     "SE_hazard" = se_haz,
-    "SE_loghazard" = se_eta
+    "SE_loghazard" = se_eta,
+    "SE_log10hazard" = se_log10haz
   )
 
   return(results)

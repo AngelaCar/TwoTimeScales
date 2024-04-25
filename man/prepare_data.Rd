@@ -105,8 +105,9 @@ of dimension n by p
 for hazard estimation in 1d or 2d.
 
 Given the raw data, this function first constructs the bins over one or two
-axes and then computes the aggregated (or individual)
-vectors or matrices of exposure times and events indicators.
+time axes and then computes the aggregated (or individual)
+vectors or matrices of exposure times and events indicators. A data.frame with
+covariates values can be provided by the user.
 }
 \examples{
 
@@ -154,4 +155,7 @@ binned_data <- prepare_data(
 # Visualize structure of binned data
 print(str(binned_data$bindata))
 
+}
+\author{
+Angela Carollo \email{carollo@demogr.mpg.de}
 }

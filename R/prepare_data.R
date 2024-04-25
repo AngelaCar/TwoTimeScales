@@ -4,8 +4,9 @@
 #' for hazard estimation in 1d or 2d.
 #'
 #' Given the raw data, this function first constructs the bins over one or two
-#'   axes and then computes the aggregated (or individual)
-#'   vectors or matrices of exposure times and events indicators.
+#'   time axes and then computes the aggregated (or individual)
+#'   vectors or matrices of exposure times and events indicators. A data.frame with
+#'   covariates values can be provided by the user.
 #'
 #' @inheritParams make_bins
 #' @param events A vector of event's indicators (possible values 0/1).
@@ -85,6 +86,8 @@
 #'
 #' # Visualize structure of binned data
 #' print(str(binned_data$bindata))
+#'
+#'@author Angela Carollo \email{carollo@@demogr.mpg.de}
 #'
 #' @export
 
@@ -196,7 +199,8 @@ prepare_data <- function(t_in = NULL, t_out = NULL,
       message("I will nevertheless prepare the regression matrix `Z`.")
     }
 
-    Z <- matrix(NA,nrow=nrow(covs),ncol=0)
+    # initialize empty matrix
+    Z <- matrix(NA, nrow = n, ncol = 0)
     namesZ <- vector(mode="character", length=0L)
     namesc <- attributes(covs)$names
     # how many columns?
@@ -231,9 +235,8 @@ prepare_data <- function(t_in = NULL, t_out = NULL,
           }
         }
       }
-      colnames(Z) <- namesZ
     }
-
+    colnames(Z) <- namesZ
     bindata$Z <- Z
   }
 

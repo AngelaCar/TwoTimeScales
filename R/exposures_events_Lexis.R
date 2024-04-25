@@ -1,11 +1,14 @@
 #' Bin data on the Lexis diagram
 #'
-#' @description `exposures_events_Lexis()` computes aggregated matrices of exposure times and event counts over two time
+#' @description `exposures_events_Lexis()` computes aggregated matrices of
+#' exposure times and event counts over two time
 #' scales, on the Lexis diagram.
 #'
-#' The time scales are `t` and `s`. This function uses several functions of
-#' the package `popEpi` and of the package Epi. See also [prepare_data()] to conveniently prepare individual data
-#'   for the analysis with one, or two time scales.
+#' The time scales are `t` and `s`. This function uses functions from
+#' the package `popEpi` and from the package `Epi`, and code shared by Bendix Carstensen
+#' on the website bendixcarstensen.com. See also [prepare_data()]
+#' to conveniently prepare individual data for the analysis with one,
+#' or two time scales.
 #'
 #' @inheritParams make_bins
 #' @param ev A vector of event's indicators (possible values 0/1).
@@ -17,6 +20,16 @@
 #' @return A list with the following elements:
 #' * `R` an array of exposure times of dimension nt by ns
 #' * `Y` an array of event counts of dimension nt by ns
+#'
+#' @author Angela Carollo \email{carollo@@demogr.mpg.de}
+#' @references Carstensen B, Plummer M, Laara E, Hills M (2022).
+#' Epi: A Package for Statistical Analysis in Epidemiology.
+#' R package version 2.47.1, https://CRAN.R-project.org/package=Epi.
+#'
+#' Miettinen J, Rantanen M, Seppa K (2023).
+#' popEpi: Functions for Epidemiological Analysis using Population Data.
+#' R package version 0.4.11, https://cran.r-project.org/package=popEpi.
+#'
 #'
 #' @export
 
@@ -65,6 +78,7 @@ exposures_events_Lexis <-
       s_in <- rep(0, length(s_out))
       message("`s_in = NULL`. I will use `s_in = 0` for all observations.")
     }
+
     # ---- Compute R and Y ---
     # Transform to Lexis object
     LexData <- Epi::Lexis(

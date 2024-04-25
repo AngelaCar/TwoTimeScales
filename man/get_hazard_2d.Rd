@@ -13,11 +13,10 @@ get_hazard_2d(
 )
 }
 \arguments{
-\item{fitted_model}{The output of the function \code{fit2ts}. This is an object of
-class \code{"h2tsfit"}.}
+\item{fitted_model}{is an object of class \code{"haz2ts"}, the output of the function \code{fit2ts()}.}
 
 \item{plot_grid}{(optional) A list containing the parameters to build a new
-finer grid of intervals over \code{u} and \code{s} for plotting. This must be of the
+finer grid of intervals over u and s for plotting. This must be of the
 form: \code{plot_grid = list(c(umin, umax, du), c(smin, smax, ds))}, where
 \code{umin}, \code{umax} and \code{smin}, \code{smax} are the minimum and maximum values
 desired for the intervals over \code{u} and \code{s} respectively, and \code{du}, \code{ds} are
@@ -47,10 +46,14 @@ over \code{u}.}
 A list with the following elements:
 \itemize{
 \item \code{new_plot_grid} A list of new specifications of the grid for plotting.
+\item \code{nBu} The B-spline basis for \code{u}, evaluated over the new grid.
+\item \code{nBs} The B-spline basis for \code{s}, evaluated over the new grid.
 \item \code{hazard} A matrix containing the estimated hazard.
 \item \code{loghazard} A matrix containing the estimated log-hazard.
+\item \code{log10hazard}A matrix containing the estimated log10-hazard.
 \item \code{SE_hazard} A matrix containing the estimated SEs for the hazard
 \item \code{SE_loghazard} A matrix containing the estimated SEs for the log-hazard
+\item \code{SE_log10haz} A matrix containing the estimated SEs for the log10-hazard
 }
 }
 \description{

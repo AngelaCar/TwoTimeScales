@@ -21,7 +21,7 @@
 #' @export
 
 fit2tsmodel_ucminf <- function(Y, R,
-                               Z=NULL,
+                               Z = NULL,
                                optim_criterion = c("aic", "bic"),
                                lrho = c(0, 0),
                                Bu, Bs,
@@ -112,7 +112,7 @@ fit2tsmodel_ucminf <- function(Y, R,
     "optimal_logrho" = optim_lr,
     "P_optim" = P)
 
-  class(results) <- "h2tsfit"
+  class(results) <- "haz2ts"
 
   return(results)
 }

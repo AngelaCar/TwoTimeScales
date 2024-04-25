@@ -5,6 +5,7 @@
 #' @param r A vector of exposure times of length ns.
 #' @param y A vector of event counts of length ns.
 #' @param Bs A matrix of B-splines for the `s` time scale of dimension ns by cs.
+#' @param Wprior An optional vector of length ns of a-priori weights.
 #' @param P The penalty matrix of dimension cs by cs.
 #' @param control_algorithm is a list with optional values for the parameters of iterative processes:
 #' @param control_algorithm A list with optional values for the parameters of
@@ -33,6 +34,7 @@
 
 iwls_1d <- function(r, y,
                     Bs, P,
+                    Wprior = NULL,
                     control_algorithm = list(maxiter = 20,
                                              conv_crit = 1e-5,
                                              verbose = FALSE)) {
@@ -44,6 +46,12 @@ iwls_1d <- function(r, y,
   conv_crit <- control_algorithm$conv_crit
   verbose <- control_algorithm$verbose
 
+  ns <- length(r)
+  # If Wprior is null, initialize a matrix of 1 of the same dimensions as R
+  if (is.null(Wprior)) {
+    Wprior <- rep(1, ns)
+  }
+
   # Initialize the algorithm
   m  <- ncol(Bs)
   a0 <- log(sum(y) / sum(r))
@@ -54,7 +62,7 @@ iwls_1d <- function(r, y,
   for (iter in 1:maxiter) {                     # Start of IWLS algorithm
     eta <- Bs %*% alpha
     mu <- r * exp(eta)
-    w <- c(mu)
+    w <- c(mu) * Wprior
     z <- eta * mu + (y - mu)
     BWB <- t(Bs) %*% (w * Bs)
     BWBpP <- BWB + P
@@ -77,7 +85,7 @@ iwls_1d <- function(r, y,
   # Compute optimal quantities
   eta <- Bs %*% alpha
   mu <- r * exp(eta)
-  w <- c(mu)
+  w <- c(mu) * Wprior
 
   # Calculate AIC
   y[y == 0] <- 10 ^ -4
@@ -87,7 +95,7 @@ iwls_1d <- function(r, y,
   H <- solve(BWBpP, BWB)
   ed <- sum(diag(H))
   aic <- dev + 2 * ed
-  n_obs <- length(y)
+  n_obs <- sum(Wprior)
   bic <- dev + ed * log(n_obs)
 
   # Calculate Variance-covariance matrix and SEs

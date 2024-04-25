@@ -124,7 +124,7 @@ GLAM_2d_no_covariates <- function(R, Y,
   Mu_c[Mu_c == 0] <- 1e-7
   dev <- 2 * sum(Y_c * log(Y_c / Mu_c))
   aic <- dev + 2 * ed
-  n_obs <- prod(dim(Y))
+  n_obs <- sum(Wprior)
   bic <- dev + ed * log(n_obs)
 
   # Variance-covariance matrix and SEs
@@ -141,11 +141,11 @@ GLAM_2d_no_covariates <- function(R, Y,
     deviance = dev,
     Eta = Eta,
     H = H,
-    deviance = dev,
     ed = ed,
     aic = aic,
     bic = bic,
-    Bbases = Bbases
+    Bbases = Bbases,
+    nevents = sum(Y)
   )
   return(results)
 }

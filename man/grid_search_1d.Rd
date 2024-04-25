@@ -11,6 +11,7 @@ grid_search_1d(
   lrho,
   Bs,
   Ds,
+  Wprior = NULL,
   optim_criterion = c("aic", "bic"),
   control_algorithm = list(maxiter = 20, conv_crit = 1e-05, verbose = FALSE, monitor_ev =
     FALSE),
@@ -32,6 +33,8 @@ by n.}
 \item{Bs}{A matrix of B-splines for the time scale \code{s}.}
 
 \item{Ds}{The difference matrix of the penalty.}
+
+\item{Wprior}{An optional vector of a-priori weights.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
 \code{"aic"} (default) or \code{"bic"}.}

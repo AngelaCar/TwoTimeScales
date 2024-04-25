@@ -11,13 +11,13 @@
 #'   the function will estimate a model with covariates.
 #'
 #' @param data1ts (optional) an object created by the function
-#'   `prepare_data()`. Proving this input is the easiest way to use the function
+#'   `prepare_data()`. Providing this input is the easiest way to use the function
 #'   `fit1ts`. However, the user can also provide the input data together with
 #'   a list of bins, as explained by the following parameters' descriptions.
 #' @inheritParams grid_search_1d
 #' @param bins a list with the specification for the bins. This is created by
-#'   the function `prepare_data`. If a list prepared externally from such function
-#'   if provided, it should contain the following elements:
+#'   the function `prepare_data`. Alternatively, a list with the following elements
+#'   can be provided:
 #'     * `bins_s` is a vector of bins extremes for the time scale `s`.
 #'     * `mids` is a vector with the midpoints of the bins over `s`.
 #'     * `ns` is the number of bins over `s`.
@@ -40,15 +40,15 @@
 #'   In the latter case, if a vector is not provided, a default sequence of
 #'   values is used for `log_10(rho_s)`.
 #'
-#' @return An object of class `h1tsfit` with the following elements:
-#'   * `optimal_model` A list with :
+#' @return An object of class `haz1ts` with the following elements:
+#'   * `optimal_model` A list with:
 #'     * `alpha` The vector of estimated P-splines coefficients of length cs.
 #'     * `SE_alpha` The vector of estimated Standard Errors for the `alpha` coefficients,
-#'   of length cs.
-#'     * `beta` The vector of length p of estimated covariates coefficients
+#'        of length cs.
+#'     * `beta` The vector of estimated covariates coefficients of length p
 #'       (if model with covariates).
-#'     * `se_beta` The vector of length p of estimated Standard Errors for the
-#'       `beta` coefficients (if model with covariates).
+#'     * `se_beta` The vector of estimated Standard Errors for the
+#'       `beta` coefficients of length p (if model with covariates).
 #'     * `eta` or `eta0`. The vector of values of the (baseline) linear predictor
 #'       (log-hazard).
 #'     * `H` The hat-matrix.
@@ -66,11 +66,14 @@
 #'
 #' @import JOPS
 #' @export
+#'
+#'
 fit1ts <- function(data1ts = NULL,
                    y = NULL, r = NULL,
                    Z = NULL,
                    bins = NULL,
                    Bbases_spec = list(),
+                   Wprior = NULL,
                    pord = 2,
                    optim_method = c("ucminf", "grid_search"),
                    optim_criterion = c("aic", "bic"),
@@ -180,6 +183,7 @@ fit1ts <- function(data1ts = NULL,
       Z = Z,
       Bs = Bs,
       Ds = Ds,
+      Wprior = Wprior,
       optim_criterion = optim_criterion,
       control_algorithm = con,
       par_gridsearch = gsp
@@ -193,6 +197,7 @@ fit1ts <- function(data1ts = NULL,
       Z = Z,
       Bs = Bs,
       Ds = Ds,
+      Wprior = Wprior,
       optim_criterion = optim_criterion,
       control_algorithm = con
     )
@@ -200,6 +205,8 @@ fit1ts <- function(data1ts = NULL,
 
   # ---- Save results in list and return list ----
   results <- optimal_model
+  class(results) <- "haz1ts"
+
 
   return(results)
 }

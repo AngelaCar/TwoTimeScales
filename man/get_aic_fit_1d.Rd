@@ -11,6 +11,7 @@ get_aic_fit_1d(
   Z = NULL,
   Bs,
   Ds,
+  Wprior = NULL,
   control_algorithm = list(maxiter = 20, conv_crit = 1e-05, verbose = FALSE, monitor_ev =
     FALSE)
 )
@@ -29,6 +30,8 @@ by n.}
 \item{Bs}{A matrix of B-splines for the time scale \code{s}.}
 
 \item{Ds}{The difference matrix of the penalty.}
+
+\item{Wprior}{An optional vector of a-priori weights.}
 
 \item{control_algorithm}{A list with optional values for the parameters of
 the iterative processes:
