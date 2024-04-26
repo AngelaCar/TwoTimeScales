@@ -36,7 +36,9 @@ devtools::install_github("AngelaCar/TwoTimeScales",
 ```
 
 Note: This will take more time than installing the version of the
-package without vignettes. \## How to use TwoTimeScales
+package without vignettes.
+
+## How to use TwoTimeScales
 
 A general introduction to the functionalities of the package is given
 in:
