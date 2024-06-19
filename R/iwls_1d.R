@@ -95,7 +95,7 @@ iwls_1d <- function(r, y,
   H <- solve(BWBpP, BWB)
   ed <- sum(diag(H))
   aic <- dev + 2 * ed
-  n_obs <- sum(Wprior)
+  n_obs <- sum(r > 0)
   bic <- dev + ed * log(n_obs)
 
   # Calculate Variance-covariance matrix and SEs

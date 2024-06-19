@@ -39,9 +39,11 @@
 #'     Default is `max(bins_s)`.
 #' @param pord The order of the penalty. Default is 2.
 #' @param optim_method The method to be used for optimization:
-#'   `"ucminf"` (default) for the numerical optimization of the AIC (or BIC)
-#'   and `"grid_search"` for a grid search of the minimum AIC (or BIC)
-#'   over a grid of `log_10(rho_u)` and `log_10(rho_s)` values.
+#'   `"ucminf"` (default) for the numerical optimization of the AIC (or BIC),
+#'    `"grid_search"` for a grid search of the minimum AIC (or BIC)
+#'   over a grid of `log_10(rho_u)` and `log_10(rho_s)` values,
+#'  or `"LMMsolver"` to solve the model as sparse linear mixed model using the
+#'  package LMMsolver.
 #' @param lrho A vector of two elements if `optim_method == "ucminf"`.
 #'   Default is `c(0,0)`. A list of two vectors of values for `log_10(rho_u)`
 #'   and `log_10(rho_s)` if `optim_method == "grid_search"`. In the latter case,
@@ -82,7 +84,7 @@ fit2ts <- function(data2ts = NULL,
                    bins = NULL,
                    Bbases_spec = list(),
                    pord = 2,
-                   optim_method = c("ucminf", "grid_search"),
+                   optim_method = c("ucminf", "grid_search", "LMMsolver"),
                    optim_criterion = c("aic", "bic"),
                    lrho = c(0, 0),
                    Wprior = NULL,
@@ -106,6 +108,10 @@ fit2ts <- function(data2ts = NULL,
     bins <- data2ts$bins
   }
 
+  # If optim_method == "LMMsolver" change format data
+  if(optim_method == "LMMsolver"){
+    dataLMM <- prepare_data_LMMsolver(Y=Y, R=R, Z=Z, bins=bins)
+  }
 
   # ---- Controls for iterative process ----
   con <- list(
@@ -237,6 +243,27 @@ fit2ts <- function(data2ts = NULL,
       ridge = ridge,
       control_algorithm = con
     )
+  }
+  if (optim_method == "LMMsolver"){
+    if(!is.null(Z)){
+      xnam <- colnames(data2ts$bindata$Z)
+      formula_fixed <- as.formula(paste("y ~ ", paste(xnam, collapse= "+")))
+    } else {
+      formula_fixed <- as.formula("y ~ 1")
+    }
+    optimal_model <- LMMsolve(fixed = formula_fixed,
+                              spline = ~ spl2D(x1 = u, x2 = s,
+                                               nseg = c(Bbases$nseg_u, Bbases$nseg_s)),
+                              family = poisson(),
+                              offset = log(dataLMM$r),
+                              data = dataLMM)
+    AIC_BIC_LMM <- getAIC_BIC_LMM(fit = optimal_model, offset = dataLMM$r)
+    results <- list(
+      "optimal_model" = optimal_model,
+      "AIC_BIC" = AIC_BIC_LMM,
+      "nevents" = sum(Y)
+    )
+    class(results) <- "haz2tsLMM"
   }
 
   # ---- Save results in list and return list ----

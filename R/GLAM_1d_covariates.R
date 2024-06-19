@@ -181,7 +181,7 @@ GLAM_1d_covariates <- function(R, Y,
   dev <- 2 * sum(Y_c * log(Y_c / Mu_c))
   aic <- dev + 2 * ed
   #n_obs <- prod(dim(Y)) #
-  n_obs <- sum(Weight)
+  n_obs <- sum(R > 0)
   bic <- dev + ed * log(n_obs)
 
   # Variance-covariance matrix and SEs

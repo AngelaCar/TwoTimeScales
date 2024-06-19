@@ -1,0 +1,34 @@
+#' Process data to fit model with LMMsolver
+#'
+#' @inheritParams fit2ts
+#'
+#' @return A dataset in long form to fit the model with LMMsolver
+#' @export
+#'
+
+prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){
+
+  if(is.null(Z)){
+  datalong = melt(R)
+  colnames(datalong) = c('u_ind', 's_ind', 'r')
+  datalong$y = melt(Y)$value
+  datalong$u <- bins$midu[datalong$u_ind]
+  datalong$s <- bins$mids[datalong$s_ind]
+
+  # Remove bins that are not at risk
+  datalong = subset(datalong, r > 0)
+  attr(datalong, "bininfo") <- bins
+  } else {
+    datalong = melt(R)
+    colnames(datalong) = c('u_ind', 's_ind', 'id', 'r')
+    datalong$y = melt(Y)$value
+    datalong$u <- bins$midu[datalong$u_ind]
+    datalong$s <- bins$mids[datalong$s_ind]
+
+    # Remove bins that are not at risk
+    datalong = subset(datalong, r > 0)
+    datalong = cbind(datalong, Z[datalong$id, ])
+    attr(datalong, "bininfo") <- bins
+  }
+  return(datalong)
+}
