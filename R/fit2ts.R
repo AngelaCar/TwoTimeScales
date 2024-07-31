@@ -76,7 +76,7 @@
 #'   * `AIC` (if `par_gridsearch$return_aic == TRUE`) The matrix of AIC values.
 #'   * `BIC` (if `par_gridsearch$return_bic == TRUE`) The matrix of BIC values.
 #'
-#' @import JOPS
+#' @import JOPS LMMsolver
 #' @importFrom grDevices grey.colors
 #' @export
 fit2ts <- function(data2ts = NULL,
@@ -229,6 +229,8 @@ fit2ts <- function(data2ts = NULL,
       control_algorithm = con,
       par_gridsearch = gsp
     )
+    results <- optimal_model
+
   }
   if (optim_method == "ucminf") {
     optimal_model <- fit2tsmodel_ucminf(
@@ -243,6 +245,8 @@ fit2ts <- function(data2ts = NULL,
       ridge = ridge,
       control_algorithm = con
     )
+    results <- optimal_model
+
   }
   if (optim_method == "LMMsolver"){
     if(!is.null(Z)){
@@ -251,23 +255,27 @@ fit2ts <- function(data2ts = NULL,
     } else {
       formula_fixed <- as.formula("y ~ 1")
     }
-    optimal_model <- LMMsolve(fixed = formula_fixed,
-                              spline = ~ spl2D(x1 = u, x2 = s,
-                                               nseg = c(Bbases$nseg_u, Bbases$nseg_s)),
-                              family = poisson(),
-                              offset = log(dataLMM$r),
-                              data = dataLMM)
+    optimal_model <- LMMsolver::LMMsolve(fixed = formula_fixed,
+                                         spline = ~spl2D(x1 = u, x2 = s,
+                                                         nseg = c(Bbases$nseg_u, Bbases$nseg_s)),
+                                         family = poisson(),
+                                         offset = log(dataLMM$r),
+                                         data = dataLMM)
     AIC_BIC_LMM <- getAIC_BIC_LMM(fit = optimal_model, offset = dataLMM$r)
     results <- list(
       "optimal_model" = optimal_model,
       "AIC_BIC" = AIC_BIC_LMM,
-      "nevents" = sum(Y)
+      "nevents" = sum(Y),
+      "nu" = dim(Bu)[1],
+      "ns" = dim(Bs)[1],
+      "cu" = nbu,
+      "cs" = nbs,
+      "covariates" = ifelse(is.null(Z), "no", "yes")
     )
     class(results) <- "haz2tsLMM"
   }
 
   # ---- Save results in list and return list ----
-  results <- optimal_model
   #class(results) <- "haz2ts"
 
   return(results)

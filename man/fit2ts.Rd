@@ -12,7 +12,7 @@ fit2ts(
   bins = NULL,
   Bbases_spec = list(),
   pord = 2,
-  optim_method = c("ucminf", "grid_search"),
+  optim_method = c("ucminf", "grid_search", "LMMsolver"),
   optim_criterion = c("aic", "bic"),
   lrho = c(0, 0),
   Wprior = NULL,
@@ -65,9 +65,11 @@ Default is \code{max(bins_s)}.
 \item{pord}{The order of the penalty. Default is 2.}
 
 \item{optim_method}{The method to be used for optimization:
-\code{"ucminf"} (default) for the numerical optimization of the AIC (or BIC)
-and \code{"grid_search"} for a grid search of the minimum AIC (or BIC)
-over a grid of \code{log_10(rho_u)} and \code{log_10(rho_s)} values.}
+\code{"ucminf"} (default) for the numerical optimization of the AIC (or BIC),
+\code{"grid_search"} for a grid search of the minimum AIC (or BIC)
+over a grid of \code{log_10(rho_u)} and \code{log_10(rho_s)} values,
+or \code{"LMMsolver"} to solve the model as sparse linear mixed model using the
+package LMMsolver.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
 \code{"aic"} (default) or \code{"bic"}.}

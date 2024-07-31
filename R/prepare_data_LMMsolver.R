@@ -3,15 +3,17 @@
 #' @inheritParams fit2ts
 #'
 #' @return A dataset in long form to fit the model with LMMsolver
+#'
+#' @importFrom reshape2 melt
 #' @export
 #'
 
 prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){
 
   if(is.null(Z)){
-  datalong = melt(R)
+  datalong = reshape2::melt(R)
   colnames(datalong) = c('u_ind', 's_ind', 'r')
-  datalong$y = melt(Y)$value
+  datalong$y = reshape2::melt(Y)$value
   datalong$u <- bins$midu[datalong$u_ind]
   datalong$s <- bins$mids[datalong$s_ind]
 
@@ -21,7 +23,7 @@ prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){
   } else {
     datalong = melt(R)
     colnames(datalong) = c('u_ind', 's_ind', 'id', 'r')
-    datalong$y = melt(Y)$value
+    datalong$y = reshape2::melt(Y)$value
     datalong$u <- bins$midu[datalong$u_ind]
     datalong$s <- bins$mids[datalong$s_ind]
 

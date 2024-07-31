@@ -236,6 +236,9 @@ prepare_data <- function(t_in = NULL, t_out = NULL,
         }
       }
     }
+    if(length(which(grepl("+", namesZ, fixed = T))) != 0){
+      namesZ[which(grepl("+", namesZ, fixed = T))] <- sub('+','_', x=namesZ[which(grepl("+", namesZ, fixed = T))] , fixed = T)
+    }
     colnames(Z) <- namesZ
     bindata$Z <- Z
   }

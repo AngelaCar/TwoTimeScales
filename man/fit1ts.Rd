@@ -139,3 +139,35 @@ Construction of the B-splines basis and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates.
 }
+\examples{
+\dontrun{
+## preparing data - no covariates
+dt1ts <- prepare_data(s_in = reccolon2ts$entrys,
+                        s_out = reccolon2ts$timesr,
+                        events = reccolon2ts$status,
+                        ds = 30)
+
+## fitting the model with fit1ts() - default options
+
+mod1 <- fit1ts(dt1ts)
+
+## preparing the data - covariates
+
+covs <- subset(reccolon2ts, select = c("rx", "node4", "sex"))
+dt1ts_cov <- prepare_data(s_in = reccolon2ts$entrys,
+                          s_out = reccolon2ts$timesr,
+                          events = reccolon2ts$status,
+                          ds = 30,
+                          individual = TRUE,
+                          covs = covs)
+
+## fitting the model with fit1ts() - default options
+
+mod2 <- fit1ts(d)
+
+##
+}
+
+
+
+}
