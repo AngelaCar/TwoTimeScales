@@ -55,5 +55,5 @@ s_out = reccolon2ts$timesr, ev = reccolon2ts$status, bins = bins1ts$bins_s)
 
 }
 \author{
-Angela Carollo \email{carollo@demogr.mpg.de} and Paul Eilers \email{"p.eilers@erasmusmc.nl}
+Angela Carollo \email{carollo@demogr.mpg.de} and Paul Eilers \email{p.eilers@erasmus.nl}
 }

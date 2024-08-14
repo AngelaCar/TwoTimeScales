@@ -3,7 +3,8 @@
 #' @param fit An object of class `"LMMsolve"`
 #' @param offset The vector of exposure times from dataLMM
 #'
-#' @return
+#' @return A list with ED, ED of the baseline hazard, deviance, AIC, BIC and
+#'        number of estimated covariate's parameters (if model with covariates)
 #' @export
 #'
 getAIC_BIC_LMM <- function(fit, offset){

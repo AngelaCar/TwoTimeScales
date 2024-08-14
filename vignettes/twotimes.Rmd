@@ -36,6 +36,8 @@ In particular we show:
 -   how to perform a grid search of the optimal couple of smoothing parameters
 -   how to plot the AIC or BIC grid
 -   how to perform a numerical optimization of the model
+-   how to use the functionalities of the LMMsolver package to find the optimal
+    smoothing parameters
 -   how to estimate a model with covariates
 
 However, this vignette does not deal with visualization of the estimated smooth hazard with two time scales.
@@ -90,7 +92,7 @@ The object returned by `fit2ts()` is of class `"haz2ts"`.
 The optimal smoothing parameters are $\varrho_u = 10^{2.4}$ and $\varrho_s=10^{0.3}$, and the effective dimension of the model is 11.1.
 
 ```{r, dependson="mod-paper"}
-str(mod1)
+summary(mod1)
 ```
 
 We can change the optimization criterion to BIC, and compare the results in terms of smoothing parameters and effective dimensions:
@@ -142,6 +144,25 @@ mod3 <- fit2ts(data2ts = dt2ts,
 
 Alternatively, we can ask the function to return the matrices of AIC and/or BIC values as part of the fitted object and then plot them separately (here not shown).
 
+Lastly, we show how to fit the same model by using the package LMMsolver (here citation), that uses the connection between linear mixed models and P-splines, and uses sparse representation to speed-up calculations. It is possible to fit this model by using the same function `fit2ts()` and specifying the option `optim_method = "LMMsolver"`.
+This returns an object of class `haz2tsLMM`, which differ in structure from objects of class `haz2ts`, but has the same methods implemented.
+
+```{r mod-LMM, dependson="bindata_nocov", cache=TRUE}
+mod_LMM <- fit2ts(data2ts = dt2ts,
+                  Bbases_spec = list(bdeg = 3,
+                                     nseg_s = 20,
+                                     min_s = 0,
+                                     max_s = 2730,
+                                     nseg_u = 20,
+                                     min_u = 0,
+                                     max_u = 2300),
+                  pord = 2,
+                  optim_method = "LMMsolver",
+                  optim_criterion = "aic")
+summary(mod_LMM)
+```
+
+
 ## PH regression for the colon cancer data
 
 We first show how to prepare the data for the analysis with covariates, then we see that there is no need to modify the estimation command, as the function `fit2ts()` automatically recognizes that the data object includes a covariates' matrix and then it correctly estimates a GLAM PH model.
@@ -157,7 +178,7 @@ dt2ts_cov <- prepare_data(u = reccolon2ts$timer,
                           ds = 30,
                           individual = TRUE, 
                           covs = covs)
-str(dt2ts_cov)
+print(dt2ts_cov)
 ```
 
 Then, we pass the object `d2ts_cov` to `fit2ts()` with the same arguments as before.

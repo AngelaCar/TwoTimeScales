@@ -32,8 +32,29 @@ covariates_plot <- function(fitted_model,
                             plot_options = list(), ...){
 
   # ---- Get estimates ----
-  HR_SE <- get_hr(fitted_model)
+  if(inherits(fitted_model, "haz2ts") | inherits(fitted_model, "haz1ts")){
+    HR_SE <- get_hr(fitted_model)
+    namesb <- attributes(fitted_model$optimal_model$beta)$dimnames[[1]]
 
+  } else {
+    namesCov <- fitted_model$optimal_model$term.labels.f[-c(1,length(fitted_model$optimal_model$term.labels.f))]
+    coefLMM <- coef(fitted_model$optimal_model, se = T)[namesCov]
+    coeftab <- matrix(0, length(namesCov), 3)
+    for(ind in 1:length(namesCov)){
+      coeftab[ind,2] <- round(as.numeric(coefLMM[[ind]]$value), 4)
+      coeftab[ind,3] <- as.numeric(coefLMM[[ind]]$se)
+    }
+    coeftab <- as.data.frame(coeftab)
+    #coeftab[,1] <- namesCov
+    colnames(coeftab) <- c("coef", "beta", "SE_beta")
+    HR_SE <- list(
+      "beta" = coeftab$beta,
+      "SE_beta" = coeftab$SE_beta
+    )
+    HR_SE$HR <- exp(HR_SE$beta)
+    HR_SE$SE_HR <- HR_SE$HR * HR_SE$SE_beta
+    namesb <- namesCov
+  }
   # ---- Set plotting options ----
   opts <- list(
     HR = FALSE,
@@ -79,7 +100,6 @@ covariates_plot <- function(fitted_model,
     se_y <- HR_SE$SE_beta
   }
 
-  namesb <- attributes(fitted_model$optimal_model$beta)$dimnames[[1]]
 
   if(opts$HR & !(opts$symmetric_CI)){
     LCIs <- exp(y - zval * se_y)

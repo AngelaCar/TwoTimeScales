@@ -2,10 +2,11 @@
 #'
 #' @description `fit1ts()` fits a smooth hazard model with one time scale.
 #'
-#'   Two methods are implemented for the search of the optimal smoothing
+#'   Three methods are implemented for the search of the optimal smoothing
 #'   parameter (and therefore optimal model): a numerical optimization of the
-#'   AIC or BIC of the model and a search for the minimum AIC or BIC of the
-#'   model over a grid of `log_10` values for the smoothing parameter.
+#'   AIC or BIC of the model, a search for the minimum AIC or BIC of the
+#'   model over a grid of `log_10` values for the smoothing parameter and the
+#'   estimation through the mixed model representation of P-splines.
 #'   Construction of the B-splines basis and of the penalty matrix is
 #'   incorporated within the function. If a matrix of covariates is provided,
 #'   the function will estimate a model with covariates.
@@ -32,15 +33,17 @@
 #' @param pord The order of the penalty. Default is 2.
 #' @param ridge A ridge penalty parameter: default is 0.
 #' @param optim_method The method to be used for optimization:
-#'   `"ucminf"` (default) for the numerical optimization of the AIC (or BIC)
-#'   and `"grid_search"` for a grid search of the minimum AIC (or BIC)
-#'   over a grid of `log_10(rho_s)` values.
+#'   `"ucminf"` (default) for the numerical optimization of the AIC (or BIC),
+#'    `"grid_search"` for a grid search of the minimum AIC (or BIC)
+#'   over a grid of `log_10(rho_s)` values, and `"LMMsolver"` to solve the model
+#'   as sparse linear mixed model using the package LMMsolver.
 #' @param lrho A number if `optim_method == "ucminf"`, default is 0.
 #'   A vector of values for `log_10(rho_s)` if `optim_method == "grid_search"`.
 #'   In the latter case, if a vector is not provided, a default sequence of
 #'   values is used for `log_10(rho_s)`.
 #'
-#' @return An object of class `haz1ts` with the following elements:
+#' @return An object of class `haz1ts`, or of class `haz1tsLMM` with the following
+#'   elements:
 #'   * `optimal_model` A list with:
 #'     * `alpha` The vector of estimated P-splines coefficients of length cs.
 #'     * `SE_alpha` The vector of estimated Standard Errors for the `alpha` coefficients,
@@ -105,7 +108,7 @@ fit1ts <- function(data1ts = NULL,
                    Bbases_spec = list(),
                    Wprior = NULL,
                    pord = 2,
-                   optim_method = c("ucminf", "grid_search"),
+                   optim_method = c("ucminf", "grid_search", "LMMsolver"),
                    optim_criterion = c("aic", "bic"),
                    lrho = 0,
                    ridge = 0,
@@ -128,6 +131,18 @@ fit1ts <- function(data1ts = NULL,
     bins <- data1ts$bins
   }
 
+  # If optim_method == "LMMsolver" change format data
+  if(optim_method == "LMMsolver"){
+    if(is.null(Z)){
+      dataLMM <- as.data.frame(cbind("s" = bins$mids, "r" = r, "y" = y))
+      dataLMM <- subset(dataLMM, r > 0)
+      attr(dataLMM, "bininfo") <- bins
+    } else {
+      dataLMM <- as.data.frame(cbind("s" = rep(bins$mids, dim(Z)[1]), "r" = c(r), "y" = c(y)))
+      dataLMM <- cbind(dataLMM, Z)
+      dataLMM <- subset(dataLMM, r > 0)
+    }
+  }
 
   # ---- Controls for iterative process ----
   con <- list(
@@ -178,7 +193,7 @@ fit1ts <- function(data1ts = NULL,
   }
 
   # ---- Bbases specification ----
-  Bbases <- list(
+    Bbases <- list(
     bdeg = 3,
     nseg_s = 10,
     min_s = min(bins$bins_s),
@@ -218,6 +233,8 @@ fit1ts <- function(data1ts = NULL,
       control_algorithm = con,
       par_gridsearch = gsp
     )
+    results <- optimal_model
+    class(results) <- "haz1ts"
   }
 
   if (optim_method == "ucminf") {
@@ -231,12 +248,35 @@ fit1ts <- function(data1ts = NULL,
       optim_criterion = optim_criterion,
       control_algorithm = con
     )
+    results <- optimal_model
+    class(results) <- "haz1ts"
   }
 
+  if (optim_method == "LMMsolver"){
+    if(!is.null(Z)){
+      xnam <- colnames(data1ts$bindata$Z)
+      formula_fixed <- as.formula(paste("y ~ ", paste(xnam, collapse = "+")))
+    } else {
+      formula_fixed <- as.formula("y ~ 1")
+    }
+    optimal_model <- LMMsolver::LMMsolve(fixed = formula_fixed,
+                                         spline = ~spl1D(x = s,
+                                                         nseg = Bbases$nseg_s,
+                                                         xlim = c(Bbases$min_s, Bbases$max_s)),
+                                         family = poisson(),
+                                         offset = log(dataLMM$r),
+                                         data = dataLMM)
+    AIC_BIC_LMM <- getAIC_BIC_LMM(fit = optimal_model, offset = dataLMM$r)
+    results <- list(
+      "optimal_model" = optimal_model,
+      "AIC_BIC" = AIC_BIC_LMM,
+      "nevents" = sum(y),
+      "ns" = dim(Bs)[1],
+      "cs" = nbs,
+      "covariates" = ifelse(is.null(Z), "no", "yes")
+    )
+    class(results) <- "haz1tsLMM"
+  }
   # ---- Save results in list and return list ----
-  results <- optimal_model
-  class(results) <- "haz1ts"
-
-
-  return(results)
+    return(results)
 }

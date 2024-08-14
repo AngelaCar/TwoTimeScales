@@ -13,7 +13,7 @@ fit1ts(
   Bbases_spec = list(),
   Wprior = NULL,
   pord = 2,
-  optim_method = c("ucminf", "grid_search"),
+  optim_method = c("ucminf", "grid_search", "LMMsolver"),
   optim_criterion = c("aic", "bic"),
   lrho = 0,
   ridge = 0,
@@ -58,9 +58,10 @@ Default is \code{max(bins_s)}.
 \item{pord}{The order of the penalty. Default is 2.}
 
 \item{optim_method}{The method to be used for optimization:
-\code{"ucminf"} (default) for the numerical optimization of the AIC (or BIC)
-and \code{"grid_search"} for a grid search of the minimum AIC (or BIC)
-over a grid of \code{log_10(rho_s)} values.}
+\code{"ucminf"} (default) for the numerical optimization of the AIC (or BIC),
+\code{"grid_search"} for a grid search of the minimum AIC (or BIC)
+over a grid of \code{log_10(rho_s)} values, and \code{"LMMsolver"} to solve the model
+as sparse linear mixed model using the package LMMsolver.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
 \code{"aic"} (default) or \code{"bic"}.}
@@ -100,7 +101,8 @@ values is returned, marks the optimal \code{log_10(rho_s)} in the plot.
 }}
 }
 \value{
-An object of class \code{haz1ts} with the following elements:
+An object of class \code{haz1ts}, or of class \code{haz1tsLMM} with the following
+elements:
 \itemize{
 \item \code{optimal_model} A list with:
 \itemize{
@@ -131,10 +133,11 @@ compatibility with functions in 2d).
 \description{
 \code{fit1ts()} fits a smooth hazard model with one time scale.
 
-Two methods are implemented for the search of the optimal smoothing
+Three methods are implemented for the search of the optimal smoothing
 parameter (and therefore optimal model): a numerical optimization of the
-AIC or BIC of the model and a search for the minimum AIC or BIC of the
-model over a grid of \code{log_10} values for the smoothing parameter.
+AIC or BIC of the model, a search for the minimum AIC or BIC of the
+model over a grid of \code{log_10} values for the smoothing parameter and the
+estimation through the mixed model representation of P-splines.
 Construction of the B-splines basis and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates.

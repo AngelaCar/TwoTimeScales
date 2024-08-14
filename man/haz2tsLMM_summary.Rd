@@ -2,12 +2,12 @@
 % Please edit documentation in R/haz2tsLMM_summary.R
 \name{haz2tsLMM_summary}
 \alias{haz2tsLMM_summary}
-\title{Summary function for object of class 'haz2ts'}
+\title{Summary function for object of class 'haz2tsLMM'}
 \usage{
 haz2tsLMM_summary(x, ...)
 }
 \arguments{
-\item{x}{an object of class 'haz2ts' returned by the function \code{\link[=fit2ts]{fit2ts()}}}
+\item{x}{an object of class 'haz2tsLMM' returned by the function \code{\link[=fit2ts]{fit2ts()}}}
 
 \item{...}{further arguments}
 }
@@ -15,5 +15,5 @@ haz2tsLMM_summary(x, ...)
 a printed summary of the fitted model
 }
 \description{
-Summary function for object of class 'haz2ts'
+Summary function for object of class 'haz2tsLMM'
 }

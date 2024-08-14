@@ -47,7 +47,7 @@ haz2ts_summary <- function(x,...){
   cat("  rho_s = ", res$rhos, "\n")
   cat("\n")
   if(is.null(res$coeftab)) cat("Model with no covariates") else {
-    colnames(res$coeftab) <- c("coef", "se(coef)", "exp(coef)", "se(exp(coef))")
+    colnames(res$coeftab) <- c("beta", "se(beta)", "exp(beta)", "se(exp(beta))")
     print(res$coeftab)
   }
   cat("\n\n")

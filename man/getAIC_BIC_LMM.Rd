@@ -11,6 +11,10 @@ getAIC_BIC_LMM(fit, offset)
 
 \item{offset}{The vector of exposure times from dataLMM}
 }
+\value{
+A list with ED, ED of the baseline hazard, deviance, AIC, BIC and
+number of estimated covariate's parameters (if model with covariates)
+}
 \description{
 Calculates AIC and BIC from object fitted via LMMsolver
 }

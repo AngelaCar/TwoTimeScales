@@ -50,7 +50,7 @@
 #'   if a list with two vectors is not provided, a default sequence of
 #'   values is used for both `log_10(rho_u)` and `log_10(rho_s)`.
 #'
-#' @return An object of class `h2tsfit` with the following elements:
+#' @return An object of class `haz2ts`, or `haz2tsLMM` with the following elements:
 #'   * `optimal_model` A list with :
 #'     * `Alpha` The matrix of estimated P-splines coefficients of dimension
 #'       cu by cs.
@@ -257,7 +257,9 @@ fit2ts <- function(data2ts = NULL,
     }
     optimal_model <- LMMsolver::LMMsolve(fixed = formula_fixed,
                                          spline = ~spl2D(x1 = u, x2 = s,
-                                                         nseg = c(Bbases$nseg_u, Bbases$nseg_s)),
+                                                         nseg = c(Bbases$nseg_u, Bbases$nseg_s),
+                                                         x1lim = c(Bbases$min_u, Bbases$max_u),
+                                                         x2lim = c(Bbases$min_s, Bbases$max_s)),
                                          family = poisson(),
                                          offset = log(dataLMM$r),
                                          data = dataLMM)

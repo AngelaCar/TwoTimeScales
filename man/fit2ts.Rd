@@ -117,7 +117,7 @@ values is returned, marks the optimal combination of \code{log_10(rho_u)} and
 }}
 }
 \value{
-An object of class \code{h2tsfit} with the following elements:
+An object of class \code{haz2ts}, or \code{haz2tsLMM} with the following elements:
 \itemize{
 \item \code{optimal_model} A list with :
 \itemize{
