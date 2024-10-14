@@ -12,7 +12,9 @@ haz2tsLMM_summary(x, ...)
 \item{...}{further arguments}
 }
 \value{
-a printed summary of the fitted model
+a printed summary of the fitted model, including optimal smoothing
+paramters, the effective dimension ED and the AIC/BIC. For model
+with covariates, a regression table is also returned.
 }
 \description{
 Summary function for object of class 'haz2tsLMM'

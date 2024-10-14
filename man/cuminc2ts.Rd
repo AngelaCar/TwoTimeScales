@@ -2,14 +2,14 @@
 % Please edit documentation in R/competing_risks_methods.R
 \name{cuminc2ts}
 \alias{cuminc2ts}
-\title{Cumulative incidence function over two time scales}
+\title{Cumulative incidence surface over two time scales}
 \usage{
 cuminc2ts(haz = list(), oversurv, ds, cause = NULL)
 }
 \arguments{
 \item{haz}{a list of cause-specific hazards}
 
-\item{oversurv}{the overall survival function over two time scales, obtained
+\item{oversurv}{the overall survival probability surface over two time scales, obtained
 from \code{surv2ts} (the last element in the list of results)}
 
 \item{ds}{the distance between two consecutive intervals over the \code{s} time scale.
@@ -20,8 +20,8 @@ be of the same length as the number of cause-specific cumulated hazards provided
 }
 \value{
 a list with one cumulative incidence matrix for each cause-specific
-hazard
+hazard (named if a vector of short names is passed to \code{cause}).
 }
 \description{
-Cumulative incidence function over two time scales
+Cumulative incidence surface over two time scales
 }

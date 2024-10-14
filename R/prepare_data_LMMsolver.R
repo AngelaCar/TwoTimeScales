@@ -18,7 +18,7 @@ prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){
     datalong$s <- bins$mids[datalong$s_ind]
 
     # Remove bins that are not at risk
-    datalong = subset(datalong, r > 0)
+    datalong = datalong[datalong$r > 0, ]
     attr(datalong, "bininfo") <- bins
   } else {
     datalong = melt(R)
@@ -28,7 +28,7 @@ prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){
     datalong$s <- bins$mids[datalong$s_ind]
 
     # Remove bins that are not at risk
-    datalong = subset(datalong, r > 0)
+    datalong = datalong[datalong$r > 0, ]
     datalong = cbind(datalong, Z[datalong$id, ])
     attr(datalong, "bininfo") <- bins
   }

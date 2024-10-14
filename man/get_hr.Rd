@@ -12,10 +12,10 @@ get_hr(fitted_model)
 \value{
 A list with the following elements:
 \itemize{
-\item \code{HR} A vector of hazard ratios (calculated as exp(hat_beta)).
+\item \code{HR} A vector of hazard ratios (calculated as \eqn{\exp(\hat\beta)}).
 \item \code{SE_HR} A vector of Standard Errors for the hazard ratios calculated
 via the delta method.
-\item \code{beta} A vector of the estimated beta coefficients.
+\item \code{beta} A vector of the estimated \eqn{\hat\beta} coefficients.
 \item \code{SE_beta} A vector of the Standard Errors for the beta coefficients.
 }
 }

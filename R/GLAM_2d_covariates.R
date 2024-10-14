@@ -236,7 +236,8 @@ GLAM_2d_covariates <- function(R, Y,
     ed = ed,
     aic = aic,
     bic = bic,
-    Bbases = Bbases
+    Bbases = Bbases,
+    nevents = sum(Y)
   )
   return(results)
 }

@@ -62,9 +62,10 @@ This dataset is a reduced version of the dataset colon from the package
 survival (Therneau, T.M. et al., 2022). Each observation is a transition from
 recurrence of colon cancer to death or censoring. The time scales are time
 from randomization to recurrence, time from randomization to death or
-censoring and time from recurrence. The original dataset does not present any
-left truncated observation, since all the individuals are observed in the
-state 'recurrence' right from entry in the state. To be able to illustrate
+censoring and time from recurrence of the cancer.
+In the original data all the individuals are observed in the
+state 'recurrence' right from entry in the state, that is, the data are not
+left truncated. To be able to illustrate
 how to include left truncated times in the model, artificial left truncated
 entry in the 'recurrence' state are introduced for 40 individuals.
 Additionally, 7 individuals with exit from the risk set equal to entry in the

@@ -17,7 +17,7 @@ get_aic_fit_1d(
 )
 }
 \arguments{
-\item{lrho}{A starting value for \code{log_10(rho_s)}. Default is 0.}
+\item{lrho}{A starting value for \eqn{\log_{10}(\varrho_s)}. Default is 0.}
 
 \item{r}{A vector of exposure times of length ns, or an array of dimension ns
 by n.}

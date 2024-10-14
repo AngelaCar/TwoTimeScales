@@ -1,10 +1,19 @@
 #' Calculates AIC and BIC from object fitted via LMMsolver
 #'
+#' @description `getAIC_BIC_LMM` is an utility function that takes an object of class
+#'              `'LMMsolve'` fitted via `fit1ts()` or `fit2ts()` and calculates
+#'              AIC, BIC and ED.
+#'
 #' @param fit An object of class `"LMMsolve"`
 #' @param offset The vector of exposure times from dataLMM
 #'
-#' @return A list with ED, ED of the baseline hazard, deviance, AIC, BIC and
-#'        number of estimated covariate's parameters (if model with covariates)
+#' @return A list with:
+#'          * `ED` effective dimension of the full model;
+#'          * `EDbase` effective dimension of the baseline hazard only;
+#'          * `Dev` deviance;
+#'          * `AIC` the aic;
+#'          * `BIC` the bic;
+#'          * `n_beta` the number of estimated covariate's parameters (if PH model)
 #' @export
 #'
 getAIC_BIC_LMM <- function(fit, offset){

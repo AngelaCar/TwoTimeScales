@@ -25,7 +25,7 @@ by n.}
 
 \item{Z}{(optional) A regression matrix of covariates of dimension n by p.}
 
-\item{lrho}{A starting value for \code{log_10(rho_s)}. Default is 0.}
+\item{lrho}{A starting value for \eqn{\log_{10}(\varrho_s)}. Default is 0.}
 
 \item{Bs}{A matrix of B-splines for the time scale \code{s}.}
 
@@ -50,7 +50,7 @@ evaluation of the model over the \code{log_10(rho_s)} values.
 }}
 }
 \value{
-An object of class \code{h1tsfit} with the following elements:
+An object of class \code{haz1ts} with the following elements:
 \itemize{
 \item \code{optimal_model} A list containing the results of the optimal model.
 \item \code{optimal_logrho} The optimal value of \code{log10(rho_s)}.
@@ -61,7 +61,12 @@ An object of class \code{h1tsfit} with the following elements:
 \code{fit1tsmodel_ucminf()} performs a numerical optimization of the
 AIC or BIC of the one time scale model.
 
-It finds the optimal values of \code{log_10(rho_s)} and returns the estimated
+It finds the optimal values of \eqn{\log_{10}(\varrho_s)} and returns the estimated
 optimal model.
 See also \code{\link[ucminf:ucminf]{ucminf::ucminf()}}.
+}
+\references{
+Nielsen H, Mortensen S (2024).
+\emph{ucminf: General-Purpose Unconstrained Non-Linear Optimization}.
+R package version 1.2.2, \url{https://CRAN.R-project.org/package=ucminf}
 }

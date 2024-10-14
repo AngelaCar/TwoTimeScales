@@ -3,7 +3,7 @@
 #' @description `fit1tsmodel_ucminf()` performs a numerical optimization of the
 #'   AIC or BIC of the one time scale model.
 #'
-#'   It finds the optimal values of `log_10(rho_s)` and returns the estimated
+#'   It finds the optimal values of \eqn{\log_{10}(\varrho_s)} and returns the estimated
 #'   optimal model.
 #'   See also [ucminf::ucminf()].
 #'
@@ -11,10 +11,14 @@
 #' @param optim_criterion The criterion to be used for optimization:
 #' `"aic"` (default) or `"bic"`.
 #'
-#' @return An object of class `h1tsfit` with the following elements:
+#' @return An object of class `haz1ts` with the following elements:
 #'   * `optimal_model` A list containing the results of the optimal model.
 #'   * `optimal_logrho` The optimal value of `log10(rho_s)`.
 #'   * `P_optimal` The optimal penalty matrix P.
+#'
+#' @references Nielsen H, Mortensen S (2024).
+#' _ucminf: General-Purpose Unconstrained Non-Linear Optimization_.
+#' R package version 1.2.2, <https://CRAN.R-project.org/package=ucminf>
 #'
 #' @import ucminf
 #' @export

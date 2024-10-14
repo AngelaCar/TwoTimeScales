@@ -60,16 +60,16 @@ Default is \code{max(bins_s)}.
 \item{optim_method}{The method to be used for optimization:
 \code{"ucminf"} (default) for the numerical optimization of the AIC (or BIC),
 \code{"grid_search"} for a grid search of the minimum AIC (or BIC)
-over a grid of \code{log_10(rho_s)} values, and \code{"LMMsolver"} to solve the model
+over a grid of \eqn{\log_{10}(\varrho_s)} values, and \code{"LMMsolver"} to solve the model
 as sparse linear mixed model using the package LMMsolver.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
 \code{"aic"} (default) or \code{"bic"}.}
 
 \item{lrho}{A number if \code{optim_method == "ucminf"}, default is 0.
-A vector of values for \code{log_10(rho_s)} if \code{optim_method == "grid_search"}.
+A vector of values for \eqn{\log_{10}(\varrho_s)}  if \code{optim_method == "grid_search"}.
 In the latter case, if a vector is not provided, a default sequence of
-values is used for \code{log_10(rho_s)}.}
+values is used for \eqn{\log_{10}(\varrho_s)} .}
 
 \item{ridge}{A ridge penalty parameter: default is 0.}
 
@@ -101,8 +101,8 @@ values is returned, marks the optimal \code{log_10(rho_s)} in the plot.
 }}
 }
 \value{
-An object of class \code{haz1ts}, or of class \code{haz1tsLMM} with the following
-elements:
+An object of class \code{haz1ts}, or of class \code{haz1tsLMM}.
+For objects of class \code{haz1ts} this is
 \itemize{
 \item \code{optimal_model} A list with:
 \itemize{
@@ -129,6 +129,18 @@ compatibility with functions in 2d).
 \item \code{AIC} (if \code{par_gridsearch$return_aic == TRUE}) The vector of AIC values.
 \item \code{BIC} (if \code{par_gridsearch$return_bic == TRUE}) The vector of BIC values.
 }
+
+Objects of class \code{haz1tsLMM} have a slight different structure. They are
+a list with:
+\itemize{
+\item \code{optimal_model} an object of class \code{LMMsolve}
+\item \code{AIC_BIC} a list with, among other things, the AIC and BIC values and the
+ED of the model
+\item \code{n_events} the number of events
+\item \code{ns} the number of bins over the s-axis
+\item \code{cs} the number of B-splines over the s-axis
+\item \code{covariates} an indicator for PH model
+}
 }
 \description{
 \code{fit1ts()} fits a smooth hazard model with one time scale.
@@ -136,11 +148,16 @@ compatibility with functions in 2d).
 Three methods are implemented for the search of the optimal smoothing
 parameter (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
-model over a grid of \code{log_10} values for the smoothing parameter and the
+model over a grid of \eqn{\log_{10}} values for the smoothing parameter and the
 estimation through the mixed model representation of P-splines.
 Construction of the B-splines basis and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates.
+}
+\details{
+Some functions from the R-package \code{LMMsolver} are used here.
+We refer the interested readers to https://biometris.github.io/LMMsolver/
+for more details on \code{LMMsolver} and its usage.
 }
 \examples{
 \dontrun{
@@ -173,4 +190,8 @@ mod2 <- fit1ts(d)
 
 
 
+}
+\references{
+Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed Model Formulation.”
+Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178591.#'
 }

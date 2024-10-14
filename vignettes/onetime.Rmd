@@ -18,8 +18,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-Disclaimer: the current version of the package and of this vignette is a work-in-progress!
-Details might change with future updates and this vignette will be updated consequently.
 
 ```{r setup}
 library(TwoTimeScales)

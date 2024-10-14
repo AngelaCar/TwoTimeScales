@@ -22,8 +22,8 @@ get_aic_fit_2d(
 )
 }
 \arguments{
-\item{lrho}{A vector of two elements, the initial values for \code{log10(rho_u)}
-and \code{log10(rho_s)}.}
+\item{lrho}{A vector of two elements, the initial values for \eqn{\log_{10}(\varrho_u)}
+and \eqn{\log_{10}(\varrho_s)}.}
 
 \item{R}{A matrix (or 3d-array) of exposure times of dimension nu by ns
 (or nu by ns by n).}

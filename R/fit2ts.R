@@ -50,7 +50,8 @@
 #'   if a list with two vectors is not provided, a default sequence of
 #'   values is used for both `log_10(rho_u)` and `log_10(rho_s)`.
 #'
-#' @return An object of class `haz2ts`, or `haz2tsLMM` with the following elements:
+#' @return An object of class `haz2ts`, or of class `haz2tsLMM`.
+#'    For objects of class `haz2ts` this is
 #'   * `optimal_model` A list with :
 #'     * `Alpha` The matrix of estimated P-splines coefficients of dimension
 #'       cu by cs.
@@ -76,9 +77,33 @@
 #'   * `AIC` (if `par_gridsearch$return_aic == TRUE`) The matrix of AIC values.
 #'   * `BIC` (if `par_gridsearch$return_bic == TRUE`) The matrix of BIC values.
 #'
+#'   Objects of class `haz2tsLMM` have a slight different structure. They are
+#'   a list with:
+#'   * `optimal_model` an object of class `LMMsolve`
+#'   * `AIC_BIC` a list with, among other things, the AIC and BIC values and the
+#'      ED of the model
+#'   * `n_events` the number of events
+#'   * `nu` the number of bins over the u-axis
+#'   * `ns` the number of bins over the s-axis
+#'   * `cu` the number of B-splines over the u-axis
+#'   * `cs` the number of B-splines over the s-axis
+#'   * `covariates` an indicator for PH model
+#'
+#' @details Some functions from the R-package `LMMsolver` are used here.
+#'          We refer the interested readers to https://biometris.github.io/LMMsolver/
+#'          for more details on `LMMsolver` and its usage.
+#' @references Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed Model Formulation.”
+#'             Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178591.
+#'             Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
+#'             “Smooth Hazards with Multiple Time Scales.” arXiv Preprint:
+#'             https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1
+#'
 #' @import JOPS LMMsolver
 #' @importFrom grDevices grey.colors
+#' @importFrom stats as.formula poisson
 #' @export
+#'
+#'
 fit2ts <- function(data2ts = NULL,
                    Y = NULL, R = NULL, Z = NULL,
                    bins = NULL,

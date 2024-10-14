@@ -19,9 +19,6 @@ knitr::opts_chunk$set(
 knitr::opts_chunk$set(eval = TRUE)
 ```
 
-Disclaimer: the current version of the package and of this vignette is a work-in-progress!
-Details might change with future updates and this vignette will be updated consequently.
-
 ```{r setup}
 library(TwoTimeScales)
 ```
@@ -33,7 +30,7 @@ The two time scales act jointly to determine the hazard levels.
 The `TwoTimeScales` package allows the user to estimate and visualize the hazard of one event as a smooth function of two time dimensions (the two time scales).
 Additionally, it provides functions to estimate and visualize a smooth hazard with one time scale.
 
-Estimation is performed using $P$-splines (univariate or bivariate) and Poisson regression.
+The hazard is estimated as a two-dimensional $P$-splines model for count data with offset.
 
 When working with time-to-event data with multiple time scales, there are three main steps involved:
 
@@ -83,7 +80,7 @@ To apply the $P$-splines model for the hazard we need to bin the individual data
 Therefore, the first step of the analysis, will be data preparation.
 This step involves the construction of the bins and the actual binning of the data.
 Both steps are implemented and performed by the function `prepare_data()`, which requires as inputs the individual data vectors, and the desired specification for the bins.
-This function works in the same way for the case of data with one time scale only, and for data over two time scales.
+This function works in the same way for the case of data with one time scale only, and for data with two time scales.
 The only difference is in the inputs required in each of the cases.
 We will now illustrate its use in both cases.
 
@@ -92,12 +89,13 @@ We will now illustrate its use in both cases.
 For data over one time scale, the function requires as minimal inputs only a vector of exit times (`s_out`), a vector of events' indicators (`events`) and the desired bins' size (`ds`).
 If the data are left truncated, the entry times can be passed to the argument `s_in`.
 
-```{r 1ts-data-prep, cache=T}
+```{r 1tsprep, cache=T}
 dt1ts <- prepare_data(s_in = reccolon2ts$entrys,
                       s_out = reccolon2ts$timesr,
                       events = reccolon2ts$status,
                       ds = 30)
 str(dt1ts)
+
 print(dt1ts)
 ```
 
@@ -112,13 +110,14 @@ The same function is used to bin the individual data in a two-dimensional grid o
 The two time scales model is estimated over the half-plane $(u,s)$.
 Therefore, we will here discuss only preparation of the data over $u$ and $s$, and defer the discussion of the preparation over the Lexis diagram to the vignette dedicated to the analysis with two time scales.
 
-```{r 2ts-data-prep, cache=TRUE}
+```{r 2tsprep, cache=TRUE}
 dt2ts <- prepare_data(u = reccolon2ts$timer,
                       s_in = reccolon2ts$entrys,
                       s_out = reccolon2ts$timesr,
                       events = reccolon2ts$status,
                       ds = 30)
 str(dt2ts)
+
 print(dt2ts)
 ```
 
@@ -139,7 +138,7 @@ It is possible, and recommended, to provide the covariates that one wishes to us
 The function will take care of the preparation of the regression matrix `Z`.
 However, if desired, this can also be prepared externally (in which case a warning will be returned).
 
-```{r 2ts-data-cov, cache=TRUE}
+```{r 2tscov, cache=TRUE}
 covs <- subset(reccolon2ts, select = c("rx", "node4", "sex"))
 dt2ts_cov <- prepare_data(u = reccolon2ts$timer,
                           s_in = reccolon2ts$entrys,
@@ -165,7 +164,7 @@ Without specifying additional parameters, the function estimates a $P$-splines m
 The $B$-splines basis is built using default options (see `help(fit1ts)` for details).
 However, for illustration, we now show how to specify the $B$-splines basis to more closely match the data structure.
 
-```{r 1ts-model, dependson = "1ts-data-prep", cache=TRUE}
+```{r 1ts-model, dependson = "1tsprep", cache=TRUE}
 m1ts <- fit1ts(data1ts = dt1ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -183,10 +182,10 @@ The vignette *Smooth hazards with one time scale* discusses alternative options 
 
 #### Two time scales
 
-Estimation over the half-plane $(u,s)$ is performed in the same way.
+Estimation over the $(u,s)$-plane is performed in the same way.
 Here, we illustrate how to use the function `fit2ts()`, and again we will change the default specifications of the marginal $B$-spline bases, but otherwise use default values for the remaining inputs.
 
-```{r 2ts-mod, dependson = "2ts-data-prep", cache=TRUE}
+```{r 2ts-mod, dependson = "2tsprep", cache=TRUE}
 m2ts <- fit2ts(data2ts = dt2ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -195,12 +194,14 @@ m2ts <- fit2ts(data2ts = dt2ts,
                                   nseg_u = 16,
                                   min_u = 0,
                                   max_u = 2300))
-str(m2ts)
+summary(m2ts)
 ```
 
 Whereas the estimates from `fit1ts` are vectors, the ones from `fit2ts` are organized in matrices: The matrix `optimal_model$Alpha`, containing the estimated $B$-splines' coefficients $\alpha_{lm}$, for $l \in 1,\dots,c_u$ (here $c_u = 19$) and $m \in 1,\dots, c_s$ ($c_s = 23$).
 And the matrix Eta of dimension $n_u$ by $n_s$ (90 by 91).
 Additionally, we have a list with the marginal $B$-splines used for estimation (`optimal_model$Bbases`), a vector of $\log_{10}\varrho_u$ and $\log_{10}\varrho_s$ values (`optimal_logrho`) and finally the penalty matrix (`P_optim`) that incorporates the optimal penalty parameters.
+
+The summary method is implemented for objects of class `haz2ts`, and it returns the model specifications, the optimal smoothing parameters, the effective dimension (ED) and the model fit as measured by the AIC and BIC of the model.
 
 ### Step 3: Visualize the results
 

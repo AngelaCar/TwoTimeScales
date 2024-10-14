@@ -7,10 +7,10 @@
 #' @param fitted_model A list returned by the function `fit2ts` or `fit1ts`.
 #'
 #' @return A list with the following elements:
-#'   * `HR` A vector of hazard ratios (calculated as exp(hat_beta)).
+#'   * `HR` A vector of hazard ratios (calculated as \eqn{\exp(\hat\beta)}).
 #'   * `SE_HR` A vector of Standard Errors for the hazard ratios calculated
 #'     via the delta method.
-#'   * `beta` A vector of the estimated beta coefficients.
+#'   * `beta` A vector of the estimated \eqn{\hat\beta} coefficients.
 #'   * `SE_beta` A vector of the Standard Errors for the beta coefficients.
 #'
 #' @export

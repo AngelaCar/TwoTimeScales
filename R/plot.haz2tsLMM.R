@@ -1,14 +1,15 @@
-#' Plot method for a haz2ts object.
+#' Plot method for a haz2tsLMM object.
 #'
 #' @description  `plot.haz2tsLMM()` is the plot method for objects of class `haz2tsLMM`.
 #'  It produces plots of the fitted model with two time scales (see [fit2ts()]),
-#'  fitted via LMMsolver. It only produces a plot over the `u` and `s` axes.
+#'  fitted via LMMsolver. The two-dimensional plots are limited to the transformed
+#'  plane, that is only plots over `u` and `s` axes are produced.
 #' @param x The output of the function `fit2ts`. This is an object of
 #'   class `"haz2tsLMM"`.
 #' @param which_plot The type of plot required. Can be one of `"hazard"`
-#'   (default), `"covariates"` or `"SE"`.
-#' @param plot_grid (optional) A list containing the parameters to build a new
-#'   finer grid of intervals over u and s for plotting. This must be of the
+#'   (default), `"slices"`, `"covariates"` or `"SE"`.
+#' @param plot_grid A list containing the parameters to build a new
+#'   finer grid of intervals over `u` and `s` for plotting. This must be of the
 #'   form: `plot_grid = list(c(umin, umax, du), c(smin, smax, ds))`, where
 #'   `umin`, `umax` and `smin`, `smax` are the minimum and maximum values
 #'   desired for the intervals over `u` and `s` respectively, and `du`, `ds` are
@@ -19,24 +20,39 @@
 #'   for the estimation. The function will check if the parameters for the grid
 #'   provided by the user are compatible with those originally used to construct
 #'   the B-splines for estimating the model. If not, the grid will be adjusted
-#'   accordingly and a warning will be returned.
+#'   accordingly and a warning will be returned. While for objects of class 'haz2ts'
+#'   this is an optional input, we strongly recommend to provide the plotting
+#'   grid for object of class 'haz2tsLMM', given that evaluation of the B-splines
+#'   works a bit differently in LMMsolver.
+#' @param where_slices A vector of values for the cutting points of the desired
+#'   slices of the surface. If `which_plot == "slices"`, please provide this
+#'   argument.
+#' @param direction If `which_plot == "slices"`, indicates the direction for
+#'   cutting the surface. If `u`, then the surface will be cut at the selected
+#'   values of `u` (indicated by `where_slices`), hence obtaining one-dimensional
+#'   curves over `s`. If `s`, then the surface will be cut at the selected values
+#'   of `s` (indicated by `where_slices`), hence obtaining one-dimensional curves
+#'   over `u`.
 #' @param plot_options A list with all possible options for any of the plots:
 #'   * `loghazard` A Boolean. Default is `FALSE`. If `FALSE` the function
 #'     returns a plot of the hazard surface, if `TRUE` the function returns
 #'     a plot of the log-hazard surface.
 #'   * `log10hazard` A Boolean. Default is `FALSE`. If `TRUE`,
-#'     then a log_10 hazard surface is plotted.
+#'     then a log10 hazard surface is plotted.
 #'   * `cut_extrapolated` A Boolean. Default is `TRUE`. Cuts away the
 #'     extrapolated area of the (log-)hazard surface before plotting.
 #'   * `tmax` The maximum value of `t` that should be plotted.
 #'   * `col_palette` A function defining the color palette. The default palette
-#'     is `viridis::rev(plasma())`.
+#'     is `viridis::rev(plasma())`. Specifying the color palette as a function
+#'     allows for greater flexibility than passing the palette as a vector.
+#'     We provide an example on how to create a function from any color palette
+#'     below.
 #'   * `n_shades` The number of color shades to plot, default is 50.
 #'   * `breaks` The vector of breaks for the color legend. If `n_shades` is provided,
 #'     this should be of length `n_shades + 1`.
 #'   * `show_legend` A Boolean. Default is `TRUE`. If `FALSE` no legend will be
 #'     plotted, useful for multi-panel figures with common legend. Works only
-#'     for plots on rectangular grid (i.e. transformed (u,s) plane)
+#'     for plots on rectangular grid (i.e. transformed (u,s) plane).
 #'   * `main` The title of the plot.
 #'   * `xlab` The label of the first time axis (plotted on the x axis).
 #'   * `ylab` The label of the second time axis (plotted on the y axis).
@@ -64,18 +80,47 @@
 #'   * `pch` The symbol for plotting the point estimates.
 #'   * `lwd` The line width.
 #' @param \dots Further arguments to image.plot or image
+#' @details The function `obtainSmoothTrend` from the R-package `LMMsolver` is
+#'          used here. We refer the interested readers to https://biometris.github.io/LMMsolver/
+#'          for more details on `LMMsolver` and its usage.
 #'
 #' @return A plot of the fitted model.
 #'
 #' @importFrom stats qnorm
 #'
 #' @export
-
+#'
+#' @examples
+#' # Create a color pallete function from a RColorBrewer palette, using the function
+#' # colorRampPalette from grDevices.
+#' \dontrun{
+#' mypal <- function(n) {
+#'   colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
+#' }
+#' # if mod_haz is a fitted model of class haz2ts, the following code will
+#' # produce a cross-sections plot of the hazard over `s` for selected values
+#' # of `u`, with the palette specified above
+#'
+#' plot(mod_haz,
+#'   which_plot = "slices",
+#'   where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+#'   direction = "u",
+#'   plot_options = list(
+#'     col_palette = mypal,
+#'     main = "Cross-sections of the hazard",
+#'     xlab = "Time since recurrence",
+#'     ylab = "Hazard"
+#'   )
+#' )
+#' }
+#'
 plot.haz2tsLMM <- function(x,
-                        plot_grid = NULL,
-                        which_plot = c("hazard", "covariates", "SE"),
-                        plot_options = list(),
-                        ...) {
+                           plot_grid = NULL,
+                           which_plot = c("hazard", "covariates", "SE", "slices"),
+                           where_slices = NULL,
+                           direction = c(NULL, "u", "s"),
+                           plot_options = list(),
+                           ...) {
   if (!inherits(x, "haz2tsLMM")) stop("'x' must be a 'haz2tsLMM' object")
 
   which_plot <- match.arg(which_plot)
@@ -84,11 +129,15 @@ plot.haz2tsLMM <- function(x,
     stop("Covariates plot required but x does not have covariates' parameters.")
   }
 
+  u <- s <- NULL
+
   # ---- Options for plotting ----
   opts <- list(
     loghazard = FALSE,
     log10hazard = FALSE,
+    rectangular_grid = TRUE,
     cut_extrapolated = TRUE,
+    original = FALSE,
     tmax = NULL,
     col_palette = NULL,
     n_shades = NULL,
@@ -128,127 +177,153 @@ plot.haz2tsLMM <- function(x,
   # ---- Plot covariates (then exit) ----
   if (which_plot == "covariates") {
     plt <- covariates_plot(x,
-                           confidence_lev = opts$confidence,
-                           plot_options = list(
-                             HR = opts$HR,
-                             symmetric_CI = opts$symmetric_CI,
-                             main = opts$main,
-                             ylab = opts$ylab,
-                             col_beta = opts$col_beta,
-                             pch = opts$pch,
-                             cex_main = opts$cex_main,
-                             cex_lab = opts$cex_lab
-                           )
+      confidence_lev = opts$confidence,
+      plot_options = list(
+        HR = opts$HR,
+        symmetric_CI = opts$symmetric_CI,
+        main = opts$main,
+        ylab = opts$ylab,
+        col_beta = opts$col_beta,
+        pch = opts$pch,
+        cex_main = opts$cex_main,
+        cex_lab = opts$cex_lab
+      )
     )
     return(invisible(plt))
   }
 
+
+  # ---- Plot (log-) hazard or SEs surface ----
+  if (is.null(plot_grid)) {
+    du <- attributes(x$optimal_model$splRes[[1]]$knots[[1]])$dx
+    ds <- attributes(x$optimal_model$splRes[[1]]$knots[[2]])$dx
+    umin <- attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmin
+    umax <- attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmax
+    smin <- attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmin
+    smax <- attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmax
+    plot_grid <- list(
+      c("umin" = umin, "umax" = umax, "du" = du),
+      c("smin" = smin, "smax" = smax, "ds" = ds)
+    )
+  }
+
   # ---- Get (baseline) (log-)hazard and hazard ratios if needed ----
-  if (which_plot != "covariates") { # the only case in which we don't need to call
-    # Recreate grid from estimation B-splines
-    if (is.null(plot_grid)) {
-      intu <- x$optimal_model$splRes[[1]]$knots[[1]]
-      umin <- attributes(intu)$xmin
-      umax <- attributes(intu)$xmax
-      intu <- intu[intu >= umin & intu <= umax]
-      ints <- x$optimal_model$splRes[[1]]$knots[[2]]
-      smin <- attributes(ints)$xmin
-      smax <- attributes(ints)$xmax
-      ints <- ints[ints >= smin & ints <= smax]
-      du <- intu[2] - intu[1]
-      ds <- ints[2] - ints[1]
-      new_grid <- expand.grid(intu, ints)
-      names(new_grid) <- c("u", "s")
-    } else {
-      umin <- plot_grid[[1]][1]
-      umax <- plot_grid[[1]][2]
-      du <- plot_grid[[1]][3]
-      smin <- plot_grid[[2]][1]
-      smax <- plot_grid[[2]][2]
-      ds <- plot_grid[[2]][3]
-      if (umin < attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmin) {
-        umin <- attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmin
-        warning("`umin` is smaller than the lower limit of the domain of Bu. Left boundary adjusted to  =  ", attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmin)
-      }
-      if (umax > attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmax) {
-        umax <- attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmax
-        warning("`umax` is larger than the upper limit of the domain of Bu. Right boundary adjusted to  =  ", attributes(x$optimal_model$splRes[[1]]$knots[[1]])$xmax)
-      }
-      K <- ceiling((umax - umin) / du)
-      intu <- seq(umin, umin + K * du, by = du)
+  if (which_plot != "covariates") {
 
-      if (smin < attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmin) {
-        smin <- attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmin
-        warning("`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ", attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmin)
-      }
-      if (smax > attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmax) {
-        smax <- attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmax
-        warning("`smax` is larger than the upper limit of the domain of Bs. Right boundary adjusted to  =  ", attributes(x$optimal_model$splRes[[1]]$knots[[2]])$xmax)
-      }
-      K <- ceiling((smax - smin) / ds)
-      ints <- seq(smin, smin + K * ds, by = ds)
+    hazard_SE <- get_hazard_2d_LMM(fitted_model = x,
+                                   where_slices = where_slices,
+                                   direction = direction,
+                                   plot_grid = plot_grid,
+                                   tmax = opts$tmax
+    )
 
-      new_grid <- expand.grid(intu, ints)
-      names(new_grid) <- c("u", "s")
-    }
+    new_grid <- hazard_SE$new_plot_grid
 
-    # get_hazard_2d
-    trend2D <- obtainSmoothTrend(x$optimal_model,
-                                 newdata = new_grid,  includeIntercept = TRUE)
-    Haz <- matrix(trend2D$ypred, nrow = length(intu), ncol = length(ints))
-    SE_Haz <- matrix(trend2D$se, nrow = length(intu), ncol = length(ints))
-    logHaz <- log(Haz)
-    SE_logHaz <- abs(1/Haz) * SE_Haz
-    SE_log10Haz <- abs(1/(Haz * log(10))) * SE_Haz
-
-    if (which_plot %in% c("hazard")) {
+    if (which_plot %in% c("hazard", "slices")) {
       if (opts$loghazard == TRUE) {
-        to_plot <- log(Haz)
+        to_plot <- hazard_SE$loghazard
       } else {
-        if(opts$log10hazard){
-          to_plot <- log10(Haz)
+        if (opts$log10hazard) {
+          to_plot <- hazard_SE$log10hazard
         } else {
-          to_plot <- Haz
+          to_plot <- hazard_SE$hazard
         }
       }
     }
 
     if (which_plot == "SE") {
       if (opts$loghazard == TRUE) {
-        to_plot <- SE_logHaz
+        to_plot <- hazard_SE$SE_log10hazard
       } else {
-        if(opts$log10hazard){
-          to_plot <- SE_log10Haz
+        if (opts$log10hazard) {
+          to_plot <- hazard_SE$SE_log10Haz
         } else {
-          to_plot <- SE_Haz
+          to_plot <- hazard_SE$SE_hazard
         }
       }
     }
   }
 
   if (is.null(opts$tmax)) {
-    opts$tmax <- umax + smax
+    opts$tmax <- new_grid$umax + new_grid$smax
   }
+
 
   # ---- Cut extrapolated hazard ----
   if (opts$cut_extrapolated) {
     cut <- matrix(NA, nrow(to_plot), ncol(to_plot))
     for (row in 1:nrow(to_plot)) {
       for (col in 1:ncol(to_plot)) {
-        cut[row, col] <- ifelse((ints[col] + intu[row] > opts$tmax + du) &
-                                  (smax - ints[col]) / (umax - intu[row]) >= -1, NA, 1)
-        }
+        cut[row, col] <- ifelse((new_grid$ints[col] + new_grid$intu[row] > opts$tmax + new_grid$du) &
+                                  (new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) >= -1, NA, 1)
+      }
     }
 
     to_plot <- to_plot * cut
   }
 
-
   # ---- If surface plot, create grid of parallelograms corners for plotting ----
 
-    X1 <- intu
-    X2 <- ints
+  if (opts$original) {
+    if (!opts$rectangular_grid) {
+      inty <- expand.grid(new_grid$intu, new_grid$ints)
+      intx <- utot(inty$Var1, inty$Var2)
 
+      X1 <- matrix(intx$t,
+                   nrow = length(new_grid$intu),
+                   ncol = length(new_grid$ints)
+      )
+      X2 <- matrix(intx$s,
+                   nrow = length(new_grid$intu),
+                   ncol = length(new_grid$ints)
+      )
+    } else {
+      #  ------ transform to (t,s)-plane --------
+      grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
+      grid_us$t <- grid_us$u + grid_us$s
+      grid_us$to_plot <- as.vector(to_plot)
+
+      t <- unique(grid_us$t)
+
+      intt <- t[t <= opts$tmax]
+
+      grid_ts <- expand.grid(t = intt, s = new_grid$ints)
+      plotgrid_ts <- merge(grid_ts, grid_us, all.x = TRUE)
+
+      to_plot_v <- plotgrid_ts$to_plot
+      dim(to_plot_v) <- c(length(new_grid$ints), length(intt))
+      to_plot <- t(to_plot_v)
+
+      X1 <- sort(intt)
+      X2 <- sort(new_grid$ints)
+    }
+  } else {
+    X1 <- new_grid$intu
+    X2 <- new_grid$ints
+  }
+
+  # ---- If slices, organize on grid and select only values where slices are ----
+  if (which_plot == "slices") {
+    if (direction == "s") {
+      grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
+      grid_us$t <- grid_us$u + grid_us$s
+      grid_us$to_plot <- as.vector(to_plot)
+      onlyslic <- subset(grid_us, s %in% where_slices)
+      grid_ts <- expand.grid(s = where_slices, t = unique(sort(onlyslic$t)))
+      final_grid <- merge(grid_ts, onlyslic, all.x = T)
+      to_plot_v <- final_grid$to_plot
+      dim(to_plot_v) <- c(length(unique(sort(final_grid$t))), length(where_slices))
+      to_plot <- to_plot_v
+      X1 <- unique(sort(final_grid$t))
+    } else {
+      grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
+      grid_us$to_plot <- c(to_plot)
+      onlyslic <- subset(grid_us, unique(u) %in% where_slices)
+      to_plot_v <- onlyslic$to_plot
+      dim(to_plot_v) <- c(length(where_slices), length(new_grid$ints))
+      to_plot <- to_plot_v
+    }
+  }
   # ---- Plot (log-)hazard ----
   if (which_plot == "hazard") {
     plt <- imageplot_2ts(
@@ -256,6 +331,8 @@ plot.haz2tsLMM <- function(x,
       plot_options = list(
         loghazard = opts$loghazard,
         log10hazard = opts$log10hazard,
+        original = opts$original,
+        rectangular_grid = opts$rectangular_grid,
         col_palette = opts$col_palette,
         n_shades = opts$n_shades,
         breaks = opts$breaks,
@@ -301,9 +378,34 @@ plot.haz2tsLMM <- function(x,
         contour_nlev = opts$contour_nlev,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab
-      )
+      ),
+      ...
     )
     return(invisible(plt))
   }
 
+  # ---- Plot slices ----
+  if (which_plot == "slices") {
+    if (direction == "u") x <- new_grid$ints else x <- X1
+    plt <- plot_slices(
+      x = x,
+      y = to_plot_v,
+      direction = direction,
+      plot_options = list(
+        loghazard = opts$loghazard,
+        log10hazard = opts$log10hazard,
+        col_palette = opts$col_palette,
+        n_shades = opts$n_shades,
+        main = opts$main,
+        xlab = opts$xlab,
+        ylab = opts$ylab,
+        xlim = opts$xlim,
+        ylim = opts$ylim,
+        cex_main = opts$cex_main,
+        cex_lab = opts$cex_lab,
+        lwd = opts$lwd
+      ),
+      ...
+    )
+  }
 }

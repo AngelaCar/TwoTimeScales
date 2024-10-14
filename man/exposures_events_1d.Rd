@@ -20,10 +20,10 @@ observations.}
 \value{
 A list with the following elements:
 \itemize{
-\item \code{R}  A matrix of dimension n by ns containing the exposure times for each
+\item \code{R}  A matrix of dimension \eqn{n} by \eqn{ns} containing the exposure times for each
 individual separately.
 \item \code{r}  A vector of exposure times.
-\item \code{Y}  A matrix of dimension n by ns containing the event counts for each
+\item \code{Y}  A matrix of dimension \eqn{n} by \eqn{ns} containing the event counts for each
 individual separately
 \item \code{y}  A vector of event counts.
 }
