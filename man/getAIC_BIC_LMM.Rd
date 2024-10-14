@@ -12,9 +12,16 @@ getAIC_BIC_LMM(fit, offset)
 \item{offset}{The vector of exposure times from dataLMM}
 }
 \value{
-A list with ED, ED of the baseline hazard, deviance, AIC, BIC and
-number of estimated covariate's parameters (if model with covariates)
+A list with:
+* \code{ED} effective dimension of the full model;
+* \code{EDbase} effective dimension of the baseline hazard only;
+* \code{Dev} deviance;
+* \code{AIC} the aic;
+* \code{BIC} the bic;
+* \code{n_beta} the number of estimated covariate's parameters (if PH model)
 }
 \description{
-Calculates AIC and BIC from object fitted via LMMsolver
+\code{getAIC_BIC_LMM} is an utility function that takes an object of class
+\code{'LMMsolve'} fitted via \code{fit1ts()} or \code{fit2ts()} and calculates
+AIC, BIC and ED.
 }

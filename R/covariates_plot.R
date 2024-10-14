@@ -1,11 +1,11 @@
 #' Plot of the covariates' effects
 #'
-#' @description `covariates_plot()` produces a plot of the covariates' effects (beta)
-#'   with confidence intervals, or of the Hazard Ratios (exp(beta)) with confidence intervals.
+#' @description `covariates_plot()` produces a plot of the covariates' effects (\eqn{\hat\beta})
+#'   with confidence intervals, or of the Hazard Ratios (\eqn{\exp(\hat\beta)}) with confidence intervals.
 #'
 #' @param fitted_model A list returned by the function `fit2ts` or `fit1ts`.
-#' @param confidence_lev The level of confidence for the CIs. Default is 0.95 (alpha
-#'   = 0.05).
+#' @param confidence_lev The level of confidence for the CIs. Default is 0.95 (\eqn{\alpha
+#'   = 0.05}).
 #' @param plot_options A list of options for the plot:
 #'  * `HR` A Boolean. If `TRUE` the HRs with their CIs will be plotted.
 #'    Default is `FALSE` (plot the `beta` with their CIs).
@@ -21,8 +21,11 @@
 #'  * `cex_main` The magnification factor for the main of the plot.
 #' @param \dots further arguments passed to plot()
 #'
-#' @return A plot of the covariates' effects.
-#' @importFrom stats qnorm
+#' @return A plot of the covariates' effects. The different covariates are plotted
+#'          on the x-axis, and on the y-axis the effects on the coefficient- or
+#'          on the HR-scale are plotted. The main estimate is represented by a
+#'          point and the CIs are added as vertical bars.
+#' @importFrom stats qnorm coef
 #' @importFrom graphics abline axis
 #' @export
 #'

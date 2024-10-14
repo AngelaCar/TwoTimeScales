@@ -117,7 +117,8 @@ values is returned, marks the optimal combination of \code{log_10(rho_u)} and
 }}
 }
 \value{
-An object of class \code{haz2ts}, or \code{haz2tsLMM} with the following elements:
+An object of class \code{haz2ts}, or of class \code{haz2tsLMM}.
+For objects of class \code{haz2ts} this is
 \itemize{
 \item \code{optimal_model} A list with :
 \itemize{
@@ -146,6 +147,20 @@ coefficients (if model with covariates)..
 \item \code{AIC} (if \code{par_gridsearch$return_aic == TRUE}) The matrix of AIC values.
 \item \code{BIC} (if \code{par_gridsearch$return_bic == TRUE}) The matrix of BIC values.
 }
+
+Objects of class \code{haz2tsLMM} have a slight different structure. They are
+a list with:
+\itemize{
+\item \code{optimal_model} an object of class \code{LMMsolve}
+\item \code{AIC_BIC} a list with, among other things, the AIC and BIC values and the
+ED of the model
+\item \code{n_events} the number of events
+\item \code{nu} the number of bins over the u-axis
+\item \code{ns} the number of bins over the s-axis
+\item \code{cu} the number of B-splines over the u-axis
+\item \code{cs} the number of B-splines over the s-axis
+\item \code{covariates} an indicator for PH model
+}
 }
 \description{
 \code{fit2ts()} fits a smooth hazard model with two time scales.
@@ -157,4 +172,16 @@ model over a grid of \code{log_10} values for the smoothing parameters.
 Construction of the B-splines bases and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates.
+}
+\details{
+Some functions from the R-package \code{LMMsolver} are used here.
+We refer the interested readers to https://biometris.github.io/LMMsolver/
+for more details on \code{LMMsolver} and its usage.
+}
+\references{
+Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed Model Formulation.”
+Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178591.
+Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
+“Smooth Hazards with Multiple Time Scales.” arXiv Preprint:
+https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1
 }

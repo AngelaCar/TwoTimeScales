@@ -34,8 +34,8 @@ n by p.}
 \item{optim_criterion}{The criterion to be used for optimization:
 \code{"aic"} (default) or \code{"bic"}.}
 
-\item{lrho}{A vector of two elements, the initial values for \code{log10(rho_u)}
-and \code{log10(rho_s)}.}
+\item{lrho}{A vector of two elements, the initial values for \eqn{\log_{10}(\varrho_u)}
+and \eqn{\log_{10}(\varrho_s)}.}
 
 \item{Bu}{A matrix of B-splines for the \code{u} time scale of dimension nu by cu.}
 
@@ -67,7 +67,7 @@ evaluation of the model over the \code{log_10(rho_s)} values.
 }}
 }
 \value{
-An object of class \code{h2tsfit} with the following elements:
+An object of class \code{haz2ts} with the following elements:
 \itemize{
 \item \code{optimal_model} A list containing the results of the optimal model.
 \item \code{optimal_logrho} A vector with the optimal values of \code{log10(rho_u)} and
@@ -82,4 +82,9 @@ AIC or BIC of the two time scales model.
 It finds the optimal values of \code{log_10(rho_u)} and \code{log_10(rho_s)}
 and returns the estimated optimal model.
 See also \code{\link[ucminf:ucminf]{ucminf::ucminf()}}.
+}
+\references{
+Nielsen H, Mortensen S (2024).
+\emph{ucminf: General-Purpose Unconstrained Non-Linear Optimization}.
+R package version 1.2.2, \url{https://CRAN.R-project.org/package=ucminf}
 }

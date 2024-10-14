@@ -2,12 +2,14 @@
 % Please edit documentation in R/plot.haz2tsLMM.R
 \name{plot.haz2tsLMM}
 \alias{plot.haz2tsLMM}
-\title{Plot method for a haz2ts object.}
+\title{Plot method for a haz2tsLMM object.}
 \usage{
 \method{plot}{haz2tsLMM}(
   x,
   plot_grid = NULL,
-  which_plot = c("hazard", "covariates", "SE"),
+  which_plot = c("hazard", "covariates", "SE", "slices"),
+  where_slices = NULL,
+  direction = c(NULL, "u", "s"),
   plot_options = list(),
   ...
 )
@@ -16,8 +18,8 @@
 \item{x}{The output of the function \code{fit2ts}. This is an object of
 class \code{"haz2tsLMM"}.}
 
-\item{plot_grid}{(optional) A list containing the parameters to build a new
-finer grid of intervals over u and s for plotting. This must be of the
+\item{plot_grid}{A list containing the parameters to build a new
+finer grid of intervals over \code{u} and \code{s} for plotting. This must be of the
 form: \code{plot_grid = list(c(umin, umax, du), c(smin, smax, ds))}, where
 \code{umin}, \code{umax} and \code{smin}, \code{smax} are the minimum and maximum values
 desired for the intervals over \code{u} and \code{s} respectively, and \code{du}, \code{ds} are
@@ -28,10 +30,24 @@ If not specified, the plotting is done using the same B-splines bases as
 for the estimation. The function will check if the parameters for the grid
 provided by the user are compatible with those originally used to construct
 the B-splines for estimating the model. If not, the grid will be adjusted
-accordingly and a warning will be returned.}
+accordingly and a warning will be returned. While for objects of class 'haz2ts'
+this is an optional input, we strongly recommend to provide the plotting
+grid for object of class 'haz2tsLMM', given that evaluation of the B-splines
+works a bit differently in LMMsolver.}
 
 \item{which_plot}{The type of plot required. Can be one of \code{"hazard"}
-(default), \code{"covariates"} or \code{"SE"}.}
+(default), \code{"slices"}, \code{"covariates"} or \code{"SE"}.}
+
+\item{where_slices}{A vector of values for the cutting points of the desired
+slices of the surface. If \code{which_plot == "slices"}, please provide this
+argument.}
+
+\item{direction}{If \code{which_plot == "slices"}, indicates the direction for
+cutting the surface. If \code{u}, then the surface will be cut at the selected
+values of \code{u} (indicated by \code{where_slices}), hence obtaining one-dimensional
+curves over \code{s}. If \code{s}, then the surface will be cut at the selected values
+of \code{s} (indicated by \code{where_slices}), hence obtaining one-dimensional curves
+over \code{u}.}
 
 \item{plot_options}{A list with all possible options for any of the plots:
 \itemize{
@@ -39,18 +55,21 @@ accordingly and a warning will be returned.}
 returns a plot of the hazard surface, if \code{TRUE} the function returns
 a plot of the log-hazard surface.
 \item \code{log10hazard} A Boolean. Default is \code{FALSE}. If \code{TRUE},
-then a log_10 hazard surface is plotted.
+then a log10 hazard surface is plotted.
 \item \code{cut_extrapolated} A Boolean. Default is \code{TRUE}. Cuts away the
 extrapolated area of the (log-)hazard surface before plotting.
 \item \code{tmax} The maximum value of \code{t} that should be plotted.
 \item \code{col_palette} A function defining the color palette. The default palette
-is \code{viridis::rev(plasma())}.
+is \code{viridis::rev(plasma())}. Specifying the color palette as a function
+allows for greater flexibility than passing the palette as a vector.
+We provide an example on how to create a function from any color palette
+below.
 \item \code{n_shades} The number of color shades to plot, default is 50.
 \item \code{breaks} The vector of breaks for the color legend. If \code{n_shades} is provided,
 this should be of length \code{n_shades + 1}.
 \item \code{show_legend} A Boolean. Default is \code{TRUE}. If \code{FALSE} no legend will be
 plotted, useful for multi-panel figures with common legend. Works only
-for plots on rectangular grid (i.e. transformed (u,s) plane)
+for plots on rectangular grid (i.e. transformed (u,s) plane).
 \item \code{main} The title of the plot.
 \item \code{xlab} The label of the first time axis (plotted on the x axis).
 \item \code{ylab} The label of the second time axis (plotted on the y axis).
@@ -87,5 +106,36 @@ A plot of the fitted model.
 \description{
 \code{plot.haz2tsLMM()} is the plot method for objects of class \code{haz2tsLMM}.
 It produces plots of the fitted model with two time scales (see \code{\link[=fit2ts]{fit2ts()}}),
-fitted via LMMsolver. It only produces a plot over the \code{u} and \code{s} axes.
+fitted via LMMsolver. The two-dimensional plots are limited to the transformed
+plane, that is only plots over \code{u} and \code{s} axes are produced.
+}
+\details{
+The function \code{obtainSmoothTrend} from the R-package \code{LMMsolver} is
+used here. We refer the interested readers to https://biometris.github.io/LMMsolver/
+for more details on \code{LMMsolver} and its usage.
+}
+\examples{
+# Create a color pallete function from a RColorBrewer palette, using the function
+# colorRampPalette from grDevices.
+\dontrun{
+mypal <- function(n) {
+  colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
+}
+# if mod_haz is a fitted model of class haz2ts, the following code will
+# produce a cross-sections plot of the hazard over `s` for selected values
+# of `u`, with the palette specified above
+
+plot(mod_haz,
+  which_plot = "slices",
+  where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+  direction = "u",
+  plot_options = list(
+    col_palette = mypal,
+    main = "Cross-sections of the hazard",
+    xlab = "Time since recurrence",
+    ylab = "Hazard"
+  )
+)
+}
+
 }

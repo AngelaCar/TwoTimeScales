@@ -33,11 +33,12 @@ R and Y separately for each individual record.}
 A list with the following elements:
 \itemize{
 \item \code{R} an array of exposure times: if \code{individual == TRUE},
-then \code{R} is an array of dimension nu by ns by n,
-otherwise is an array of dimension nu by ns
+then \code{R} is an array of dimension \eqn{nu} by \eqn{ns} by \eqn{n},
+otherwise is an array of dimension \eqn{nu} by \eqn{ns}
 \item \code{Y}an array of event counts: if \code{individual == TRUE},
 then \code{Y} is an array of
-dimension nu by ns by n, otherwise is an array of dimension nu by ns
+dimension \eqn{nu} by \eqn{ns} by \eqn{n}, otherwise is an array of
+dimension \eqn{nu} by \eqn{ns}
 }
 }
 \description{
@@ -50,7 +51,7 @@ scale), and event's indicator.
 }
 \details{
 The fixed-time variable \code{u} and the second time scale \code{s}
-are divided into nu and ns intervals, respectively. The extremes of these
+are divided into \eqn{nu} and \eqn{ns} intervals, respectively. The extremes of these
 intervals are provided as input to the function. First, the fixed-time at
 entry is located in one of the nu bins that cover the whole range of
 \code{u}. Then, the time-at-risk for each individual is split according to
@@ -58,10 +59,10 @@ the ns bins that span the whole range of values for \code{s}, and an event
 indicator is placed in the bin where the exit time is located. This is done
 by calling the function \code{exposure_events_1d}. If individual matrices of
 exposure and events are required, then the function returns two arrays of
-dimension nu by ns by n. If aggregated results are preferred, the
+dimension \eqn{nu} by \eqn{ns} by \eqn{n}. If aggregated results are preferred, the
 individual contributions are summed in each bin to provide a matrix of
 total exposure time and a matrix of total event counts, both of dimensions
-nu by ns. See also \code{\link[=prepare_data]{prepare_data()}} to conveniently prepare individual data
+\eqn{nu} by \eqn{ns}. See also \code{\link[=prepare_data]{prepare_data()}} to conveniently prepare individual data
 for the analysis with one, or two time scales.
 }
 \examples{

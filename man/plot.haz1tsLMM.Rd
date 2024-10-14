@@ -39,7 +39,7 @@ of the log10-hazard curve.
 \item \code{col} The color of the curve plotted. Default is \code{"black"}.
 \item \code{add_CI} A Boolean. If \code{TRUE} (default) the confidence bands will be added.
 \item \code{col_CI} The color for the confidence bands. The default is the same color
-of the curve, with a 50\% transparancy level.
+of the curve, with a 50\% transparency level.
 \item \code{main} The title of the plot.
 \item \code{xlab} The label of the time axis (plotted on the x axis).
 \item \code{ylab} The label of the y-axis (hazard, log-hazard or log10-hazard).
@@ -70,4 +70,9 @@ A plot of the type required.
 }
 \description{
 \code{plot.haz1tsLMM()} is a plot method for objects of class \code{haz1tsLMM}.
+}
+\details{
+The function \code{obtainSmoothTrend} from the R-package \code{LMMsolver} is
+used here. We refer the interested readers to https://biometris.github.io/LMMsolver/
+for more details on \code{LMMsolver} and its usage.
 }

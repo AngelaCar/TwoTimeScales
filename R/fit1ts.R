@@ -5,7 +5,7 @@
 #'   Three methods are implemented for the search of the optimal smoothing
 #'   parameter (and therefore optimal model): a numerical optimization of the
 #'   AIC or BIC of the model, a search for the minimum AIC or BIC of the
-#'   model over a grid of `log_10` values for the smoothing parameter and the
+#'   model over a grid of \eqn{\log_{10}} values for the smoothing parameter and the
 #'   estimation through the mixed model representation of P-splines.
 #'   Construction of the B-splines basis and of the penalty matrix is
 #'   incorporated within the function. If a matrix of covariates is provided,
@@ -35,15 +35,15 @@
 #' @param optim_method The method to be used for optimization:
 #'   `"ucminf"` (default) for the numerical optimization of the AIC (or BIC),
 #'    `"grid_search"` for a grid search of the minimum AIC (or BIC)
-#'   over a grid of `log_10(rho_s)` values, and `"LMMsolver"` to solve the model
+#'   over a grid of \eqn{\log_{10}(\varrho_s)} values, and `"LMMsolver"` to solve the model
 #'   as sparse linear mixed model using the package LMMsolver.
 #' @param lrho A number if `optim_method == "ucminf"`, default is 0.
-#'   A vector of values for `log_10(rho_s)` if `optim_method == "grid_search"`.
+#'   A vector of values for \eqn{\log_{10}(\varrho_s)}  if `optim_method == "grid_search"`.
 #'   In the latter case, if a vector is not provided, a default sequence of
-#'   values is used for `log_10(rho_s)`.
+#'   values is used for \eqn{\log_{10}(\varrho_s)} .
 #'
-#' @return An object of class `haz1ts`, or of class `haz1tsLMM` with the following
-#'   elements:
+#' @return An object of class `haz1ts`, or of class `haz1tsLMM`.
+#'    For objects of class `haz1ts` this is
 #'   * `optimal_model` A list with:
 #'     * `alpha` The vector of estimated P-splines coefficients of length cs.
 #'     * `SE_alpha` The vector of estimated Standard Errors for the `alpha` coefficients,
@@ -67,7 +67,24 @@
 #'   * `AIC` (if `par_gridsearch$return_aic == TRUE`) The vector of AIC values.
 #'   * `BIC` (if `par_gridsearch$return_bic == TRUE`) The vector of BIC values.
 #'
+#'   Objects of class `haz1tsLMM` have a slight different structure. They are
+#'   a list with:
+#'   * `optimal_model` an object of class `LMMsolve`
+#'   * `AIC_BIC` a list with, among other things, the AIC and BIC values and the
+#'      ED of the model
+#'   * `n_events` the number of events
+#'   * `ns` the number of bins over the s-axis
+#'   * `cs` the number of B-splines over the s-axis
+#'   * `covariates` an indicator for PH model
+#'
+#' @details Some functions from the R-package `LMMsolver` are used here.
+#'          We refer the interested readers to https://biometris.github.io/LMMsolver/
+#'          for more details on `LMMsolver` and its usage.
+#' @references Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed Model Formulation.”
+#'             Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178591.#'
 #' @import JOPS
+#' @importFrom stats as.formula poisson
+#'
 #' @export
 #'
 #' @examples

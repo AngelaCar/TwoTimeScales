@@ -42,7 +42,7 @@ argument.}
 \item{direction}{If \code{which_plot == "slices"}, indicates the direction for
 cutting the surface. If \code{u}, then the surface will be cut at the selected
 values of \code{u} (indicated by \code{where_slices}), hence obtaining one-dimensional
-curves over \code{s}. If \code{s}, then the surface will be cut at the seleced values
+curves over \code{s}. If \code{s}, then the surface will be cut at the selected values
 of \code{s} (indicated by \code{where_slices}), hence obtaining one-dimensional curves
 over \code{u}.}
 
@@ -63,7 +63,10 @@ the SEs) in the (t,s)-plane. If \code{FALSE}, the (log-)hazard (and/or the SEs)
 will be plotted in the (u,s)-plane.
 \item \code{tmax} The maximum value of \code{t} that should be plotted.
 \item \code{col_palette} A function defining the color palette. The default palette
-is \code{viridis::rev(plasma())}.
+is \code{viridis::rev(plasma())}. Specifying the color palette as a function
+allows for greater flexibility than passing the palette as a vector.
+We provide an example on how to create a function from any color palette
+below.
 \item \code{n_shades} The number of color shades to plot, default is 50.
 \item \code{breaks} The vector of breaks for the color legend. If \code{n_shades} is provided,
 this should be of length \code{n_shades + 1}.
@@ -109,4 +112,27 @@ It produces plots of the fitted model with two
 time scales (see \code{\link[=fit2ts]{fit2ts()}}), either in the original (t,s) plane, while respecting the
 constraint imposed by the relation of the two time scales, or in the
 transformed (u,s) plane.
+}
+\examples{
+# Create a color pallete function from a RColorBrewer palette, using the function
+# colorRampPalette from grDevices.
+\dontrun{
+  mypal <- function(n){
+           colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
+           }
+  # if mod_haz is a fitted model of class haz2ts, the following code will
+  # produce a cross-sections plot of the hazard over `s` for selected values
+  # of `u`, with the palette specified above
+
+  plot(mod_haz,
+       which_plot = "slices",
+       where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+       direction = "u",
+       plot_options = list(col_palette = mypal,
+                           main = "Cross-sections of the hazard",
+                           xlab = "Time since recurrence",
+                           ylab = "Hazard"))
+}
+
+
 }

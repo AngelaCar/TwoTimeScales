@@ -28,8 +28,8 @@ exposures_events_Lexis(t_in = NULL, t_out, s_in = NULL, s_out, ev, bins_list)
 \value{
 A list with the following elements:
 \itemize{
-\item \code{R} an array of exposure times of dimension nt by ns
-\item \code{Y} an array of event counts of dimension nt by ns
+\item \code{R} an array of exposure times of dimension \eqn{nt} by \eqn{ns}
+\item \code{Y} an array of event counts of dimension \eqn{nt} by \eqn{ns}
 }
 }
 \description{

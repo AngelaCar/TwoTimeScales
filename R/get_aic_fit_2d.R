@@ -4,8 +4,8 @@
 #' level covariates and it returns the AIC of the model.
 #' See also `fit2tsmodel_ucminf()` and `fit2ts()`.
 #'
-#' @param lrho A vector of two elements, the initial values for `log10(rho_u)`
-#'   and `log10(rho_s)`.
+#' @param lrho A vector of two elements, the initial values for \eqn{\log_{10}(\varrho_u)}
+#'   and \eqn{\log_{10}(\varrho_s)}.
 #' @param R A matrix (or 3d-array) of exposure times of dimension nu by ns
 #'   (or nu by ns by n).
 #' @param Y A matrix (or 3d-array) of event counts of dimension nu by ns

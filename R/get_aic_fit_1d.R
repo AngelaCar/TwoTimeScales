@@ -9,7 +9,7 @@
 #' @param y A vector of event counts of length ns, or an array of dimension ns
 #'   by n.
 #' @param Z (optional) A regression matrix of covariates of dimension n by p.
-#' @param lrho A starting value for `log_10(rho_s)`. Default is 0.
+#' @param lrho A starting value for \eqn{\log_{10}(\varrho_s)}. Default is 0.
 #' @param Bs A matrix of B-splines for the time scale `s`.
 #' @param Ds The difference matrix of the penalty.
 #' @param Wprior An optional vector of a-priori weights.

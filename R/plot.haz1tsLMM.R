@@ -25,7 +25,7 @@
 #'   * `col` The color of the curve plotted. Default is `"black"`.
 #'   * `add_CI` A Boolean. If `TRUE` (default) the confidence bands will be added.
 #'   * `col_CI` The color for the confidence bands. The default is the same color
-#'     of the curve, with a 50% transparancy level.
+#'     of the curve, with a 50% transparency level.
 #'   * `main` The title of the plot.
 #'   * `xlab` The label of the time axis (plotted on the x axis).
 #'   * `ylab` The label of the y-axis (hazard, log-hazard or log10-hazard).
@@ -48,6 +48,10 @@
 #'   * `col_beta` The color for the plot of the covariates' effects.
 #'   * `pch` The symbol for plotting the point estimates.
 #' @param \dots Further arguments to plot.
+#'
+#' @details The function `obtainSmoothTrend` from the R-package `LMMsolver` is
+#'          used here. We refer the interested readers to https://biometris.github.io/LMMsolver/
+#'          for more details on `LMMsolver` and its usage.
 #'
 #' @return A plot of the type required.
 #'
@@ -131,7 +135,7 @@ plot.haz1tsLMM <- function(x,
     smin <- attributes(ints)$xmin
     smax <- attributes(ints)$xmax
     ints <- ints[ints >= smin & ints <= smax]
-    ds <- ints[2] - ints[1]
+    ds <- attr(x$optimal_model$splRes[[1]]$knots[[1]], which='dx')
     new_grid <- data.frame("s" = ints)
     plot_grid <- c("smin" = smin, "smax" = smax, "ds" = ds)
   } else {
@@ -168,7 +172,7 @@ plot.haz1tsLMM <- function(x,
 
   if (which_plot %in% c("hazard")) {
     if (opts$loghazard == TRUE) {
-      to_plot <- logHaz
+      to_plot <- loghaz
       lci <- loghaz - zval * se_loghaz
       uci <- loghaz + zval * se_loghaz
 

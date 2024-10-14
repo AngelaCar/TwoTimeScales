@@ -97,21 +97,21 @@ get_hazard_2d <- function(fitted_model,
   if(!is.null(where_slices)){
     if(is.null(direction)) stop("Direction for cutting slices missing.")
     if(direction == "u" ){
-      if(min(where_slices) < attributes(Bbases$Bu)$xl | max(where_slices) > attributes(Bbases$Bu)$xr){
+      if(min(where_slices) < attributes(Bu)$xl | max(where_slices) > attributes(Bu)$xr){
         stop ("Desired cutting points outside of range of `B_u`.")
       } else {
         newu <- unique(sort(c(new_grid$intu, where_slices)))
-        Bu <- JOPS::bbase(newu, nseg = attributes(Bbases$Bu)$nseg, bdeg = attributes(Bbases$Bu)$bdeg)
+        Bu <- JOPS::bbase(newu, nseg = attributes(Bu)$nseg, bdeg = attributes(Bu)$bdeg)
         new_grid$intu <- newu
       }
     }
     if(direction == "s"){
-      if(min(where_slices) < attributes(Bbases$Bs)$xl | max(where_slices) > attributes(Bbases$Bs)$xr){
+      if(min(where_slices) < attributes(Bs)$xl | max(where_slices) > attributes(Bs)$xr){
         stop ("Desired cutting points outside of range of `B_s`.")
       } else {
         news <- unique(sort(c(new_grid$ints, where_slices)))
-        Bs <- JOPS::bbase(news, nseg = attributes(Bbases$Bs)$nseg,
-                          bdeg = attributes(Bbases$Bs)$bdeg)
+        Bs <- JOPS::bbase(news, nseg = attributes(Bs)$nseg,
+                          bdeg = attributes(Bs)$bdeg)
         new_grid$ints <- news
         grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
         grid_us$t <- with(grid_us, u + s)
@@ -126,8 +126,8 @@ get_hazard_2d <- function(fitted_model,
         newu <- unique(grid_ts$u)
         newu <- newu[newu >= new_grid$umin & newu <= new_grid$umax]
         new_grid$intu <- sort(newu)
-        Bu <- JOPS::bbase(new_grid$intu, nseg = attributes(Bbases$Bu)$nseg,
-                          bdeg = attributes(Bbases$Bu)$bdeg)
+        Bu <- JOPS::bbase(new_grid$intu, nseg = attributes(Bu)$nseg,
+                          bdeg = attributes(Bu)$bdeg)
       }
     }
 

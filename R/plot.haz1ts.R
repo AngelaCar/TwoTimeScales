@@ -187,7 +187,7 @@ plot.haz1ts <- function(x,
     plot(new_grid$ints,
          to_plot,
          type = "l",
-         lwd = 2,
+         #lwd = 2,
          xlim = opts$xlim,
          ylim = opts$ylim,
          col = opts$col,
@@ -196,7 +196,8 @@ plot.haz1ts <- function(x,
          xlab = opts$xlab,
          ylab = opts$ylab,
          cex.lab = opts$cex_lab,
-         axes = F
+         axes = F,
+         ...
     )
     axis(1, pos = min(opts$ylim))
     axis(2, pos = new_grid$smin)

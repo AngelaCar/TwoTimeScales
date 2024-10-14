@@ -36,7 +36,7 @@ argument.}
 \item{direction}{If \code{which_plot == "slices"}, indicates the direction for
 cutting the surface. If \code{u}, then the surface will be cut at the selected
 values of \code{u} (indicated by \code{where_slices}), hence obtaining one-dimensional
-curves over \code{s}. If \code{s}, then the surface will be cut at the seleced values
+curves over \code{s}. If \code{s}, then the surface will be cut at the selected values
 of \code{s} (indicated by \code{where_slices}), hence obtaining one-dimensional curves
 over \code{u}.}
 

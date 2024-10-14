@@ -21,10 +21,10 @@
 #' @param bins A vector of interval breaks for discretization (see also [make_bins()]).
 #'
 #' @return A list with the following elements:
-#'   * `R`  A matrix of dimension n by ns containing the exposure times for each
+#'   * `R`  A matrix of dimension \eqn{n} by \eqn{ns} containing the exposure times for each
 #'     individual separately.
 #'   * `r`  A vector of exposure times.
-#'   * `Y`  A matrix of dimension n by ns containing the event counts for each
+#'   * `Y`  A matrix of dimension \eqn{n} by \eqn{ns} containing the event counts for each
 #'     individual separately
 #'   * `y`  A vector of event counts.
 #'

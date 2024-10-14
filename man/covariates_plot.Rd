@@ -14,8 +14,8 @@ covariates_plot(
 \arguments{
 \item{fitted_model}{A list returned by the function \code{fit2ts} or \code{fit1ts}.}
 
-\item{confidence_lev}{The level of confidence for the CIs. Default is 0.95 (alpha
-= 0.05).}
+\item{confidence_lev}{The level of confidence for the CIs. Default is 0.95 (\eqn{\alpha
+= 0.05}).}
 
 \item{plot_options}{A list of options for the plot:
 \itemize{
@@ -36,9 +36,12 @@ If \code{FALSE}, then CIs are obtained by exponentiating the CIs for the betas.
 \item{\dots}{further arguments passed to plot()}
 }
 \value{
-A plot of the covariates' effects.
+A plot of the covariates' effects. The different covariates are plotted
+on the x-axis, and on the y-axis the effects on the coefficient- or
+on the HR-scale are plotted. The main estimate is represented by a
+point and the CIs are added as vertical bars.
 }
 \description{
-\code{covariates_plot()} produces a plot of the covariates' effects (beta)
-with confidence intervals, or of the Hazard Ratios (exp(beta)) with confidence intervals.
+\code{covariates_plot()} produces a plot of the covariates' effects (\eqn{\hat\beta})
+with confidence intervals, or of the Hazard Ratios (\eqn{\exp(\hat\beta)}) with confidence intervals.
 }

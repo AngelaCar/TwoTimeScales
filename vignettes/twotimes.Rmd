@@ -18,9 +18,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-Disclaimer: the current version of the package and of this vignette is a work-in-progress!
-Details might change with future updates and this vignette will be updated consequently.
-
 ```{r setup}
 library(TwoTimeScales)
 ```
@@ -40,7 +37,7 @@ In particular we show:
     smoothing parameters
 -   how to estimate a model with covariates
 
-However, this vignette does not deal with visualization of the estimated smooth hazard with two time scales.
+This vignette does not deal with visualization of the estimated smooth hazard with two time scales.
 Visualization is the topic of the vignette *Visualize hazards with two time scales*.
 We assume that the reader of this vignette has some familiarity with the model, and with the basic functions of the package introduced in *Introduction to TwoTimeScales*.
 For a full exposition of the model, we refer to @Carollo:2023.
@@ -115,11 +112,9 @@ mod2$optimal_model$ed
 ```
 
 As expected, choosing BIC as optimization criterion results in larger smoothing parameters and a smaller effective dimension, as BIC penalizes model complexity more strongly than AIC.
-Finally, we see how to use the grid search method to select the optimal pair of smoothing parameters and at the same time to produce plots of the AIC and BIC values of the grid of $\log_{10}$ values of both smoothing parameters.
+The following code-chunk shows how to use the grid search method to select the optimal pair of smoothing parameters and at the same time to produce plots of the AIC and BIC values of the grid of $\log_{10}$ values of both smoothing parameters. We do not evaluate this code chunk as it can be time consuming, but we encourage the readers to run the code on their console.
 
-To do so, we divide the graphical window in two parts, and we specify that the plots of the AIC and BIC are required, plus additional options:
-
-```{r grid-search, dependson="bindata_nocov", cache=TRUE, fig = T, fig.align='center', fig.width=6.5, fig.height=4.5}
+```{r grid-search, dependson="bindata_nocov", cache=TRUE, eval=F}
 par(mfrow = c(1,2))
 
 mod3 <- fit2ts(data2ts = dt2ts,
@@ -144,7 +139,7 @@ mod3 <- fit2ts(data2ts = dt2ts,
 
 Alternatively, we can ask the function to return the matrices of AIC and/or BIC values as part of the fitted object and then plot them separately (here not shown).
 
-Lastly, we show how to fit the same model by using the package LMMsolver (here citation), that uses the connection between linear mixed models and P-splines, and uses sparse representation to speed-up calculations. It is possible to fit this model by using the same function `fit2ts()` and specifying the option `optim_method = "LMMsolver"`.
+Lastly, we show how to fit the same model by using the package LMMsolver @Boer:2023, that uses the connection between linear mixed models and P-splines, and uses sparse representation to speed-up calculations. It is possible to fit this model by using the same function `fit2ts()` and specifying the option `optim_method = "LMMsolver"`.
 This returns an object of class `haz2tsLMM`, which differ in structure from objects of class `haz2ts`, but has the same methods implemented.
 
 ```{r mod-LMM, dependson="bindata_nocov", cache=TRUE}
@@ -161,6 +156,8 @@ mod_LMM <- fit2ts(data2ts = dt2ts,
                   optim_criterion = "aic")
 summary(mod_LMM)
 ```
+
+Note: the functions from LMMsolver needed to fit the two time scales hazard model are incorporated in the `TwoTimeScales` package. Nevertheless, we do recommend interested readers to check out the excellent R-package `LMMsolver` and its accompanying webpage: https://biometris.github.io/LMMsolver/
 
 
 ## PH regression for the colon cancer data

@@ -29,7 +29,7 @@
 #' @param direction If `which_plot == "slices"`, indicates the direction for
 #'   cutting the surface. If `u`, then the surface will be cut at the selected
 #'   values of `u` (indicated by `where_slices`), hence obtaining one-dimensional
-#'   curves over `s`. If `s`, then the surface will be cut at the seleced values
+#'   curves over `s`. If `s`, then the surface will be cut at the selected values
 #'   of `s` (indicated by `where_slices`), hence obtaining one-dimensional curves
 #'   over `u`.
 #' @param plot_options A list with all possible options for any of the plots:
@@ -48,7 +48,10 @@
 #'     will be plotted in the (u,s)-plane.
 #'   * `tmax` The maximum value of `t` that should be plotted.
 #'   * `col_palette` A function defining the color palette. The default palette
-#'     is `viridis::rev(plasma())`.
+#'     is `viridis::rev(plasma())`. Specifying the color palette as a function
+#'     allows for greater flexibility than passing the palette as a vector.
+#'     We provide an example on how to create a function from any color palette
+#'     below.
 #'   * `n_shades` The number of color shades to plot, default is 50.
 #'   * `breaks` The vector of breaks for the color legend. If `n_shades` is provided,
 #'     this should be of length `n_shades + 1`.
@@ -87,6 +90,28 @@
 #'
 #' @importFrom stats qnorm
 #'
+#' @examples
+#' # Create a color pallete function from a RColorBrewer palette, using the function
+#' # colorRampPalette from grDevices.
+#' \dontrun{
+#'   mypal <- function(n){
+#'            colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
+#'            }
+#'   # if mod_haz is a fitted model of class haz2ts, the following code will
+#'   # produce a cross-sections plot of the hazard over `s` for selected values
+#'   # of `u`, with the palette specified above
+#'
+#'   plot(mod_haz,
+#'        which_plot = "slices",
+#'        where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+#'        direction = "u",
+#'        plot_options = list(col_palette = mypal,
+#'                            main = "Cross-sections of the hazard",
+#'                            xlab = "Time since recurrence",
+#'                            ylab = "Hazard"))
+#' }
+#'
+#'
 #' @export
 
 plot.haz2ts <- function(x,
@@ -104,6 +129,7 @@ plot.haz2ts <- function(x,
     stop("Covariates plot required but x does not have covariates' parameters.")
   }
 
+  u <- s <- NULL
   # ---- Options for plotting ----
   opts <- list(
     loghazard = FALSE,
@@ -186,7 +212,6 @@ plot.haz2ts <- function(x,
       c("smin" = smin, "smax" = smax, "ds" = ds)
     )
   }
-
   # ---- Get (baseline) (log-)hazard and hazard ratios if needed ----
   if (which_plot != "covariates") { # the only case in which we don't need to call
     # get_hazard_2d

@@ -54,6 +54,7 @@ haz2ts_summary <- function(x,...){
   cat("Model fit: \n")
   cat("  AIC = ", res$AIC, "\n")
   cat("  BIC = ", res$BIC, "\n")
+  cat("  ED = ",  res$ED)
 
   return(invisible())
 }

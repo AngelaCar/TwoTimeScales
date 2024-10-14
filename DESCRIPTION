@@ -1,7 +1,7 @@
 Package: TwoTimeScales
 Title: Analysis of event data with two time scales
 Type: Package
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(person("Angela", "Carollo", email = "carollo@demogr.mpg.de",  role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5625-6553")),
            person("Paul H.C.", "Eilers", email = "p.eilers@erasmusmc.nl", role = "aut"),
            person("Jutta", "Gampe", email = "gampe@demogr.mpg.de", role = "aut"))

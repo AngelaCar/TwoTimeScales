@@ -18,8 +18,8 @@
 #' * `bins_s` a vector of extreme values for the bins over the `t` axis.
 #' * `ns` the number of bins over `s`.
 #' @return A list with the following elements:
-#' * `R` an array of exposure times of dimension nt by ns
-#' * `Y` an array of event counts of dimension nt by ns
+#' * `R` an array of exposure times of dimension \eqn{nt} by \eqn{ns}
+#' * `Y` an array of event counts of dimension \eqn{nt} by \eqn{ns}
 #'
 #' @author Angela Carollo \email{carollo@@demogr.mpg.de}
 #' @references Carstensen B, Plummer M, Laara E, Hills M (2022).
