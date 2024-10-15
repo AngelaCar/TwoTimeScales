@@ -1,0 +1,12 @@
+pandoc: 3.1.11
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles:
+  onetime: onetime.html
+  twotimes: twotimes.html
+  TwoTimeScales: TwoTimeScales.html
+  visualization: visualization.html
+last_built: 2024-10-15T09:24Z
+urls:
+  reference: https://angelacar.github.io/TwoTimeScales/reference
+  article: https://angelacar.github.io/TwoTimeScales/articles
