@@ -195,6 +195,12 @@ m6 <- fit1ts(data1ts = dt1ts,
 Finally, we demonstrate how to plot the AIC and BIC curves, mark the optimal values of the smoothing parameter, and extract the AIC and BIC vectors after a grid search of the optimal smoothing parameter.
 
 ```{r fit1ts-grid, dependson="1ts-data-prep", fig.width=6, fig.align='center'}
+#| fig.alt: >
+#|   (Left) AIC curve over several values of log10(rho_s). 
+#|   The minimum is reached for log10(rho_s) around 2. 
+#|   (Right) BIC curve over several values of log10(rho_s). 
+#|   The minimum is reached for log10(rho_s) around 2.7.
+
 par(mfrow = c(1,2))
 m6 <- fit1ts(data1ts = dt1ts,
              Bbases_spec = list(bdeg = 2,
@@ -268,7 +274,6 @@ However, this is exactly what is done by the method `plot()`, implemented for ob
 
 ```{r plot_haz1ts, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
 plot(m7)
-
 ```
 
 This simple call produces, for a PH model, the plot of the baseline hazard curve.

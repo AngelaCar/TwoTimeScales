@@ -1,4 +1,4 @@
-url: ~
+url: https://angelacar.github.io/TwoTimeScales/
 
 home:
   title: Analysis of event data with two time scales
@@ -12,6 +12,7 @@ navbar:
   left:
     - icon: fa-home
       href: index.html
+      aria-label: Homepage
     - text: "Vignettes"
       href: articles/index.html
   right:
@@ -54,6 +55,7 @@ reference:
 - title: Data processing
 - contents:
   - prepare_data
+  - prepare_data_LMMsolver
   - make_bins
   - exposures_events_1d
   - exposures_events_2d
@@ -77,16 +79,26 @@ reference:
   - grid_search_2d
   - get_aic_fit_2d
   - get_bic_fit_2d
+  - getAIC_BIC_LMM
   - GLAM_2d_no_covariates
   - GLAM_2d_covariates
   - get_hazard_2d
+  - get_hazard_2d_LMM
   - get_hr
   - haz2ts_summary
+  - haz2tsLMM_summary
 - title: Plotting functions
 - contents:
   - plot.haz1ts
+  - plot.haz1tsLMM
   - plot.haz2ts
+  - plot.haz2tsLMM
   - plot_slices
   - imageplot_2ts
   - imageplot_SE
   - covariates_plot
+- title: Competing risks functions
+- contents:
+  - cumhaz2ts
+  - surv2ts
+  - cuminc2ts

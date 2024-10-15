@@ -5,69 +5,40 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="TwoTimeScales">
 <title>Smooth hazards with one time scale • TwoTimeScales</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Smooth hazards with one time scale">
-<meta property="og:description" content="TwoTimeScales">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Smooth hazards with one time scale">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../index.html">
-    <span class="fa fa-home"></span>
-     
-  </a>
-</li>
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/index.html">Vignettes</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Homepage"><span class="fa fa-home"></span></a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Vignettes</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
-     
-    functions
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/AngelaCar/TwoTimeScales">
-    <span class="fa fa-github fa-lg fab"></span>
-     
-    github
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html"><span class="fa fa-file-code-o"></span> functions</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/AngelaCar/TwoTimeScales"><span class="fa fa-github fa-lg fab"></span> github</a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -76,7 +47,8 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Smooth hazards with one time scale</h1>
+
+      <h1>Smooth hazards with one time scale</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/AngelaCar/TwoTimeScales/blob/HEAD/vignettes/onetime.Rmd" class="external-link"><code>vignettes/onetime.Rmd</code></a></small>
@@ -85,15 +57,13 @@
 
     
     
-<p>Disclaimer: the current version of the package and of this vignette
-is a work-in-progress! Details might change with future updates and this
-vignette will be updated consequently.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/AngelaCar/TwoTimeScales" class="external-link">TwoTimeScales</a></span><span class="op">)</span></span></code></pre></div>
 <p>We assume that the reader of this vignette has some familiarity with
-the <span class="math inline">\(P\)</span>-splines model for the hazard,
-and with the basic functions of the package introduced in the vignette
-<em>Introduction to TwoTimeScales</em>.</p>
+the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>-splines
+model for the hazard, and with the basic functions of the package
+introduced in the vignette <em>Introduction to TwoTimeScales</em>.</p>
 <p>This vignette demonstrates in details how to use the package
 <code>TwoTimeScales</code> to estimate a smooth hazard model with one
 time scale, and how to plot the estimates. We use the dataset
@@ -105,16 +75,17 @@ recurrence. For an overview of the data use:
 <h3 id="data-preparation">Data preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
 </h3>
 <p>The first step of the analysis, is data preparation. Data are in wide
-format, with one row for each patient. To estimate a <span class="math inline">\(P\)</span>-spline model for the hazard we need to
-bin the individual data, that is exposure times and event counts, into
-many small bins of equal size, that cover the whole range of values for
-the time scale. Data preparation involves the construction of the bins
-and the actual binning of the data. Both steps are implemented and
-performed by the function <code><a href="../reference/prepare_data.html">prepare_data()</a></code>, which requires as
-inputs the individual data vectors and the desired specification for the
-bins. The function returns an object of type <code>data2ts</code>.The
-<code>print</code> method can be used to analyse the structure of the
-resulting object.</p>
+format, with one row for each patient. To estimate a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>-spline
+model for the hazard we need to bin the individual data, that is
+exposure times and event counts, into many small bins of equal size,
+that cover the whole range of values for the time scale. Data
+preparation involves the construction of the bins and the actual binning
+of the data. Both steps are implemented and performed by the function
+<code><a href="../reference/prepare_data.html">prepare_data()</a></code>, which requires as inputs the individual
+data vectors and the desired specification for the bins. The function
+returns an object of type <code>data2ts</code>.The <code>print</code>
+method can be used to analyse the structure of the resulting object.</p>
 <p>First, we show how the function works with minimal input (that is, by
 using the default values for any optional parameter):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -263,7 +234,7 @@ will be returned).</p>
 <span><span class="co">#&gt; [1] "Total number of events: 409"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Covariates:</span></span>
-<span><span class="co">#&gt; [1] "Lev"     "Lev+5FU" "node4"   "male"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Lev"     "Lev_5FU" "node4"   "male"</span></span></code></pre></div>
 <p>From <code>print(dt1ts_cov)</code>, we see that 4 covariates are
 included in the Z regression matrix. The variable <code>"rx"</code>
 includes 3 categories, and it is therefore represented in the regression
@@ -302,9 +273,10 @@ arguments are provided and that the length of <code>y</code>,
 <code>r</code> and <code>bins$mids</code> are the same.</p>
 <p>First, we only pass as argument the object <code>dt1ts</code>, which
 was created before. Then, we show, only as illustration, how the same
-estimates of the <span class="math inline">\(\alpha\)</span> are
-obtained when we pass the arguments <code>y</code>, <code>r</code> and
-<code>bins</code>, taken from the same object.</p>
+estimates of the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+are obtained when we pass the arguments <code>y</code>, <code>r</code>
+and <code>bins</code>, taken from the same object.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model 1 - Default parameters (numerical optimization of aic, default param for</span></span>
 <span><span class="co">#                               B-splines)</span></span>
@@ -341,9 +313,11 @@ obtained when we pass the arguments <code>y</code>, <code>r</code> and
 <p>The object returned by <code><a href="../reference/fit1ts.html">fit1ts()</a></code> is of class
 <code>"haz1ts"</code>. The first element is a list with the results of
 the optimal model. The second element is the optimal smoothing parameter
-(on the <span class="math inline">\(\log_{10}\)</span>-scale) and the
-last element is the penalty matrix <code>P_optim</code>, incorporating
-the optimal value of <span class="math inline">\(\varrho\)</span>.</p>
+(on the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>log</mo><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>-scale)
+and the last element is the penalty matrix <code>P_optim</code>,
+incorporating the optimal value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>𝜚</mo><annotation encoding="application/x-tex">\varrho</annotation></semantics></math>.</p>
 <p>In the following examples we show how to modify the arguments of the
 function, to obtain slightly different model’s specification. The
 results are not shown here, but we encourage the reader to run these
@@ -401,7 +375,7 @@ vectors after a grid search of the optimal smoothing parameter.</p>
 <span>               plot_bic <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>               mark_optimal <span class="op">=</span> <span class="cn">T</span></span>
 <span>             <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/fit1ts-grid-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="onetime_files/figure-html/fit1ts-grid-1.png" alt="(Left) AIC curve over several values of log10(rho_s). The minimum is reached for log10(rho_s) around 2. (Right) BIC curve over several values of log10(rho_s). The minimum is reached for log10(rho_s) around 2.7." width="576" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">m6.aic</span> <span class="op">&lt;-</span> <span class="va">m6</span><span class="op">$</span><span class="va">AIC</span></span>
@@ -410,13 +384,16 @@ vectors after a grid search of the optimal smoothing parameter.</p>
 <span><span class="va">m6.aic</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>; <span class="va">m6.bic</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] 97.67005 96.78100 95.81061 94.79922 93.79740 92.84326</span></span>
 <span><span class="co">#&gt; [1] 135.6309 132.7852 129.7015 126.4681 123.1973 119.9904</span></span></code></pre></div>
-<p>We notice how, for the same data and over the same grid of <span class="math inline">\(\log_{10}(\varrho)\)</span> values, the BIC
-criterion selects a larger smoothing parameter than the AIC. This
-behavior is well known, as the BIC penalizes differences in neighboring
-coefficients more strongly than AIC, leading to smoother results.</p>
+<p>We notice how, for the same data and over the same grid of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>𝜚</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\log_{10}(\varrho)</annotation></semantics></math>
+values, the BIC criterion selects a larger smoothing parameter than the
+AIC. This behavior is well known, as the BIC penalizes differences in
+neighboring coefficients more strongly than AIC, leading to smoother
+results.</p>
 <p>Finally, we estimate a PH model including the covariates
 <code>rx</code>, <code>node4</code> and <code>sex</code>, and see how to
-extract the estimates of the regression parameters <span class="math inline">\(\beta\)</span>s.</p>
+extract the estimates of the regression parameters
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>s.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>data1ts <span class="op">=</span> <span class="va">dt1ts_cov</span>,</span>
 <span>             Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nseg_s <span class="op">=</span> <span class="fl">15</span>,</span>
@@ -424,14 +401,15 @@ extract the estimates of the regression parameters <span class="math inline">\(\
 <span>                                max_s <span class="op">=</span> <span class="fl">2730</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">betas</span> <span class="op">&lt;-</span> <span class="va">m7</span><span class="op">$</span><span class="va">optimal_model</span><span class="op">$</span><span class="va">beta</span></span>
 <span><span class="va">betas</span></span>
-<span><span class="co">#&gt;        Lev    Lev+5FU      node4       male </span></span>
+<span><span class="co">#&gt;        Lev    Lev_5FU      node4       male </span></span>
 <span><span class="co">#&gt; 0.07875399 0.27900614 0.50543144 0.21322565</span></span></code></pre></div>
 <p>In the next section, we will show how to get estimates of the
-(log-)hazard curve with one time scale, using the same <span class="math inline">\(B\)</span>-splines basis as for the estimation, or
-evaluating this old basis in a denser grid. We will also see how to
-obtain estimates of the hazard ratios, and how all these steps can be
-performed jointly and plotted using the function
-<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p>
+(log-)hazard curve with one time scale, using the same
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
+basis as for the estimation, or evaluating this old basis in a denser
+grid. We will also see how to obtain estimates of the hazard ratios, and
+how all these steps can be performed jointly and plotted using the
+function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p>
 </div>
 <div class="section level3">
 <h3 id="presenting-the-results-of-the-smooth-one-time-scale-hazard-model">Presenting the results of the smooth one time scale hazard
@@ -441,22 +419,34 @@ model<a class="anchor" aria-label="anchor" href="#presenting-the-results-of-the-
 of the one time scale model, using the last model we estimated in the
 previous section, which included four covariates. The object returned by
 <code><a href="../reference/fit1ts.html">fit1ts()</a></code> provides the estimates of both the parameters of
-the <span class="math inline">\(B\)</span>-splines, that is a vector of
-<span class="math inline">\(\hat{\alpha}\)</span> values, and the
-estimates of the covariates’ effects, a vector of <span class="math inline">\(\hat{\beta}\)</span> values. The hazard is
-obtained from the <span class="math inline">\(\hat{\alpha}\)</span> by
-multiplying each coefficient to the corresponding <span class="math inline">\(B\)</span>-spline, summing up the contributions of
-each scaled <span class="math inline">\(B\)</span>-spline in a specific
-point and finally exponentiating the result: <span class="math display">\[\hat\lambda = \exp\left\{\sum^{n_s}_{k=1}
-b_{kl}\alpha_l\right\}.\]</span></p>
+the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines,
+that is a vector of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>α</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat{\alpha}</annotation></semantics></math>
+values, and the estimates of the covariates’ effects, a vector of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>β</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat{\beta}</annotation></semantics></math>
+values. The hazard is obtained from the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mover><mi>α</mi><mo accent="true">̂</mo></mover><annotation encoding="application/x-tex">\hat{\alpha}</annotation></semantics></math>
+by multiplying each coefficient to the corresponding
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-spline,
+summing up the contributions of each scaled
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-spline
+in a specific point and finally exponentiating the result:
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>s</mi></msub></munderover><msub><mi>b</mi><mrow><mi>k</mi><mi>l</mi></mrow></msub><msub><mi>α</mi><mi>l</mi></msub><mo stretchy="true" form="postfix">}</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\hat\lambda = \exp\left\{\sum^{n_s}_{k=1} b_{kl}\alpha_l\right\}.</annotation></semantics></math></p>
 <p>The function <code><a href="../reference/get_hazard_1d.html">get_hazard_1d()</a></code> returns a vector of
 estimates for the (log-)hazard, and the associated standard errors,
 given as input the object returned by <code><a href="../reference/fit1ts.html">fit1ts()</a></code> and,
-optionally, a list of specifications for evaluating the <span class="math inline">\(B\)</span>-splines basis on a new grid. When
-applied to a PH model, it returns the baseline hazard.</p>
-<p>We show how to provide specifications for the <span class="math inline">\(B\)</span>-splines and how to use the function
-<code><a href="../reference/get_hazard_1d.html">get_hazard_1d()</a></code>. We will evaluate the <span class="math inline">\(B\)</span>-splines basis on a finer grid, where
-the distance between the bins is of 10 days.</p>
+optionally, a list of specifications for evaluating the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
+basis on a new grid. When applied to a PH model, it returns the baseline
+hazard.</p>
+<p>We show how to provide specifications for the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
+and how to use the function <code><a href="../reference/get_hazard_1d.html">get_hazard_1d()</a></code>. We will
+evaluate the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
+basis on a finer grid, where the distance between the bins is of 10
+days.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">basehaz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hazard_1d.html">get_hazard_1d</a></span><span class="op">(</span>fitted_model <span class="op">=</span> <span class="va">m7</span>,</span>
 <span>                         plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
@@ -482,16 +472,18 @@ the distance between the bins is of 10 days.</p>
 <p>The calls returns a list with several elements: The new grid for
 plotting <code>new_plot_grid</code>, a vector for the hazard values
 <code>hazard</code>, a vector for the log-hazard values
-<code>loghazard</code> , a vector with the <span class="math inline">\(log_{10}\)</span>-hazard values
-<code>log10hazard</code> and three vectors with the associated standard
-errors, respectively <code>SE_hazard</code>, <code>SE_loghazard</code>
-ans <code>SE_log10hazard</code>. The hazard ratios and their standard
-errors are obtained by calling the function <code>get_hr</code>:</p>
+<code>loghazard</code> , a vector with the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>l</mi><mi>o</mi><msub><mi>g</mi><mn>10</mn></msub></mrow><annotation encoding="application/x-tex">log_{10}</annotation></semantics></math>-hazard
+values <code>log10hazard</code> and three vectors with the associated
+standard errors, respectively <code>SE_hazard</code>,
+<code>SE_loghazard</code> ans <code>SE_log10hazard</code>. The hazard
+ratios and their standard errors are obtained by calling the function
+<code>get_hr</code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hr.html">get_hr</a></span><span class="op">(</span>fitted_model <span class="op">=</span> <span class="va">m7</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">hr</span><span class="op">$</span><span class="va">HR</span></span>
-<span><span class="co">#&gt;      Lev  Lev+5FU    node4     male </span></span>
+<span><span class="co">#&gt;      Lev  Lev_5FU    node4     male </span></span>
 <span><span class="co">#&gt; 1.081938 1.321815 1.657701 1.237664</span></span></code></pre></div>
 <p>It is possible to call these two functions independently and to use
 the resulting objects to create a plot of the results. However, this is
@@ -501,8 +493,10 @@ objects of class <code>"haz1ts"</code>.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span><span class="op">)</span></span></code></pre></div>
 <p><img src="onetime_files/figure-html/plot_haz1ts-1.png" width="480" style="display: block; margin: auto;"></p>
 <p>This simple call produces, for a PH model, the plot of the baseline
-hazard curve. Now we interpolate the <span class="math inline">\(B\)</span>-spline basis on a denser plotting grid,
-and change other parameters to obtain a nicer plot.</p>
+hazard curve. Now we interpolate the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-spline
+basis on a denser plotting grid, and change other parameters to obtain a
+nicer plot.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
@@ -531,15 +525,17 @@ argument <code>plot_options$loghazard = TRUE</code>:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"covariates"</span><span class="op">)</span></span></code></pre></div>
 <p><img src="onetime_files/figure-html/plot_haz1ts-4-1.png" width="480" style="display: block; margin: auto;"></p>
-<p>This call plots the point estimates for the <span class="math inline">\(\beta\)</span> parameters with their 95%
-confidence intervals. Alternatively, we can decide to plot the estimated
-hazard ratios, with their confidence intervals. There are two options
-regarding the confidence intervals for the HRs: First, we can use the
-delta method to find confidence intervals that are symmetric around the
-HRs estimates. Second, we can exponentiate the confidence intervals for
-the <span class="math inline">\(\beta\)</span> parameters, and therefore
-obtain non-symmetric (but always positive) confidence intervals for the
-HRs. We show both options here:</p>
+<p>This call plots the point estimates for the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+parameters with their 95% confidence intervals. Alternatively, we can
+decide to plot the estimated hazard ratios, with their confidence
+intervals. There are two options regarding the confidence intervals for
+the HRs: First, we can use the delta method to find confidence intervals
+that are symmetric around the HRs estimates. Second, we can exponentiate
+the confidence intervals for the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
+parameters, and therefore obtain non-symmetric (but always positive)
+confidence intervals for the HRs. We show both options here:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -569,7 +565,8 @@ HRs. We show both options here:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Finally, it is possible to change the level of confidence for the
-CIs. In the following we show three different levels for the same <span class="math inline">\(\beta\)</span>.</p>
+CIs. In the following we show three different levels for the same
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>,</span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
@@ -606,7 +603,7 @@ CIs. In the following we show three different levels for the same <span class="m
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Carollo:2023" class="csl-entry">
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
 <span>“Smooth Hazards with Multiple Time Scales.”</span> <em>arXiv
@@ -614,7 +611,7 @@ Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/http://arxi
 </div>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -625,15 +622,15 @@ Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/http://arxi
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

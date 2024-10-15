@@ -5,69 +5,40 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="TwoTimeScales">
 <title>Smooth hazards with two time scales • TwoTimeScales</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Smooth hazards with two time scales">
-<meta property="og:description" content="TwoTimeScales">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Smooth hazards with two time scales">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="dark" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../index.html">
-    <span class="fa fa-home"></span>
-     
-  </a>
-</li>
-<li class="active nav-item">
-  <a class="nav-link" href="../articles/index.html">Vignettes</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../index.html" aria-label="Homepage"><span class="fa fa-home"></span></a></li>
+<li class="active nav-item"><a class="nav-link" href="../articles/index.html">Vignettes</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">
-    <span class="fa fa-file-code-o"></span>
-     
-    functions
-  </a>
-</li>
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/AngelaCar/TwoTimeScales">
-    <span class="fa fa-github fa-lg fab"></span>
-     
-    github
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html"><span class="fa fa-file-code-o"></span> functions</a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/AngelaCar/TwoTimeScales"><span class="fa fa-github fa-lg fab"></span> github</a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -76,7 +47,8 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Smooth hazards with two time scales</h1>
+
+      <h1>Smooth hazards with two time scales</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/AngelaCar/TwoTimeScales/blob/HEAD/vignettes/twotimes.Rmd" class="external-link"><code>vignettes/twotimes.Rmd</code></a></small>
@@ -85,9 +57,6 @@
 
     
     
-<p>Disclaimer: the current version of the package and of this vignette
-is a work-in-progress! Details might change with future updates and this
-vignette will be updated consequently.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/AngelaCar/TwoTimeScales" class="external-link">TwoTimeScales</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
@@ -98,23 +67,26 @@ time scales. We show how to use the functions of the package
 <code>TwoTimeScales</code> with their different options. In particular
 we show:</p>
 <ul>
-<li>how to bin data over the <span class="math inline">\((u,s)\)</span>-
-or the <span class="math inline">\((t,s)\)</span>-plane</li>
+<li>how to bin data over the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-
+or the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane</li>
 <li>how to bin data when covariates are presents</li>
 <li>how to perform a grid search of the optimal couple of smoothing
 parameters</li>
 <li>how to plot the AIC or BIC grid</li>
 <li>how to perform a numerical optimization of the model</li>
+<li>how to use the functionalities of the LMMsolver package to find the
+optimal smoothing parameters</li>
 <li>how to estimate a model with covariates</li>
 </ul>
-<p>However, this vignette does not deal with visualization of the
-estimated smooth hazard with two time scales. Visualization is the topic
-of the vignette <em>Visualize hazards with two time scales</em>. We
-assume that the reader of this vignette has some familiarity with the
-model, and with the basic functions of the package introduced in
-<em>Introduction to TwoTimeScales</em>. For a full exposition of the
-model, we refer to <span class="citation">Carollo et al.
-(2023)</span>.</p>
+<p>This vignette does not deal with visualization of the estimated
+smooth hazard with two time scales. Visualization is the topic of the
+vignette <em>Visualize hazards with two time scales</em>. We assume that
+the reader of this vignette has some familiarity with the model, and
+with the basic functions of the package introduced in <em>Introduction
+to TwoTimeScales</em>. For a full exposition of the model, we refer to
+<span class="citation">Carollo et al. (2023)</span>.</p>
 <p>In the following, we once again analyse the dataset
 <code>reccolon2ts</code>, which includes data on patients with
 recurrence of colon cancer. The first part of this vignette deals with
@@ -125,13 +97,28 @@ same analysis follows in the second part.</p>
 <h2 id="hazard-of-death-by-time-since-randomization-and-time-since-recurrence">Hazard of death by time since randomization and time since
 recurrence<a class="anchor" aria-label="anchor" href="#hazard-of-death-by-time-since-randomization-and-time-since-recurrence"></a>
 </h2>
-<p>The two time variables are <span class="math inline">\(t\)</span> =
-time since randomization and <span class="math inline">\(s\)</span> =
-time since recurrence. Additionally, <span class="math inline">\(u\)</span> = time at recurrence, is the fixed time
-at entry in the risk set recorded as number of days from randomization
-to recurrence. The analysis is performed over the <span class="math inline">\((u,s)\)</span>-plane, so we need to bin the data
-over <span class="math inline">\(u\)</span> and <span class="math inline">\(s\)</span>. We consider bins of width 30 days on
-both axes, and we obtain 77 bins on the <span class="math inline">\(u\)</span> axis and <span class="math inline">\(91\)</span> bins on the <span class="math inline">\(s\)</span> axis.</p>
+<p>The two time variables are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
+= time since randomization and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+= time since recurrence. Additionally,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+= time at recurrence, is the fixed time at entry in the risk set
+recorded as number of days from randomization to recurrence. The
+analysis is performed over the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane,
+so we need to bin the data over
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>.
+We consider bins of width 30 days on both axes, and we obtain 77 bins on
+the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
+axis and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>91</mn><annotation encoding="application/x-tex">91</annotation></semantics></math>
+bins on the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+axis.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
 <span>                      s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
@@ -170,21 +157,22 @@ both axes, and we obtain 77 bins on the <span class="math inline">\(u\)</span> a
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [1] "Total number of events: 409"</span></span></code></pre></div>
 <p>Here, we do not use the artificially created left truncated entry
-times on the <span class="math inline">\(s\)</span> axis, therefore the
-function returns a message informing the user that an entry time of 0 is
-imputed to all observations.</p>
+times on the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
+axis, therefore the function returns a message informing the user that
+an entry time of 0 is imputed to all observations.</p>
 <p>After having prepared the data we can estimate the model. In the
 analysis presented in <span class="citation">Carollo et al.
-(2023)</span>, we build 23 <span class="math inline">\(B\)</span>-splines over each of the two
-dimensions, for a total of 529 <span class="math inline">\(\alpha\)</span> parameters. The optimal smoothing
-parameters are chosen by numerical optimization of the AIC of the model
-as function of the smoothing parameters. We use cubic <span class="math inline">\(B\)</span>-splines bases and a second order
-penalty. Here we explicitly specify all these parameters, even though
-some of them are the default options. The last argument
-<code>control_algorithm</code> is a list of optional controls for the
-iterative processes. With the option <code>monitor_ev = TRUE</code>, we
-ask the function to return mid-level evaluations of the model, that is
-it will return AIC’s value for each couple of <span class="math inline">\(\log_{10}\varrho_u\)</span> and <span class="math inline">\(\log_{10}\varrho_s\)</span> evaluated.</p>
+(2023)</span>, we build 23
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
+over each of the two dimensions, for a total of 529
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
+parameters. The optimal smoothing parameters are chosen by numerical
+optimization of the AIC of the model as function of the smoothing
+parameters. We use cubic
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
+bases and a second order penalty. Here we explicitly specify all these
+parameters, even though some of them are the default options.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
@@ -196,96 +184,34 @@ it will return AIC’s value for each couple of <span class="math inline">\(\log
 <span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span>,</span>
 <span>               pord <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>               optim_method <span class="op">=</span> <span class="st">"ucminf"</span>,</span>
-<span>               optim_criterion <span class="op">=</span> <span class="st">"aic"</span>,</span>
-<span>               control_algorithm <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>monitor_ev <span class="op">=</span> <span class="cn">T</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  0 and log_10(rho_s) = 0 : 1258.91940290112"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  1e-08 and log_10(rho_s) = 0 : 1258.91940280297"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  0 and log_10(rho_s) = 1e-08 : 1258.9194028486"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  0.881710980064571 and log_10(rho_s) = 0.471789940157241 : 1251.68397813386"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  0.881711871775551 and log_10(rho_s) = 0.471789940157241 : 1251.68397467276"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  0.881710980064571 and log_10(rho_s) = 0.471790421947181 : 1251.68397779942"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  1.6694032153475 and log_10(rho_s) = -0.144279002798811 : 1250.56131531659"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  1.66940489475071 and log_10(rho_s) = -0.144279002798811 : 1250.56131184372"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  1.6694032153475 and log_10(rho_s) = -0.144278848519808 : 1250.56131496537"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.10300715107393 and log_10(rho_s) = 0.209584486073733 : 1249.43603473856"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.10300926408109 and log_10(rho_s) = 0.209584486073733 : 1249.43603319641"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.10300715107393 and log_10(rho_s) = 0.209584705658219 : 1249.43603459365"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.35534805284192 and log_10(rho_s) = 0.340926421331719 : 1249.30054366419"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.35535041818997 and log_10(rho_s) = 0.340926421331719 : 1249.30054349323"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.35534805284192 and log_10(rho_s) = 0.34092677225814 : 1249.30054371139"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40269944095529 and log_10(rho_s) = 0.302454776342888 : 1249.29691150976"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40270185365473 and log_10(rho_s) = 0.302454776342888 : 1249.29691150232"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40269944095529 and log_10(rho_s) = 0.302455088797665 : 1249.29691149638"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40138914932614 and log_10(rho_s) = 0.310411392992425 : 1249.29674716572"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40139156071529 and log_10(rho_s) = 0.310411392992425 : 1249.29674716169"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40138914932614 and log_10(rho_s) = 0.310411713403818 : 1249.29674716601"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.402274206628 and log_10(rho_s) = 0.310165350431645 : 1249.29674658493"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40227661890221 and log_10(rho_s) = 0.310165350431645 : 1249.2967465845"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.402274206628 and log_10(rho_s) = 0.310165670596995 : 1249.29674658378"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40273831852156 and log_10(rho_s) = 0.310479203847903 : 1249.29674700955"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40274073125988 and log_10(rho_s) = 0.310479203847903 : 1249.2967470132"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40273831852156 and log_10(rho_s) = 0.310479524327107 : 1249.2967470102"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40244624348368 and log_10(rho_s) = 0.310281689520613 : 1249.29674661182"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40244865592992 and log_10(rho_s) = 0.310281689520613 : 1249.29674661264"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40244624348368 and log_10(rho_s) = 0.310282009802303 : 1249.2967466121"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40235538685774 and log_10(rho_s) = 0.310220248168138 : 1249.29674657864"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40235779921313 and log_10(rho_s) = 0.310220248168138 : 1249.29674657875"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40235538685774 and log_10(rho_s) = 0.310220568388386 : 1249.29674657768"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40231603419219 and log_10(rho_s) = 0.310193636118991 : 1249.29674657613"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40231844650823 and log_10(rho_s) = 0.310193636118991 : 1249.29674657673"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40231603419219 and log_10(rho_s) = 0.310193956312627 : 1249.29674657577"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40210729307251 and log_10(rho_s) = 0.310237949544861 : 1249.29674656504"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.4021097051798 and log_10(rho_s) = 0.310237949544861 : 1249.29674656507"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40210729307251 and log_10(rho_s) = 0.31023826978281 : 1249.29674656455"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40153058397294 and log_10(rho_s) = 0.310400514271832 : 1249.29674697423"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40153299550353 and log_10(rho_s) = 0.310400514271832 : 1249.2967469706"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40153058397294 and log_10(rho_s) = 0.310400834672347 : 1249.29674697381"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40199652395517 and log_10(rho_s) = 0.310269173521265 : 1249.2967465908"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.4019989359517 and log_10(rho_s) = 0.310269173521265 : 1249.29674659078"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40199652395517 and log_10(rho_s) = 0.310269493790438 : 1249.29674659131"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40207098725249 and log_10(rho_s) = 0.310248183553173 : 1249.29674657064"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40207339932348 and log_10(rho_s) = 0.310248183553173 : 1249.29674657019"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40207098725249 and log_10(rho_s) = 0.310248503801356 : 1249.29674657094"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40209382988775 and log_10(rho_s) = 0.310241744593278 : 1249.29674656632"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40209624198158 and log_10(rho_s) = 0.310241744593278 : 1249.29674656637"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40209382988775 and log_10(rho_s) = 0.310242064835023 : 1249.29674656641"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40210174898562 and log_10(rho_s) = 0.310239512330974 : 1249.29674656516"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40210416108737 and log_10(rho_s) = 0.310239512330974 : 1249.29674656497"</span></span>
-<span><span class="co">#&gt; [1] "AIC for model with log_10(rho_u) =  2.40210174898562 and log_10(rho_s) = 0.310239832570487 : 1249.29674656552"</span></span></code></pre></div>
+<span>               optim_criterion <span class="op">=</span> <span class="st">"aic"</span><span class="op">)</span> </span></code></pre></div>
 <p>The object returned by <code><a href="../reference/fit2ts.html">fit2ts()</a></code> is of class
-<code>"haz2ts"</code>. The optimal smoothing parameters are <span class="math inline">\(\varrho_u = 10^{2.4}\)</span> and <span class="math inline">\(\varrho_s=10^{0.3}\)</span>, and the effective
-dimension of the model is 11.1.</p>
+<code>"haz2ts"</code>. The optimal smoothing parameters are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>𝜚</mo><mi>u</mi></msub><mo>=</mo><msup><mn>10</mn><mn>2.4</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_u = 10^{2.4}</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>𝜚</mo><mi>s</mi></msub><mo>=</mo><msup><mn>10</mn><mn>0.3</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_s=10^{0.3}</annotation></semantics></math>,
+and the effective dimension of the model is 11.1.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ optimal_model :List of 10</span></span>
-<span><span class="co">#&gt;   ..$ Alpha    : num [1:23, 1:23] -5.96 -6.19 -6.42 -6.65 -6.87 ...</span></span>
-<span><span class="co">#&gt;   ..$ Cov_Alpha: num [1:529, 1:529] 0.381 0.314 0.25 0.191 0.138 ...</span></span>
-<span><span class="co">#&gt;   ..$ deviance : num 1227</span></span>
-<span><span class="co">#&gt;   ..$ Eta      : num [1:76, 1:91] -5.92 -5.98 -6.04 -6.1 -6.16 ...</span></span>
-<span><span class="co">#&gt;   ..$ H        : num [1:76, 1:91] 0.0241 0.0237 0.0439 0.0545 0.0275 ...</span></span>
-<span><span class="co">#&gt;   ..$ ed       : num 11.1</span></span>
-<span><span class="co">#&gt;   ..$ aic      : num 1249</span></span>
-<span><span class="co">#&gt;   ..$ bic      : num 1326</span></span>
-<span><span class="co">#&gt;   ..$ Bbases   :List of 2</span></span>
-<span><span class="co">#&gt;   .. ..$ Bu: num [1:76, 1:23] 8.53e-02 2.61e-02 3.59e-03 8.77e-07 0.00 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "x")= num [1:76] 23 53 83 113 143 173 203 233 263 293 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xl")= num 0</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xr")= num 2300</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "nseg")= num 20</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "bdeg")= num 3</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "type")= chr "bbase"</span></span>
-<span><span class="co">#&gt;   .. ..$ Bs: num [1:91, 1:23] 1.18e-01 5.02e-02 1.52e-02 2.05e-03 2.21e-07 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "x")= num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xl")= num 0</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xr")= num 2730</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "nseg")= num 20</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "bdeg")= num 3</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "type")= chr "bbase"</span></span>
-<span><span class="co">#&gt;   ..$ nevents  : num 409</span></span>
-<span><span class="co">#&gt;  $ optimal_logrho: num [1:2] 2.4 0.31</span></span>
-<span><span class="co">#&gt;  $ P_optim       : num [1:529, 1:529] 254 -505 252 0 0 ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "haz2ts"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model specifications:</span></span>
+<span><span class="co">#&gt;   number of events =  409 </span></span>
+<span><span class="co">#&gt;   nu =  76 </span></span>
+<span><span class="co">#&gt;   ns =  91 </span></span>
+<span><span class="co">#&gt;   cu =  23 </span></span>
+<span><span class="co">#&gt;   cs =  23 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Optimal smoothing: </span></span>
+<span><span class="co">#&gt;   log10(rho_u) =  2.402107 </span></span>
+<span><span class="co">#&gt;   log10(rho_s) =  0.3102379 </span></span>
+<span><span class="co">#&gt;   rho_u =  252.4104 </span></span>
+<span><span class="co">#&gt;   rho_s =  2.042857 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model with no covariates</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model fit: </span></span>
+<span><span class="co">#&gt;   AIC =  1249.297 </span></span>
+<span><span class="co">#&gt;   BIC =  1314.659 </span></span>
+<span><span class="co">#&gt;   ED =  11.13977</span></span></code></pre></div>
 <p>We can change the optimization criterion to BIC, and compare the
 results in terms of smoothing parameters and effective dimensions:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -300,36 +226,23 @@ results in terms of smoothing parameters and effective dimensions:</p>
 <span>               pord <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>               optim_method <span class="op">=</span> <span class="st">"ucminf"</span>,</span>
 <span>               optim_criterion <span class="op">=</span> <span class="st">"bic"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in GLAM_2d_no_covariates(R = R, Y = Y, Bu = Bu, Bs = Bs, Wprior =</span></span>
-<span><span class="co">#&gt; Wprior, : Max number of iterations 20 reached but the algorithm did not</span></span>
-<span><span class="co">#&gt; converge.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in GLAM_2d_no_covariates(R = R, Y = Y, Bu = Bu, Bs = Bs, Wprior =</span></span>
-<span><span class="co">#&gt; Wprior, : Max number of iterations 20 reached but the algorithm did not</span></span>
-<span><span class="co">#&gt; converge.</span></span>
-<span></span>
-<span><span class="co">#&gt; Warning in GLAM_2d_no_covariates(R = R, Y = Y, Bu = Bu, Bs = Bs, Wprior =</span></span>
-<span><span class="co">#&gt; Wprior, : Max number of iterations 20 reached but the algorithm did not</span></span>
-<span><span class="co">#&gt; converge.</span></span>
 <span></span>
 <span><span class="va">mod2</span><span class="op">$</span><span class="va">optimal_logrho</span></span>
-<span><span class="co">#&gt; [1] 6.323086 1.623891</span></span>
+<span><span class="co">#&gt; [1] 5.500679 1.547580</span></span>
 <span><span class="va">mod2</span><span class="op">$</span><span class="va">optimal_model</span><span class="op">$</span><span class="va">ed</span></span>
-<span><span class="co">#&gt; [1] 5.332391</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 5.460439</span></span></code></pre></div>
 <p>As expected, choosing BIC as optimization criterion results in larger
 smoothing parameters and a smaller effective dimension, as BIC penalizes
-model complexity more strongly than AIC. Finally, we see how to use the
-grid search method to select the optimal pair of smoothing parameters
-and at the same time to produce plots of the AIC and BIC values of the
-grid of <span class="math inline">\(\log_{10}\)</span> values of both
-smoothing parameters.</p>
-<p>To do so, we divide the graphical window in two parts, and we specify
-that the plots of the AIC and BIC are required, plus additional
-options:</p>
+model complexity more strongly than AIC. The following code-chunk shows
+how to use the grid search method to select the optimal pair of
+smoothing parameters and at the same time to produce plots of the AIC
+and BIC values of the grid of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>log</mo><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>
+values of both smoothing parameters. We do not evaluate this code chunk
+as it can be time consuming, but we encourage the readers to run the
+code on their console.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">mod3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
+<code class="sourceCode R"><span><span class="va">mod3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                                  min_s <span class="op">=</span> <span class="fl">0</span>,</span>
@@ -347,10 +260,55 @@ options:</p>
 <span>                 mark_optimal <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                 plot_contour <span class="op">=</span> <span class="cn">T</span></span>
 <span>               <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../docs/articles/twotimes_files/figure-html/grid-search-1.png" width="624" style="display: block; margin: auto;"></p>
 <p>Alternatively, we can ask the function to return the matrices of AIC
 and/or BIC values as part of the fitted object and then plot them
 separately (here not shown).</p>
+<p>Lastly, we show how to fit the same model by using the package
+LMMsolver <span class="citation">Martin P. Boer (2023)</span>, that uses
+the connection between linear mixed models and P-splines, and uses
+sparse representation to speed-up calculations. It is possible to fit
+this model by using the same function <code><a href="../reference/fit2ts.html">fit2ts()</a></code> and
+specifying the option <code>optim_method = "LMMsolver"</code>. This
+returns an object of class <code>haz2tsLMM</code>, which differ in
+structure from objects of class <code>haz2ts</code>, but has the same
+methods implemented.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mod_LMM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
+<span>                  Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>                                     nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                                     min_s <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>                                     max_s <span class="op">=</span> <span class="fl">2730</span>,</span>
+<span>                                     nseg_u <span class="op">=</span> <span class="fl">20</span>,</span>
+<span>                                     min_u <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>                                     max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span>,</span>
+<span>                  pord <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>                  optim_method <span class="op">=</span> <span class="st">"LMMsolver"</span>,</span>
+<span>                  optim_criterion <span class="op">=</span> <span class="st">"aic"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_LMM</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Model specifications:</span></span>
+<span><span class="co">#&gt;   number of events =  409 </span></span>
+<span><span class="co">#&gt;   nu =  76 </span></span>
+<span><span class="co">#&gt;   ns =  91 </span></span>
+<span><span class="co">#&gt;   cu =  23 </span></span>
+<span><span class="co">#&gt;   cs =  23 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Optimal smoothing: </span></span>
+<span><span class="co">#&gt;   log10(rho_u) =  2.14465 </span></span>
+<span><span class="co">#&gt;   log10(rho_s) =  0.5217892 </span></span>
+<span><span class="co">#&gt;   rho_u =  139.5243 </span></span>
+<span><span class="co">#&gt;   rho_s =  3.324981 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model with no covariates</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Model fit: </span></span>
+<span><span class="co">#&gt;   AIC =  1249.449 </span></span>
+<span><span class="co">#&gt;   BIC =  1314.151 </span></span>
+<span><span class="co">#&gt;   ED =  11.02726</span></span></code></pre></div>
+<p>Note: the functions from LMMsolver needed to fit the two time scales
+hazard model are incorporated in the <code>TwoTimeScales</code> package.
+Nevertheless, we do recommend interested readers to check out the
+excellent R-package <code>LMMsolver</code> and its accompanying webpage:
+<a href="https://biometris.github.io/LMMsolver/" class="external-link uri">https://biometris.github.io/LMMsolver/</a></p>
 </div>
 <div class="section level2">
 <h2 id="ph-regression-for-the-colon-cancer-data">PH regression for the colon cancer data<a class="anchor" aria-label="anchor" href="#ph-regression-for-the-colon-cancer-data"></a>
@@ -364,7 +322,7 @@ estimates a GLAM PH model.</p>
 individual values of the covariates, to the argument <code>covs</code>
 in <code>prepare_data</code>. We do so by subsetting the dataset and
 selecting the desired covariates.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">covs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">reccolon2ts</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"sex"</span>, <span class="st">"adhere"</span>, <span class="st">"obstruct"</span>, <span class="st">"node4"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">dt2ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
 <span>                          s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
@@ -374,28 +332,44 @@ selecting the desired covariates.</p>
 <span>                          covs <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
 <span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
 <span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span>
+<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Data:</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ bins   :List of 6</span></span>
-<span><span class="co">#&gt;   ..$ bins_u: num [1:77] 8 38 68 98 128 158 188 218 248 278 ...</span></span>
-<span><span class="co">#&gt;   ..$ midu  : num [1:76] 23 53 83 113 143 173 203 233 263 293 ...</span></span>
-<span><span class="co">#&gt;   ..$ nu    : int 76</span></span>
-<span><span class="co">#&gt;   ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...</span></span>
-<span><span class="co">#&gt;   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   ..$ ns    : int 91</span></span>
 <span><span class="co">#&gt;  $ bindata:List of 3</span></span>
-<span><span class="co">#&gt;   ..$ R: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;   ..$ Y: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;   ..$ Z: num [1:461, 1:6] 0 0 0 0 0 1 0 1 0 1 ...</span></span>
-<span><span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">#&gt;   .. .. ..$ : NULL</span></span>
-<span><span class="co">#&gt;   .. .. ..$ : chr [1:6] "Lev" "Lev+5FU" "male" "adhere" ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span></code></pre></div>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
+<span><span class="co">#&gt; NULL</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Range covered by the bins: </span></span>
+<span><span class="co">#&gt; $bins_u</span></span>
+<span><span class="co">#&gt; [1]    8 2288</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $bins_s</span></span>
+<span><span class="co">#&gt; [1]    0 2730</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of bins: </span></span>
+<span><span class="co">#&gt; $nu</span></span>
+<span><span class="co">#&gt; [1] 76</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $ns</span></span>
+<span><span class="co">#&gt; [1] 91</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Overview of the binned data:</span></span>
+<span><span class="co">#&gt; [1] "Total exposure time: 246018"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Covariates:</span></span>
+<span><span class="co">#&gt; [1] "Lev"      "Lev_5FU"  "male"     "adhere"   "obstruct" "node4"</span></span></code></pre></div>
 <p>Then, we pass the object <code>d2ts_cov</code> to
 <code><a href="../reference/fit2ts.html">fit2ts()</a></code> with the same arguments as before. We do not show
 the fitted object here, but encourage the readers to run the code on
 their console.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts_cov</span>,</span>
 <span>                  Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                     nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -410,13 +384,18 @@ their console.</p>
 <div class="section level3">
 <h3 id="prepare-the-data-over-the-lexis-diagram">Prepare the data over the Lexis diagram<a class="anchor" aria-label="anchor" href="#prepare-the-data-over-the-lexis-diagram"></a>
 </h3>
-<p>It is, in principle, possible to prepare the data over the <span class="math inline">\((t,s)\)</span>-plane. To do so, we pass as
-arguments to the function <code><a href="../reference/prepare_data.html">prepare_data()</a></code> a vector of entry
-times and a vector of exit times over the <span class="math inline">\(t\)</span> axis, rather than the vector of entry
-times <span class="math inline">\(u\)</span>. From the image plot of the
-exposure times, we can see how the data are only present in the lower
-half-plane where <span class="math inline">\(t\ge s\)</span>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>It is, in principle, possible to prepare the data over the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane.
+To do so, we pass as arguments to the function
+<code><a href="../reference/prepare_data.html">prepare_data()</a></code> a vector of entry times and a vector of exit
+times over the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>
+axis, rather than the vector of entry times
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>.
+From the image plot of the exposure times, we can see how the data are
+only present in the lower half-plane where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>≥</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">t\ge s</annotation></semantics></math>.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt2tsLex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>t_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
 <span>                         t_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timedc</span>,</span>
 <span>                         s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
@@ -434,23 +413,33 @@ half-plane where <span class="math inline">\(t\ge s\)</span>.</p>
 <span>                   col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">plasma</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="fl">0</span>,b<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../docs/articles/twotimes_files/figure-html/prep-data-Lexis-1.png" width="480"></p>
-<p>Note: estimation over the <span class="math inline">\((t,s)\)</span>-plane with the same model is
-theoretically possible, but special care is needed to deal with the
-larger areas without data support (especially those where <span class="math inline">\(t &lt; s\)</span>). Comparison with the estimation
-over the <span class="math inline">\((u,s)\)</span>-plane is currently
-under investigation. A future version of the package will include
-options for estimation over the <span class="math inline">\((t,s)\)</span>-plane.</p>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<p><img src="twotimes_files/figure-html/prep-data-Lexis-1.png" width="480"></p>
+<p>Note: estimation over the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane
+with the same model is theoretically possible, but special care is
+needed to deal with the larger areas without data support (especially
+those where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>&lt;</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">t &lt; s</annotation></semantics></math>).
+Comparison with the estimation over the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
+is currently under investigation. A future version of the package will
+include options for estimation over the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Carollo:2023" class="csl-entry">
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
 <span>“Smooth Hazards with Multiple Time Scales.”</span> <em>arXiv
 Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1" class="external-link">https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1</a>.
 </div>
+<div id="ref-Boer:2023" class="csl-entry">
+Martin P. Boer. 2023. <span>“Tensor Product <span>P</span>-Splines Using
+a Sparse Mixed Model Formulation.”</span> <em>Statistical Modelling</em>
+23 (5-6): 465–79. <a href="https://doi.org/10.1177/1471082X231178591" class="external-link">https://doi.org/10.1177/1471082X231178591</a>.
 </div>
 </div>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -461,15 +450,15 @@ Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/http://arxi
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>

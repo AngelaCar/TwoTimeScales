@@ -31,7 +31,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item"><a class="nav-link" href="index.html"><span class="fa fa-home"></span></a></li>
+<li class="active nav-item"><a class="nav-link" href="index.html" aria-label="Homepage"><span class="fa fa-home"></span></a></li>
 <li class="nav-item"><a class="nav-link" href="articles/index.html">Vignettes</a></li>
       </ul>
 <ul class="navbar-nav">
@@ -49,8 +49,9 @@
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
-<p><code>TwoTimeScales</code> provides a collection of functions for the analysis of time to event data with two time scales.</p>
-<p>The main goal of the analysis is to estimate a smooth two dimensional hazard curve, while also respecting the constraint imposed by the relation between the two time scales. Analyses are based on the P-splines model of Poisson data with offset. Regression model to study the effect of covariates on the baseline hazard are possible in a proportional hazards fashion. Functions to plot the (baseline) hazard are also provided.</p>
+<p><code>TwoTimeScales</code> provides a suite of functions for the analysis of time to event data with two time scales.</p>
+<p>The package provides tools to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. The hazard of one event is modelled by means of two-dimensional P-splines model of Poisson data with offset. Regression model to study the effect of covariates on the baseline hazard are possible in a proportional hazards fashion. Functions to plot the (baseline) hazard are also provided.</p>
+<p>Additionally, functions to estimate cumulated surfaces (such as cumulated hazard, survival function and incidence function) over two time scales are included.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -62,20 +63,20 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"AngelaCar/TwoTimeScales"</span>,</span>
 <span>                          dependencies <span class="op">=</span> <span class="cn">TRUE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>Note: This will take more time than installing the version of the package without vignettes.</p>
+<p>Note: This will take more time than installing the version of the package without vignettes. Alternatively, we suggest to read the vignettes online here: <a href="https://angelacar.github.io/TwoTimeScales/">TwoTimeScales</a></p>
 </div>
 <div class="section level2">
 <h2 id="how-to-use-twotimescales">How to use TwoTimeScales<a class="anchor" aria-label="anchor" href="#how-to-use-twotimescales"></a>
 </h2>
-<p>A general introduction to the functionalities of the package is given in:</p>
+<p>A general introduction to the usage of the package is given in:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"TwoTimeScales"</span><span class="op">)</span></span></code></pre></div>
+<p>or here <a href="https://angelacar.github.io/TwoTimeScales/articles/TwoTimeScales.html">Introduction</a>.</p>
 <p>Further examples on can be found in the vignettes.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"onetime"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"twotimes"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"visualization"</span><span class="op">)</span></span></code></pre></div>
-<p>Or read them in the package website.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

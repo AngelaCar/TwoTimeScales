@@ -6,16 +6,21 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-`TwoTimeScales` provides a collection of functions for the analysis of
-time to event data with two time scales.
+`TwoTimeScales` provides a suite of functions for the analysis of time
+to event data with two time scales.
 
-The main goal of the analysis is to estimate a smooth two dimensional
-hazard curve, while also respecting the constraint imposed by the
-relation between the two time scales. Analyses are based on the
+The package provides tools to estimate a smooth hazard that varies over
+two time scales and also, if covariates are available, to estimate a
+proportional hazards model with such a two-dimensional baseline hazard.
+The hazard of one event is modelled by means of two-dimensional
 P-splines model of Poisson data with offset. Regression model to study
 the effect of covariates on the baseline hazard are possible in a
 proportional hazards fashion. Functions to plot the (baseline) hazard
 are also provided.
+
+Additionally, functions to estimate cumulated surfaces (such as
+cumulated hazard, survival function and incidence function) over two
+time scales are included.
 
 ## Installation
 
@@ -36,16 +41,20 @@ devtools::install_github("AngelaCar/TwoTimeScales",
 ```
 
 Note: This will take more time than installing the version of the
-package without vignettes.
+package without vignettes. Alternatively, we suggest to read the
+vignettes online here:
+[TwoTimeScales](https://angelacar.github.io/TwoTimeScales/)
 
 ## How to use TwoTimeScales
 
-A general introduction to the functionalities of the package is given
-in:
+A general introduction to the usage of the package is given in:
 
 ``` r
 vignette("TwoTimeScales")
 ```
+
+or here
+[Introduction](https://angelacar.github.io/TwoTimeScales/articles/TwoTimeScales.html).
 
 Further examples on can be found in the vignettes.
 
@@ -54,5 +63,3 @@ vignette("onetime")
 vignette("twotimes")
 vignette("visualization")
 ```
-
-Or read them in the package website.

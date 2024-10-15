@@ -67,8 +67,6 @@ In the analysis presented in @Carollo:2023, we build 23 $B$-splines over each of
 The optimal smoothing parameters are chosen by numerical optimization of the AIC of the model as function of the smoothing parameters.
 We use cubic $B$-splines bases and a second order penalty.
 Here we explicitly specify all these parameters, even though some of them are the default options.
-The last argument `control_algorithm` is a list of optional controls for the iterative processes.
-With the option `monitor_ev = TRUE`, we ask the function to return mid-level evaluations of the model, that is it will return AIC's value for each couple of $\log_{10}\varrho_u$ and $\log_{10}\varrho_s$ evaluated.
 
 ```{r mod-paper, dependson="bindata_nocov", cache=TRUE}
 mod1 <- fit2ts(data2ts = dt2ts,
@@ -81,8 +79,7 @@ mod1 <- fit2ts(data2ts = dt2ts,
                                   max_u = 2300),
                pord = 2,
                optim_method = "ucminf",
-               optim_criterion = "aic",
-               control_algorithm = list(monitor_ev = T)) 
+               optim_criterion = "aic") 
 ```
 
 The object returned by `fit2ts()` is of class `"haz2ts"`.
@@ -115,8 +112,6 @@ As expected, choosing BIC as optimization criterion results in larger smoothing 
 The following code-chunk shows how to use the grid search method to select the optimal pair of smoothing parameters and at the same time to produce plots of the AIC and BIC values of the grid of $\log_{10}$ values of both smoothing parameters. We do not evaluate this code chunk as it can be time consuming, but we encourage the readers to run the code on their console.
 
 ```{r grid-search, dependson="bindata_nocov", cache=TRUE, eval=F}
-par(mfrow = c(1,2))
-
 mod3 <- fit2ts(data2ts = dt2ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
