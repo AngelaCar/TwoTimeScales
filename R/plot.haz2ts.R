@@ -139,7 +139,7 @@ plot.haz2ts <- function(x,
     original = FALSE,
     tmax = NULL,
     col_palette = NULL,
-    n_shades = NULL,
+    n_shades = 50,
     breaks = NULL,
     show_legend = TRUE,
     main = NULL,
@@ -257,11 +257,20 @@ plot.haz2ts <- function(x,
     for (row in 1:nrow(to_plot)) {
       for (col in 1:ncol(to_plot)) {
         cut[row, col] <- ifelse((new_grid$ints[col] + new_grid$intu[row] > opts$tmax + new_grid$du) &
-          (new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) >= -1, NA, 1)
+          (((new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) >= -1) |
+            ((new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) == - Inf)),
+          NA, 1)
       }
     }
 
     to_plot <- to_plot * cut
+    # adjust legend breaks to match cutted surface
+    if(which_plot %in% c("hazard", "SE")){
+      K <- (max(to_plot, na.rm = T)-min(to_plot, na.rm = T))/(opts$n_shades + 1)
+      opts$breaks <- seq(min(to_plot, na.rm = T),
+                         min(to_plot, na.rm = T) + K*(opts$n_shades + 1),
+                         length = (opts$n_shades + 1))
+      }
   }
 
 
@@ -399,7 +408,7 @@ plot.haz2ts <- function(x,
         loghazard = opts$loghazard,
         log10hazard = opts$log10hazard,
         col_palette = opts$col_palette,
-        n_shades = opts$n_shades,
+        n_shades = length(where_slices),
         main = opts$main,
         xlab = opts$xlab,
         ylab = opts$ylab,
