@@ -148,5 +148,7 @@ cuminc2ts <- function(haz = list(),
     }
   }
 
+  class(CIF2ts) <- "cif2ts"
   return(CIF2ts)
 }
+
