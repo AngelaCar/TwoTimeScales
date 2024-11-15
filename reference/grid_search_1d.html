@@ -99,7 +99,9 @@ by n.</p></dd>
 
 <dt id="arg-optim-criterion">optim_criterion<a class="anchor" aria-label="anchor" href="#arg-optim-criterion"></a></dt>
 <dd><p>The criterion to be used for optimization:
-<code>"aic"</code> (default) or <code>"bic"</code>.</p></dd>
+<code>"aic"</code> (default) or <code>"bic"</code>. BIC penalized model complexity more strongly
+than AIC, so that its usage is recommended when a smoother fit is preferable
+(see also Camarda, 2012).</p></dd>
 
 
 <dt id="arg-control-algorithm">control_algorithm<a class="anchor" aria-label="anchor" href="#arg-control-algorithm"></a></dt>
@@ -137,6 +139,13 @@ values is returned, marks the optimal <code>log_10(rho_s)</code> in the plot.</p
 <li><p><code>AIC</code> (if <code>par_gridsearch$return_aic == TRUE</code>) The vector of AIC values.</p></li>
 <li><p><code>BIC</code> (if <code>par_gridsearch$return_bic == TRUE</code>) The vector of BIC values.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
+    <p>Camarda, C. G. (2012). "MortalitySmooth: An R Package for
+Smoothing Poisson Counts with P-Splines."
+Journal of Statistical Software, 50(1), 1–24.
+https://doi.org/10.18637/jss.v050.i01</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>

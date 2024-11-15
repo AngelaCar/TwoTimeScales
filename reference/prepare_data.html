@@ -182,6 +182,30 @@ of dimension n by p</p></li>
 </ul></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>A few words about constructing the grid of bins.
+Bins are cointainers for the individual data. There is no 'golden rule' or
+optimal strategy for setting the number of bins over each time axis, or deciding
+on the bins' width. It very much depends on the data structure, however, we
+try to give some directions here. First, in most cases, more bins is better
+than less bins. A good number is about 30 bins.
+However, if data are scarce, the user might want to find a compromise between
+having a larger number of bins, and having many bins empty.
+Second, the chosen width of the bins (that is <code>du</code> and <code>ds</code>) does depend on
+the time unit over which the time scales are measured. For example, if the time
+is recorded in days, as in the example below, and several years of follow-up
+are available, the user can split the data in bins of width 30 (corresponding
+to about one month), 60 (about two months), 90 (about three months), etc.
+If the time scale is measured in years, then appropriate width could be 0.25
+(corresponding to a quarter of a year), or 0.5 (that is half year). However,
+in some cases, time might be measure in completed years, as is often the case
+for age. In this scenario, an appropriate bin width is 1.</p>
+<p>Finally, it is always a good idea to plot your data first, and explore the range
+of values over which the time scale(s) are recorded. This will give insight
+about reasonable values for the arguments <code>min_s</code>, <code>min_u</code>, <code>max_s</code> and <code>max_u</code>
+(that in any case are optional).</p>
+    </div>
+    <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
     <p>Angela Carollo <a href="mailto:carollo@demogr.mpg.de">carollo@demogr.mpg.de</a></p>
     </div>
