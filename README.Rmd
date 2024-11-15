@@ -26,7 +26,10 @@ The package provides tools to estimate a smooth hazard that varies over two time
 Additionally, functions to estimate cumulated surfaces (such as cumulated hazard, survival function and incidence function) over two time scales are included.
 
 ## Installation
+### From CRAN
+Just run install.packages("TwoTimeScales")
 
+### From GitHub
 You can install the development version of TwoTimeScales from [GitHub](https://github.com/) with:
 
 ``` r

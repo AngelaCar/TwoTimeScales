@@ -9,7 +9,9 @@
 #' @param lrho A vector of `log_10(rho_s)` values.
 #' @inheritParams get_aic_fit_1d
 #' @param optim_criterion The criterion to be used for optimization:
-#' `"aic"` (default) or `"bic"`.
+#' `"aic"` (default) or `"bic"`. BIC penalized model complexity more strongly
+#' than AIC, so that its usage is recommended when a smoother fit is preferable
+#' (see also Camarda, 2012).
 #' @param par_gridsearch A list of parameters for the grid_search:
 #'   * `plot_aic` A Boolean. Default is `FALSE`. If `TRUE`, plot the AIC values
 #'     over the grid of `log_10(rhos)` values.
@@ -28,7 +30,10 @@
 #'   * `P_optimal` The optimal penalty matrix P.
 #'   * `AIC` (if `par_gridsearch$return_aic == TRUE`) The vector of AIC values.
 #'   * `BIC` (if `par_gridsearch$return_bic == TRUE`) The vector of BIC values.
-#'
+#' @references Camarda, C. G. (2012). "MortalitySmooth: An R Package for
+#'    Smoothing Poisson Counts with P-Splines."
+#'    Journal of Statistical Software, 50(1), 1–24.
+#'    https://doi.org/10.18637/jss.v050.i01
 #' @importFrom graphics points
 #' @export
 

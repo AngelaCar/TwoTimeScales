@@ -109,6 +109,30 @@ time axes and then computes the aggregated (or individual)
 vectors or matrices of exposure times and events indicators. A data.frame with
 covariates values can be provided by the user.
 }
+\details{
+A few words about constructing the grid of bins.
+Bins are cointainers for the individual data. There is no 'golden rule' or
+optimal strategy for setting the number of bins over each time axis, or deciding
+on the bins' width. It very much depends on the data structure, however, we
+try to give some directions here. First, in most cases, more bins is better
+than less bins. A good number is about 30 bins.
+However, if data are scarce, the user might want to find a compromise between
+having a larger number of bins, and having many bins empty.
+Second, the chosen width of the bins (that is \code{du} and \code{ds}) does depend on
+the time unit over which the time scales are measured. For example, if the time
+is recorded in days, as in the example below, and several years of follow-up
+are available, the user can split the data in bins of width 30 (corresponding
+to about one month), 60 (about two months), 90 (about three months), etc.
+If the time scale is measured in years, then appropriate width could be 0.25
+(corresponding to a quarter of a year), or 0.5 (that is half year). However,
+in some cases, time might be measure in completed years, as is often the case
+for age. In this scenario, an appropriate bin width is 1.
+
+Finally, it is always a good idea to plot your data first, and explore the range
+of values over which the time scale(s) are recorded. This will give insight
+about reasonable values for the arguments \code{min_s}, \code{min_u}, \code{max_s} and \code{max_u}
+(that in any case are optional).
+}
 \examples{
 
 # Bin data over s = time since recurrence only, with intervals of length 30 days
