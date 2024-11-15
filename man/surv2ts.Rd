@@ -2,35 +2,21 @@
 % Please edit documentation in R/competing_risks_methods.R
 \name{surv2ts}
 \alias{surv2ts}
-\title{Survival surface (cause-specific) and overall survival with two time scales}
+\title{Survival function with two time scales}
 \usage{
-surv2ts(cumhaz = list(), cause = NULL)
+surv2ts(cumhaz = list())
 }
 \arguments{
 \item{cumhaz}{a list with all the cause-specific cumulated hazard matrices
 (minimum one element needs to be supplied).
 If more than one cause-specific cumulated hazard is provided,
 then they should all be matrices of the same dimension.}
-
-\item{cause}{is an optional vector of short names for the causes. It should
-be of the same length as the number of cause-specific cumulated hazards provided.}
 }
 \value{
-a list with varying length. If only one cumulated hazard is provided
-as input, the function will calculate one two-dimensional survival
-surface. The output will be a list of one element.
-If K (with K>1) cumulated hazards are supplied, then the output will
-be a list with K+1 elements:
-* the first K elements will be the K cause-specific survival estimates;
-if a vector of short names with the causes is passed to the argument
-\code{cause}, then these will be used to name elements in the output;
-* \code{OverSurv} is the overall two-dimensional survival surface.
+a matrix containing the values of the survival function over \code{s} and \code{u}.
 }
 \description{
-Computes cause-specific survival estimates over two time scales from a list of
-cause-specific cumulated hazard matrices. Each matrix of cause-specific survival
-is calculated as \eqn{\exp(-CumHaz)}. Additionally, if the user provides more than
-one cause-specific cumulated hazard, the function computes the overall survival
-matrix, that contains the probability of not experiencing an event of any cause
-by time \code{s} and fixed time at entry \code{u}.
+Computes the survival matrix, that contains the probability of not
+experiencing an event of any cause by time \code{s} and fixed time at entry \code{u},
+from a list of cause-specific cumulated hazard matrices.
 }
