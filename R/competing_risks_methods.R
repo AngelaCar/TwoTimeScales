@@ -63,41 +63,62 @@ cumhaz2ts <- function(fitted_model,
   return(res)
 }
 
-#' Survival function with two time scales
+#' Survival surface (cause-specific) and overall survival with two time scales
 #'
 #' @description
-#' Computes the survival matrix, that contains the probability of not
-#' experiencing an event of any cause by time `s` and fixed time at entry `u`,
-#' from a list of cause-specific cumulated hazard matrices.
+#' Computes cause-specific survival estimates over two time scales from a list of
+#' cause-specific cumulated hazard matrices. Each matrix of cause-specific survival
+#' is calculated as \eqn{\exp(-CumHaz)}. Additionally, if the user provides more than
+#' one cause-specific cumulated hazard, the function computes the overall survival
+#' matrix, that contains the probability of not experiencing an event of any cause
+#' by time `s` and fixed time at entry `u`.
 #'
 #'
 #' @param cumhaz a list with all the cause-specific cumulated hazard matrices
 #'  (minimum one element needs to be supplied).
 #'  If more than one cause-specific cumulated hazard is provided,
 #'  then they should all be matrices of the same dimension.
-#' @return a matrix containing the values of the survival function over `s` and `u`.
-#'
+#' @param cause is an optional vector of short names for the causes. It should
+#' be of the same length as the number of cause-specific cumulated hazards provided.
+#' @return a list with varying length. If only one cumulated hazard is provided
+#'          as input, the function will calculate one two-dimensional survival
+#'          surface. The output will be a list of one element.
+#'          If K (with K>1) cumulated hazards are supplied, then the output will
+#'          be a list with K+1 elements:
+#'          * the first K elements will be the K cause-specific survival estimates;
+#'            if a vector of short names with the causes is passed to the argument
+#'            `cause`, then these will be used to name elements in the output;
+#'          * `OverSurv` is the overall two-dimensional survival surface.
 #' @export
 #'
-surv2ts <- function(cumhaz = list()) {
+surv2ts <- function(cumhaz = list(),
+                    cause = NULL) {
   ncauses <- length(cumhaz)
+  if (!is.null(cause)) {
+    if (length(cause) != ncauses) {
+      message("The number of names provided for the causes is not equal to the number of causes provided.")
+    }
+  }
   Surv2ts <- vector("list", length = ncauses)
 
   for (i in 1:ncauses) {
     Surv2ts[[i]] <- exp(-cumhaz[[i]])
+    if (!is.null(cause)) {
+      names(Surv2ts)[i] <- cause[i]
+    }
   }
 
   if (ncauses > 1) {
-    Surv2ts$Surv2ts <- exp(-(Reduce("+", cumhaz)))
+    Surv2ts$OverSurv <- exp(-(Reduce("+", cumhaz)))
   }
-  return(Surv2ts$Surv2ts)
+  return(Surv2ts)
 }
 
 #' Cumulative incidence surface over two time scales
 #'
 #' @param haz a list of cause-specific hazards
 #' @param oversurv the overall survival probability surface over two time scales, obtained
-#'  from `surv2ts`
+#'  from `surv2ts` (the last element in the list of results)
 #' @param ds the distance between two consecutive intervals over the `s` time scale.
 #'  This has to be equal for all cause-specific hazards
 #' @param cause is an optional vector of short names for the causes. It should

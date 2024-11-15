@@ -57,9 +57,7 @@ n by p.}
 \item{ridge}{A ridge penalty parameter: default is 0.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
-\code{"aic"} (default) or \code{"bic"}. BIC penalized model complexity more strongly
-than AIC, so that its usage is recommended when a smoother fit is preferable
-(see also Camarda, 2012).}
+\code{"aic"} (default) or \code{"bic"}.}
 
 \item{control_algorithm}{A list with optional values for the parameters of
 the iterative processes:
@@ -110,10 +108,4 @@ AIC or BIC of the two time scales model.
 
 It finds the optimal values of \code{log_10(rho_u)} and \code{log_10(rho_s)} and
 returns the estimated optimal model.
-}
-\references{
-Camarda, C. G. (2012). "MortalitySmooth: An R Package for
-Smoothing Poisson Counts with P-Splines."
-Journal of Statistical Software, 50(1), 1–24.
-https://doi.org/10.18637/jss.v050.i01
 }

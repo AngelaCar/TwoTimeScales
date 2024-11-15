@@ -10,7 +10,7 @@ cuminc2ts(haz = list(), oversurv, ds, cause = NULL)
 \item{haz}{a list of cause-specific hazards}
 
 \item{oversurv}{the overall survival probability surface over two time scales, obtained
-from \code{surv2ts}}
+from \code{surv2ts} (the last element in the list of results)}
 
 \item{ds}{the distance between two consecutive intervals over the \code{s} time scale.
 This has to be equal for all cause-specific hazards}

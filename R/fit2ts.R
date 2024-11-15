@@ -2,12 +2,10 @@
 #'
 #' @description `fit2ts()` fits a smooth hazard model with two time scales.
 #'
-#'   Three methods are implemented for the search of the optimal smoothing
+#'   Two methods are implemented for the search of the optimal smoothing
 #'   parameters (and therefore optimal model): a numerical optimization of the
-#'   AIC or BIC of the model, a search for the minimum AIC or BIC of the
-#'   model over a grid of `log_10` values for the smoothing parameters, and a
-#'   solution that uses the mixed model representation of the P-spline model to
-#'   estimate the smoothing parameters.
+#'   AIC or BIC of the model and a search for the minimum AIC or BIC of the
+#'   model over a grid of `log_10` values for the smoothing parameters.
 #'   Construction of the B-splines bases and of the penalty matrix is
 #'   incorporated within the function. If a matrix of covariates is provided,
 #'   the function will estimate a model with covariates.
@@ -43,9 +41,9 @@
 #' @param optim_method The method to be used for optimization:
 #'   `"ucminf"` (default) for the numerical optimization of the AIC (or BIC),
 #'    `"grid_search"` for a grid search of the minimum AIC (or BIC)
-#'     over a grid of `log_10(rho_u)` and `log_10(rho_s)` values,
-#'     or `"LMMsolver"` to solve the model as sparse linear mixed model using the
-#'     package LMMsolver.
+#'   over a grid of `log_10(rho_u)` and `log_10(rho_s)` values,
+#'  or `"LMMsolver"` to solve the model as sparse linear mixed model using the
+#'  package LMMsolver.
 #' @param lrho A vector of two elements if `optim_method == "ucminf"`.
 #'   Default is `c(0,0)`. A list of two vectors of values for `log_10(rho_u)`
 #'   and `log_10(rho_s)` if `optim_method == "grid_search"`. In the latter case,

@@ -64,9 +64,7 @@ over a grid of \eqn{\log_{10}(\varrho_s)} values, and \code{"LMMsolver"} to solv
 as sparse linear mixed model using the package LMMsolver.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
-\code{"aic"} (default) or \code{"bic"}. BIC penalized model complexity more strongly
-than AIC, so that its usage is recommended when a smoother fit is preferable
-(see also Camarda, 2012).}
+\code{"aic"} (default) or \code{"bic"}.}
 
 \item{lrho}{A number if \code{optim_method == "ucminf"}, default is 0.
 A vector of values for \eqn{\log_{10}(\varrho_s)}  if \code{optim_method == "grid_search"}.
