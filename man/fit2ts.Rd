@@ -72,7 +72,9 @@ or \code{"LMMsolver"} to solve the model as sparse linear mixed model using the
 package LMMsolver.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
-\code{"aic"} (default) or \code{"bic"}.}
+\code{"aic"} (default) or \code{"bic"}. BIC penalized model complexity more strongly
+than AIC, so that its usage is recommended when a smoother fit is preferable
+(see also Camarda, 2012).}
 
 \item{lrho}{A vector of two elements if \code{optim_method == "ucminf"}.
 Default is \code{c(0,0)}. A list of two vectors of values for \code{log_10(rho_u)}
@@ -165,10 +167,12 @@ ED of the model
 \description{
 \code{fit2ts()} fits a smooth hazard model with two time scales.
 
-Two methods are implemented for the search of the optimal smoothing
+Three methods are implemented for the search of the optimal smoothing
 parameters (and therefore optimal model): a numerical optimization of the
-AIC or BIC of the model and a search for the minimum AIC or BIC of the
-model over a grid of \code{log_10} values for the smoothing parameters.
+AIC or BIC of the model, a search for the minimum AIC or BIC of the
+model over a grid of \code{log_10} values for the smoothing parameters, and a
+solution that uses the mixed model representation of the P-spline model to
+estimate the smoothing parameters.
 Construction of the B-splines bases and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates.
