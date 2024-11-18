@@ -7,7 +7,8 @@ Authors@R: c(person("Angela", "Carollo", email = "carollo@demogr.mpg.de",  role 
            person("Jutta", "Gampe", email = "gampe@demogr.mpg.de", role = "aut"))
 Mantainer: Angela Carollo <carollo@demogr.mpg.de>
 URL: https://github.com/AngelaCar/TwoTimeScales, https://angelacar.github.io/TwoTimeScales/
-Description: Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model.
+Description: Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard.
+Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -23,9 +24,9 @@ Imports: colorspace,
          spam,
          ucminf,
          viridis
-Depends: 
+Depends:
     R (>= 3.5.0)
-Suggests: 
+Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0)
