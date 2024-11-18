@@ -7,15 +7,7 @@ Authors@R: c(person("Angela", "Carollo", email = "carollo@demogr.mpg.de",  role 
            person("Jutta", "Gampe", email = "gampe@demogr.mpg.de", role = "aut"))
 Mantainer: Angela Carollo <carollo@demogr.mpg.de>
 URL: https://github.com/AngelaCar/TwoTimeScales, https://angelacar.github.io/TwoTimeScales/
-<<<<<<< HEAD
-Description: Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard.
-=======
-Description: Tools for the analysis of time to event data with two time scales.
-    The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards
-model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard.
->>>>>>> 373dc8c4ef0a410741ab9928b9d4e14cd6d0a1f5
-Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model.
-For details about the method please refer to Carollo et al. (2023) <https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1> 
+Description: Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
