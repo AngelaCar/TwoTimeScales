@@ -1,0 +1,12 @@
+"0","covs <- subset(reccolon2ts, select = c(""rx"", ""sex"", ""adhere"", ""obstruct"", ""node4""))
+dt2ts_cov <- prepare_data(u = reccolon2ts$timer,
+                          s_out = reccolon2ts$timesr,
+                          events = reccolon2ts$status,
+                          ds = 30,
+                          individual = TRUE, 
+                          covs = covs)
+"
+"2","`s_in = NULL`. I will use `s_in = 0` for all observations.
+"
+"2","`s_in = NULL`. I will use `s_in = 0` for all observations.
+"

@@ -1,0 +1,26 @@
+{
+    "id": "B4709A1E",
+    "path": "U:/Nextcloud/PhD project/TwoTimeScales/R/haz2ts_methods.R",
+    "project_path": "R/haz2ts_methods.R",
+    "type": "r_source",
+    "hash": "724275352",
+    "contents": "",
+    "dirty": false,
+    "created": 1715765550638.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "8,35",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1715765710,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1715765710182,
+    "read_only": false,
+    "read_only_alternatives": []
+}

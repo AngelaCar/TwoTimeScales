@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Smooth hazards with two time scales</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Smooth hazards with two time scales</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(TwoTimeScales)</span></code></pre></div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>This vignette focuses on the analysis of time-to-event data with two
+time scales. We show how to use the functions of the package
+<code>TwoTimeScales</code> with their different options. In particular
+we show:</p>
+<ul>
+<li>how to bin data over the <span class="math inline">\((u,s)\)</span>-
+or the <span class="math inline">\((t,s)\)</span>-plane</li>
+<li>how to bin data when covariates are presents</li>
+<li>how to perform a grid search of the optimal couple of smoothing
+parameters</li>
+<li>how to plot the AIC or BIC grid</li>
+<li>how to perform a numerical optimization of the model</li>
+<li>how to use the functionalities of the LMMsolver package to find the
+optimal smoothing parameters</li>
+<li>how to estimate a model with covariates</li>
+</ul>
+<p>This vignette does not deal with visualization of the estimated
+smooth hazard with two time scales. Visualization is the topic of the
+vignette <em>Visualize hazards with two time scales</em>. We assume that
+the reader of this vignette has some familiarity with the model, and
+with the basic functions of the package introduced in <em>Introduction
+to TwoTimeScales</em>. For a full exposition of the model, we refer to
+<span class="citation">Carollo et al. (2023)</span>.</p>
+<p>In the following, we once again analyse the dataset
+<code>reccolon2ts</code>, which includes data on patients with
+recurrence of colon cancer. The first part of this vignette deals with
+the model without covariates, and the proportional hazards model for the
+same analysis follows in the second part.</p>
+</div>
+<div id="hazard-of-death-by-time-since-randomization-and-time-since-recurrence" class="section level2">
+<h2>Hazard of death by time since randomization and time since
+recurrence</h2>
+<p>The two time variables are <span class="math inline">\(t\)</span> =
+time since randomization and <span class="math inline">\(s\)</span> =
+time since recurrence. Additionally, <span class="math inline">\(u\)</span> = time at recurrence, is the fixed time
+at entry in the risk set recorded as number of days from randomization
+to recurrence. The analysis is performed over the <span class="math inline">\((u,s)\)</span>-plane, so we need to bin the data
+over <span class="math inline">\(u\)</span> and <span class="math inline">\(s\)</span>. We consider bins of width 30 days on
+both axes, and we obtain 77 bins on the <span class="math inline">\(u\)</span> axis and <span class="math inline">\(91\)</span> bins on the <span class="math inline">\(s\)</span> axis.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>dt2ts <span class="ot">&lt;-</span> <span class="fu">prepare_data</span>(<span class="at">u =</span> reccolon2ts<span class="sc">$</span>timer,</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>                      <span class="at">s_out =</span> reccolon2ts<span class="sc">$</span>timesr,</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>                      <span class="at">events =</span> reccolon2ts<span class="sc">$</span>status,</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>                      <span class="at">ds =</span> <span class="dv">30</span>, <span class="at">du =</span> <span class="dv">30</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">print</span>(dt2ts)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; An object of class &#39;data2ts&#39;</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; Data:</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt;  $ bins   :List of 6</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt;  $ bindata:List of 2</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr &quot;data2ts&quot;</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; Range covered by the bins: </span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; $bins_u</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt; [1]    8 2288</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt; $bins_s</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; [1]    0 2730</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; Number of bins: </span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; $nu</span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; [1] 76</span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; $ns</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; [1] 91</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt; Overview of the binned data:</span></span>
+<span id="cb2-34"><a href="#cb2-34" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Total exposure time: 246018&quot;</span></span>
+<span id="cb2-35"><a href="#cb2-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-36"><a href="#cb2-36" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Total number of events: 409&quot;</span></span></code></pre></div>
+<p>Here, we do not use the artificially created left truncated entry
+times on the <span class="math inline">\(s\)</span> axis, therefore the
+function returns a message informing the user that an entry time of 0 is
+imputed to all observations.</p>
+<p>After having prepared the data we can estimate the model. In the
+analysis presented in <span class="citation">Carollo et al.
+(2023)</span>, we build 23 <span class="math inline">\(B\)</span>-splines over each of the two
+dimensions, for a total of 529 <span class="math inline">\(\alpha\)</span> parameters. The optimal smoothing
+parameters are chosen by numerical optimization of the AIC of the model
+as function of the smoothing parameters. We use cubic <span class="math inline">\(B\)</span>-splines bases and a second order
+penalty. Here we explicitly specify all these parameters, even though
+some of them are the default options. The last argument
+<code>control_algorithm</code> is a list of optional controls for the
+iterative processes. With the option <code>monitor_ev = TRUE</code>, we
+ask the function to return mid-level evaluations of the model, that is
+it will return AIC’s value for each couple of <span class="math inline">\(\log_{10}\varrho_u\)</span> and <span class="math inline">\(\log_{10}\varrho_s\)</span> evaluated.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">fit2ts</span>(<span class="at">data2ts =</span> dt2ts,</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>               <span class="at">Bbases_spec =</span> <span class="fu">list</span>(<span class="at">bdeg =</span> <span class="dv">3</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>                                  <span class="at">nseg_s =</span> <span class="dv">20</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>                                  <span class="at">min_s =</span> <span class="dv">0</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>                                  <span class="at">max_s =</span> <span class="dv">2730</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>                                  <span class="at">nseg_u =</span> <span class="dv">20</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>                                  <span class="at">min_u =</span> <span class="dv">0</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>                                  <span class="at">max_u =</span> <span class="dv">2300</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>               <span class="at">pord =</span> <span class="dv">2</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>               <span class="at">optim_method =</span> <span class="st">&quot;ucminf&quot;</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>               <span class="at">optim_criterion =</span> <span class="st">&quot;aic&quot;</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>               <span class="at">control_algorithm =</span> <span class="fu">list</span>(<span class="at">monitor_ev =</span> T)) </span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  0 and log_10(rho_s) = 0 : 1258.91940290112&quot;</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  1e-08 and log_10(rho_s) = 0 : 1258.91940280297&quot;</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  0 and log_10(rho_s) = 1e-08 : 1258.9194028486&quot;</span></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  0.881710980064571 and log_10(rho_s) = 0.471789940157241 : 1251.68397813386&quot;</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  0.881711871775551 and log_10(rho_s) = 0.471789940157241 : 1251.68397467276&quot;</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  0.881710980064571 and log_10(rho_s) = 0.471790421947181 : 1251.68397779942&quot;</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  1.6694032153475 and log_10(rho_s) = -0.144279002798811 : 1250.56131531659&quot;</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  1.66940489475071 and log_10(rho_s) = -0.144279002798811 : 1250.56131184372&quot;</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  1.6694032153475 and log_10(rho_s) = -0.144278848519808 : 1250.56131496537&quot;</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.10300715107393 and log_10(rho_s) = 0.209584486073733 : 1249.43603473856&quot;</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.10300926408109 and log_10(rho_s) = 0.209584486073733 : 1249.43603319641&quot;</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.10300715107393 and log_10(rho_s) = 0.209584705658219 : 1249.43603459365&quot;</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.35534805284192 and log_10(rho_s) = 0.340926421331719 : 1249.30054366419&quot;</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.35535041818997 and log_10(rho_s) = 0.340926421331719 : 1249.30054349323&quot;</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.35534805284192 and log_10(rho_s) = 0.34092677225814 : 1249.30054371139&quot;</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40269944095529 and log_10(rho_s) = 0.302454776342888 : 1249.29691150976&quot;</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40270185365473 and log_10(rho_s) = 0.302454776342888 : 1249.29691150232&quot;</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40269944095529 and log_10(rho_s) = 0.302455088797665 : 1249.29691149638&quot;</span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40138914932614 and log_10(rho_s) = 0.310411392992425 : 1249.29674716572&quot;</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40139156071529 and log_10(rho_s) = 0.310411392992425 : 1249.29674716169&quot;</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40138914932614 and log_10(rho_s) = 0.310411713403818 : 1249.29674716601&quot;</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.402274206628 and log_10(rho_s) = 0.310165350431645 : 1249.29674658493&quot;</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40227661890221 and log_10(rho_s) = 0.310165350431645 : 1249.2967465845&quot;</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.402274206628 and log_10(rho_s) = 0.310165670596995 : 1249.29674658378&quot;</span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40273831852156 and log_10(rho_s) = 0.310479203847903 : 1249.29674700955&quot;</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40274073125988 and log_10(rho_s) = 0.310479203847903 : 1249.2967470132&quot;</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40273831852156 and log_10(rho_s) = 0.310479524327107 : 1249.2967470102&quot;</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40244624348368 and log_10(rho_s) = 0.310281689520613 : 1249.29674661182&quot;</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40244865592992 and log_10(rho_s) = 0.310281689520613 : 1249.29674661264&quot;</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40244624348368 and log_10(rho_s) = 0.310282009802303 : 1249.2967466121&quot;</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40235538685774 and log_10(rho_s) = 0.310220248168138 : 1249.29674657864&quot;</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40235779921313 and log_10(rho_s) = 0.310220248168138 : 1249.29674657875&quot;</span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40235538685774 and log_10(rho_s) = 0.310220568388386 : 1249.29674657768&quot;</span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40231603419219 and log_10(rho_s) = 0.310193636118991 : 1249.29674657613&quot;</span></span>
+<span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40231844650823 and log_10(rho_s) = 0.310193636118991 : 1249.29674657673&quot;</span></span>
+<span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40231603419219 and log_10(rho_s) = 0.310193956312627 : 1249.29674657577&quot;</span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40210729307251 and log_10(rho_s) = 0.310237949544861 : 1249.29674656504&quot;</span></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.4021097051798 and log_10(rho_s) = 0.310237949544861 : 1249.29674656507&quot;</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40210729307251 and log_10(rho_s) = 0.31023826978281 : 1249.29674656455&quot;</span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40153058397294 and log_10(rho_s) = 0.310400514271832 : 1249.29674697423&quot;</span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40153299550353 and log_10(rho_s) = 0.310400514271832 : 1249.2967469706&quot;</span></span>
+<span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40153058397294 and log_10(rho_s) = 0.310400834672347 : 1249.29674697381&quot;</span></span>
+<span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40199652395517 and log_10(rho_s) = 0.310269173521265 : 1249.2967465908&quot;</span></span>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.4019989359517 and log_10(rho_s) = 0.310269173521265 : 1249.29674659078&quot;</span></span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40199652395517 and log_10(rho_s) = 0.310269493790438 : 1249.29674659131&quot;</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40207098725249 and log_10(rho_s) = 0.310248183553173 : 1249.29674657064&quot;</span></span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40207339932348 and log_10(rho_s) = 0.310248183553173 : 1249.29674657019&quot;</span></span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40207098725249 and log_10(rho_s) = 0.310248503801356 : 1249.29674657094&quot;</span></span>
+<span id="cb3-61"><a href="#cb3-61" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40209382988775 and log_10(rho_s) = 0.310241744593278 : 1249.29674656632&quot;</span></span>
+<span id="cb3-62"><a href="#cb3-62" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40209624198158 and log_10(rho_s) = 0.310241744593278 : 1249.29674656637&quot;</span></span>
+<span id="cb3-63"><a href="#cb3-63" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40209382988775 and log_10(rho_s) = 0.310242064835023 : 1249.29674656641&quot;</span></span>
+<span id="cb3-64"><a href="#cb3-64" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40210174898562 and log_10(rho_s) = 0.310239512330974 : 1249.29674656516&quot;</span></span>
+<span id="cb3-65"><a href="#cb3-65" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40210416108737 and log_10(rho_s) = 0.310239512330974 : 1249.29674656497&quot;</span></span>
+<span id="cb3-66"><a href="#cb3-66" tabindex="-1"></a><span class="co">#&gt; [1] &quot;AIC for model with log_10(rho_u) =  2.40210174898562 and log_10(rho_s) = 0.310239832570487 : 1249.29674656552&quot;</span></span></code></pre></div>
+<p>The object returned by <code>fit2ts()</code> is of class
+<code>&quot;haz2ts&quot;</code>. The optimal smoothing parameters are <span class="math inline">\(\varrho_u = 10^{2.4}\)</span> and <span class="math inline">\(\varrho_s=10^{0.3}\)</span>, and the effective
+dimension of the model is 11.1.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">summary</span>(mod1)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; Model specifications:</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;   number of events =  409 </span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;   nu =  76 </span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;   ns =  91 </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt;   cu =  23 </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt;   cs =  23 </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; Optimal smoothing: </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;   log10(rho_u) =  2.402107 </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;   log10(rho_s) =  0.3102379 </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;   rho_u =  252.4104 </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;   rho_s =  2.042857 </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; Model with no covariates</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; Model fit: </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;   AIC =  1249.297 </span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;   BIC =  1314.659 </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;   ED =  11.13977</span></span></code></pre></div>
+<p>We can change the optimization criterion to BIC, and compare the
+results in terms of smoothing parameters and effective dimensions:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">fit2ts</span>(<span class="at">data2ts =</span> dt2ts,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>               <span class="at">Bbases_spec =</span> <span class="fu">list</span>(<span class="at">bdeg =</span> <span class="dv">3</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>                                  <span class="at">nseg_s =</span> <span class="dv">20</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>                                  <span class="at">min_s =</span> <span class="dv">0</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>                                  <span class="at">max_s =</span> <span class="dv">2730</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                                  <span class="at">nseg_u =</span> <span class="dv">20</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                                  <span class="at">min_u =</span> <span class="dv">0</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>                                  <span class="at">max_u =</span> <span class="dv">2300</span>),</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>               <span class="at">pord =</span> <span class="dv">2</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>               <span class="at">optim_method =</span> <span class="st">&quot;ucminf&quot;</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>               <span class="at">optim_criterion =</span> <span class="st">&quot;bic&quot;</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>mod2<span class="sc">$</span>optimal_logrho</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; [1] 5.500679 1.547580</span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>mod2<span class="sc">$</span>optimal_model<span class="sc">$</span>ed</span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; [1] 5.460439</span></span></code></pre></div>
+<p>As expected, choosing BIC as optimization criterion results in larger
+smoothing parameters and a smaller effective dimension, as BIC penalizes
+model complexity more strongly than AIC. The following code-chunk shows
+how to use the grid search method to select the optimal pair of
+smoothing parameters and at the same time to produce plots of the AIC
+and BIC values of the grid of <span class="math inline">\(\log_{10}\)</span> values of both smoothing
+parameters. We do not evaluate this code chunk as it can be time
+consuming, but we encourage the readers to run the code on their
+console.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">fit2ts</span>(<span class="at">data2ts =</span> dt2ts,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>               <span class="at">Bbases_spec =</span> <span class="fu">list</span>(<span class="at">bdeg =</span> <span class="dv">3</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>                                  <span class="at">nseg_s =</span> <span class="dv">20</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                                  <span class="at">min_s =</span> <span class="dv">0</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                                  <span class="at">max_s =</span> <span class="dv">2730</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>                                  <span class="at">nseg_u =</span> <span class="dv">20</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>                                  <span class="at">min_u =</span> <span class="dv">0</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>                                  <span class="at">max_u =</span> <span class="dv">2300</span>),</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>               <span class="at">optim_method =</span> <span class="st">&quot;grid_search&quot;</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>               <span class="at">optim_criterion =</span> <span class="st">&quot;aic&quot;</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>               <span class="at">lrho =</span> <span class="fu">list</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="at">by=</span>.<span class="dv">2</span>),</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>                           <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="at">by =</span> .<span class="dv">2</span>)),</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>               <span class="at">par_gridsearch =</span> <span class="fu">list</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>                 <span class="at">plot_aic =</span> T,</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>                 <span class="at">plot_bic =</span> T,</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a>                 <span class="at">mark_optimal =</span> T,</span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a>                 <span class="at">plot_contour =</span> T</span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a>               ))</span></code></pre></div>
+<p>Alternatively, we can ask the function to return the matrices of AIC
+and/or BIC values as part of the fitted object and then plot them
+separately (here not shown).</p>
+<p>Lastly, we show how to fit the same model by using the package
+LMMsolver <span class="citation">Martin P. Boer (2023)</span>, that uses
+the connection between linear mixed models and P-splines, and uses
+sparse representation to speed-up calculations. It is possible to fit
+this model by using the same function <code>fit2ts()</code> and
+specifying the option <code>optim_method = &quot;LMMsolver&quot;</code>. This
+returns an object of class <code>haz2tsLMM</code>, which differ in
+structure from objects of class <code>haz2ts</code>, but has the same
+methods implemented.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>mod_LMM <span class="ot">&lt;-</span> <span class="fu">fit2ts</span>(<span class="at">data2ts =</span> dt2ts,</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                  <span class="at">Bbases_spec =</span> <span class="fu">list</span>(<span class="at">bdeg =</span> <span class="dv">3</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                                     <span class="at">nseg_s =</span> <span class="dv">20</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>                                     <span class="at">min_s =</span> <span class="dv">0</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>                                     <span class="at">max_s =</span> <span class="dv">2730</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>                                     <span class="at">nseg_u =</span> <span class="dv">20</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>                                     <span class="at">min_u =</span> <span class="dv">0</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>                                     <span class="at">max_u =</span> <span class="dv">2300</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>                  <span class="at">pord =</span> <span class="dv">2</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>                  <span class="at">optim_method =</span> <span class="st">&quot;LMMsolver&quot;</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>                  <span class="at">optim_criterion =</span> <span class="st">&quot;aic&quot;</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">summary</span>(mod_LMM)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Model specifications:</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt;   number of events =  409 </span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt;   nu =  76 </span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt;   ns =  91 </span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt;   cu =  23 </span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;   cs =  23 </span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; Model with no covariates</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; Model fit: </span></span>
+<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt;   AIC =  1249.449 </span></span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt;   BIC =  1314.151</span></span></code></pre></div>
+<p>Note: the functions from LMMsolver needed to fit the two time scales
+hazard model are incorporated in the <code>TwoTimeScales</code> package.
+Nevertheless, we do recommend interested readers to check out the
+excellent R-package <code>LMMsolver</code> and its accompanying webpage:
+<a href="https://biometris.github.io/LMMsolver/" class="uri">https://biometris.github.io/LMMsolver/</a></p>
+</div>
+<div id="ph-regression-for-the-colon-cancer-data" class="section level2">
+<h2>PH regression for the colon cancer data</h2>
+<p>We first show how to prepare the data for the analysis with
+covariates, then we see that there is no need to modify the estimation
+command, as the function <code>fit2ts()</code> automatically recognizes
+that the data object includes a covariates’ matrix and then it correctly
+estimates a GLAM PH model.</p>
+<p>To prepare the covariates’ matrix, we need to pass a matrix with the
+individual values of the covariates, to the argument <code>covs</code>
+in <code>prepare_data</code>. We do so by subsetting the dataset and
+selecting the desired covariates.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>covs <span class="ot">&lt;-</span> <span class="fu">subset</span>(reccolon2ts, <span class="at">select =</span> <span class="fu">c</span>(<span class="st">&quot;rx&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;adhere&quot;</span>, <span class="st">&quot;obstruct&quot;</span>, <span class="st">&quot;node4&quot;</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>dt2ts_cov <span class="ot">&lt;-</span> <span class="fu">prepare_data</span>(<span class="at">u =</span> reccolon2ts<span class="sc">$</span>timer,</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>                          <span class="at">s_out =</span> reccolon2ts<span class="sc">$</span>timesr,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>                          <span class="at">events =</span> reccolon2ts<span class="sc">$</span>status,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>                          <span class="at">ds =</span> <span class="dv">30</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>                          <span class="at">individual =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>                          <span class="at">covs =</span> covs)</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="fu">print</span>(dt2ts_cov)</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; An object of class &#39;data2ts&#39;</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; Data:</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; List of 2</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt;  $ bins   :List of 6</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt;  $ bindata:List of 3</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr &quot;data2ts&quot;</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; Range covered by the bins: </span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; $bins_u</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="co">#&gt; [1]    8 2288</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; $bins_s</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; [1]    0 2730</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; Number of bins: </span></span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; $nu</span></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; [1] 76</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#&gt; $ns</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="co">#&gt; [1] 91</span></span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co">#&gt; Overview of the binned data:</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Total exposure time: 246018&quot;</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Total number of events: 409&quot;</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#&gt; Covariates:</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Lev&quot;      &quot;Lev_5FU&quot;  &quot;male&quot;     &quot;adhere&quot;   &quot;obstruct&quot; &quot;node4&quot;</span></span></code></pre></div>
+<p>Then, we pass the object <code>d2ts_cov</code> to
+<code>fit2ts()</code> with the same arguments as before. We do not show
+the fitted object here, but encourage the readers to run the code on
+their console.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>mod_cov <span class="ot">&lt;-</span> <span class="fu">fit2ts</span>(<span class="at">data2ts =</span> dt2ts_cov,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                  <span class="at">Bbases_spec =</span> <span class="fu">list</span>(<span class="at">bdeg =</span> <span class="dv">3</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                                     <span class="at">nseg_s =</span> <span class="dv">20</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                                     <span class="at">min_s =</span> <span class="dv">0</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>                                     <span class="at">max_s =</span> <span class="dv">2730</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>                                     <span class="at">nseg_u =</span> <span class="dv">20</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>                                     <span class="at">min_u =</span> <span class="dv">0</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>                                     <span class="at">max_u =</span> <span class="dv">2300</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>                  <span class="at">pord =</span> <span class="dv">2</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>                  <span class="at">optim_method =</span> <span class="st">&quot;ucminf&quot;</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>                  <span class="at">optim_criterion =</span> <span class="st">&quot;aic&quot;</span>)</span></code></pre></div>
+<div id="prepare-the-data-over-the-lexis-diagram" class="section level3">
+<h3>Prepare the data over the Lexis diagram</h3>
+<p>It is, in principle, possible to prepare the data over the <span class="math inline">\((t,s)\)</span>-plane. To do so, we pass as
+arguments to the function <code>prepare_data()</code> a vector of entry
+times and a vector of exit times over the <span class="math inline">\(t\)</span> axis, rather than the vector of entry
+times <span class="math inline">\(u\)</span>. From the image plot of the
+exposure times, we can see how the data are only present in the lower
+half-plane where <span class="math inline">\(t\ge s\)</span>.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>dt2tsLex <span class="ot">&lt;-</span> <span class="fu">prepare_data</span>(<span class="at">t_in =</span> reccolon2ts<span class="sc">$</span>timer,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>                         <span class="at">t_out =</span> reccolon2ts<span class="sc">$</span>timedc,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>                         <span class="at">s_out =</span> reccolon2ts<span class="sc">$</span>timesr,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>                         <span class="at">events =</span> reccolon2ts<span class="sc">$</span>status,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>                         <span class="at">ds =</span> <span class="dv">30</span>, <span class="at">dt =</span> <span class="dv">30</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; </span><span class="al">NOTE</span><span class="co">: entry.status has been set to 0 for all.</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>fields<span class="sc">::</span><span class="fu">image.plot</span>(dt2tsLex<span class="sc">$</span>bins<span class="sc">$</span>midt, </span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>                   dt2tsLex<span class="sc">$</span>bins<span class="sc">$</span>mids,</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>                   dt2tsLex<span class="sc">$</span>bindata<span class="sc">$</span>R,</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>                   <span class="at">main =</span> <span class="st">&quot;Exposure&quot;</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>                   <span class="at">xlab =</span> <span class="st">&quot;time since randomization&quot;</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>                   <span class="at">ylab =</span> <span class="st">&quot;time since recurrence&quot;</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>                   <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;white&quot;</span>, <span class="fu">rev</span>(viridis<span class="sc">::</span><span class="fu">plasma</span>(<span class="dv">20</span>))))</span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">a=</span><span class="dv">0</span>,<span class="at">b=</span><span class="dv">1</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="fu">box</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Note: estimation over the <span class="math inline">\((t,s)\)</span>-plane with the same model is
+theoretically possible, but special care is needed to deal with the
+larger areas without data support (especially those where <span class="math inline">\(t &lt; s\)</span>). Comparison with the estimation
+over the <span class="math inline">\((u,s)\)</span>-plane is currently
+under investigation. A future version of the package will include
+options for estimation over the <span class="math inline">\((t,s)\)</span>-plane.</p>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Carollo:2023" class="csl-entry">
+Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
+<span>“Smooth Hazards with Multiple Time Scales.”</span> <em>arXiv
+Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1">https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1</a>.
+</div>
+<div id="ref-Boer:2023" class="csl-entry">
+Martin P. Boer. 2023. <span>“Tensor Product <span>P</span>-Splines Using
+a Sparse Mixed Model Formulation.”</span> <em>Statistical Modelling</em>
+23 (5-6): 465–79. <a href="https://doi.org/10.1177/1471082X231178591">https://doi.org/10.1177/1471082X231178591</a>.
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
