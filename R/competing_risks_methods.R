@@ -110,7 +110,7 @@ surv2ts <- function(cumhaz = list()) {
 
 # ----- Add option for name of cause
 cuminc2ts <- function(haz = list(),
-                      oversurv,
+                      surv,
                       ds,
                       cause = NULL) {
   ncauses <- length(haz)
@@ -121,7 +121,7 @@ cuminc2ts <- function(haz = list(),
   }
   CIF2ts <- vector("list", length = ncauses)
   for (i in 1:ncauses) {
-    CIF2ts[[i]] <- t(apply(haz[[i]] * oversurv, 1, cumsum) * ds)
+    CIF2ts[[i]] <- t(apply(haz[[i]] * surv, 1, cumsum) * ds)
     if (!is.null(cause)) {
       names(CIF2ts)[i] <- cause[i]
     }
