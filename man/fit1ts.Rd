@@ -162,12 +162,11 @@ We refer the interested readers to https://biometris.github.io/LMMsolver/
 for more details on \code{LMMsolver} and its usage.
 }
 \examples{
-\dontrun{
 ## preparing data - no covariates
 dt1ts <- prepare_data(s_in = reccolon2ts$entrys,
                         s_out = reccolon2ts$timesr,
                         events = reccolon2ts$status,
-                        ds = 30)
+                        ds = 180)
 
 ## fitting the model with fit1ts() - default options
 
@@ -179,17 +178,15 @@ covs <- subset(reccolon2ts, select = c("rx", "node4", "sex"))
 dt1ts_cov <- prepare_data(s_in = reccolon2ts$entrys,
                           s_out = reccolon2ts$timesr,
                           events = reccolon2ts$status,
-                          ds = 30,
+                          ds = 180,
                           individual = TRUE,
                           covs = covs)
 
-## fitting the model with fit1ts() - default options
+## fitting the model with fit1ts() - grid search over only two log_10(rho_s) values
 
-mod2 <- fit1ts(d)
-
-##
-}
-
+mod2 <- fit1ts(dt1ts_cov,
+               optim_method = "grid_search",
+               lrho = c(1, 1.5))
 
 
 }

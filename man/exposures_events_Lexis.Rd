@@ -43,6 +43,16 @@ on the website bendixcarstensen.com. See also \code{\link[=prepare_data]{prepare
 to conveniently prepare individual data for the analysis with one,
 or two time scales.
 }
+\examples{
+# ---- Bin colon cancer data by time since randomization and time since recurrence ----
+# First create vectors of bins (using function `make_bins()`)
+bins <- make_bins(t_out = reccolon2ts$timedc, s_out = reccolon2ts$timesr,
+dt = 90, ds = 90)
+# Now bin data (note: the t_in and s_in arguments are omitted because data are not left truncated)
+bindata2d <- exposures_events_Lexis(t_out = reccolon2ts$timedc,
+s_out = reccolon2ts$timesr, ev = reccolon2ts$status, bins = bins)
+
+}
 \references{
 Carstensen B, Plummer M, Laara E, Hills M (2022).
 Epi: A Package for Statistical Analysis in Epidemiology.

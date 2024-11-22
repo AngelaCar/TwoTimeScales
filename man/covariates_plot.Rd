@@ -45,3 +45,38 @@ point and the CIs are added as vertical bars.
 \code{covariates_plot()} produces a plot of the covariates' effects (\eqn{\hat\beta})
 with confidence intervals, or of the Hazard Ratios (\eqn{\exp(\hat\beta)}) with confidence intervals.
 }
+\examples{
+# Create some fake data - the bare minimum
+id <- 1:20
+u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+       4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
+s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+       7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
+ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)
+x1 <- c(0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0)
+
+fakedata <- as.data.frame(cbind(id, u, s, ev, x1))
+covs <- subset(fakedata, select = c("x1"))
+fakedata2ts <- prepare_data(u = fakedata$u,
+                            s_out = fakedata$s,
+                            ev = fakedata$ev,
+                            ds = .5,
+                            individual = TRUE,
+                            covs = covs)
+# Fit a fake model - not optimal smoothing
+fakemod <- fit2ts(fakedata2ts,
+                  optim_method = "grid_search",
+                  lrho = list(seq(1 ,1.5 ,.5),
+                              seq(1 ,1.5 ,.5)))
+# Covariates plot with default options
+covariates_plot(fakemod)
+
+# Plot the hazard ratios instead
+covariates_plot(fakemod,
+                plot_options = list(
+                HR = TRUE))
+
+# Change confidence level
+covariates_plot(fakemod,
+                confidence_lev = .99)
+}

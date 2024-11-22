@@ -22,6 +22,7 @@
 #'
 #' @import ucminf
 #' @export
+#'
 
 fit1tsmodel_ucminf <- function(r, y,
                                Z = NULL,

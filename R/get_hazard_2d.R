@@ -90,7 +90,17 @@ get_hazard_2d <- function(fitted_model,
   } else {
     Bu <- Bbases$Bu
     Bs <- Bbases$Bs
-    new_grid <- NULL
+    new_grid <- list(
+      "intu" = attributes(Bu)$x,
+      "umin" = attributes(Bu)$xl,
+      "umax" = attributes(Bu)$xr,
+      "ints" = attributes(Bs)$x,
+      "smin" = attributes(Bs)$xl,
+      "smax" = attributes(Bs)$xr
+    )
+    new_grid$du <- new_grid$intu[2] - new_grid$intu[1]
+    new_grid$ds <- new_grid$ints[2] - new_grid$ints[1]
+
   }
 
   # ---- Adjust grid and B-splines if slices are required ----
