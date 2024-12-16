@@ -58,10 +58,22 @@
 #' @importFrom grDevices adjustcolor
 #' @importFrom graphics abline lines par points polygon segments
 #' @importFrom stats qnorm
-
 #' @export
+#'
+#' @examples
+#' ## preparing data - no covariates
+#' dt1ts <- prepare_data(data = reccolon2ts,
+#'                       s_in = "entrys",
+#'                       s_out = "timesr",
+#'                       events = "status",
+#'                       ds = 180)
+#'
+#' ## fitting the model with fit1ts() - default options
+#'
+#' mod1 <- fit1ts(dt1ts,
+#' optim_method = "LMMsolver")
+#' plot(mod1)
 
-# add option to plot regression result on the beta level
 plot.haz1tsLMM <- function(x,
                         which_plot = c("hazard", "covariates"),
                         plot_grid = NULL,

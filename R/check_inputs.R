@@ -4,7 +4,7 @@
 #'   estimation of the GLAM model.
 #'
 #'   It checks the dimensions of the data matrices and if provided, the matrix
-#'   containing the covariates values. If the user provides a matrix of weights,
+#'   containing the covariate values. If the user provides a matrix of weights,
 #'   the dimension of this matrix is also checked. This is an internal
 #'   function called by the function `fit2ts`.
 #'

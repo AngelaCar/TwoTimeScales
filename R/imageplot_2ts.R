@@ -1,9 +1,8 @@
 #' Image Plot of 2ts hazard
 #'
-#' `imageplot_2ts()` plots an image of the two time scales hazard with
-#'   contour lines.
-#'
-#'   This is the default call implemented in plot.h2tsfit.
+#' `imageplot_2ts()` plots an image of the two time scales hazard (or survival or
+#'   cumulative hazard) with contour lines.
+#'   This is the default call implemented in plot.haz2ts.
 #'
 #' @param x The coordinates for the x-axis. This is a vector of intervals
 #'   over the `u` axis (default), a matrix with the corner points of
@@ -53,7 +52,7 @@
 #'  * `contour_nlev` The number of contour levels. Default is `10`.
 #' @param \dots Further arguments to image.plot or image
 #'
-#' @return An image plot of the (log-) hazard surface.
+#' @return An image plot of an estimated surface.
 #'
 #' @importFrom fields image.plot
 #' @importFrom viridis plasma

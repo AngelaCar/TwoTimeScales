@@ -71,3 +71,18 @@ A plot of the type required.
 \description{
 \code{plot.haz1ts()} is a plot method for objects of class \code{haz1ts}.
 }
+\examples{
+## preparing data - no covariates
+dt1ts <- prepare_data(data = reccolon2ts,
+                      s_in = "entrys",
+                      s_out = "timesr",
+                      events = "status",
+                      ds = 180)
+
+## fitting the model with fit1ts() - default options
+
+mod1 <- fit1ts(dt1ts)
+
+plot(mod1)
+
+}

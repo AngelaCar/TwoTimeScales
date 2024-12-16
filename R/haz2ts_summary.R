@@ -30,12 +30,13 @@ haz2ts_summary <- function(x,...){
               log10rhou=log10rhou,log10rhos=log10rhos,rhou=rhou,rhos=rhos)
   if(!is.null(x$optimal_model$beta)){
     coeftab <- cbind(coef= hr$beta, secoef=hr$SE_beta,
-                     expcoef=hr$HR, seexpcoef=hr$SE_HR)
+                     expcoef=hr$HR,
+                     lowerci=hr$HR - 1.96*hr$SE_HR,
+                     upperci=hr$HR + 1.96*hr$SE_HR)
     res$coeftab <- coeftab
   }
-
+  cat("Number of events = ", res$nevents, "\n")
   cat("Model specifications:\n")
-  cat("  number of events = ", res$nevents, "\n")
   cat("  nu = ", res$nu, "\n")
   cat("  ns = ", res$ns, "\n")
   cat("  cu = ", res$cu, "\n")
@@ -47,11 +48,11 @@ haz2ts_summary <- function(x,...){
   cat("  rho_s = ", res$rhos, "\n")
   cat("\n")
   if(is.null(res$coeftab)) cat("Model with no covariates") else {
-    colnames(res$coeftab) <- c("beta", "se(beta)", "exp(beta)", "se(exp(beta))")
+    colnames(res$coeftab) <- c("beta", "se(beta)", "exp(beta)", "lower .95", "upper.95")
     print(res$coeftab)
   }
   cat("\n\n")
-  cat("Model fit: \n")
+  cat("Model diagnostics: \n")
   cat("  AIC = ", res$AIC, "\n")
   cat("  BIC = ", res$BIC, "\n")
   cat("  ED = ",  res$ED)

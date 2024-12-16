@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_hazard_1d.R
 \name{get_hazard_1d}
 \alias{get_hazard_1d}
-\title{Get estimated (log-)hazard curve with 1 time scale}
+\title{Get estimated (log-)hazard values with 1 time scale}
 \usage{
 get_hazard_1d(fitted_model, plot_grid = NULL)
 }
@@ -23,25 +23,44 @@ accordingly and a warning will be returned.}
 \value{
 A list with the following elements:
 \itemize{
-\item \code{new_plot_grid} A list of new specifications of the grid for plotting.
-\item \code{hazard} A vector containing the estimated hazard.
-\item \code{loghazard} A vector containing the estimated log-hazard.
-\item \code{log10hazard} A vector containing the estimated log10-hazard.
+\item \code{new_plot_grid} A list of parameters that specify the new grid, of the form
+list("ints", "smin", "smax", "ds")
+\item \code{hazard} A vector containing the estimated hazard values.
+\item \code{loghazard} A vector containing the estimated log-hazard values.
+\item \code{log10hazard} A vector containing the estimated log10-hazard values.
 \item \code{SE_hazard} A vector containing the estimated SEs for the hazard.
 \item \code{SE_loghazard} A vector containing the estimated SEs for the log-hazard.
-\item \code{SE_log10hazard} A vector containing the estimated SEs for the log10-hazard
+\item \code{SE_log10hazard} A vector containing the estimated SEs for the log10-hazard.
 }
 }
 \description{
 \code{get_hazard_1d()} takes as input the results of a model
-estimated by \code{fit1ts} and it returns the estimated smooth log-hazard
-and the smooth  hazard together with their standard errors.
+estimated by \code{fit1ts} and it returns the estimated values of the smooth log-hazard
+and the smooth hazard together with their standard errors.
 
 If the model includes covariates, then only the baseline (log-)hazard is returned.
-It is possible to provide values that define a new grid for plotting.
-If not specified, the plotting is done using the same B-splines basis as for
-the estimation. The function will check if the parameters for the grid
+It is possible to provide values that define a new grid for evaluation of the
+estimated hazard.
+If not specified, the hazard is evaluated on the same grid used for the
+binning of the data, and therefore the estimation of the model.
+The function will check if the parameters for the new grid
 provided by the user are compatible with those originally used to construct
 the B-splines for estimating the model. If not, the grid will be adjusted
 accordingly and a warning will be returned.
+}
+\examples{
+## preparing data - no covariates
+dt1ts <- prepare_data(data = reccolon2ts,
+                      s_in = "entrys",
+                      s_out = "timesr",
+                      events = "status",
+                      ds = 180)
+
+## fitting the model with fit1ts() - default options
+
+mod1 <- fit1ts(dt1ts)
+# Obtain 1d hazard
+get_hazard_1d(mod1)
+
+
 }

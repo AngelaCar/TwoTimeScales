@@ -19,7 +19,9 @@
 #' @param Du The difference matrix over `u`.
 #' @param Ds The difference matrix over `s`.
 #' @param Wprior An optional matrix of a-priori weights.
-#' @param ridge A ridge penalty parameter: default is 0.
+#' @param ridge A ridge penalty parameter: default is 0. This is useful when, in
+#'    some cases the algorithm shows convergence problems. In this case, set to a small
+#'    number, for example `1e-4`.
 #' @param control_algorithm A list with optional values for the parameters of
 #'   the iterative processes:
 #'   * `maxiter` The maximum number of iteration for the IWSL algorithm.

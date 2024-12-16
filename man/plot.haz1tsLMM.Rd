@@ -76,3 +76,17 @@ The function \code{obtainSmoothTrend} from the R-package \code{LMMsolver} is
 used here. We refer the interested readers to https://biometris.github.io/LMMsolver/
 for more details on \code{LMMsolver} and its usage.
 }
+\examples{
+## preparing data - no covariates
+dt1ts <- prepare_data(data = reccolon2ts,
+                      s_in = "entrys",
+                      s_out = "timesr",
+                      events = "status",
+                      ds = 180)
+
+## fitting the model with fit1ts() - default options
+
+mod1 <- fit1ts(dt1ts,
+optim_method = "LMMsolver")
+plot(mod1)
+}

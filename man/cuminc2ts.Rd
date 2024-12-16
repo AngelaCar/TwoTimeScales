@@ -4,13 +4,10 @@
 \alias{cuminc2ts}
 \title{Cumulative incidence surface over two time scales}
 \usage{
-cuminc2ts(haz = list(), surv, ds, cause = NULL)
+cuminc2ts(haz = list(), ds, cause = NULL)
 }
 \arguments{
 \item{haz}{a list of cause-specific hazards}
-
-\item{surv}{the overall survival probability surface over two time scales, obtained
-from \code{surv2ts}}
 
 \item{ds}{the distance between two consecutive intervals over the \code{s} time scale.
 This has to be equal for all cause-specific hazards}
@@ -47,10 +44,7 @@ fakemod <- fit2ts(fakedata2ts,
 
 # Obtain the fake cumulated hazard
 fakecumhaz2ts <- cumhaz2ts(fakemod)
-# Fake survival curve
-fakesurv2ts <- surv2ts(cumhaz = list(fakecumhaz2ts$CumHaz))
 # Fake cumulative incidence function 2ts
 fakecif2ts <- cuminc2ts(haz = list(fakecumhaz2ts$Haz$hazard),
-                        surv = fakesurv2ts$Surv2ts,
                         ds = .5)
 }

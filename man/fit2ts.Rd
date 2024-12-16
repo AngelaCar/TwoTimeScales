@@ -84,7 +84,9 @@ values is used for both \code{log_10(rho_u)} and \code{log_10(rho_s)}.}
 
 \item{Wprior}{An optional matrix of a-priori weights.}
 
-\item{ridge}{A ridge penalty parameter: default is 0.}
+\item{ridge}{A ridge penalty parameter: default is 0. This is useful when, in
+some cases the algorithm shows convergence problems. In this case, set to a small
+number, for example \code{1e-4}.}
 
 \item{control_algorithm}{A list with optional values for the parameters of
 the iterative processes:
@@ -125,17 +127,17 @@ For objects of class \code{haz2ts} this is
 \item \code{optimal_model} A list with :
 \itemize{
 \item \code{Alpha} The matrix of estimated P-splines coefficients of dimension
-cu by cs.
+\eqn{c_u} by \eqn{c_s}.
 \item \code{Cov_alpha} The variance-covariance matrix of the \code{Alpha} coefficients,
-of dimension cucs by cucs.
+of dimension \eqn{c_uc_s} by \eqn{c_uc_s}.
 \item \code{beta} The vector of length p of estimated covariates coefficients
 (if model with covariates).
 \item \code{Cov_beta} The variance-covariance matrix of the \code{beta} coefficients,
-of dimension p by p (if model with covariates).
-\item \code{SE_beta} The vector of length p of estimated Standard Errors for the \code{beta}
+of dimension \eqn{p} by \eqn{p} (if model with covariates).
+\item \code{SE_beta} The vector of length \eqn{p} of estimated Standard Errors for the \code{beta}
 coefficients (if model with covariates)..
 \item \code{Eta} or \code{Eta0} The matrix of values of the (baseline) linear predictor
-(log-hazard) of dimension nu by ns.
+(log-hazard) of dimension \eqn{n_u} by \eqn{n_s}.
 \item \code{H} The hat-matrix.
 \item \code{deviance} The deviance.
 \item \code{ed} The effective dimension of the model.
@@ -171,7 +173,7 @@ Three methods are implemented for the search of the optimal smoothing
 parameters (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of \code{log_10} values for the smoothing parameters, and a
-solution that uses the mixed model representation of the P-spline model to
+solution that uses a sparse mixed model representation of the P-spline model to
 estimate the smoothing parameters.
 Construction of the B-splines bases and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
@@ -192,15 +194,16 @@ s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
 ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)#'
 
 fakedata <- as.data.frame(cbind(id, u, s, ev))
-fakedata2ts <- prepare_data(u = fakedata$u,
-                            s_out = fakedata$s,
-                            ev = fakedata$ev,
+fakedata2ts <- prepare_data(data = fakedata,
+                            u = "u",
+                            s_out = "s",
+                            ev = "ev",
                             ds = .5)
 # Fit a fake model - not optimal smoothing
 fit2ts(fakedata2ts,
        optim_method = "grid_search",
-       lrho = list(seq(1 ,1.5 ,.5), seq(1 ,1.5 ,.5)))
-# For more example please check the vignettes!!! Run more complicated examples
+       lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5)))
+# For more examples please check the vignettes!!! Running more complicated examples
 # here would imply longer running times...
 
 }

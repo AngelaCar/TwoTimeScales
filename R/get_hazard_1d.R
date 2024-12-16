@@ -1,13 +1,15 @@
-#' Get estimated (log-)hazard curve with 1 time scale
+#' Get estimated (log-)hazard values with 1 time scale
 #'
 #' @description `get_hazard_1d()` takes as input the results of a model
-#' estimated by `fit1ts` and it returns the estimated smooth log-hazard
-#' and the smooth  hazard together with their standard errors.
+#' estimated by `fit1ts` and it returns the estimated values of the smooth log-hazard
+#' and the smooth hazard together with their standard errors.
 #'
 #' If the model includes covariates, then only the baseline (log-)hazard is returned.
-#' It is possible to provide values that define a new grid for plotting.
-#' If not specified, the plotting is done using the same B-splines basis as for
-#' the estimation. The function will check if the parameters for the grid
+#' It is possible to provide values that define a new grid for evaluation of the
+#' estimated hazard.
+#' If not specified, the hazard is evaluated on the same grid used for the
+#' binning of the data, and therefore the estimation of the model.
+#' The function will check if the parameters for the new grid
 #' provided by the user are compatible with those originally used to construct
 #' the B-splines for estimating the model. If not, the grid will be adjusted
 #' accordingly and a warning will be returned.
@@ -16,14 +18,30 @@
 #' @param fitted_model is an object of class `"haz1ts"`, the output of the function `fit1ts()`.
 #'
 #' @return A list with the following elements:
-#'   * `new_plot_grid` A list of new specifications of the grid for plotting.
-#'   * `hazard` A vector containing the estimated hazard.
-#'   * `loghazard` A vector containing the estimated log-hazard.
-#'   * `log10hazard` A vector containing the estimated log10-hazard.
+#'   * `new_plot_grid` A list of parameters that specify the new grid, of the form
+#'   list("ints", "smin", "smax", "ds")
+#'   * `hazard` A vector containing the estimated hazard values.
+#'   * `loghazard` A vector containing the estimated log-hazard values.
+#'   * `log10hazard` A vector containing the estimated log10-hazard values.
 #'   * `SE_hazard` A vector containing the estimated SEs for the hazard.
 #'   * `SE_loghazard` A vector containing the estimated SEs for the log-hazard.
-#'   * `SE_log10hazard` A vector containing the estimated SEs for the log10-hazard
+#'   * `SE_log10hazard` A vector containing the estimated SEs for the log10-hazard.
 #' @export
+#'
+#' @examples
+#' ## preparing data - no covariates
+#' dt1ts <- prepare_data(data = reccolon2ts,
+#'                       s_in = "entrys",
+#'                       s_out = "timesr",
+#'                       events = "status",
+#'                       ds = 180)
+#'
+#' ## fitting the model with fit1ts() - default options
+#'
+#' mod1 <- fit1ts(dt1ts)
+#' # Obtain 1d hazard
+#' get_hazard_1d(mod1)
+#'
 #'
 get_hazard_1d <- function(fitted_model, plot_grid = NULL) {
   Bbases <- fitted_model$optimal_model$Bbases

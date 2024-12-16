@@ -53,12 +53,13 @@ haz2tsLMM_summary <- function(x, ...) {
     colnames(coeftab) <- c("coef", "beta", "SE_beta")
     coeftab$HR <- exp(coeftab[, "beta"])
     coeftab$SE_HR <- coeftab$HR * coeftab$SE_beta
-
+    coeftab$lowerci <- coeftab$HR - 1.96 * coeftab$SE_HR
+    coeftab$upperci <- coeftab$HR + 1.96 * coeftab$SE_HR
     res$coeftab <- coeftab
   }
 
+  cat("Number of events = ", res$nevents, "\n")
   cat("Model specifications:\n")
-  cat("  number of events = ", res$nevents, "\n")
   cat("  nu = ", res$nu, "\n")
   cat("  ns = ", res$ns, "\n")
   cat("  cu = ", res$cu, "\n")
@@ -69,17 +70,18 @@ haz2tsLMM_summary <- function(x, ...) {
   cat("  rho_u = ", res$rho[1], "\n")
   cat("  rho_s = ", res$rho[2], "\n")
   cat("\n")
-  if (is.null(res$coeftab)) {
-    cat("Model with no covariates")
-  } else {
-    colnames(res$coeftab) <- c("coef", "beta", "se(beta)", "exp(beta)", "se(exp(beta))")
-    print(res$coeftab)
+  if(is.null(res$coeftab)) cat("Model with no covariates") else {
+    colnames(res$coeftab) <- c("", "beta", "se(beta)", "exp(beta)",
+                               "se(exp(beta))", "lower .95", "upper.95")
+    print(res$coeftab[, colnames(res$coeftab) %in% c("", "beta", "se(beta)", "exp(beta)",
+                                                    "lower .95", "upper.95")] )
   }
   cat("\n\n")
-  cat("Model fit: \n")
+  cat("Model diagnostics: \n")
   cat("  AIC = ", res$AIC, "\n")
   cat("  BIC = ", res$BIC, "\n")
-  cat("  ED = ", res$ED)
+  cat("  ED = ",  res$ED)
+
 
   return(invisible())
 }

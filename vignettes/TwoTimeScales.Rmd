@@ -73,10 +73,10 @@ Therefore, in all the functions that require the individual times as inputs, the
 
 ### Step 1: data preparation
 
-Time-to-event data come in the form of a time variable, indicated with $s$, where $s \ge 0$ and a variable which contains the event's indicator.
-In the simplest time-to-event models, there is only one type of event, so that this event's indicator can only assume values 0 and 1.
+Time-to-event data come in the form of a time variable, indicated with $s$, where $s \ge 0$ and a variable which contains the event indicator.
+In the simplest time-to-event models, there is only one type of event, so that this event indicator can only assume values 0 and 1.
 
-To apply the $P$-splines model for the hazard we need to bin the individual data into aggregated vectors of exposure times and events' indicators.
+To apply the $P$-splines model for the hazard we need to bin the individual data into aggregated vectors of exposure times and event indicators.
 Therefore, the first step of the analysis, will be data preparation.
 This step involves the construction of the bins and the actual binning of the data.
 Both steps are implemented and performed by the function `prepare_data()`, which requires as inputs the individual data vectors, and the desired specification for the bins.
@@ -87,12 +87,12 @@ We will now illustrate its use in both cases.
 #### One time scale only
 
 For data over one time scale, the function requires as minimal inputs only a vector of exit times (`s_out`), a vector of events' indicators (`events`) and the desired bins' size (`ds`).
-If the data are left truncated, the entry times can be passed to the argument `s_in`.
+If the data are left truncated, the entry times can be passed to the argument `s_in`. These can be either extracted from a dataset by using the argument `data` and passing the vector's names in each respective argument, as illustrated below, or by directly passing the vectors.
 
 ```{r 1tsprep, cache=T}
-dt1ts <- prepare_data(s_in = reccolon2ts$entrys,
-                      s_out = reccolon2ts$timesr,
-                      events = reccolon2ts$status,
+dt1ts <- prepare_data(data = reccolon2ts,
+                      s_out = "timesr",
+                      events = "status",
                       ds = 30)
 str(dt1ts)
 
@@ -111,10 +111,10 @@ The two time scales model is estimated over the half-plane $(u,s)$.
 Therefore, we will here discuss only preparation of the data over $u$ and $s$, and defer the discussion of the preparation over the Lexis diagram to the vignette dedicated to the analysis with two time scales.
 
 ```{r 2tsprep, cache=TRUE}
-dt2ts <- prepare_data(u = reccolon2ts$timer,
-                      s_in = reccolon2ts$entrys,
-                      s_out = reccolon2ts$timesr,
-                      events = reccolon2ts$status,
+dt2ts <- prepare_data(data = reccolon2ts,
+                      u = "timer",
+                      s_out = "timesr",
+                      events = "status",
                       ds = 30)
 str(dt2ts)
 
@@ -127,11 +127,11 @@ The data are now matrices `R` and `Y` of dimension `nu` by `ns`.
 
 #### Including covariates
 
-If we want to estimate a proportional hazard model with covariates a different structure of the data is required (see @Carollo:2023).
+If we want to estimate a proportional hazard model with covariates a different structure of the data is required (see @Carollo:2024).
 The data are augmented by one dimension.
 So, for the model with one time scale only, we need to create a matrix of exposure times `R` with dimension `n` (number of individuals in the data) by `ns` (number of bins).
-The same goes for the matrix of events' count.
-For the model with two time scales, each observation in the sample will be represented by its own matrix of exposure times and matrix of events' indicator.
+The same goes for the matrix of event counts.
+For the model with two time scales, each observation in the sample will be represented by its own matrix of exposure times and matrix of event indicators.
 Therefore, the data for the whole sample can be arranged in three-dimensional arrays, with dimensions `nu` by `ns` by `n`.
 The function `prepare_data()` does exactly so by specifying the optional input `individual = TRUE`.
 It is possible, and recommended, to provide the covariates that one wishes to use in the PH model in the extra argument `covs`.
@@ -139,20 +139,20 @@ The function will take care of the preparation of the regression matrix `Z`.
 However, if desired, this can also be prepared externally (in which case a warning will be returned).
 
 ```{r 2tscov, cache=TRUE}
-covs <- subset(reccolon2ts, select = c("rx", "node4", "sex"))
-dt2ts_cov <- prepare_data(u = reccolon2ts$timer,
-                          s_in = reccolon2ts$entrys,
-                          s_out = reccolon2ts$timesr,
-                          events = reccolon2ts$status,
+dt2ts_cov <- prepare_data(data = reccolon2ts,
+                          u = "timer",
+                          s_in = "entrys",
+                          s_out = "timesr",
+                          events = "status",
                           ds = 30,
                           individual = TRUE, 
-                          covs = covs)
+                          covs = c("rx", "node4", "sex"))
 str(dt2ts_cov)
 print(dt2ts_cov)
 ```
 
 The data are now the three-dimensional arrays, `R` and `Y` and a regression matrix `Z`, where the covariates are transformed in dummy variables (where needed).
-The print method returns also the names of the dummy variables, so we can see that from the variable `rx` we obtained the two dummies `Lev` and `Lev+5FU` and from the variable `sex` we obtained now the dummy variable `male` (`Obs` and `female` are reference categories, as well as not having more than four nodes).
+The print method returns also the names of the dummy variables, so we can see that from the variable `rx` we obtained the two dummies `rx_Lev` and `rx_Lev+5FU` and from the variable `sex` we obtained now the dummy variable `sex_male` (`Obs` and `female` are reference categories, as well as not having more than four nodes).
 
 ### Step 2: Estimation
 
@@ -207,8 +207,8 @@ The summary method is implemented for objects of class `haz2ts`, and it returns 
 
 #### One time scale
 
-Once the model is estimated, we can represent the results with the function `plot()`.The minimal input for `plot()` is the fitted model.
-Here, we show how to evaluate the $B$-splines basis on a finer grid of intervals that are only 10 days apart (as opposite to 30, option that was used for the estimating $B$-splines).
+Once the model is estimated, we can represent the results with the function `plot()`. The minimal input for `plot()` is the fitted model.
+Here, we show how to evaluate the $B$-splines basis on a finer grid of points that are only 10 days apart (as opposite to 30, option that was used for the estimating $B$-splines).
 Moreover, we pass as inputs some graphical parameters to obtain a nicer plot.
 The result is a plot of the one-dimensional hazard curve over $s$ (time since recurrence), with accompany 95% confidence bands.
 
@@ -226,7 +226,7 @@ plot(x = m1ts,
 #### Two time scales
 
 There are several options to represent the smooth hazard with two time scales.
-Here, we will present only the most simple, yet very informative, way, which is also the default plot returned by the function `plot()`, applied to an object of class `"haz2ts"`.
+Here, we will present only the most simple, yet very informative, way, which is also the default plot returned by the function `plot()`, applied to an object of class `'haz2ts'`.
 This is a surface plot of the hazard over the $(u,s)$-plane with white contour lines.
 We provide a vignette that only focus on visualization of the hazard with two time scales *Visualize hazards with two time scales*.
 

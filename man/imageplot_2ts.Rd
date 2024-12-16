@@ -62,12 +62,10 @@ Default is \code{.8}.
 \item{\dots}{Further arguments to image.plot or image}
 }
 \value{
-An image plot of the (log-) hazard surface.
+An image plot of an estimated surface.
 }
 \description{
-\code{imageplot_2ts()} plots an image of the two time scales hazard with
-contour lines.
-}
-\details{
-This is the default call implemented in plot.h2tsfit.
+\code{imageplot_2ts()} plots an image of the two time scales hazard (or survival or
+cumulative hazard) with contour lines.
+This is the default call implemented in plot.haz2ts.
 }

@@ -7,7 +7,7 @@
 \method{plot}{haz2tsLMM}(
   x,
   plot_grid = NULL,
-  which_plot = c("hazard", "covariates", "SE", "slices"),
+  which_plot = c("hazard", "covariates", "SE", "slices", "survival", "cumhaz"),
   where_slices = NULL,
   direction = c(NULL, "u", "s"),
   plot_options = list(),
@@ -36,11 +36,14 @@ grid for object of class 'haz2tsLMM', given that evaluation of the B-splines
 works a bit differently in LMMsolver.}
 
 \item{which_plot}{The type of plot required. Can be one of \code{"hazard"}
-(default), \code{"slices"}, \code{"covariates"} or \code{"SE"}.}
+(default), \code{"covariates"}, \code{"SE"}, \code{"slices"}, \code{"survival"} or \code{"cumhaz"}
+(see details section).}
 
 \item{where_slices}{A vector of values for the cutting points of the desired
 slices of the surface. If \code{which_plot == "slices"}, please provide this
-argument.}
+argument. Please also provide this argument in case \verb{which_plot = "survival}
+or \verb{which_plot = "cumhaz} and \code{surv_slices = TRUE} or \code{cumhaz_slices = TRUE},
+respectively.}
 
 \item{direction}{If \code{which_plot == "slices"}, indicates the direction for
 cutting the surface. If \code{u}, then the surface will be cut at the selected
@@ -59,6 +62,16 @@ then a log10 hazard surface is plotted.
 \item \code{cut_extrapolated} A Boolean. Default is \code{TRUE}. Cuts away the
 extrapolated area of the (log-)hazard surface before plotting.
 \item \code{tmax} The maximum value of \code{t} that should be plotted.
+\item \code{surv_slices} A Boolean. Default is \code{FALSE}. If \code{TRUE} and
+\code{which_plot == "survival"}, plot survival curves over the time \code{s} for
+selected values of \code{u}, that are cross-sections of the 2D survival surface.
+\item \code{cumhaz_slices} A Boolean. Default is \code{FALSE}. If \code{TRUE} and
+\code{which_plot == "cumhaz"}, plot cumulative hazards curves over the time \code{s} for
+selected values of \code{u}, that are cross-sections of the 2D cumulative hazard surface.
+\item \code{midpoints} A Boolean. Default is \code{FALSE}. If \code{TRUE}, the estimated quantities
+(hazard, survival, etc.) will be evaluated in the mid-points of the bins
+rather than at the extremes. Set to \code{TRUE} if plotting estimated number of
+events.
 \item \code{col_palette} A function defining the color palette. The default palette
 is \code{viridis::rev(plasma())}. Specifying the color palette as a function
 allows for greater flexibility than passing the palette as a vector.
@@ -110,18 +123,66 @@ fitted via LMMsolver. The two-dimensional plots are limited to the transformed
 plane, that is only plots over \code{u} and \code{s} axes are produced.
 }
 \details{
+The vignette "visualization" presents and discusses all the different
+plotting options for the fitted model over two time scales.
+In most of the cases, the user will want to visualize the hazard surface over
+the two time scales. This can be plotted on the hazard scale, the log-hazard
+scale or the log10-hazard scale, by switching to \code{TRUE} the corresponding
+argument in \code{plot_options}.
+The survival and cumulative hazard functions can be plotted as two-dimensional
+surfaces over \code{u} and \code{s} or \code{t} and \code{s}. However, it is also very informative
+to plot them as one-dimensional curves over \code{s} (cross-sections or slices).
+This is done by selecting \code{which_plot = "survival"} and \code{surv_slices = TRUE}
+in \code{plot_options}. Additionally, a vector of values for the cutting points
+over the \code{u}-axis should be passed to the argument \code{where_slices}, together
+with setting \code{direction = u}.
+Similar plot is obtained for the cumulative hazard by selecting \code{which_plot = "cumhaz"},
+\code{cumhaz_slices = TRUE}, see examples section.
+Please, notice that for the survival function and the cumulative hazard, only
+cross-sections of the surface for selected values of \code{u} (over the \code{s} time)
+can be plotted.
+
 The function \code{obtainSmoothTrend} from the R-package \code{LMMsolver} is
 used here. We refer the interested readers to https://biometris.github.io/LMMsolver/
 for more details on \code{LMMsolver} and its usage.
 }
 \examples{
+# Create some fake data - the bare minimum
+id <- 1:20
+u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+       4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
+s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+       7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
+ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)#'
+
+fakedata <- as.data.frame(cbind(id, u, s, ev))
+fakedata2ts <- prepare_data(u = fakedata$u,
+                            s_out = fakedata$s,
+                            ev = fakedata$ev,
+                            ds = .5)
+# Fit a fake model - not optimal smoothing
+fakemod <- fit2ts(fakedata2ts,
+                  optim_method = "LMMsolver")
+
+ # plot the hazard surface
+ plot(fakemod)
+ # plot the survival function as one-dimension curves over `s`
+ plot(fakemod,
+      which_plot = "survival",
+      direction = "u",
+      where_slices = c(4, 6, 8),
+      plot_options = list(
+      surv_slices = TRUE
+      ))
+
 # Create a color pallete function from a RColorBrewer palette, using the function
 # colorRampPalette from grDevices.
+
 \dontrun{
 mypal <- function(n) {
   colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
 }
-# if mod_haz is a fitted model of class haz2ts, the following code will
+# if mod_haz is a fitted model of class `haz2ts`, the following code will
 # produce a cross-sections plot of the hazard over `s` for selected values
 # of `u`, with the palette specified above
 

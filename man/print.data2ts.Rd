@@ -20,21 +20,22 @@ Print method for an object of class \code{data2ts}
 \examples{
 # Bin the colon cancer data over s (time since recurrence)
 
-colon1ts <- prepare_data(s_in = reccolon2ts$entrys,
-s_out = reccolon2ts$timesr,
-events = reccolon2ts$status,
-ds = 30)
+dt1ts <- prepare_data(data = reccolon2ts,
+                      s_in = "entrys",
+                      s_out = "timesr",
+                      events = "status",
+                      ds = 180)
 
-print(colon1ts)
+print(dt1ts)
 
 # Bin the colon cancer data over u (time at recurrence) and s (time since recurrence)
-colon2ts <- prepare_data(
-u = reccolon2ts$timer,
-s_in = reccolon2ts$entrys,
-s_out = reccolon2ts$timesr,
-events = reccolon2ts$status, ds = 30)
-
-print(colon2ts)
+dt2ts <- prepare_data(data = reccolon2ts,
+                      u = "timer",
+                      s_in = "entrys",
+                      s_out = "timesr",
+                      events = "status",
+                      ds = 180)
+print(dt2ts)
 
 }
 \author{

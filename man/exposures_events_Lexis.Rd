@@ -15,7 +15,7 @@ exposures_events_Lexis(t_in = NULL, t_out, s_in = NULL, s_out, ev, bins_list)
 
 \item{s_out}{A vector of exit times on the time scale \code{s}.}
 
-\item{ev}{A vector of event's indicators (possible values 0/1).}
+\item{ev}{A vector of event indicators (possible values 0/1).}
 
 \item{bins_list}{A list with the following (necessary) elements:
 \itemize{

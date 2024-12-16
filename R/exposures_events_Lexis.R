@@ -11,7 +11,7 @@
 #' or two time scales.
 #'
 #' @inheritParams make_bins
-#' @param ev A vector of event's indicators (possible values 0/1).
+#' @param ev A vector of event indicators (possible values 0/1).
 #' @param bins_list A list with the following (necessary) elements:
 #' * `bins_t` a vector of extreme values for the bins over the `t` axis.
 #' * `nt` the number of bins over `t`.

@@ -25,7 +25,7 @@ library(TwoTimeScales)
 
 We assume that the reader of this vignette has some familiarity with the $P$-splines model for the hazard, and with the basic functions of the package introduced in the vignette *Introduction to TwoTimeScales*.
 
-This vignette demonstrates in details how to use the package `TwoTimeScales` to estimate a smooth hazard model with one time scale, and how to plot the estimates.
+This vignette demonstrates in detail how to use the package `TwoTimeScales` to estimate a smooth hazard model with one time scale, and how to plot the estimates.
 We use the dataset `reccolon2ts` included in the package, and we analyse mortality after recurrence of the colon cancer, over time since recurrence.
 For an overview of the data use: `help(reccolon2ts)`.
 
@@ -33,7 +33,7 @@ For an overview of the data use: `help(reccolon2ts)`.
 
 The first step of the analysis, is data preparation.
 Data are in wide format, with one row for each patient.
-To estimate a $P$-spline model for the hazard we need to bin the individual data, that is exposure times and event counts, into many small bins of equal size, that cover the whole range of values for the time scale.
+To estimate a $P$-spline model for the hazard we need to bin the individual data, that is exposure times and event counts, into many small bins of equal size, that cover the whole range of values for the time scale. 
 Data preparation involves the construction of the bins and the actual binning of the data.
 Both steps are implemented and performed by the function `prepare_data()`, which requires as inputs the individual data vectors and the desired specification for the bins.
 The function returns an object of type `data2ts`.The `print` method can be used to analyse the structure of the resulting object.
@@ -41,8 +41,9 @@ The function returns an object of type `data2ts`.The `print` method can be used 
 First, we show how the function works with minimal input (that is, by using the default values for any optional parameter):
 
 ```{r 1ts-data-prep, cache=T}
-dt1ts <- prepare_data(s_out = reccolon2ts$timesr,
-                      events = reccolon2ts$status,
+dt1ts <- prepare_data(data = reccolon2ts,
+                      s_out = "timesr",
+                      events = "status",
                       ds = 30)
 str(dt1ts)
 print(dt1ts)
@@ -59,9 +60,10 @@ As explained in the introductory vignette, we included some artificial left trun
 In fact, when we use the variable that includes left truncation, the message disappears:
 
 ```{r 1ts-lt, cache=T}
-dt1ts_lt <- prepare_data(s_in = reccolon2ts$entrys,
-                         s_out = reccolon2ts$timesr,
-                         events = reccolon2ts$status,
+dt1ts_lt <- prepare_data(data = reccolon2ts,
+                         s_in = "entrys",
+                         s_out = "timesr",
+                         events = "status",
                          ds = 30)
 
 ```
@@ -72,9 +74,10 @@ For example, the following code builds one bin each 90 days, approximately 3 mon
 As consequence, the number of bins is about 3 times less than in the previous case.
 
 ```{r}
-dt1ts_lt2 <- prepare_data(s_in = reccolon2ts$entrys,
-                          s_out = reccolon2ts$timesr,
-                          events = reccolon2ts$status,
+dt1ts_lt2 <- prepare_data(data = reccolon2ts,
+                          s_in = "entrys",
+                          s_out = "timesr",
+                          events = "status",
                           ds = 90)
 dt1ts_lt2$bins$ns
 ```
@@ -84,9 +87,10 @@ This option can be helpful when, for example, the event times are left-truncated
 
 ```{r}
 range(reccolon2ts$timesr)
-dt1ts_2 <- prepare_data(s_in = reccolon2ts$entrys,
-                        s_out = reccolon2ts$timesr,
-                        events = reccolon2ts$status,
+dt1ts_2 <- prepare_data(data = reccolon2ts,
+                        s_in = "entrys",
+                        s_out = "timesr",
+                        events = "status",
                         ds = 30, min_s = 0, max_s = 3000)
 
 str(dt1ts_2)
@@ -94,27 +98,27 @@ str(dt1ts_2)
 
 Now 100 bins have been created, spanning the range from 0 days to 3000 days of follow-up.
 
-When the aim of the analysis is to estimate a proportional hazard model, a different structure of the data is required (@Carollo:2023).
+When the aim of the analysis is to estimate a proportional hazard model, a different structure of the data is required (@Carollo:2024).
 In particular, when only one time scale is considered, we need to create a matrix of exposure times `R` with dimension `n` (number of individuals in the data) by `ns` (number of bins).
 Similarly for the matrix of event counts.
 The function `prepare_data()` returns data with this structure by specifying the optional input `individual = TRUE`.
-It is possible, and recommended, to provide the covariates that one wishes to use in the PH model in the extra argument `covs`.
+It is possible, and recommended, to provide the names of the covariates that one wishes to use in the PH model in the extra argument `covs`.
 The function will take care of the preparation of the regression matrix `Z`.
 However, if desired, this can also be prepared externally (in which case a warning will be returned).
 
 ```{r 1ts-data-cov, cache=T}
-covs <- subset(reccolon2ts, select = c("rx", "node4", "sex"))
-dt1ts_cov <- prepare_data(s_in = reccolon2ts$entrys,
-                          s_out = reccolon2ts$timesr,
-                          events = reccolon2ts$status,
+dt1ts_cov <- prepare_data(data = reccolon2ts,
+                          s_in = "entrys",
+                          s_out = "timesr",
+                          events = "status",
                           ds = 30,
                           individual = TRUE, 
-                          covs = covs)
+                          covs = c("rx", "node4", "sex"))
 print(dt1ts_cov)
 ```
 
 From `print(dt1ts_cov)`, we see that 4 covariates are included in the Z regression matrix.
-The variable `"rx"` includes 3 categories, and it is therefore represented in the regression matrix by two dummy variables (`"Lev"` and `"Lev+5FU"`).
+The variable `rx` includes 3 categories, and it is therefore represented in the regression matrix by two dummy variables (`rx_Lev` and `rx_Lev+5FU`).
 
 ## Estimation
 
@@ -147,11 +151,11 @@ table(m1$optimal_model$alpha == m2$optimal_model$alpha)
 str(m1)
 ```
 
-The object returned by `fit1ts()` is of class `"haz1ts"`.
+The object returned by `fit1ts()` is of class `'haz1ts'`.
 The first element is a list with the results of the optimal model.
 The second element is the optimal smoothing parameter (on the $\log_{10}$-scale) and the last element is the penalty matrix `P_optim`, incorporating the optimal value of $\varrho$.
 
-In the following examples we show how to modify the arguments of the function, to obtain slightly different model's specification.
+In the following examples we show how to modify the arguments of the function, to obtain slightly different model specifications.
 The results are not shown here, but we encourage the reader to run these examples on their console.
 
 ```{r fit1ts-other, eval = F}
@@ -177,7 +181,7 @@ m5 <- fit1ts(data1ts = dt1ts,
                                 nseg_s = 20,
                                 min_s = 0,
                                 max_s = 2730),
-             optim_method = "grid_search")         # search for optimal smoothing                                                                       over grid of values
+             optim_method = "grid_search")         # search for optimal smoothing                                                                           over grid of values
 
 # Model 6 - As m5, but optimization criterion is "bic" and include grid of 
 #           values for log_10(rho)
@@ -270,7 +274,7 @@ hr$HR
 ```
 
 It is possible to call these two functions independently and to use the resulting objects to create a plot of the results.
-However, this is exactly what is done by the method `plot()`, implemented for objects of class `"haz1ts"`.
+However, this is exactly what is done by the method `plot()`, implemented for objects of class `'haz1ts'`.
 
 ```{r plot_haz1ts, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
 plot(m7)

@@ -31,14 +31,14 @@ articles:
       - TwoTimeScales
   - title: "Smooth hazards with one time scale"
     desc: >
-      This vignette describes in details how to use the functions in the package
-      to estimate smooth hazards over one time scale and visualizing the
+      This vignette describes in detail how to use the functions in the package
+      to estimate smooth hazards over one time scale and how to visualize the
       results
     contents:
       - onetime
   - title: "Smooth hazards with two time scales"
     desc: >
-      This vignette describes in details how to use the functions in the package
+      This vignette describes in detail how to use the functions in the package
       to estimate smooth hazards over two time scales
     contents:
       - twotimes

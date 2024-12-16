@@ -29,8 +29,35 @@ prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){
 
     # Remove bins that are not at risk
     datalong = datalong[datalong$r > 0, ]
-    datalong = cbind(datalong, Z[datalong$id, ])
-    attr(datalong, "bininfo") <- bins
+    # if covariates, check names first
+    # if mathematical symbols in names, str2lang(x) will return an error
+    # so they have to be substitute with something else
+      namesZ <- colnames(Z)
+      if(length(which(grepl("+", namesZ, fixed = T))) != 0){
+        namesZ[which(grepl("+", namesZ, fixed = T))] <- sub('+','&',
+                                                            x = namesZ[which(grepl("+", namesZ, fixed = T))] ,
+                                                            fixed = T)
+      }
+      if(length(which(grepl("-", namesZ, fixed = T))) != 0){
+        namesZ[which(grepl("-", namesZ, fixed = T))] <- sub('-','_',
+                                                            x = namesZ[which(grepl("-", namesZ, fixed = T))] ,
+                                                            fixed = T)
+      }
+      if(length(which(grepl("<", namesZ, fixed = T))) != 0){
+        namesZ[which(grepl("<", namesZ, fixed = T))] <- sub('<','less',
+                                                            x = namesZ[which(grepl("<", namesZ, fixed = T))] ,
+                                                            fixed = T)
+      }
+      if(length(which(grepl(">", namesZ, fixed = T))) != 0){
+        namesZ[which(grepl(">", namesZ, fixed = T))] <- sub('>','more',
+                                                            x = namesZ[which(grepl(">", namesZ, fixed = T))] ,
+                                                            fixed = T)
+      }
+      colnames(Z) <- namesZ
+      datalong = cbind(datalong, Z[datalong$id, ])
+      attr(datalong, "cov_names") <- namesZ
   }
+    attr(datalong, "bininfo") <- bins
+
   return(datalong)
 }

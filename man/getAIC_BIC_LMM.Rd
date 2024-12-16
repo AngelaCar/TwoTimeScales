@@ -18,7 +18,7 @@ A list with:
 * \code{Dev} deviance;
 * \code{AIC} the aic;
 * \code{BIC} the bic;
-* \code{n_beta} the number of estimated covariate's parameters (if PH model)
+* \code{n_beta} the number of estimated covariate parameters (if PH model).
 }
 \description{
 \code{getAIC_BIC_LMM} is an utility function that takes an object of class
