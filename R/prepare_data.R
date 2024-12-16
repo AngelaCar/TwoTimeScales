@@ -9,6 +9,7 @@
 #'   covariates values can be provided by the user.
 #'
 #' @inheritParams make_bins
+#' @param data A data frame.
 #' @param events A vector of event's indicators (possible values 0/1).
 #' @param individual A Boolean. Default is `FALSE`: if `FALSE` computes the matrices `R` and `Y`
 #'   collectively for all observations; if `TRUE` computes the matrices `R` and `Y` separately for each individual record.
@@ -43,7 +44,7 @@
 #'
 #' @details
 #' A few words about constructing the grid of bins.
-#' Bins are cointainers for the individual data. There is no 'golden rule' or
+#' Bins are containers for the individual data. There is no 'golden rule' or
 #' optimal strategy for setting the number of bins over each time axis, or deciding
 #' on the bins' width. It very much depends on the data structure, however, we
 #' try to give some directions here. First, in most cases, more bins is better
@@ -60,15 +61,23 @@
 #' in some cases, time might be measure in completed years, as is often the case
 #' for age. In this scenario, an appropriate bin width is 1.
 #'
-#' Finally, it is always a good idea to plot your data first, and explore the range
+#' Finally, it is always a good idea to plot the data first, and explore the range
 #' of values over which the time scale(s) are recorded. This will give insight
 #' about reasonable values for the arguments `min_s`, `min_u`, `max_s` and `max_u`
 #' (that in any case are optional).
+#'
+#' Regarding names of covariates or levels of categorical covariates/factors:
+#' When using "LMMsolver" to fit a model with covariates that which have names
+#' (or factor labels) including a symbol such as "+", "-", "<" or ">" will result
+#' in an error. To avoid this, the responsible names (labels) will be rewritten
+#' without mathematical symbols. For example: "Lev+5FU" (in the colon cancer data)
+#' is replaced by "Lev&5FU".
 #'
 #' @examples
 #'
 #' # Bin data over s = time since recurrence only, with intervals of length 30 days
 #' # aggregated data (no covariates)
+#' # The following example provide the vectors of data directly from the dataset
 #' binned_data <- prepare_data(s_out = reccolon2ts$timesr, events = reccolon2ts$status, ds = 30)
 #' # Visualize vector of event counts
 #' print(binned_data$bindata$y)
@@ -77,6 +86,10 @@
 #' # Visualize number of bins
 #' print(binned_data$bins$ns)
 #'
+#' # Now, the same thing is done by providing a dataset and the name of all relevant variables
+#' binned_data <- prepare_data(data = reccolon2ts, s_out = "timesr", events = "status", ds = 30)
+#' # Visualize vector of event counts
+#' print(binned_data$bindata$y)
 #'
 #' # Now using ds = .3 and the same variable measured in years
 #' binned_data <- prepare_data(s_out = reccolon2ts$timesr_y, events = reccolon2ts$status, ds = .3)
@@ -111,11 +124,19 @@
 #' # Visualize structure of binned data
 #' print(str(binned_data$bindata))
 #'
+#' # Alternatevely:
+#' binned_data <- prepare_data(
+#'   data = reccolon2ts,
+#'   u = "timer", s_out = "timesr",
+#'   events = "status", ds = 30, individual = TRUE, covs = c("nodes", "rx")
+#' )
+#'
 #' @author Angela Carollo \email{carollo@@demogr.mpg.de}
 #'
 #' @export
 
-prepare_data <- function(t_in = NULL, t_out = NULL,
+prepare_data <- function(data = NULL,
+                         t_in = NULL, t_out = NULL,
                          u = NULL,
                          s_in = NULL, s_out,
                          events,
@@ -128,6 +149,25 @@ prepare_data <- function(t_in = NULL, t_out = NULL,
 
   # The check on all inputs is done by the individual functions called by
   # prepare_data(), and will be here omitted.
+
+  # If argument data is provided, check that all names are in data
+  if(!is.null(data)){
+    if(is.data.frame(data) == FALSE) data <- as.data.frame(data)
+    listnames <- c(t_in , t_out , u, s_in , s_out, events, covs)
+    missing_cols <- setdiff(listnames, names(data))
+    if (length(missing_cols) > 0) { # some variables are not in the data
+      stop("The specified column does not exist in the data: ",
+           paste(missing_cols, collapse = ", "))
+    } else { # all good
+      if(!is.null(t_in)) t_in <- data[, which(names(data) == t_in)]
+      if(!is.null(t_out))t_out <- data[, which(names(data) == t_out)]
+      if(!is.null(u)) u <- data[, which(names(data) == u)]
+      if(!is.null(s_in)) s_in <- data[, which(names(data) == s_in)]
+      s_out <- data[, which(names(data) == s_out)]
+      events <- data[, which(names(data) == events)]
+      if(!is.null(covs)) covs <- subset(data, select = covs)
+    }
+  }
 
   # ---- Create bins ----
   bins <- make_bins(
@@ -243,7 +283,7 @@ prepare_data <- function(t_in = NULL, t_out = NULL,
             z <- as.numeric(covtemp == lev[j])
             Z <- cbind(Z, z)
           }
-          namesZ <- c(namesZ, lev[2:nlev])
+          namesZ <- c(namesZ, paste0(namesc[i], "_", lev[2:nlev]))
         } else {
           if (is.character(covtemp)) {
             covtemp <- factor(covtemp,
@@ -260,9 +300,9 @@ prepare_data <- function(t_in = NULL, t_out = NULL,
         }
       }
     }
-    if(length(which(grepl("+", namesZ, fixed = T))) != 0){
-      namesZ[which(grepl("+", namesZ, fixed = T))] <- sub('+','_', x=namesZ[which(grepl("+", namesZ, fixed = T))] , fixed = T)
-    }
+    # if(length(which(grepl("+", namesZ, fixed = T))) != 0){
+    #   namesZ[which(grepl("+", namesZ, fixed = T))] <- sub('+','_', x=namesZ[which(grepl("+", namesZ, fixed = T))] , fixed = T)
+    # }
     colnames(Z) <- namesZ
     bindata$Z <- Z
   }

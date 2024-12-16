@@ -21,7 +21,7 @@ library(TwoTimeScales)
 
 ## Introduction
 
-The topic of this vignette is visualization of the hazard of one event over two time scales. We show the complete set of options for the function `plot_haz2ts()`. We assume that the reader already knows how to estimate the smooth hazard model with two time scales. Therefore, here we will only discuss the plotting function. For illustration, we will use the PH model from the vignette *Smooth hazards with two time scales*.
+The topic of this vignette is visualization of the hazard of one event over two time scales. We show the complete set of options for the method `plot`, implemented for object of class `'haz2ts'` and `'haz2tsLMM'`. We assume that the reader already knows how to estimate the smooth hazard model with two time scales. Therefore, here we will only discuss the plotting function. For illustration, we will use the PH model from the vignette *Smooth hazards with two time scales*.
 
 ```{r load-mod, cache=T, echo=F}
 load("modelcov.Rda")
@@ -29,13 +29,13 @@ load("modelcov.Rda")
 
 ## The function `plot()`
 
-The method `plot()`, for the class `"haz2ts"` offers different possibilities to plot the results of the model with two time scales. The user can choose between plotting the hazard surface `which_plot == "hazard"`, plotting the standard error surface `which_plot == "SE"`, plotting cross-sections (also called "slices") of the surface at specific values of one of the two time dimensions `which_plot == "slices"`, and finally, for a model with covariates' effects, it is possible to plot only the estimated $\beta$ coefficients with their confidence intervals (or on the hazard ratios scale) with `which_plot == "covariates"`.
+The method `plot()`, for the class `'haz2ts` offers different possibilities to plot the results of the model with two time scales. The user can choose between plotting the hazard surface `which_plot == "hazard"`, plotting the standard error surface `which_plot == "SE"`, plotting cross-sections (also called "slices") of the surface at specific values of one of the two time dimensions `which_plot == "slices"`, and finally, for a model with covariates' effects, it is possible to plot only the estimated $\beta$ coefficients with their confidence intervals (or on the hazard ratios scale) with `which_plot == "covariates"`.
 
 We will now examine each of these options and their use.
 
 ### Baseline hazard and log-hazard
 
-The default plot is the hazard surface over the $(u,s)$-plane, with contour lines in white to mark levels of the hazard. It is obtained by passing the fitted object, obtained from `fit2ts()` (hence of class `"haz2ts"`) to the function `plot()`.
+The default plot is the hazard surface over the $(u,s)$-plane, with contour lines in white to mark levels of the hazard. It is obtained by passing the fitted object, obtained from `fit2ts()` (hence of class `'haz2ts'`, or `'haz2tsLMM'`) to the function `plot()`.
 
 ```{r basehaz, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
 plot(mod_cov)
@@ -69,12 +69,12 @@ par(mfrow = c(1,1))
 
 #### Evaluate the $B$-splines on a finer grid
 
-With the default options, the $B$-splines bases used for estimation will be also used to compute the values of the hazard. If the grid of bins used for binning the data, and to evaluate the estimating $B$-splines bases, is already dense (many small bins), the plot of the estimated hazard will appear nicely smooth. However, in some cases, larger bins are used for the original binning of the data and for the estimation of the model. In such cases it may be worthwhile to evaluate the $B$-splines bases on a finer grid of points. The hazard surface will appear much smoother because it will be interpolated over more points. It is possible to change the grid for plotting by passing the specification for a new grid to the argument `plot_grid`. We show how to do so by passing the specification for a grid where the bins are 5 days apart from each other (as opposed to 30). In this case it is a good idea to increase the number of shades in the color legend too.
+With the default options, the $B$-splines bases used for estimation will be also used to compute the values of the hazard. If the grid of bins used for binning the data, and to evaluate the estimating $B$-splines bases, is already dense (many small bins), the plot of the estimated hazard will appear nicely smooth. However, in some cases, larger bins are used for the original binning of the data and for the estimation of the model. In such cases it may be worthwhile to evaluate the $B$-splines bases on a finer grid of points. The hazard surface will appear much smoother because it will be interpolated over more points. It is possible to change the grid for plotting by passing the specification for a new grid to the argument `plot_grid`. We show how to do so by passing the specification for a grid where the bins are 10 days apart from each other (as opposed to 30). In this case it is a good idea to increase the number of shades in the color legend too.
 
 ```{r new-grid, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
 plot(mod_cov,
-     plot_grid = list(c(umin=0, umax=2300, du=5),
-                      c(umin=0, umax=2730, du=5)),
+     plot_grid = list(c(umin = 0, umax = 2300, du = 10),
+                      c(smin = 0, smax = 2730, du = 10)),
      plot_options = list(n_shades = 100,
                          main = "Denser plotting grid",
                          xlab = "Time at recurrence",
@@ -133,7 +133,7 @@ par(mfrow = c(1,1))
 
 #### Cut extrapolated hazard
 
-@Carollo:2023 discusses the issue of extrapolated hazard beyond the maximum value observed for the time scale $t$. We can limit the plot of the hazard to those areas where it is not extrapolated. We do so by changing the values of `cut_extrapolated = T` and `tmax` in `plot_options`.
+@Carollo:2024 discusses the issue of extrapolated hazard beyond the maximum value observed for the time scale $t$. We can limit the plot of the hazard to those areas where it is not extrapolated. We do so by changing the values of `cut_extrapolated = T` and `tmax` in `plot_options`.
 
 ```{r cut-extra, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=9}
 par(mfrow = c(2,1), 
@@ -160,7 +160,7 @@ Let us try a new color palette and modify the options concerning the contour lin
 
 ```{r colors, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
 mycol <- function(nshades){
-  colorspace::sequential_hcl(n=nshades, "Blues 3")
+  colorspace::sequential_hcl(n = nshades, "Blues 3")
 }
 plot(mod_cov,
      plot_options = list(col_palette = mycol,
@@ -201,7 +201,7 @@ plot(mod_cov,
 
 ### Cross-sections of the hazard
 
-Another very informative representation for the 2d hazard consists of plotting 'slices' of the two-dimensional hazard as curves over one of the time scales. For example, the 2d hazard surface is plotted as a series of one-dimensional hazard curves over time since recurrence $s$ for selected values of time at recurrence $u$. Note: Adding an automated legend to this kind of plot is still not implemented in the package (to come), but we can add one manually.
+Another very informative representation for the 2d hazard consists of plotting 'slices' (or cross-sections) of the two-dimensional hazard as curves over one of the time scales. For example, the 2d hazard surface is plotted as a series of one-dimensional hazard curves over time since recurrence $s$ for selected values of time at recurrence $u$. Note: Adding an automated legend to this kind of plot is still not implemented in the package yet, but we can add one manually.
 
 ```{r slices-u, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
 plot(mod_cov,
@@ -232,6 +232,68 @@ legend("topright",
        lty=1, 
        col= grDevices::gray.colors(7))
 ```
+
+### Survival function
+We can represent the survival function as a two-dimensional surface over the $(u,s)$-plane (or the $(t,s)$-plane), or as cross-sectional one-dimensional curves over $s$, for selected values of $u$.
+
+```{r survival, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
+mycol2 <- function(nshades){
+  colorspace::sequential_hcl(n = nshades, "PurpOr")
+}
+par(mfrow = c(1,2))
+plot(mod_cov,
+     which_plot = "survival",
+     plot_options = list(col_palette = mycol2,
+                         main = "Survival function",
+                         xlab = "Time at recurrence",
+                         ylab = "Time since recurrence",
+                        contour_nlev = 20))
+
+plot(mod_cov,
+     which_plot = "survival",
+     where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+     direction = "u",
+     plot_options = list(
+                         surv_slices = TRUE,
+                         main = "Slices of the survival function",
+                         xlab = "Time since randomization",
+                         ylab = "Survival"))
+legend("topright",
+       legend = c(30, 60, 90, 180, 365, 1000, 2000), 
+       lty = 1, 
+       col = grDevices::gray.colors(7))
+```
+
+### Cumulative hazard 
+Similarly, we can plot the cumulative hazard either as a surface or as one-dimensional curves over `s` for selected values of `u`.
+```{r cumhaz, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
+mycol3 <- function(nshades){
+  colorspace::sequential_hcl(n = nshades, "BluGrn")
+}
+par(mfrow = c(1,2))
+plot(mod_cov,
+     which_plot = "survival",
+     plot_options = list(col_palette = mycol3,
+                         main = "Cumulative hazard",
+                         xlab = "Time at recurrence",
+                         ylab = "Time since recurrence",
+                         contour_nlev = 20))
+
+plot(mod_cov,
+     which_plot = "survival",
+     where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+     direction = "u",
+     plot_options = list(
+                         surv_slices = TRUE,
+                         main = "Slices of the cumulative hazard",
+                         xlab = "Time since randomization",
+                         ylab = "Cumulative hazard"))
+legend("topright",
+       legend = c(30, 60, 90, 180, 365, 1000, 2000), 
+       lty = 1, 
+       col = grDevices::gray.colors(7))
+```
+
 
 ### Covariates plot
 

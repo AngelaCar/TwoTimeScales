@@ -1,7 +1,6 @@
 #' Print method for a `data2ts` object
 #'
-#' Print method for an object of class `data2ts`
-#'
+#' @description Print method for an object of class `data2ts`
 #'
 #' @param x of class `data2ts`, as prepared by \code{\link{prepare_data}}
 #' @param \dots Further arguments to print
@@ -11,21 +10,22 @@
 #' @examples
 #' # Bin the colon cancer data over s (time since recurrence)
 #'
-#' colon1ts <- prepare_data(s_in = reccolon2ts$entrys,
-#' s_out = reccolon2ts$timesr,
-#' events = reccolon2ts$status,
-#' ds = 30)
+#' dt1ts <- prepare_data(data = reccolon2ts,
+#'                       s_in = "entrys",
+#'                       s_out = "timesr",
+#'                       events = "status",
+#'                       ds = 180)
 #'
-#' print(colon1ts)
+#' print(dt1ts)
 #'
 #' # Bin the colon cancer data over u (time at recurrence) and s (time since recurrence)
-#' colon2ts <- prepare_data(
-#' u = reccolon2ts$timer,
-#' s_in = reccolon2ts$entrys,
-#' s_out = reccolon2ts$timesr,
-#' events = reccolon2ts$status, ds = 30)
-#'
-#' print(colon2ts)
+#' dt2ts <- prepare_data(data = reccolon2ts,
+#'                       u = "timer",
+#'                       s_in = "entrys",
+#'                       s_out = "timesr",
+#'                       events = "status",
+#'                       ds = 180)
+#' print(dt2ts)
 #'
 #' @author Angela Carollo \email{carollo@@demogr.mpg.de}
 #'
@@ -51,9 +51,9 @@ print.data2ts <- function(x,...)
   else
     print(x$bins[c(3)])
   cat("\nOverview of the binned data:\n")
-  print(paste0("Total exposure time: ", lapply(x$bindata[1], sum)))
+  cat(paste0("Total exposure time: ", lapply(x$bindata[1], sum)))
   cat("\n")
-  print(paste0("Total number of events: ", lapply(x$bindata[2], sum)))
+  cat(paste0("Total number of events: ", lapply(x$bindata[2], sum)))
   # if covariates
   if(!is.null(x$bindata$Z)){
     cat("\nCovariates:\n")

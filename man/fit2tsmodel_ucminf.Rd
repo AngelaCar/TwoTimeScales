@@ -51,7 +51,9 @@ and \eqn{\log_{10}(\varrho_s)}.}
 
 \item{Wprior}{An optional matrix of a-priori weights.}
 
-\item{ridge}{A ridge penalty parameter: default is 0.}
+\item{ridge}{A ridge penalty parameter: default is 0. This is useful when, in
+some cases the algorithm shows convergence problems. In this case, set to a small
+number, for example \code{1e-4}.}
 
 \item{control_algorithm}{A list with optional values for the parameters of
 the iterative processes:

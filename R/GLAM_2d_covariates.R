@@ -4,7 +4,7 @@
 #'   scales, with covariates.
 #'
 #' @param R A 3d-array of dimensions nu by ns by n containing exposure times.
-#' @param Y A 3d-array of dimensions nu by ns by n containing events' indicators.
+#' @param Y A 3d-array of dimensions nu by ns by n containing event indicators.
 #' @param Z (optional) A regression matrix of covariates values of dimensions
 #'   n by p.
 #' @param Bu A matrix of B-splines for the `u` time scale of dimension nu by cu.

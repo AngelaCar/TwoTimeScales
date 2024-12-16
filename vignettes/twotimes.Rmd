@@ -40,7 +40,7 @@ In particular we show:
 This vignette does not deal with visualization of the estimated smooth hazard with two time scales.
 Visualization is the topic of the vignette *Visualize hazards with two time scales*.
 We assume that the reader of this vignette has some familiarity with the model, and with the basic functions of the package introduced in *Introduction to TwoTimeScales*.
-For a full exposition of the model, we refer to @Carollo:2023.
+For a full exposition of the model, we refer to @Carollo:2024.
 
 In the following, we once again analyse the dataset `reccolon2ts`, which includes data on patients with recurrence of colon cancer.
 The first part of this vignette deals with the model without covariates, and the proportional hazards model for the same analysis follows in the second part.
@@ -53,17 +53,18 @@ The analysis is performed over the $(u,s)$-plane, so we need to bin the data ove
 We consider bins of width 30 days on both axes, and we obtain 77 bins on the $u$ axis and $91$ bins on the $s$ axis.
 
 ```{r bindata_nocov, cache=T}
-dt2ts <- prepare_data(u = reccolon2ts$timer,
-                      s_out = reccolon2ts$timesr,
-                      events = reccolon2ts$status,
+dt2ts <- prepare_data(data = reccolon2ts,
+                      u = "timer",
+                      s_out = "timesr",
+                      events = "status",
                       ds = 30, du = 30)
 print(dt2ts)
 ```
 
-Here, we do not use the artificially created left truncated entry times on the $s$ axis, therefore the function returns a message informing the user that an entry time of 0 is imputed to all observations.
+Here, we do not use the artificially created left truncated entry times on the $s$-axis, therefore the function returns a message informing the user that an entry time of 0 is imputed to all observations.
 
 After having prepared the data we can estimate the model.
-In the analysis presented in @Carollo:2023, we build 23 $B$-splines over each of the two dimensions, for a total of 529 $\alpha$ parameters.
+In the analysis presented in @Carollo:2024, we build 23 $B$-splines over each of the two dimensions, for a total of 529 $\alpha$ parameters.
 The optimal smoothing parameters are chosen by numerical optimization of the AIC of the model as function of the smoothing parameters.
 We use cubic $B$-splines bases and a second order penalty.
 Here we explicitly specify all these parameters, even though some of them are the default options.
@@ -82,7 +83,7 @@ mod1 <- fit2ts(data2ts = dt2ts,
                optim_criterion = "aic") 
 ```
 
-The object returned by `fit2ts()` is of class `"haz2ts"`.
+The object returned by `fit2ts()` is of class `'haz2ts'`.
 The optimal smoothing parameters are $\varrho_u = 10^{2.4}$ and $\varrho_s=10^{0.3}$, and the effective dimension of the model is 11.1.
 
 ```{r, dependson="mod-paper"}
@@ -109,7 +110,7 @@ mod2$optimal_model$ed
 ```
 
 As expected, choosing BIC as optimization criterion results in larger smoothing parameters and a smaller effective dimension, as BIC penalizes model complexity more strongly than AIC.
-The following code-chunk shows how to use the grid search method to select the optimal pair of smoothing parameters and at the same time to produce plots of the AIC and BIC values of the grid of $\log_{10}$ values of both smoothing parameters. We do not evaluate this code chunk as it can be time consuming, but we encourage the readers to run the code on their console.
+The following code-chunk shows how to use the grid-search method to select the optimal pair of smoothing parameters and, at the same time, to produce plots of the AIC and BIC values of the grid of $\log_{10}$ values of both smoothing parameters. We do not evaluate this code chunk as it can be time consuming, but we encourage the readers to run the code on their console.
 
 ```{r grid-search, dependson="bindata_nocov", cache=TRUE, eval=F}
 mod3 <- fit2ts(data2ts = dt2ts,
@@ -159,17 +160,14 @@ Note: the functions from LMMsolver needed to fit the two time scales hazard mode
 
 We first show how to prepare the data for the analysis with covariates, then we see that there is no need to modify the estimation command, as the function `fit2ts()` automatically recognizes that the data object includes a covariates' matrix and then it correctly estimates a GLAM PH model.
 
-To prepare the covariates' matrix, we need to pass a matrix with the individual values of the covariates, to the argument `covs` in `prepare_data`.
-We do so by subsetting the dataset and selecting the desired covariates.
-
 ```{r data-prep-cov, cache=TRUE}
-covs <- subset(reccolon2ts, select = c("rx", "sex", "adhere", "obstruct", "node4"))
-dt2ts_cov <- prepare_data(u = reccolon2ts$timer,
-                          s_out = reccolon2ts$timesr,
-                          events = reccolon2ts$status,
+dt2ts_cov <- prepare_data(data = reccolon2ts,
+                          u = "timer",
+                          s_out = "timesr",
+                          events = "status",
                           ds = 30,
                           individual = TRUE, 
-                          covs = covs)
+                          covs = c("rx", "sex", "adhere", "obstruct", "node4"))
 print(dt2ts_cov)
 ```
 
@@ -194,13 +192,14 @@ mod_cov <- fit2ts(data2ts = dt2ts_cov,
 
 It is, in principle, possible to prepare the data over the $(t,s)$-plane.
 To do so, we pass as arguments to the function `prepare_data()` a vector of entry times and a vector of exit times over the $t$ axis, rather than the vector of entry times $u$.
-From the image plot of the exposure times, we can see how the data are only present in the lower half-plane where $t\ge s$.
+From the image plot of the exposure times, we can see how the data are only present in the lower half-plane where $t \ge s$.
 
 ```{r prep-data-Lexis, cache=TRUE, fig.width = 5, fig.height = 4}
-dt2tsLex <- prepare_data(t_in = reccolon2ts$timer,
-                         t_out = reccolon2ts$timedc,
-                         s_out = reccolon2ts$timesr,
-                         events = reccolon2ts$status,
+dt2tsLex <- prepare_data(data = reccolon2ts,
+                         t_in = "timer",
+                         t_out = "timedc",
+                         s_out = "timesr",
+                         events = "status",
                          ds = 30, dt = 30)
 fields::image.plot(dt2tsLex$bins$midt, 
                    dt2tsLex$bins$mids,

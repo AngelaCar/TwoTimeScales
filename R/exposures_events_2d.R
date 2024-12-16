@@ -12,7 +12,7 @@
 #'   intervals are provided as input to the function. First, the fixed-time at
 #'   entry is located in one of the nu bins that cover the whole range of
 #'   `u`. Then, the time-at-risk for each individual is split according to
-#'   the ns bins that span the whole range of values for `s`, and an event
+#'   the \eqn{ns} bins that span the whole range of values for `s`, and an event
 #'   indicator is placed in the bin where the exit time is located. This is done
 #'   by calling the function `exposure_events_1d`. If individual matrices of
 #'   exposure and events are required, then the function returns two arrays of
@@ -27,8 +27,8 @@
 #'   first time scale.
 #' @param bins_list is a list with the following (necessary) elements
 #' (usually prepared by [make_bins()]):
-#'   * `bins_u` a vector of extreme values for the bins over the u axis
-#'   * `bins_s` a vector of extreme values for the bins over the s axis
+#'   * `bins_u` a vector of extreme values for the bins over the `u` axis
+#'   * `bins_s` a vector of extreme values for the bins over the `s` axis
 #' @param individual A Boolean. Default is `FALSE`: if `FALSE` computes the matrices
 #'   R and Y collectively for all observations; if `TRUE` computes the matrices
 #'   R and Y separately for each individual record.

@@ -13,7 +13,7 @@
 #'          * `Dev` deviance;
 #'          * `AIC` the aic;
 #'          * `BIC` the bic;
-#'          * `n_beta` the number of estimated covariate's parameters (if PH model)
+#'          * `n_beta` the number of estimated covariate parameters (if PH model).
 #' @export
 #'
 getAIC_BIC_LMM <- function(fit, offset){

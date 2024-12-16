@@ -102,3 +102,10 @@ of values over which the time scale(s) are recorded. This will give insight
 about reasonable values for the arguments \code{min_s}, \code{min_u}, \code{max_s} and \code{max_u}
 (that in any case are optional).
 }
+\examples{
+# Make bins for colon cancer data by time at randomization and time since recurrence
+bins <- make_bins(u = reccolon2ts$timer, s_out = reccolon2ts$timesr,
+                 du = 30, ds = 30)
+# Make bins for colon cancer data only over time since recurrence
+bins <- make_bins(s_out = reccolon2ts$timesr, ds = 60)
+}

@@ -2,13 +2,21 @@
 % Please edit documentation in R/competing_risks_methods.R
 \name{cumhaz2ts}
 \alias{cumhaz2ts}
-\title{Cumulated hazard over two time scales}
+\title{Cumulative hazard over two time scales}
 \usage{
-cumhaz2ts(fitted_model, plot_grid = NULL, cause = NULL)
+cumhaz2ts(
+  fitted_model,
+  plot_grid = NULL,
+  cause = NULL,
+  midpoints = FALSE,
+  where_slices = NULL,
+  direction = c("u", "s", NULL),
+  tmax = NULL
+)
 }
 \arguments{
-\item{fitted_model}{The output of the function \code{fit2ts}. This is an object of
-class \code{'haz2ts'}.}
+\item{fitted_model}{(optional) The output of the function \code{fit2ts}.
+This is an object of class \code{'haz2ts'} or \code{'haz2tsLMM'}.}
 
 \item{plot_grid}{(optional) A list containing the parameters to build a new
 finer grid of intervals over \code{u} and \code{s} for plotting. This must be of the
@@ -16,10 +24,11 @@ form:
 \itemize{
 \item \code{plot_grid = list(c(umin, umax, du), c(smin, smax, ds))}
 where \code{umin}, \code{umax} and \code{smin}, \code{smax} are the minimum and maximum values
-desired for the intervals over \code{u} and \code{s} respectively, and \code{du}, \code{ds} are
-distances between intervals over \code{u} and \code{s} respectively. Specifying a new
-denser grid is used to evaluate the B-spline bases used for estimation on
-such grid and plot the estimated surfaces with a greater level of details.
+desired for the grid-points over \code{u} and \code{s} respectively, and \code{du}, \code{ds} are
+distances between two adjacent points over \code{u} and \code{s} respectively.
+Specifying a new denser grid is used to evaluate the B-spline bases used for
+estimation on such grid and plot the estimated surfaces with a greater level
+of detail.
 If not specified, the plotting is done using the same B-splines bases as
 for the estimation. The function will check if the parameters for the grid
 provided by the user are compatible with those originally used to construct
@@ -28,15 +37,35 @@ accordingly and a warning will be returned.
 }}
 
 \item{cause}{a character string with a short name for the cause (optional).}
+
+\item{midpoints}{A Boolean. Default is \code{FALSE}. If \code{TRUE}, the estimated
+quantities are evaluated at the midpoints of the rectangles
+(or parallelograms) of the grids, rather than at each grid-point.}
+
+\item{where_slices}{A vector of values for the cutting points of the desired
+slices of the surface. This option is included mostly for the plotting function.
+When using \code{plot.haz2ts()}, the user selects \code{which_plot = "cumhaz"} and
+\code{cumhaz_slices = TRUE}, then \code{where_slices} indicates the location of the
+cutting points over the \code{u} time.}
+
+\item{direction}{If cross-sectional one-dimensional curves are plotted, this
+indicates whether the cutting points are located on the \code{u} time, or on the
+\code{s} time. For plots of the cumulative hazards, only cutting points over the
+\code{u} time are meaningful.}
+
+\item{tmax}{The maximum value of \code{t} that should be plotted.}
 }
 \value{
 A list with the following elements:
-* \code{Haz} the 2d hazard surface (obtained from the function \code{get_hazard_2d});
+* \code{Haz} a list of estimated hazard and associated SEs
+(obtained from the function \code{get_hazard_2d});
 * \code{CumHaz} the cumulated hazard estimate over \code{u} and \code{s};
-* \code{cause} (if provided) the short name for the cause
+* \code{cause} (if provided) the short name for the cause.
 }
 \description{
-Computes the cumulated hazard surface over two time scales
+Computes the cumulative hazard surface over two time scales
+from a fitted model. The function is also called internally from \code{plot()}
+if the user wants to plot the cumulative hazard from a fitted model.
 }
 \examples{
 # Create some fake data - the bare minimum

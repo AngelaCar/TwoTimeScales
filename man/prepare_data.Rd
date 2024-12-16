@@ -5,6 +5,7 @@
 \title{Prepare raw data by binning them in 1d or 2d}
 \usage{
 prepare_data(
+  data = NULL,
   t_in = NULL,
   t_out = NULL,
   u = NULL,
@@ -25,6 +26,8 @@ prepare_data(
 )
 }
 \arguments{
+\item{data}{A data frame.}
+
 \item{t_in}{(optional) A vector of entry times on the time scale \code{t}.}
 
 \item{t_out}{(optional) A vector of exit times on the time scale \code{t}.}
@@ -111,7 +114,7 @@ covariates values can be provided by the user.
 }
 \details{
 A few words about constructing the grid of bins.
-Bins are cointainers for the individual data. There is no 'golden rule' or
+Bins are containers for the individual data. There is no 'golden rule' or
 optimal strategy for setting the number of bins over each time axis, or deciding
 on the bins' width. It very much depends on the data structure, however, we
 try to give some directions here. First, in most cases, more bins is better
@@ -128,15 +131,23 @@ If the time scale is measured in years, then appropriate width could be 0.25
 in some cases, time might be measure in completed years, as is often the case
 for age. In this scenario, an appropriate bin width is 1.
 
-Finally, it is always a good idea to plot your data first, and explore the range
+Finally, it is always a good idea to plot the data first, and explore the range
 of values over which the time scale(s) are recorded. This will give insight
 about reasonable values for the arguments \code{min_s}, \code{min_u}, \code{max_s} and \code{max_u}
 (that in any case are optional).
+
+Regarding names of covariates or levels of categorical covariates/factors:
+When using "LMMsolver" to fit a model with covariates that which have names
+(or factor labels) including a symbol such as "+", "-", "<" or ">" will result
+in an error. To avoid this, the responsible names (labels) will be rewritten
+without mathematical symbols. For example: "Lev+5FU" (in the colon cancer data)
+is replaced by "Lev&5FU".
 }
 \examples{
 
 # Bin data over s = time since recurrence only, with intervals of length 30 days
 # aggregated data (no covariates)
+# The following example provide the vectors of data directly from the dataset
 binned_data <- prepare_data(s_out = reccolon2ts$timesr, events = reccolon2ts$status, ds = 30)
 # Visualize vector of event counts
 print(binned_data$bindata$y)
@@ -145,6 +156,10 @@ print(binned_data$bins$mids)
 # Visualize number of bins
 print(binned_data$bins$ns)
 
+# Now, the same thing is done by providing a dataset and the name of all relevant variables
+binned_data <- prepare_data(data = reccolon2ts, s_out = "timesr", events = "status", ds = 30)
+# Visualize vector of event counts
+print(binned_data$bindata$y)
 
 # Now using ds = .3 and the same variable measured in years
 binned_data <- prepare_data(s_out = reccolon2ts$timesr_y, events = reccolon2ts$status, ds = .3)
@@ -178,6 +193,13 @@ binned_data <- prepare_data(
 
 # Visualize structure of binned data
 print(str(binned_data$bindata))
+
+# Alternatevely:
+binned_data <- prepare_data(
+  data = reccolon2ts,
+  u = "timer", s_out = "timesr",
+  events = "status", ds = 30, individual = TRUE, covs = c("nodes", "rx")
+)
 
 }
 \author{

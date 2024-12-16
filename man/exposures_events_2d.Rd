@@ -21,8 +21,8 @@ observations.}
 \item{bins_list}{is a list with the following (necessary) elements
 (usually prepared by \code{\link[=make_bins]{make_bins()}}):
 \itemize{
-\item \code{bins_u} a vector of extreme values for the bins over the u axis
-\item \code{bins_s} a vector of extreme values for the bins over the s axis
+\item \code{bins_u} a vector of extreme values for the bins over the \code{u} axis
+\item \code{bins_s} a vector of extreme values for the bins over the \code{s} axis
 }}
 
 \item{individual}{A Boolean. Default is \code{FALSE}: if \code{FALSE} computes the matrices
@@ -55,7 +55,7 @@ are divided into \eqn{nu} and \eqn{ns} intervals, respectively. The extremes of 
 intervals are provided as input to the function. First, the fixed-time at
 entry is located in one of the nu bins that cover the whole range of
 \code{u}. Then, the time-at-risk for each individual is split according to
-the ns bins that span the whole range of values for \code{s}, and an event
+the \eqn{ns} bins that span the whole range of values for \code{s}, and an event
 indicator is placed in the bin where the exit time is located. This is done
 by calling the function \code{exposure_events_1d}. If individual matrices of
 exposure and events are required, then the function returns two arrays of

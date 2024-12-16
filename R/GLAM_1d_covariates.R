@@ -4,7 +4,7 @@
 #'   scale, with covariates.
 #'
 #' @param R A 2d-array of dimensions ns by n containing exposure times.
-#' @param Y A 2d-array of dimensions ns by n containing events' indicators.
+#' @param Y A 2d-array of dimensions ns by n containing event indicators.
 #' @param Bs A matrix of B-splines for the `s` time scale of dimension ns by cs.
 #' @param Z A regression matrix of covariates values of dimensions n by p.
 #' @param Wprior An optional vector of length ns of a-priori weights.

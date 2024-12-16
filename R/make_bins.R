@@ -64,6 +64,13 @@
 #' (that in any case are optional).
 #'
 #' @export
+#'
+#' @examples
+#' # Make bins for colon cancer data by time at randomization and time since recurrence
+#' bins <- make_bins(u = reccolon2ts$timer, s_out = reccolon2ts$timesr,
+#'                  du = 30, ds = 30)
+#' # Make bins for colon cancer data only over time since recurrence
+#' bins <- make_bins(s_out = reccolon2ts$timesr, ds = 60)
 
 make_bins <- function(t_in = NULL, t_out = NULL,
                       u = NULL,

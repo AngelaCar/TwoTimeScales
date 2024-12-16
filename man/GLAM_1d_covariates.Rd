@@ -17,7 +17,7 @@ GLAM_1d_covariates(
 \arguments{
 \item{R}{A 2d-array of dimensions ns by n containing exposure times.}
 
-\item{Y}{A 2d-array of dimensions ns by n containing events' indicators.}
+\item{Y}{A 2d-array of dimensions ns by n containing event indicators.}
 
 \item{Bs}{A matrix of B-splines for the \code{s} time scale of dimension ns by cs.}
 

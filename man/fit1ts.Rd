@@ -38,8 +38,8 @@ by n.}
 \item{bins}{a list with the specification for the bins. This is created by
 the function \code{prepare_data}. Alternatively, a list with the following elements
 can be provided:
-* \code{bins_s} is a vector of bins extremes for the time scale \code{s}.
-* \code{mids} is a vector with the midpoints of the bins over \code{s}.
+* \code{bins_s} is a vector of intervals for the time scale \code{s}.
+* \code{mids} is a vector with the midpoints of the intervals over \code{s}.
 * \code{ns} is the number of bins over \code{s}.}
 
 \item{Bbases_spec}{A list with the specification for the B-splines basis
@@ -108,15 +108,15 @@ For objects of class \code{haz1ts} this is
 \itemize{
 \item \code{optimal_model} A list with:
 \itemize{
-\item \code{alpha} The vector of estimated P-splines coefficients of length cs.
+\item \code{alpha} The vector of estimated P-splines coefficients of length \eqn{cs}.
 \item \code{SE_alpha} The vector of estimated Standard Errors for the \code{alpha} coefficients,
-of length cs.
-\item \code{beta} The vector of estimated covariates coefficients of length p
+of length \eqn{cs}.
+\item \code{beta} The vector of estimated covariate coefficients of length \eqn{p}
 (if model with covariates).
 \item \code{se_beta} The vector of estimated Standard Errors for the
-\code{beta} coefficients of length p (if model with covariates).
+\code{beta} coefficients of length \eqn{p} (if model with covariates).
 \item \code{eta} or \code{eta0}. The vector of values of the (baseline) linear predictor
-(log-hazard).
+(log-hazard) of length \eqn{ns}.
 \item \code{H} The hat-matrix.
 \item \code{Cov} The full variance-covariance matrix.
 \item \code{deviance} The deviance.
@@ -151,7 +151,7 @@ Three methods are implemented for the search of the optimal smoothing
 parameter (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of \eqn{\log_{10}} values for the smoothing parameter and the
-estimation through the mixed model representation of P-splines.
+estimation using a sparse mixed model representation of P-splines.
 Construction of the B-splines basis and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates.
@@ -159,32 +159,37 @@ the function will estimate a model with covariates.
 \details{
 Some functions from the R-package \code{LMMsolver} are used here.
 We refer the interested readers to https://biometris.github.io/LMMsolver/
-for more details on \code{LMMsolver} and its usage.
+for more detail on \code{LMMsolver} and its usage.
 }
 \examples{
 ## preparing data - no covariates
-dt1ts <- prepare_data(s_in = reccolon2ts$entrys,
-                        s_out = reccolon2ts$timesr,
-                        events = reccolon2ts$status,
-                        ds = 180)
+dt1ts <- prepare_data(data = reccolon2ts,
+                      s_in = "entrys",
+                      s_out = "timesr",
+                      events = "status",
+                      ds = 180)
 
-## fitting the model with fit1ts() - default options
+## fitting the model with fit1ts() - default options, that is ucminf optimization
 
 mod1 <- fit1ts(dt1ts)
 
+## fitting with LMMsolver
+mod2 <- fit1ts(dt1ts,
+              optim_method = "LMMsolver")
+
 ## preparing the data - covariates
 
-covs <- subset(reccolon2ts, select = c("rx", "node4", "sex"))
-dt1ts_cov <- prepare_data(s_in = reccolon2ts$entrys,
-                          s_out = reccolon2ts$timesr,
-                          events = reccolon2ts$status,
-                          ds = 180,
-                          individual = TRUE,
-                          covs = covs)
+dt1ts_cov <- prepare_data(data = reccolon2ts,
+                      s_in = "entrys",
+                      s_out = "timesr",
+                      events = "status",
+                      ds = 180,
+                      individual = TRUE,
+                      covs = c("rx", "node4", "sex"))
 
 ## fitting the model with fit1ts() - grid search over only two log_10(rho_s) values
 
-mod2 <- fit1ts(dt1ts_cov,
+mod3 <- fit1ts(dt1ts_cov,
                optim_method = "grid_search",
                lrho = c(1, 1.5))
 

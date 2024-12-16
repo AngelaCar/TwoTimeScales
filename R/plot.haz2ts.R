@@ -1,7 +1,7 @@
 #' Plot method for a haz2ts object.
 #'
 #' @description  `plot.haz2ts()` is the plot method for objects of class `haz2ts`.
-#'  It produces plots of the fitted model with two
+#'  It produces several kinds of plots of the fitted model with two
 #'   time scales (see [fit2ts()]), either in the original (t,s) plane, while respecting the
 #'   constraint imposed by the relation of the two time scales, or in the
 #'   transformed (u,s) plane.
@@ -9,7 +9,8 @@
 #' @param x The output of the function `fit2ts`. This is an object of
 #'   class `"haz2ts"`.
 #' @param which_plot The type of plot required. Can be one of `"hazard"`
-#'   (default), `"covariates"`, `"SE"` or `"slices"`.
+#'   (default), `"covariates"`, `"SE"`, `"slices"`, `"survival"` or `"cumhaz"`
+#'   (see details section).
 #' @param plot_grid (optional) A list containing the parameters to build a new
 #'   finer grid of intervals over u and s for plotting. This must be of the
 #'   form: `plot_grid = list(c(umin, umax, du), c(smin, smax, ds))`, where
@@ -25,7 +26,9 @@
 #'   accordingly and a warning will be returned.
 #' @param where_slices A vector of values for the cutting points of the desired
 #'   slices of the surface. If `which_plot == "slices"`, please provide this
-#'   argument.
+#'   argument. Please also provide this argument in case `which_plot = "survival`
+#'   or `which_plot = "cumhaz` and `surv_slices = TRUE` or `cumhaz_slices = TRUE`,
+#'   respectively.
 #' @param direction If `which_plot == "slices"`, indicates the direction for
 #'   cutting the surface. If `u`, then the surface will be cut at the selected
 #'   values of `u` (indicated by `where_slices`), hence obtaining one-dimensional
@@ -47,6 +50,16 @@
 #'     the SEs) in the (t,s)-plane. If `FALSE`, the (log-)hazard (and/or the SEs)
 #'     will be plotted in the (u,s)-plane.
 #'   * `tmax` The maximum value of `t` that should be plotted.
+#'   * `surv_slices` A Boolean. Default is `FALSE`. If `TRUE` and
+#'     `which_plot == "survival"`, plot survival curves over the time `s` for
+#'     selected values of `u`, that are cross-sections of the 2D survival surface.
+#'   * `cumhaz_slices` A Boolean. Default is `FALSE`. If `TRUE` and
+#'     `which_plot == "cumhaz"`, plot cumulative hazards curves over the time `s` for
+#'     selected values of `u`, that are cross-sections of the 2D cumulative hazard surface.
+#'   * `midpoints` A Boolean. Default is `FALSE`. If `TRUE`, the estimated quantities
+#'     (hazard, survival, etc.) will be evaluated in the mid-points of the bins
+#'     rather than at the extremes. Set to `TRUE` if plotting estimated number of
+#'     events.
 #'   * `col_palette` A function defining the color palette. The default palette
 #'     is `viridis::rev(plasma())`. Specifying the color palette as a function
 #'     allows for greater flexibility than passing the palette as a vector.
@@ -86,37 +99,91 @@
 #'   * `lwd` The line width.
 #' @param \dots Further arguments to image.plot or image
 #'
+#' @details The vignette "visualization" presents and discusses all the different
+#'  plotting options for the fitted model over two time scales.
+#'  In most of the cases, the user will want to visualize the hazard surface over
+#'  the two time scales. This can be plotted on the hazard scale, the log-hazard
+#'  scale or the log10-hazard scale, by switching to `TRUE` the corresponding
+#'  argument in `plot_options`.
+#'  The survival and cumulative hazard functions can be plotted as two-dimensional
+#'  surfaces over `u` and `s` or `t` and `s`. However, it is also very informative
+#'  to plot them as one-dimensional curves over `s` (cross-sections or slices).
+#'  This is done by selecting `which_plot = "survival"` and `surv_slices = TRUE`
+#'  in `plot_options`. Additionally, a vector of values for the cutting points
+#'  over the `u`-axis should be passed to the argument `where_slices`, together
+#'  with setting `direction = u`.
+#'  Similar plot is obtained for the cumulative hazard by selecting `which_plot = "cumhaz"`,
+#'  `cumhaz_slices = TRUE`, see examples section.
+#'  Please, notice that for the survival function and the cumulative hazard, only
+#'  cross-sections of the surface for selected values of `u` (over the `s` time)
+#'  can be plotted.
+#'
 #' @return A plot of the fitted model.
 #'
 #' @importFrom stats qnorm
 #'
 #' @examples
+#' # Create some fake data - the bare minimum
+#' id <- 1:20
+#' u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+#'        4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
+#' s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+#'        7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
+#' ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)#'
+#'
+#' fakedata <- as.data.frame(cbind(id, u, s, ev))
+#' fakedata2ts <- prepare_data(u = fakedata$u,
+#'                             s_out = fakedata$s,
+#'                             ev = fakedata$ev,
+#'                             ds = .5)
+#' # Fit a fake model - not optimal smoothing
+#' fakemod <- fit2ts(fakedata2ts,
+#'                   optim_method = "grid_search",
+#'                   lrho = list(seq(1 ,1.5 ,.5),
+#'                               seq(1 ,1.5 ,.5)))
+#'
+#'  # plot the hazard surface
+#'  plot(fakemod)
+#'
+#'  # plot the survival function as one-dimension curves over `s`
+#'  plot(fakemod,
+#'       which_plot = "survival",
+#'       direction = "u",
+#'       where_slices = c(4, 6, 8),
+#'       plot_options = list(
+#'       surv_slices = TRUE
+#'       ))
+#'
 #' # Create a color pallete function from a RColorBrewer palette, using the function
 #' # colorRampPalette from grDevices.
+#'
 #' \dontrun{
-#'   mypal <- function(n){
-#'            colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
-#'            }
-#'   # if mod_haz is a fitted model of class haz2ts, the following code will
-#'   # produce a cross-sections plot of the hazard over `s` for selected values
-#'   # of `u`, with the palette specified above
-#'
-#'   plot(mod_haz,
-#'        which_plot = "slices",
-#'        where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
-#'        direction = "u",
-#'        plot_options = list(col_palette = mypal,
-#'                            main = "Cross-sections of the hazard",
-#'                            xlab = "Time since recurrence",
-#'                            ylab = "Hazard"))
+#' mypal <- function(n) {
+#'   colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
 #' }
+#' # if mod_haz is a fitted model of class `haz2ts`, the following code will
+#' # produce a cross-sections plot of the hazard over `s` for selected values
+#' # of `u`, with the palette specified above
 #'
+#' plot(mod_haz,
+#'   which_plot = "slices",
+#'   where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+#'   direction = "u",
+#'   plot_options = list(
+#'     col_palette = mypal,
+#'     main = "Cross-sections of the hazard",
+#'     xlab = "Time since recurrence",
+#'     ylab = "Hazard"
+#'   )
+#' )
+#' }
 #'
 #' @export
 
 plot.haz2ts <- function(x,
                         plot_grid = NULL,
-                        which_plot = c("hazard", "covariates", "SE", "slices"),
+                        which_plot = c("hazard", "covariates", "SE", "slices",
+                                       "survival", "cumhaz"),
                         where_slices = NULL,
                         direction = c(NULL, "u", "s"),
                         plot_options = list(),
@@ -129,6 +196,10 @@ plot.haz2ts <- function(x,
     stop("Covariates plot required but x does not have covariates' parameters.")
   }
 
+  if((!is.null(where_slices)) & is.null(direction))
+    stop("Please provide a direction for the cutting points - see argument 'direction'")
+
+
   u <- s <- NULL
   # ---- Options for plotting ----
   opts <- list(
@@ -138,6 +209,9 @@ plot.haz2ts <- function(x,
     rectangular_grid = TRUE,
     original = FALSE,
     tmax = NULL,
+    midpoints = FALSE,
+    surv_slices = FALSE,
+    cumhaz_slices = FALSE,
     col_palette = NULL,
     n_shades = 50,
     breaks = NULL,
@@ -200,11 +274,11 @@ plot.haz2ts <- function(x,
     du <- midu[2] - midu[1]
     ds <- mids[2] - mids[1]
     intu <- midu + du / 2
-    intu <- c(intu[1] - du, intu)
+    intu <- c(intu[1] - du / 2, intu)
     umin <- min(intu)
     umax <- max(intu)
     ints <- mids + ds / 2
-    ints <- c(ints[1] - ds, ints)
+    ints <- c(ints[1] - ds / 2, ints)
     smin <- min(ints)
     smax <- max(ints)
     plot_grid <- list(
@@ -212,21 +286,24 @@ plot.haz2ts <- function(x,
       c("smin" = smin, "smax" = smax, "ds" = ds)
     )
   }
+
   # ---- Get (baseline) (log-)hazard and hazard ratios if needed ----
-  if (which_plot != "covariates") { # the only case in which we don't need to call
-    # get_hazard_2d
-    hazard_SE <- get_hazard_2d(fitted_model = x,
+  if (which_plot %in% c("hazard", "slices", "SE")) {
+     hazard_SE <- get_hazard_2d(
+      fitted_model = x,
       plot_grid = plot_grid,
       where_slices = where_slices,
       direction = direction,
-      tmax = opts$tmax
+      tmax = opts$tmax,
+      midpoints = opts$midpoints
     )
     new_grid <- hazard_SE$new_plot_grid
-    if (which_plot %in% c("hazard", "slices")) {
+
+        if (which_plot %in% c("hazard", "slices")) {
       if (opts$loghazard == TRUE) {
         to_plot <- hazard_SE$loghazard
       } else {
-        if(opts$log10hazard){
+        if (opts$log10hazard) {
           to_plot <- hazard_SE$log10hazard
         } else {
           to_plot <- hazard_SE$hazard
@@ -238,7 +315,7 @@ plot.haz2ts <- function(x,
       if (opts$loghazard == TRUE) {
         to_plot <- hazard_SE$SE_loghazard
       } else {
-        if(opts$log10hazard){
+        if (opts$log10hazard) {
           to_plot <- hazard_SE$SE_log10hazard
         } else {
           to_plot <- hazard_SE$SE_hazard
@@ -246,6 +323,29 @@ plot.haz2ts <- function(x,
       }
     }
   }
+  if (which_plot == "survival") {
+      surv <- surv2ts(
+        fitted_model = x,
+        plot_grid = plot_grid,
+        midpoints = opts$midpoints,
+        where_slices = where_slices,
+        direction = direction,
+        tmax = opts$tmax
+      )
+      new_grid <- attr(surv, "plot_grid")
+      to_plot <- surv$Surv2ts
+    }
+
+    if( which_plot == "cumhaz"){
+      CumHaz <- cumhaz2ts(fitted_model = x,
+                          plot_grid = plot_grid,
+                          midpoints = opts$midpoints,
+                          where_slices = where_slices,
+                          direction = direction,
+                          tmax = opts$tmax)
+      to_plot <- CumHaz$CumHaz
+      new_grid <- CumHaz$Haz$new_plot_grid
+    }
 
   if (is.null(opts$tmax)) {
     opts$tmax <- new_grid$umax + new_grid$smax
@@ -258,19 +358,22 @@ plot.haz2ts <- function(x,
       for (col in 1:ncol(to_plot)) {
         cut[row, col] <- ifelse((new_grid$ints[col] + new_grid$intu[row] > opts$tmax + new_grid$du) &
           (((new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) >= -1) |
-            ((new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) == - Inf)),
-          NA, 1)
+            ((new_grid$smax - new_grid$ints[col]) / (new_grid$umax - new_grid$intu[row]) == -Inf)),
+        NA, 1
+        )
       }
     }
 
     to_plot <- to_plot * cut
+
     # adjust legend breaks to match cutted surface
-    if(which_plot %in% c("hazard", "SE")){
-      K <- (max(to_plot, na.rm = T)-min(to_plot, na.rm = T))/(opts$n_shades + 1)
+    if (which_plot %in% c("hazard", "SE", "cumhaz")) {
+      K <- (max(to_plot, na.rm = T) - min(to_plot, na.rm = T)) / (opts$n_shades + 1)
       opts$breaks <- seq(min(to_plot, na.rm = T),
-                         min(to_plot, na.rm = T) + K*(opts$n_shades + 1),
-                         length = (opts$n_shades + 1))
-      }
+        min(to_plot, na.rm = T) + K * (opts$n_shades + 1),
+        length = (opts$n_shades + 1)
+      )
+    }
   }
 
 
@@ -314,7 +417,7 @@ plot.haz2ts <- function(x,
   }
 
   # ---- If slices, organize on grid and select only values where slices are ----
-  if (which_plot == "slices") {
+  if (which_plot == "slices" | opts$surv_slices | opts$cumhaz_slices)  {
     if (direction == "s") {
       grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
       grid_us$t <- grid_us$u + grid_us$s
@@ -327,6 +430,7 @@ plot.haz2ts <- function(x,
       to_plot <- to_plot_v
       X1 <- unique(sort(final_grid$t))
     } else {
+      if(is.null(where_slices)) stop("Please provide location for the cut-points over `u` (where_slices)")
       grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
       grid_us$to_plot <- c(to_plot)
       onlyslic <- subset(grid_us, u %in% where_slices)
@@ -337,7 +441,8 @@ plot.haz2ts <- function(x,
   }
 
   # ---- Plot (log-)hazard ----
-  if (which_plot == "hazard") {
+  if (which_plot %in% c("hazard", "survival", "cumhaz") &
+      !(opts$surv_slices) & !(opts$cumhaz_slices)) {
     plt <- imageplot_2ts(
       x = X1, y = X2, z = to_plot,
       plot_options = list(
@@ -392,7 +497,7 @@ plot.haz2ts <- function(x,
         contour_nlev = opts$contour_nlev,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab
-        )
+      )
     )
     return(invisible(plt))
   }
@@ -400,6 +505,31 @@ plot.haz2ts <- function(x,
   # ---- Plot slices ----
   if (which_plot == "slices") {
     if (direction == "u") x <- new_grid$ints else x <- X1
+    plt <- plot_slices(
+      x = x,
+      y = to_plot,
+      direction = direction,
+      plot_options = list(
+        loghazard = opts$loghazard,
+        log10hazard = opts$log10hazard,
+        col_palette = opts$col_palette,
+        n_shades = length(where_slices),
+        main = opts$main,
+        xlab = opts$xlab,
+        ylab = opts$ylab,
+        xlim = opts$xlim,
+        ylim = opts$ylim,
+        cex_main = opts$cex_main,
+        cex_lab = opts$cex_lab,
+        lwd = opts$lwd
+      )
+    )
+  }
+
+  # ---- Plot survival / cumulative hazard slices ----
+  if( (which_plot == "survival" & opts$surv_slices)  |
+      (which_plot == "cumhaz" & opts$cumhaz_slices)){
+    x <- new_grid$ints
     plt <- plot_slices(
       x = x,
       y = to_plot,

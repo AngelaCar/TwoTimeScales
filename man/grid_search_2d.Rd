@@ -54,7 +54,9 @@ n by p.}
 
 \item{Wprior}{An optional matrix of a-priori weights.}
 
-\item{ridge}{A ridge penalty parameter: default is 0.}
+\item{ridge}{A ridge penalty parameter: default is 0. This is useful when, in
+some cases the algorithm shows convergence problems. In this case, set to a small
+number, for example \code{1e-4}.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
 \code{"aic"} (default) or \code{"bic"}. BIC penalized model complexity more strongly

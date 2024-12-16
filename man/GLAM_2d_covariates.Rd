@@ -19,7 +19,7 @@ GLAM_2d_covariates(
 \arguments{
 \item{R}{A 3d-array of dimensions nu by ns by n containing exposure times.}
 
-\item{Y}{A 3d-array of dimensions nu by ns by n containing events' indicators.}
+\item{Y}{A 3d-array of dimensions nu by ns by n containing event indicators.}
 
 \item{Bu}{A matrix of B-splines for the \code{u} time scale of dimension nu by cu.}
 
