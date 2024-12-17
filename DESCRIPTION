@@ -15,7 +15,7 @@ Description: Tools for the analysis of time to event data with two time scales.
              Additionally, the cumulative incidence functions over two time scales
              can be estimated in a competing risks model. 
              For details about the method please refer to Carollo et al. (2024) 
-             <http://doi.org/10.1002/sim.10297>.
+             <doi:10.1002/sim.10297>.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
