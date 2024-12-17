@@ -14,9 +14,9 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = FALSE
 )
-knitr::opts_chunk$set(eval = TRUE)
 ```
 
 ```{r setup}
@@ -65,6 +65,35 @@ However, to show how the model can easily incorporate left truncation, we introd
 ```{r data}
 str(reccolon2ts)
 ```
+```
+'data.frame':	461 obs. of  25 variables:
+ $ id      : num  1 3 4 5 6 7 13 14 16 17 ...
+ $ study   : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ rx      : Factor w/ 3 levels "Obs","Lev","Lev+5FU": 3 1 3 1 3 2 1 2 1 2 ...
+ $ sex     : Factor w/ 2 levels "female","male": 2 1 1 2 1 2 2 2 2 2 ...
+ $ age     : num  43 71 66 69 57 77 64 68 68 62 ...
+ $ obstruct: num  0 0 1 0 0 0 0 1 0 1 ...
+ $ perfor  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ adhere  : num  0 1 0 0 0 0 0 0 0 1 ...
+ $ nodes   : num  5 7 6 22 9 5 1 3 1 6 ...
+ $ status  : num  1 1 1 1 1 1 1 1 0 1 ...
+ $ differ  : Factor w/ 3 levels "well","moderate",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ extent  : Factor w/ 4 levels "submucosa","muscle",..: 3 2 3 3 3 3 3 3 3 3 ...
+ $ surg    : Factor w/ 2 levels "short","long": 1 1 2 2 1 2 1 1 2 1 ...
+ $ node4   : num  1 1 1 1 1 1 0 0 0 1 ...
+ $ timedc  : num  1521 963 293 659 1767 ...
+ $ etype   : num  2 2 2 2 2 2 2 2 2 2 ...
+ $ timer   : num  968 542 245 523 904 ...
+ $ entrys  : num  0 0 0 0 0 0 0 0 0 88 ...
+ $ timesr  : num  553 421 48 136 863 ...
+ $ entryt  : num  968 542 245 523 904 ...
+ $ timedc_y: num  4.164 2.637 0.802 1.804 4.838 ...
+ $ timesr_y: num  1.514 1.153 0.131 0.372 2.363 ...
+ $ entrys_y: num  0 0 0 0 0 ...
+ $ entryt_y: num  2.65 1.484 0.671 1.432 2.475 ...
+ $ timer_y : num  2.65 1.484 0.671 1.432 2.475 ...
+ ```
+ 
 
 Before we illustrate how to work with the package, a clarification about notation is needed.
 In our two time scales model notation, we indicate the two time scales with $t$ and $s$, and the fixed time at entry in the process is indicated with $u$.
@@ -95,8 +124,47 @@ dt1ts <- prepare_data(data = reccolon2ts,
                       events = "status",
                       ds = 30)
 str(dt1ts)
+```
+```
+List of 2
+ $ bins   :List of 3
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 2
+  ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...
+  ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...
+ - attr(*, "class")= chr "data2ts"
+ ```
 
+```{r}
 print(dt1ts)
+```
+
+```
+> print(dt1ts)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 3
+ $ bindata:List of 2
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409
 ```
 
 The object `dt1ts` is a list with two elements.
@@ -117,8 +185,57 @@ dt2ts <- prepare_data(data = reccolon2ts,
                       events = "status",
                       ds = 30)
 str(dt2ts)
+```
 
+```
+> str(dt2ts)
+List of 2
+ $ bins   :List of 6
+  ..$ bins_u: num [1:77] 8 38 68 98 128 158 188 218 248 278 ...
+  ..$ midu  : num [1:76] 23 53 83 113 143 173 203 233 263 293 ...
+  ..$ nu    : int 76
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 2
+  ..$ R: num [1:76, 1:91] 205 243 540 796 474 812 506 746 657 517 ...
+  ..$ Y: num [1:76, 1:91] 1 1 0 1 1 2 1 1 1 2 ...
+ - attr(*, "class")= chr "data2ts"
+```
+
+```{r}
 print(dt2ts)
+```
+```
+> print(dt2ts)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 6
+ $ bindata:List of 2
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_u
+[1]    8 2288
+
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$nu
+[1] 76
+
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409
 ```
 
 We have now included only one additional input `u`, that is the vector with the individuals' time at recurrence of the cancer.
@@ -148,7 +265,64 @@ dt2ts_cov <- prepare_data(data = reccolon2ts,
                           individual = TRUE, 
                           covs = c("rx", "node4", "sex"))
 str(dt2ts_cov)
+```
+
+```
+> str(dt2ts_cov)
+List of 2
+ $ bins   :List of 6
+  ..$ bins_u: num [1:77] 8 38 68 98 128 158 188 218 248 278 ...
+  ..$ midu  : num [1:76] 23 53 83 113 143 173 203 233 263 293 ...
+  ..$ nu    : int 76
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 3
+  ..$ R: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ Y: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ Z: num [1:461, 1:6] 0 0 0 0 0 1 0 1 0 1 ...
+  .. ..- attr(*, "dimnames")=List of 2
+  .. .. ..$ : NULL
+  .. .. ..$ : chr [1:6] "rx_Lev" "rx_Lev+5FU" "sex_male" "adhere" ...
+ - attr(*, "class")= chr "data2ts"
+```
+
+```{r}
 print(dt2ts_cov)
+```
+```
+> print(dt2ts_cov)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 6
+ $ bindata:List of 3
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_u
+[1]    8 2288
+
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$nu
+[1] 76
+
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409
+Covariates:
+[1] "rx_Lev"     "rx_Lev+5FU" "sex_male"   "adhere"    
+[5] "obstruct"   "node4" 
 ```
 
 The data are now the three-dimensional arrays, `R` and `Y` and a regression matrix `Z`, where the covariates are transformed in dummy variables (where needed).
@@ -171,6 +345,30 @@ m1ts <- fit1ts(data1ts = dt1ts,
                                   min_s = 0,
                                   max_s = 2730))
 str(m1ts)
+```
+```
+> str(m1ts)
+List of 3
+ $ optimal_model :List of 9
+  ..$ alpha   : num [1:23, 1] -6.77 -6.58 -6.39 -6.25 -6.19 ...
+  ..$ SE_alpha: num [1:23] 0.2276 0.123 0.0763 0.0744 0.0797 ...
+  ..$ eta     : num [1:91, 1] -6.56 -6.52 -6.48 -6.44 -6.4 ...
+  ..$ H       : num [1:23, 1:23] 0.07508 0.04686 0.02027 0.00324 -0.00366 ...
+  ..$ deviance: num 79.4
+  ..$ ed      : num 4.25
+  ..$ aic     : num 87.9
+  ..$ bic     : num 98.6
+  ..$ Bbases  :List of 1
+  .. ..$ Bs: num [1:91, 1:23] 1.18e-01 5.02e-02 1.52e-02 2.05e-03 2.21e-07 ...
+  .. .. ..- attr(*, "x")= num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  .. .. ..- attr(*, "xl")= num 0
+  .. .. ..- attr(*, "xr")= num 2730
+  .. .. ..- attr(*, "nseg")= num 20
+  .. .. ..- attr(*, "bdeg")= num 3
+  .. .. ..- attr(*, "type")= chr "bbase"
+ $ optimal_logrho: num 2.02
+ $ P_optim       : num [1:23, 1:23] 105 -211 105 0 0 ...
+ - attr(*, "class")= chr "haz1ts"
 ```
 
 Here, we specify a cubic (`bdeg = 3`) $B$-splines basis that covers the range of $s$ from 0 to 2730 days (`min_s` and `max_s` respectively), and is built on 20 segments (`nseg_s = 20`).
@@ -195,6 +393,29 @@ m2ts <- fit2ts(data2ts = dt2ts,
                                   min_u = 0,
                                   max_u = 2300))
 summary(m2ts)
+```
+
+```
+> summary(m2ts)
+Number of events =  409 
+Model specifications:
+  nu =  76 
+  ns =  91 
+  cu =  19 
+  cs =  23 
+
+Optimal smoothing: 
+  log10(rho_u) =  2.101313 
+  log10(rho_s) =  0.4089259 
+  rho_u =  126.2736 
+  rho_s =  2.564046 
+
+Model with no covariates
+
+Model diagnostics: 
+  AIC =  1249.329 
+  BIC =  1313.998 
+  ED =  11.02155
 ```
 
 Whereas the estimates from `fit1ts` are vectors, the ones from `fit2ts` are organized in matrices: The matrix `optimal_model$Alpha`, containing the estimated $B$-splines' coefficients $\alpha_{lm}$, for $l \in 1,\dots,c_u$ (here $c_u = 19$) and $m \in 1,\dots, c_s$ ($c_s = 23$).
@@ -223,6 +444,7 @@ plot(x = m1ts,
        cex_main = 1))
 ```
 
+![](../vignettes/TwoTimeScales_files/figure-html/1ts-plot-1.png)
 #### Two time scales
 
 There are several options to represent the smooth hazard with two time scales.
@@ -240,5 +462,7 @@ plot(x = m2ts,
        xlab = "time since randomization",
        cex_main = 1))
 ```
+
+![](..vignettes/TwoTimeScales_files/figure-html/2ts-plot-1.png)
 
 ## References

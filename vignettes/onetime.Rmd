@@ -14,7 +14,8 @@ editor_options:
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = FALSE
 )
 ```
 
@@ -40,13 +41,49 @@ The function returns an object of type `data2ts`.The `print` method can be used 
 
 First, we show how the function works with minimal input (that is, by using the default values for any optional parameter):
 
-```{r 1ts-data-prep, cache=T}
+```{r 1tsprep, cache=T}
 dt1ts <- prepare_data(data = reccolon2ts,
                       s_out = "timesr",
                       events = "status",
                       ds = 30)
-str(dt1ts)
-print(dt1ts)
+```
+```
+> str(dt1ts)
+List of 2
+ $ bins   :List of 3
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 2
+  ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...
+  ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...
+ - attr(*, "class")= chr "data2ts"
+ ```
+
+```
+> print(dt1ts)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 3
+ $ bindata:List of 2
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409
 ```
 
 The function requires as minimal inputs only a vector of exit times (`s_out`), a vector of event's indicators (`events`) and the desired bins' size (`ds`).
@@ -79,21 +116,45 @@ dt1ts_lt2 <- prepare_data(data = reccolon2ts,
                           s_out = "timesr",
                           events = "status",
                           ds = 90)
-dt1ts_lt2$bins$ns
+```
+
+```
+> dt1ts_lt2$bins$ns
+
+[1] 31
 ```
 
 It is also possible to specify minimum and maximum values for the bins.
 This option can be helpful when, for example, the event times are left-truncated but it is still desirable to have bins starting at 0.
 
+
+```
+> range(reccolon2ts$timesr)
+
+[1]    3 2725
+```
+
 ```{r}
-range(reccolon2ts$timesr)
 dt1ts_2 <- prepare_data(data = reccolon2ts,
                         s_in = "entrys",
                         s_out = "timesr",
                         events = "status",
                         ds = 30, min_s = 0, max_s = 3000)
 
-str(dt1ts_2)
+```
+
+```
+> str(dt1ts_2)
+
+List of 2
+ $ bins   :List of 3
+  ..$ bins_s: num [1:101] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:100] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 100
+ $ bindata:List of 2
+  ..$ r: num [1:100] 12613 12322 11793 11399 10969 ...
+  ..$ y: num [1:100] 14 24 16 11 24 22 20 10 24 26 ...
+ - attr(*, "class")= chr "data2ts"
 ```
 
 Now 100 bins have been created, spanning the range from 0 days to 3000 days of follow-up.
@@ -114,7 +175,35 @@ dt1ts_cov <- prepare_data(data = reccolon2ts,
                           ds = 30,
                           individual = TRUE, 
                           covs = c("rx", "node4", "sex"))
-print(dt1ts_cov)
+```
+
+```
+> print(dt1ts_cov)
+
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 3
+ $ bindata:List of 3
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 236006
+Total number of events: 409
+Covariates:
+[1] "rx_Lev"     "rx_Lev+5FU" "node4"      "sex_male"  
 ```
 
 From `print(dt1ts_cov)`, we see that 4 covariates are included in the Z regression matrix.
@@ -146,9 +235,39 @@ Then, we show, only as illustration, how the same estimates of the $\alpha$ are 
 m1 <- fit1ts(data1ts = dt1ts)
 # Model 2 - Single data inputs
 m2 <- fit1ts(y = dt1ts$bindata$y, r = dt1ts$bindata$r, bins = dt1ts$bins)
+```
 
-table(m1$optimal_model$alpha == m2$optimal_model$alpha)
-str(m1)
+```
+> table(m1$optimal_model$alpha == m2$optimal_model$alpha)
+
+TRUE 
+  13 
+```
+
+```
+> str(m1)
+
+List of 3
+ $ optimal_model :List of 9
+  ..$ alpha   : num [1:13, 1] -6.96 -6.57 -6.22 -6.14 -6.28 ...
+  ..$ SE_alpha: num [1:13] 0.3466 0.1197 0.0893 0.0983 0.1221 ...
+  ..$ eta     : num [1:91, 1] -6.55 -6.51 -6.48 -6.44 -6.4 ...
+  ..$ H       : num [1:13, 1:13] 0.16707 0.0782 0.00508 -0.01083 -0.00517 ...
+  ..$ deviance: num 79.8
+  ..$ ed      : num 4.04
+  ..$ aic     : num 87.9
+  ..$ bic     : num 98.1
+  ..$ Bbases  :List of 1
+  .. ..$ Bs: num [1:91, 1:13] 0.1407 0.0971 0.0636 0.0388 0.0215 ...
+  .. .. ..- attr(*, "x")= num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  .. .. ..- attr(*, "xl")= num 0
+  .. .. ..- attr(*, "xr")= num 2730
+  .. .. ..- attr(*, "nseg")= num 10
+  .. .. ..- attr(*, "bdeg")= num 3
+  .. .. ..- attr(*, "type")= chr "bbase"
+ $ optimal_logrho: num 1.13
+ $ P_optim       : num [1:13, 1:13] 13.4 -26.8 13.4 0 0 ...
+ - attr(*, "class")= chr "haz1ts"
 ```
 
 The object returned by `fit1ts()` is of class `'haz1ts'`.
@@ -220,11 +339,20 @@ m6 <- fit1ts(data1ts = dt1ts,
                mark_optimal = T
              ))
 par(mfrow = c(1,1))
+```
+
+```{r}
 m6.aic <- m6$AIC
 m6.bic <- m6$BIC
-
-m6.aic[1:6]; m6.bic[1:6]
 ```
+
+```
+> m6.aic[1:6]; m6.bic[1:6]
+
+[1] 97.67005 96.78100 95.81061 94.79922 93.79740 92.84326
+[1] 135.6309 132.7852 129.7015 126.4681 123.1973 119.9904
+```
+![](../vignettes/onetime_files/figure-html/fit1ts-grid-1.png)
 
 We notice how, for the same data and over the same grid of $\log_{10}(\varrho)$ values, the BIC criterion selects a larger smoothing parameter than the AIC.
 This behavior is well known, as the BIC penalizes differences in neighboring coefficients more strongly than AIC, leading to smoother results.
@@ -237,8 +365,12 @@ m7 <- fit1ts(data1ts = dt1ts_cov,
                                 min_s = 0,
                                 max_s = 2730))
 betas <- m7$optimal_model$beta
-betas
+```
 
+```
+> betas
+    rx_Lev rx_Lev+5FU      node4   sex_male 
+0.07875399 0.27900614 0.50543144 0.21322565 
 ```
 
 In the next section, we will show how to get estimates of the (log-)hazard curve with one time scale, using the same $B$-splines basis as for the estimation, or evaluating this old basis in a denser grid.
@@ -260,8 +392,32 @@ We will evaluate the $B$-splines basis on a finer grid, where the distance betwe
 basehaz <- get_hazard_1d(fitted_model = m7,
                          plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10))
 
-str(basehaz)
-range(basehaz$hazard)
+```
+
+```
+> str(basehaz)
+
+List of 7
+ $ new_plot_grid :List of 4
+  ..$ ints: num [1:274] 0 10 20 30 40 50 60 70 80 90 ...
+  ..$ smin: Named num 0
+  .. ..- attr(*, "names")= chr "smin"
+  ..$ smax: Named num 2730
+  .. ..- attr(*, "names")= chr "smax"
+  ..$ ds  : Named num 10
+  .. ..- attr(*, "names")= chr "ds"
+ $ hazard        : num [1:274, 1] 0.00095 0.000964 0.000978 0.000992 0.001007 ...
+ $ loghazard     : num [1:274, 1] -6.96 -6.94 -6.93 -6.92 -6.9 ...
+ $ log10hazard   : num [1:274, 1] -3.02 -3.02 -3.01 -3 -3 ...
+ $ SE_hazard     : num [1:274, 1] 0.000169 0.000168 0.000166 0.000165 0.000164 ...
+ $ SE_loghazard  : num [1:274, 1] 0.178 0.174 0.17 0.166 0.163 ...
+ $ SE_log10hazard: num [1:274, 1] 0.0775 0.0756 0.0738 0.0721 0.0706 ...
+```
+
+```
+> range(basehaz$hazard)
+
+[1] 0.000191134 0.001517088
 ```
 
 The calls returns a list with several elements: The new grid for plotting `new_plot_grid`, a vector for the hazard values `hazard`, a vector for the log-hazard values `loghazard` , a vector with the $log_{10}$-hazard values `log10hazard` and three vectors with the associated standard errors, respectively `SE_hazard`, `SE_loghazard` ans `SE_log10hazard`.
@@ -269,8 +425,13 @@ The hazard ratios and their standard errors are obtained by calling the function
 
 ```{r get-hr-1d, dependson = "fit1ts-cov"}
 hr <- get_hr(fitted_model = m7)
+```
 
-hr$HR
+```
+> hr$HR
+
+    rx_Lev rx_Lev+5FU      node4   sex_male 
+  1.081938   1.321815   1.657701   1.237664 
 ```
 
 It is possible to call these two functions independently and to use the resulting objects to create a plot of the results.
@@ -279,6 +440,8 @@ However, this is exactly what is done by the method `plot()`, implemented for ob
 ```{r plot_haz1ts, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
 plot(m7)
 ```
+
+![](../vignettes/onetime_files/figure-html/plot_haz1ts-1.png)
 
 This simple call produces, for a PH model, the plot of the baseline hazard curve.
 Now we interpolate the $B$-spline basis on a denser plotting grid, and change other parameters to obtain a nicer plot.
@@ -295,6 +458,8 @@ plot(m7,
 
 ```
 
+![](../vignettes/onetime_files/figure-html/plot_haz1ts-3-1.png)
+
 The hazard can also be plotted on the log-scale, by setting the argument `plot_options$loghazard = TRUE`:
 
 ```{r plot_haz1ts-3log, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
@@ -310,6 +475,8 @@ plot(m7,
 
 ```
 
+![](../vignettes/onetime_files/figure-html/plot_haz1ts-3log-1.png)
+
 We can also plot the covariates' effects by calling:
 
 ```{r plot_haz1ts-4, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
@@ -317,6 +484,8 @@ plot(m7,
      which_plot = "covariates")
 
 ```
+
+![](../vignettes/onetime_files/figure-html/plot_haz1ts-4-1.png)
 
 This call plots the point estimates for the $\beta$ parameters with their 95% confidence intervals.
 Alternatively, we can decide to plot the estimated hazard ratios, with their confidence intervals.
@@ -351,6 +520,8 @@ plot(m7,
 abline(h=1, lty=2, col="grey")
 par(mfrow = c(1,1))
 ```
+
+![](../vignettes/onetime_files/figure-html/CIs-lev-1.png)
 
 Finally, it is possible to change the level of confidence for the CIs.
 In the following we show three different levels for the same $\beta$.
@@ -387,4 +558,5 @@ abline(h=0, lty=2, col="grey")
 par(mfrow = c(1,1))
 ```
 
+![](../vignettes/onetime_files/figure-html/HRs-plot-1.png)
 # References

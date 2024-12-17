@@ -16,7 +16,7 @@ Description: Tools for the analysis of time to event data with two time scales.
              can be estimated in a competing risks model. 
              For details about the method please refer to Carollo et al. (2024) 
              <doi:10.1002/sim.10297>.
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
