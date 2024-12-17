@@ -48,7 +48,7 @@
 #' # Change grid
 #' get_hazard_1d_LMM(mod1,
 #'   plot_grid = c(smin = 0, smax = 2730, ds = 30)
-#' ) #'
+#' )
 #'
 get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
   if (is.null(plot_grid)) {
