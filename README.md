@@ -4,6 +4,8 @@
 # TwoTimeScales
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/AngelaCar/TwoTimeScales/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AngelaCar/TwoTimeScales/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 `TwoTimeScales` provides a suite of functions for the analysis of time
@@ -72,6 +74,6 @@ vignette("visualization")
 
 ## Acknowledgments
 
-We are very grateful to Guillermo Brise~{n}o Sanchez, José Carlos
-Andrade Santacruz and Lisa Rieker for testing the package and their
-helpful feedback.
+We are very grateful to Guillermo Briseno Sanchez, José Carlos Andrade
+Santacruz and Lisa Rieker for testing the package and their helpful
+feedback.

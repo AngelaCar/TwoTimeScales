@@ -66,4 +66,4 @@ vignette("visualization")
 ```
 
 ## Acknowledgments
-We are very grateful to Guillermo Brise\~{n}o Sanchez, José Carlos Andrade Santacruz and Lisa Rieker for testing the package and their helpful feedback. 
+We are very grateful to Guillermo Briseno Sanchez, José Carlos Andrade Santacruz and Lisa Rieker for testing the package and their helpful feedback. 
