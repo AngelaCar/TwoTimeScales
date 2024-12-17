@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Analysis of event data with two time scales">
-<meta name="description" content="Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model. For details about the method please refer to Carollo et al. (2024) &lt;https://doi.org/10.1002/sim.10297&gt;.">
-<meta property="og:description" content="Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model. For details about the method please refer to Carollo et al. (2024) &lt;https://doi.org/10.1002/sim.10297&gt;.">
+<meta name="description" content="Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model. For details about the method please refer to Carollo et al. (2024) &lt;http://doi.org/10.1002/sim.10297&gt;.">
+<meta property="og:description" content="Tools for the analysis of time to event data with two time scales. The main goal of the analysis is to estimate a smooth hazard that varies over two time scales and also, if covariates are available, to estimate a proportional hazards model with such a two-dimensional baseline hazard. Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. Additionally, the cumulative incidence functions over two time scales can be estimated in a competing risks model. For details about the method please refer to Carollo et al. (2024) &lt;http://doi.org/10.1002/sim.10297&gt;.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -55,6 +55,14 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
+<div class="section level3">
+<h3 id="from-cran">From CRAN<a class="anchor" aria-label="anchor" href="#from-cran"></a>
+</h3>
+<p>Just run install.packages(“TwoTimeScales”)</p>
+</div>
+<div class="section level3">
+<h3 id="from-github">From GitHub<a class="anchor" aria-label="anchor" href="#from-github"></a>
+</h3>
 <p>You can install the development version of TwoTimeScales from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
@@ -64,6 +72,7 @@
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"AngelaCar/TwoTimeScales"</span>,</span>
 <span>                          dependencies <span class="op">=</span> <span class="cn">TRUE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>Note: This will take more time than installing the version of the package without vignettes. Alternatively, we suggest to read the vignettes online here: <a href="https://angelacar.github.io/TwoTimeScales/">TwoTimeScales</a></p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="how-to-use-twotimescales">How to use TwoTimeScales<a class="anchor" aria-label="anchor" href="#how-to-use-twotimescales"></a>
@@ -78,11 +87,17 @@
 <span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"twotimes"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"visualization"</span><span class="op">)</span></span></code></pre></div>
 </div>
+<div class="section level2">
+<h2 id="acknowledgments">Acknowledgments<a class="anchor" aria-label="anchor" href="#acknowledgments"></a>
+</h2>
+<p>We are very grateful to Guillermo Brise~{n}o Sanchez, José Carlos Andrade Santacruz and Lisa Rieker for testing the package and their helpful feedback.</p>
+</div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/AngelaCar/TwoTimeScales/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/AngelaCar/TwoTimeScales/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
