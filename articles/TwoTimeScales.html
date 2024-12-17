@@ -119,33 +119,33 @@ truncated entry times for 40 individuals in the dataset,
 and <code>reccolon2ts$entryt</code> (on the time since randomization
 scale).</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">reccolon2ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 'data.frame':    461 obs. of  25 variables:</span></span>
-<span><span class="co">#&gt;  $ id      : num  1 3 4 5 6 7 13 14 16 17 ...</span></span>
-<span><span class="co">#&gt;  $ study   : num  1 1 1 1 1 1 1 1 1 1 ...</span></span>
-<span><span class="co">#&gt;  $ rx      : Factor w/ 3 levels "Obs","Lev","Lev+5FU": 3 1 3 1 3 2 1 2 1 2 ...</span></span>
-<span><span class="co">#&gt;  $ sex     : Factor w/ 2 levels "female","male": 2 1 1 2 1 2 2 2 2 2 ...</span></span>
-<span><span class="co">#&gt;  $ age     : num  43 71 66 69 57 77 64 68 68 62 ...</span></span>
-<span><span class="co">#&gt;  $ obstruct: num  0 0 1 0 0 0 0 1 0 1 ...</span></span>
-<span><span class="co">#&gt;  $ perfor  : num  0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;  $ adhere  : num  0 1 0 0 0 0 0 0 0 1 ...</span></span>
-<span><span class="co">#&gt;  $ nodes   : num  5 7 6 22 9 5 1 3 1 6 ...</span></span>
-<span><span class="co">#&gt;  $ status  : num  1 1 1 1 1 1 1 1 0 1 ...</span></span>
-<span><span class="co">#&gt;  $ differ  : Factor w/ 3 levels "well","moderate",..: 2 2 2 2 2 2 2 2 2 2 ...</span></span>
-<span><span class="co">#&gt;  $ extent  : Factor w/ 4 levels "submucosa","muscle",..: 3 2 3 3 3 3 3 3 3 3 ...</span></span>
-<span><span class="co">#&gt;  $ surg    : Factor w/ 2 levels "short","long": 1 1 2 2 1 2 1 1 2 1 ...</span></span>
-<span><span class="co">#&gt;  $ node4   : num  1 1 1 1 1 1 0 0 0 1 ...</span></span>
-<span><span class="co">#&gt;  $ timedc  : num  1521 963 293 659 1767 ...</span></span>
-<span><span class="co">#&gt;  $ etype   : num  2 2 2 2 2 2 2 2 2 2 ...</span></span>
-<span><span class="co">#&gt;  $ timer   : num  968 542 245 523 904 ...</span></span>
-<span><span class="co">#&gt;  $ entrys  : num  0 0 0 0 0 0 0 0 0 88 ...</span></span>
-<span><span class="co">#&gt;  $ timesr  : num  553 421 48 136 863 ...</span></span>
-<span><span class="co">#&gt;  $ entryt  : num  968 542 245 523 904 ...</span></span>
-<span><span class="co">#&gt;  $ timedc_y: num  4.164 2.637 0.802 1.804 4.838 ...</span></span>
-<span><span class="co">#&gt;  $ timesr_y: num  1.514 1.153 0.131 0.372 2.363 ...</span></span>
-<span><span class="co">#&gt;  $ entrys_y: num  0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;  $ entryt_y: num  2.65 1.484 0.671 1.432 2.475 ...</span></span>
-<span><span class="co">#&gt;  $ timer_y : num  2.65 1.484 0.671 1.432 2.475 ...</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">reccolon2ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>'data.frame':   461 obs. of  25 variables:
+ $ id      : num  1 3 4 5 6 7 13 14 16 17 ...
+ $ study   : num  1 1 1 1 1 1 1 1 1 1 ...
+ $ rx      : Factor w/ 3 levels "Obs","Lev","Lev+5FU": 3 1 3 1 3 2 1 2 1 2 ...
+ $ sex     : Factor w/ 2 levels "female","male": 2 1 1 2 1 2 2 2 2 2 ...
+ $ age     : num  43 71 66 69 57 77 64 68 68 62 ...
+ $ obstruct: num  0 0 1 0 0 0 0 1 0 1 ...
+ $ perfor  : num  0 0 0 0 0 0 0 0 0 0 ...
+ $ adhere  : num  0 1 0 0 0 0 0 0 0 1 ...
+ $ nodes   : num  5 7 6 22 9 5 1 3 1 6 ...
+ $ status  : num  1 1 1 1 1 1 1 1 0 1 ...
+ $ differ  : Factor w/ 3 levels "well","moderate",..: 2 2 2 2 2 2 2 2 2 2 ...
+ $ extent  : Factor w/ 4 levels "submucosa","muscle",..: 3 2 3 3 3 3 3 3 3 3 ...
+ $ surg    : Factor w/ 2 levels "short","long": 1 1 2 2 1 2 1 1 2 1 ...
+ $ node4   : num  1 1 1 1 1 1 0 0 0 1 ...
+ $ timedc  : num  1521 963 293 659 1767 ...
+ $ etype   : num  2 2 2 2 2 2 2 2 2 2 ...
+ $ timer   : num  968 542 245 523 904 ...
+ $ entrys  : num  0 0 0 0 0 0 0 0 0 88 ...
+ $ timesr  : num  553 421 48 136 863 ...
+ $ entryt  : num  968 542 245 523 904 ...
+ $ timedc_y: num  4.164 2.637 0.802 1.804 4.838 ...
+ $ timesr_y: num  1.514 1.153 0.131 0.372 2.363 ...
+ $ entrys_y: num  0 0 0 0 0 ...
+ $ entryt_y: num  2.65 1.484 0.671 1.432 2.475 ...
+ $ timer_y : num  2.65 1.484 0.671 1.432 2.475 ...</code></pre>
 <p>Before we illustrate how to work with the package, a clarification
 about notation is needed. In our two time scales model notation, we
 indicate the two time scales with
@@ -200,46 +200,46 @@ be passed to the argument <code>s_in</code>. These can be either
 extracted from a dataset by using the argument <code>data</code> and
 passing the vector’s names in each respective argument, as illustrated
 below, or by directly passing the vectors.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
 <span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
 <span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...</span></span>
-<span><span class="co">#&gt;   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   ..$ ns    : int 91</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;   ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...</span></span>
-<span><span class="co">#&gt;   ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Data:</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 3</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Range covered by the bins: </span></span>
-<span><span class="co">#&gt; $bins_s</span></span>
-<span><span class="co">#&gt; [1]    0 2730</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of bins: </span></span>
-<span><span class="co">#&gt; $ns</span></span>
-<span><span class="co">#&gt; [1] 91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; Total exposure time: 246018</span></span>
-<span><span class="co">#&gt; Total number of events: 409</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>List of 2
+ $ bins   :List of 3
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 2
+  ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...
+  ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...
+ - attr(*, "class")= chr "data2ts"</code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; print(dt1ts)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 3
+ $ bindata:List of 2
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409</code></pre>
 <p>The object <code>dt1ts</code> is a list with two elements. The first
 element is a list of bins (<code>bins_s</code>) with their midpoints
 (<code>mids</code>) and the number of bins (<code>ns</code>). The second
@@ -269,57 +269,57 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>,
 and defer the discussion of the preparation over the Lexis diagram to
 the vignette dedicated to the analysis with two time scales.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
 <span>                      u <span class="op">=</span> <span class="st">"timer"</span>,</span>
 <span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
 <span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 6</span></span>
-<span><span class="co">#&gt;   ..$ bins_u: num [1:77] 8 38 68 98 128 158 188 218 248 278 ...</span></span>
-<span><span class="co">#&gt;   ..$ midu  : num [1:76] 23 53 83 113 143 173 203 233 263 293 ...</span></span>
-<span><span class="co">#&gt;   ..$ nu    : int 76</span></span>
-<span><span class="co">#&gt;   ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...</span></span>
-<span><span class="co">#&gt;   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   ..$ ns    : int 91</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;   ..$ R: num [1:76, 1:91] 205 243 540 796 474 812 506 746 657 517 ...</span></span>
-<span><span class="co">#&gt;   ..$ Y: num [1:76, 1:91] 1 1 0 1 1 2 1 1 1 2 ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Data:</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 6</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Range covered by the bins: </span></span>
-<span><span class="co">#&gt; $bins_u</span></span>
-<span><span class="co">#&gt; [1]    8 2288</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bins_s</span></span>
-<span><span class="co">#&gt; [1]    0 2730</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of bins: </span></span>
-<span><span class="co">#&gt; $nu</span></span>
-<span><span class="co">#&gt; [1] 76</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $ns</span></span>
-<span><span class="co">#&gt; [1] 91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; Total exposure time: 246018</span></span>
-<span><span class="co">#&gt; Total number of events: 409</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; str(dt2ts)
+List of 2
+ $ bins   :List of 6
+  ..$ bins_u: num [1:77] 8 38 68 98 128 158 188 218 248 278 ...
+  ..$ midu  : num [1:76] 23 53 83 113 143 173 203 233 263 293 ...
+  ..$ nu    : int 76
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 2
+  ..$ R: num [1:76, 1:91] 205 243 540 796 474 812 506 746 657 517 ...
+  ..$ Y: num [1:76, 1:91] 1 1 0 1 1 2 1 1 1 2 ...
+ - attr(*, "class")= chr "data2ts"</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; print(dt2ts)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 6
+ $ bindata:List of 2
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_u
+[1]    8 2288
+
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$nu
+[1] 76
+
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409</code></pre>
 <p>We have now included only one additional input <code>u</code>, that
 is the vector with the individuals’ time at recurrence of the cancer.
 The object <code>dt2ts</code> has the same structure as
@@ -350,7 +350,7 @@ extra argument <code>covs</code>. The function will take care of the
 preparation of the regression matrix <code>Z</code>. However, if
 desired, this can also be prepared externally (in which case a warning
 will be returned).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt2ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
 <span>                          u <span class="op">=</span> <span class="st">"timer"</span>,</span>
 <span>                          s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span>
@@ -359,54 +359,58 @@ will be returned).</p>
 <span>                          ds <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>                          individual <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>                          covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 6</span></span>
-<span><span class="co">#&gt;   ..$ bins_u: num [1:77] 8 38 68 98 128 158 188 218 248 278 ...</span></span>
-<span><span class="co">#&gt;   ..$ midu  : num [1:76] 23 53 83 113 143 173 203 233 263 293 ...</span></span>
-<span><span class="co">#&gt;   ..$ nu    : int 76</span></span>
-<span><span class="co">#&gt;   ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...</span></span>
-<span><span class="co">#&gt;   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   ..$ ns    : int 91</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 3</span></span>
-<span><span class="co">#&gt;   ..$ R: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;   ..$ Y: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...</span></span>
-<span><span class="co">#&gt;   ..$ Z: num [1:461, 1:4] 0 0 0 0 0 1 0 1 0 1 ...</span></span>
-<span><span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 2</span></span>
-<span><span class="co">#&gt;   .. .. ..$ : NULL</span></span>
-<span><span class="co">#&gt;   .. .. ..$ : chr [1:4] "rx_Lev" "rx_Lev+5FU" "node4" "sex_male"</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span>
-<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Data:</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 6</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 3</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Range covered by the bins: </span></span>
-<span><span class="co">#&gt; $bins_u</span></span>
-<span><span class="co">#&gt; [1]    8 2288</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bins_s</span></span>
-<span><span class="co">#&gt; [1]    0 2730</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of bins: </span></span>
-<span><span class="co">#&gt; $nu</span></span>
-<span><span class="co">#&gt; [1] 76</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $ns</span></span>
-<span><span class="co">#&gt; [1] 91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; Total exposure time: 236006</span></span>
-<span><span class="co">#&gt; Total number of events: 409</span></span>
-<span><span class="co">#&gt; Covariates:</span></span>
-<span><span class="co">#&gt; [1] "rx_Lev"     "rx_Lev+5FU" "node4"      "sex_male"</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; str(dt2ts_cov)
+List of 2
+ $ bins   :List of 6
+  ..$ bins_u: num [1:77] 8 38 68 98 128 158 188 218 248 278 ...
+  ..$ midu  : num [1:76] 23 53 83 113 143 173 203 233 263 293 ...
+  ..$ nu    : int 76
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 3
+  ..$ R: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ Y: num [1:76, 1:91, 1:461] 0 0 0 0 0 0 0 0 0 0 ...
+  ..$ Z: num [1:461, 1:6] 0 0 0 0 0 1 0 1 0 1 ...
+  .. ..- attr(*, "dimnames")=List of 2
+  .. .. ..$ : NULL
+  .. .. ..$ : chr [1:6] "rx_Lev" "rx_Lev+5FU" "sex_male" "adhere" ...
+ - attr(*, "class")= chr "data2ts"</code></pre>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; print(dt2ts_cov)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 6
+ $ bindata:List of 3
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_u
+[1]    8 2288
+
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$nu
+[1] 76
+
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409
+Covariates:
+[1] "rx_Lev"     "rx_Lev+5FU" "sex_male"   "adhere"    
+[5] "obstruct"   "node4" </code></pre>
 <p>The data are now the three-dimensional arrays, <code>R</code> and
 <code>Y</code> and a regression matrix <code>Z</code>, where the
 covariates are transformed in dummy variables (where needed). The print
@@ -436,34 +440,35 @@ basis is built using default options (see <code><a href="../reference/fit1ts.htm
 details). However, for illustration, we now show how to specify the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
 basis to more closely match the data structure.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>data1ts <span class="op">=</span> <span class="va">dt1ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                                  min_s <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                                  max_s <span class="op">=</span> <span class="fl">2730</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">m1ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ optimal_model :List of 9</span></span>
-<span><span class="co">#&gt;   ..$ alpha   : num [1:23, 1] -6.77 -6.58 -6.39 -6.25 -6.19 ...</span></span>
-<span><span class="co">#&gt;   ..$ SE_alpha: num [1:23] 0.2276 0.123 0.0763 0.0744 0.0797 ...</span></span>
-<span><span class="co">#&gt;   ..$ eta     : num [1:91, 1] -6.56 -6.52 -6.48 -6.44 -6.4 ...</span></span>
-<span><span class="co">#&gt;   ..$ H       : num [1:23, 1:23] 0.07508 0.04686 0.02027 0.00324 -0.00366 ...</span></span>
-<span><span class="co">#&gt;   ..$ deviance: num 79.4</span></span>
-<span><span class="co">#&gt;   ..$ ed      : num 4.25</span></span>
-<span><span class="co">#&gt;   ..$ aic     : num 87.9</span></span>
-<span><span class="co">#&gt;   ..$ bic     : num 98.6</span></span>
-<span><span class="co">#&gt;   ..$ Bbases  :List of 1</span></span>
-<span><span class="co">#&gt;   .. ..$ Bs: num [1:91, 1:23] 1.18e-01 5.02e-02 1.52e-02 2.05e-03 2.21e-07 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "x")= num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xl")= num 0</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xr")= num 2730</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "nseg")= num 20</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "bdeg")= num 3</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "type")= chr "bbase"</span></span>
-<span><span class="co">#&gt;  $ optimal_logrho: num 2.02</span></span>
-<span><span class="co">#&gt;  $ P_optim       : num [1:23, 1:23] 105 -211 105 0 0 ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "haz1ts"</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">m1ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; str(m1ts)
+List of 3
+ $ optimal_model :List of 9
+  ..$ alpha   : num [1:23, 1] -6.77 -6.58 -6.39 -6.25 -6.19 ...
+  ..$ SE_alpha: num [1:23] 0.2276 0.123 0.0763 0.0744 0.0797 ...
+  ..$ eta     : num [1:91, 1] -6.56 -6.52 -6.48 -6.44 -6.4 ...
+  ..$ H       : num [1:23, 1:23] 0.07508 0.04686 0.02027 0.00324 -0.00366 ...
+  ..$ deviance: num 79.4
+  ..$ ed      : num 4.25
+  ..$ aic     : num 87.9
+  ..$ bic     : num 98.6
+  ..$ Bbases  :List of 1
+  .. ..$ Bs: num [1:91, 1:23] 1.18e-01 5.02e-02 1.52e-02 2.05e-03 2.21e-07 ...
+  .. .. ..- attr(*, "x")= num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  .. .. ..- attr(*, "xl")= num 0
+  .. .. ..- attr(*, "xr")= num 2730
+  .. .. ..- attr(*, "nseg")= num 20
+  .. .. ..- attr(*, "bdeg")= num 3
+  .. .. ..- attr(*, "type")= chr "bbase"
+ $ optimal_logrho: num 2.02
+ $ P_optim       : num [1:23, 1:23] 105 -211 105 0 0 ...
+ - attr(*, "class")= chr "haz1ts"</code></pre>
 <p>Here, we specify a cubic (<code>bdeg = 3</code>)
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
 basis that covers the range of
@@ -493,7 +498,7 @@ function <code><a href="../reference/fit2ts.html">fit2ts()</a></code>, and again
 specifications of the marginal
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-spline
 bases, but otherwise use default values for the remaining inputs.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -502,26 +507,27 @@ bases, but otherwise use default values for the remaining inputs.</p>
 <span>                                  nseg_u <span class="op">=</span> <span class="fl">16</span>,</span>
 <span>                                  min_u <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Number of events =  409 </span></span>
-<span><span class="co">#&gt; Model specifications:</span></span>
-<span><span class="co">#&gt;   nu =  76 </span></span>
-<span><span class="co">#&gt;   ns =  91 </span></span>
-<span><span class="co">#&gt;   cu =  19 </span></span>
-<span><span class="co">#&gt;   cs =  23 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Optimal smoothing: </span></span>
-<span><span class="co">#&gt;   log10(rho_u) =  2.101479 </span></span>
-<span><span class="co">#&gt;   log10(rho_s) =  0.4089387 </span></span>
-<span><span class="co">#&gt;   rho_u =  126.3221 </span></span>
-<span><span class="co">#&gt;   rho_s =  2.564122 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model with no covariates</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model diagnostics: </span></span>
-<span><span class="co">#&gt;   AIC =  1249.329 </span></span>
-<span><span class="co">#&gt;   BIC =  1313.994 </span></span>
-<span><span class="co">#&gt;   ED =  11.021</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2ts</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; summary(m2ts)
+Number of events =  409 
+Model specifications:
+  nu =  76 
+  ns =  91 
+  cu =  19 
+  cs =  23 
+
+Optimal smoothing: 
+  log10(rho_u) =  2.101313 
+  log10(rho_s) =  0.4089259 
+  rho_u =  126.2736 
+  rho_s =  2.564046 
+
+Model with no covariates
+
+Model diagnostics: 
+  AIC =  1249.329 
+  BIC =  1313.998 
+  ED =  11.02155</code></pre>
 <p>Whereas the estimates from <code>fit1ts</code> are vectors, the ones
 from <code>fit2ts</code> are organized in matrices: The matrix
 <code>optimal_model$Alpha</code>, containing the estimated
@@ -571,7 +577,7 @@ Moreover, we pass as inputs some graphical parameters to obtain a nicer
 plot. The result is a plot of the one-dimensional hazard curve over
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
 (time since recurrence), with accompany 95% confidence bands.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m1ts</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>     plot_options<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -580,11 +586,8 @@ plot. The result is a plot of the one-dimensional hazard curve over
 <span>       ylab <span class="op">=</span> <span class="st">"hazard"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"time since recurrence"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TwoTimeScales_files/figure-html/1ts-plot-1.png" width="480" style="display: block; margin: auto;"></p>
-</div>
-<div class="section level4">
-<h4 id="two-time-scales-2">Two time scales<a class="anchor" aria-label="anchor" href="#two-time-scales-2"></a>
-</h4>
+<p><img src="../articles/TwoTimeScales_files/figure-html/1ts-plot-1.png">
+#### Two time scales</p>
 <p>There are several options to represent the smooth hazard with two
 time scales. Here, we will present only the most simple, yet very
 informative, way, which is also the default plot returned by the
@@ -594,7 +597,7 @@ function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="ext
 with white contour lines. We provide a vignette that only focus on
 visualization of the hazard with two time scales <em>Visualize hazards
 with two time scales</em>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2ts</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"umin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"umax"</span> <span class="op">=</span> <span class="fl">2300</span>, <span class="st">"du"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>                      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -603,7 +606,7 @@ with two time scales</em>.</p>
 <span>       ylab <span class="op">=</span> <span class="st">"time since recurrence"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"time since randomization"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="TwoTimeScales_files/figure-html/2ts-plot-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="..vignettes/TwoTimeScales_files/figure-html/2ts-plot-1.png"></p>
 </div>
 </div>
 <div class="section level2 unnumbered">
