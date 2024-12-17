@@ -7,7 +7,7 @@
 #' @inheritParams get_aic_fit_1d
 #'
 #' @return the `bic` value of the fitted model.
-#' @export
+
 
 get_bic_fit_1d <- function(lrho,
                            r, y,

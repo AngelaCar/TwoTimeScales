@@ -33,7 +33,6 @@
 #'
 #' @importFrom grDevices gray.colors
 #' @importFrom graphics matplot
-#' @export
 #'
 plot_slices <- function(x, y,
                         direction,

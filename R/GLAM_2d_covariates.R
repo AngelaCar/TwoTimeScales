@@ -40,8 +40,6 @@
 #'   * `bic` The value of the BIC.
 #'   * `Bbases` a list with the B-spline bases `Bu` and `Bs`.
 #'
-#' @export
-#'
 GLAM_2d_covariates <- function(R, Y,
                                Bu, Bs, Z,
                                Wprior = NULL,

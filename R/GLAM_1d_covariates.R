@@ -35,8 +35,6 @@
 #' * `Bbases` a list with the B-spline basis `Bs` (this is a list for
 #'    compatibility with functions in 2d).
 #'
-#' @export
-#'
 GLAM_1d_covariates <- function(R, Y,
                                Bs, Z = Z,
                                Wprior = NULL,

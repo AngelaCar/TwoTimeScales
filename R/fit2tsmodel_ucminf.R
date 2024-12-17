@@ -20,9 +20,8 @@
 #' _ucminf: General-Purpose Unconstrained Non-Linear Optimization_.
 #' R package version 1.2.2, <https://CRAN.R-project.org/package=ucminf>
 #'
-
 #' @import ucminf
-#' @export
+
 
 fit2tsmodel_ucminf <- function(Y, R,
                                Z = NULL,

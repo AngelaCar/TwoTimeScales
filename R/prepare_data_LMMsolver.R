@@ -5,7 +5,6 @@
 #' @return A dataset in long form to fit the model with LMMsolver
 #'
 #' @importFrom reshape2 melt
-#' @export
 #'
 
 prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){

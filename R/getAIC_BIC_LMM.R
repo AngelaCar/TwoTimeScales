@@ -14,7 +14,6 @@
 #'          * `AIC` the aic;
 #'          * `BIC` the bic;
 #'          * `n_beta` the number of estimated covariate parameters (if PH model).
-#' @export
 #'
 getAIC_BIC_LMM <- function(fit, offset){
   n_beta <- length(fit$term.labels.f) - 2  # (intercept in baseline)

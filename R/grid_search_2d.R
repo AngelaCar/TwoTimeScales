@@ -46,7 +46,7 @@
 #'
 #' @importFrom grDevices gray.colors
 #' @importFrom graphics contour points
-#' @export
+
 
 grid_search_2d <- function(lru, lrs,
                            R, Y,

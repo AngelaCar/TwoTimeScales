@@ -59,8 +59,6 @@
 #' @importFrom graphics axis box contour image
 #' @importFrom colorspace sequential_hcl
 #'
-#' @export
-#'
 
 imageplot_SE <- function(x, y, z,
                          plot_options = list(),

@@ -35,7 +35,7 @@
 #'    Journal of Statistical Software, 50(1), 1–24.
 #'    https://doi.org/10.18637/jss.v050.i01
 #' @importFrom graphics points
-#' @export
+
 
 grid_search_1d <- function(r, y,
                            Z = NULL,

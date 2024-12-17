@@ -58,8 +58,6 @@
 #' @importFrom viridis plasma
 #' @importFrom graphics axis box contour image
 #'
-#' @export
-#'
 imageplot_2ts <- function(x, y, z,
                           plot_options = list(),
                           ...) {

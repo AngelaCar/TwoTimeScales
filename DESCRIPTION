@@ -5,7 +5,6 @@ Version: 0.5.0
 Authors@R: c(person("Angela", "Carollo", email = "carollo@demogr.mpg.de",  role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-5625-6553")),
            person("Paul H.C.", "Eilers", email = "p.eilers@erasmusmc.nl", role = "aut"),
            person("Jutta", "Gampe", email = "gampe@demogr.mpg.de", role = "aut"))
-Mantainer: Angela Carollo <carollo@demogr.mpg.de>
 URL: https://github.com/AngelaCar/TwoTimeScales, https://angelacar.github.io/TwoTimeScales/
 Description: Tools for the analysis of time to event data with two time scales. 
              The main goal of the analysis is to estimate a smooth hazard that varies 
@@ -15,8 +14,8 @@ Description: Tools for the analysis of time to event data with two time scales.
              to estimate and to plot the two-dimensional smooth hazard. 
              Additionally, the cumulative incidence functions over two time scales
              can be estimated in a competing risks model. 
-             For details about the method please refer to Carollo et al. (2023) 
-             <https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1>.
+             For details about the method please refer to Carollo et al. (2024) 
+             <https://doi.org/10.1002/sim.10297>.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true

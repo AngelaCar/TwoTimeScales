@@ -21,7 +21,6 @@
 #' R package version 1.2.2, <https://CRAN.R-project.org/package=ucminf>
 #'
 #' @import ucminf
-#' @export
 #'
 
 fit1tsmodel_ucminf <- function(r, y,
