@@ -116,14 +116,189 @@ list("ints", "smin", "smax", "ds")</p></li>
 <span class="r-in"><span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span></span>
 <span class="r-in"><span>                      ds <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## fitting the model with fit1ts() - default options</span></span></span>
+<span class="r-in"><span><span class="co">## fitting the model with fit1ts()</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mod1</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit1ts.html">fit1ts</a></span><span class="op">(</span><span class="va">dt1ts</span>,</span></span>
 <span class="r-in"><span>optim_method <span class="op">=</span> <span class="st">"LMMsolver"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Obtain 1d hazard</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="get_hazard_1d.html">get_hazard_1d</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (smin &lt; attributes(Bbases$Bs)$xl) {    smin &lt;- attributes(Bbases$Bs)$xl    warning("`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ",         attributes(Bbases$Bs)$xl)}:</span> argument is of length zero</span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">get_hazard_1d_LMM</span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$ints</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0  288  576  864 1152 1440 1728 2016 2304 2592 2880</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$smin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$smax</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2880</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$ds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 288</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.0015404429 0.0019959413 0.0021260014 0.0017498309 0.0011378105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 0.0007492374 0.0005585700 0.0004407423 0.0003507047 0.0002773625</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] 0.0002187120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $loghazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -6.475685 -6.216640 -6.153512 -6.348236 -6.778649 -7.196455 -7.490131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] -7.727050 -7.955566 -8.190185 -8.427755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $log10hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -2.812354 -2.699852 -2.672436 -2.757004 -2.943930 -3.125381 -3.252922</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] -3.355815 -3.455058 -3.556952 -3.660127</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE_hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.0002003233 0.0001326009 0.0001716579 0.0001919576 0.0001752780</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 0.0001562204 0.0001640640 0.0002024277 0.0002589883 0.0003141287</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] 0.0003560158</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE_loghazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.13004267 0.06643529 0.08074216 0.10970067 0.15404846 0.20850582</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.29372138 0.45928810 0.73847974 1.13255640 1.62778362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE_log10hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.05647682 0.02885248 0.03506587 0.04764240 0.06690240 0.09055293</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.12756158 0.19946629 0.32071768 0.49186300 0.70693744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># Change grid</span></span></span>
+<span class="r-in"><span><span class="fu">get_hazard_1d_LMM</span><span class="op">(</span><span class="va">mod1</span>,</span></span>
+<span class="r-in"><span>  plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>smin <span class="op">=</span> <span class="fl">0</span>, smax <span class="op">=</span> <span class="fl">2730</span>, ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span><span class="co">#'</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$ints</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0   30   60   90  120  150  180  210  240  270  300  330  360  390  420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  450  480  510  540  570  600  630  660  690  720  750  780  810  840  870</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31]  900  930  960  990 1020 1050 1080 1110 1140 1170 1200 1230 1260 1290 1320</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] 1350 1380 1410 1440 1470 1500 1530 1560 1590 1620 1650 1680 1710 1740 1770</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] 1800 1830 1860 1890 1920 1950 1980 2010 2040 2070 2100 2130 2160 2190 2220</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76] 2250 2280 2310 2340 2370 2400 2430 2460 2490 2520 2550 2580 2610 2640 2670</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [91] 2700 2730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$smin</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> smin </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$smax</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> smax </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2730 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $new_plot_grid$ds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ds </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.0015404429 0.0015903827 0.0016409167 0.0016916525 0.0017421531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 0.0017919376 0.0018404826 0.0018872248 0.0019315658 0.0019728777</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] 0.0020105145 0.0020439581 0.0020728811 0.0020969924 0.0021160304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 0.0021297665 0.0021380093 0.0021406082 0.0021374564 0.0021284933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] 0.0021137044 0.0020931078 0.0020667654 0.0020347912 0.0019973512</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26] 0.0019546625 0.0019069913 0.0018546506 0.0017979961 0.0017374240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 0.0016735800 0.0016075677 0.0015404571 0.0014732040 0.0014066453</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] 0.0013414983 0.0012783651 0.0012177395 0.0011600160 0.0011054896</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] 0.0010542205 0.0010061166 0.0009610766 0.0009189954 0.0008797655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] 0.0008432797 0.0008094315 0.0007781174 0.0007492374 0.0007226656</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51] 0.0006981671 0.0006755034 0.0006544612 0.0006348492 0.0006164950</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56] 0.0005992430 0.0005829521 0.0005674941 0.0005527526 0.0005386414</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] 0.0005251064 0.0005120992 0.0004995750 0.0004874921 0.0004758121</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66] 0.0004644991 0.0004535199 0.0004428437 0.0004324431 0.0004223003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71] 0.0004124022 0.0004027364 0.0003932915 0.0003840564 0.0003750209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76] 0.0003661756 0.0003575113 0.0003490198 0.0003406954 0.0003325381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [81] 0.0003245483 0.0003167259 0.0003090709 0.0003015828 0.0002942611</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [86] 0.0002871049 0.0002801133 0.0002732850 0.0002666178 0.0002601085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [91] 0.0002537540 0.0002475514</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $loghazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -6.475685 -6.443781 -6.412500 -6.382049 -6.352634 -6.324458 -6.297727</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] -6.272648 -6.249424 -6.228262 -6.209365 -6.192867 -6.178816 -6.167251</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] -6.158213 -6.151743 -6.147880 -6.146665 -6.148139 -6.152341 -6.159313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] -6.169105 -6.181770 -6.197362 -6.215933 -6.237538 -6.262229 -6.290059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] -6.321082 -6.355352 -6.392790 -6.433033 -6.475676 -6.520316 -6.566548</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] -6.613968 -6.662173 -6.710759 -6.759322 -6.807467 -6.854954 -6.901657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] -6.947456 -6.992229 -7.035855 -7.078212 -7.119178 -7.158633 -7.196455</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50] -7.232564 -7.267052 -7.300052 -7.331698 -7.362123 -7.391460 -7.419843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57] -7.447405 -7.474280 -7.500600 -7.526461 -7.551910 -7.576992 -7.601753</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64] -7.626236 -7.650488 -7.674551 -7.698471 -7.722294 -7.746060 -7.769794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71] -7.793512 -7.817228 -7.840960 -7.864721 -7.888529 -7.912398 -7.936343</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [78] -7.960382 -7.984522 -8.008756 -8.033076 -8.057474 -8.081940 -8.106466</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [85] -8.131043 -8.155663 -8.180316 -8.204995 -8.229694 -8.254412 -8.279145</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [92] -8.303892</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $log10hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] -2.812354 -2.798498 -2.784913 -2.771689 -2.758914 -2.746677 -2.735068</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] -2.724176 -2.714090 -2.704900 -2.696693 -2.689528 -2.683426 -2.678403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] -2.674478 -2.671668 -2.669990 -2.669463 -2.670103 -2.671928 -2.674956</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] -2.679208 -2.684709 -2.691480 -2.699546 -2.708928 -2.719651 -2.731738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] -2.745211 -2.760094 -2.776354 -2.793831 -2.812350 -2.831737 -2.851815</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] -2.872410 -2.893345 -2.914446 -2.935536 -2.956445 -2.977069 -2.997352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] -3.017242 -3.036687 -3.055633 -3.074028 -3.091820 -3.108955 -3.125381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [50] -3.141063 -3.156041 -3.170372 -3.184116 -3.197329 -3.210070 -3.222397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [57] -3.234367 -3.246039 -3.257469 -3.268700 -3.279753 -3.290646 -3.301399</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [64] -3.312032 -3.322565 -3.333015 -3.343404 -3.353749 -3.364071 -3.374379</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71] -3.384679 -3.394979 -3.405285 -3.415605 -3.425944 -3.436311 -3.446710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [78] -3.457150 -3.467634 -3.478159 -3.488721 -3.499316 -3.509942 -3.520593</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [85] -3.531267 -3.541959 -3.552666 -3.563384 -3.574111 -3.584846 -3.595587</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [92] -3.606335</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE_hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.0002003233 0.0001786284 0.0001594616 0.0001433491 0.0001309916</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 0.0001230414 0.0001197285 0.0001205480 0.0001242962 0.0001294452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11] 0.0001345810 0.0001389858 0.0001427742 0.0001463318 0.0001500565</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 0.0001541855 0.0001586999 0.0001633243 0.0001676123 0.0001710920</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21] 0.0001734955 0.0001751910 0.0001767869 0.0001787458 0.0001812579</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26] 0.0001842077 0.0001872313 0.0001898322 0.0001915179 0.0001919281</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 0.0001910875 0.0001895021 0.0001876389 0.0001857903 0.0001840604</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] 0.0001823986 0.0001806620 0.0001786835 0.0001763344 0.0001735820</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41] 0.0001706144 0.0001677098 0.0001650719 0.0001628100 0.0001609459</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46] 0.0001594356 0.0001581982 0.0001571474 0.0001562204 0.0001554221</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [51] 0.0001548697 0.0001546825 0.0001549382 0.0001556667 0.0001568537</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [56] 0.0001584519 0.0001603959 0.0001626189 0.0001650701 0.0001677635</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] 0.0001707677 0.0001741333 0.0001778810 0.0001820023 0.0001864638</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [66] 0.0001912165 0.0001962046 0.0002013755 0.0002066919 0.0002121583</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [71] 0.0002177878 0.0002235800 0.0002295198 0.0002355788 0.0002417194</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [76] 0.0002478992 0.0002540756 0.0002602104 0.0002662821 0.0002722925</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [81] 0.0002782426 0.0002841272 0.0002899351 0.0002956501 0.0003012532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [86] 0.0003067246 0.0003120457 0.0003172026 0.0003221926 0.0003270192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [91] 0.0003316840 0.0003361851</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE_loghazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.13004267 0.11231787 0.09717833 0.08473907 0.07518948 0.06866386</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.06505277 0.06387582 0.06434999 0.06561237 0.06693861 0.06799837</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.06887719 0.06978174 0.07091417 0.07239551 0.07422789 0.07629808</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 0.07841673 0.08038172 0.08208124 0.08369899 0.08553795 0.08784480</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.09074914 0.09424018 0.09818152 0.10235469 0.10651743 0.11046705</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 0.11417890 0.11788128 0.12180728 0.12611309 0.13085059 0.13596635</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.14132269 0.14673379 0.15201035 0.15701823 0.16183936 0.16669027</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] 0.17175732 0.17716085 0.18294179 0.18906606 0.19544365 0.20195851</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49] 0.20850582 0.21506775 0.22182330 0.22898853 0.23674165 0.24520265</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55] 0.25442822 0.26442015 0.27514420 0.28655605 0.29863290 0.31145677</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] 0.32520592 0.34003814 0.35606474 0.37334399 0.39188535 0.41166166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [67] 0.43262624 0.45473266 0.47796331 0.50238741 0.52809573 0.55515224</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [73] 0.58358697 0.61339638 0.64454917 0.67699551 0.71067839 0.74554618</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [79] 0.78158390 0.81883094 0.85732269 0.89707590 0.93808595 0.98032812</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [85] 1.02376170 1.06833607 1.11399809 1.16070223 1.20844367 1.25724190</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [91] 1.30710833 1.35804143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $SE_log10hazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.05647682 0.04877903 0.04220401 0.03680171 0.03265438 0.02982034</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.02825206 0.02774092 0.02794684 0.02849509 0.02907107 0.02953132</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.02991298 0.03030582 0.03079763 0.03144097 0.03223676 0.03313584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 0.03405595 0.03490934 0.03564743 0.03635001 0.03714866 0.03815051</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.03941185 0.04092799 0.04263969 0.04445208 0.04625993 0.04797523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31] 0.04958726 0.05119519 0.05290023 0.05477022 0.05682769 0.05904944</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.06137566 0.06372567 0.06601726 0.06819215 0.07028594 0.07239266</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43] 0.07459325 0.07693998 0.07945061 0.08211035 0.08488010 0.08770947</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [49] 0.09055293 0.09340274 0.09633664 0.09944845 0.10281559 0.10649016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [55] 0.11049677 0.11483621 0.11949361 0.12444971 0.12969462 0.13526396</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [61] 0.14123514 0.14767669 0.15463695 0.16214123 0.17019364 0.17878239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [67] 0.18788719 0.19748789 0.20757683 0.21818408 0.22934906 0.24109955</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [73] 0.25344860 0.26639466 0.27992415 0.29401541 0.30864371 0.32378659</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [79] 0.33943758 0.35561376 0.37233051 0.38959511 0.40740555 0.42575109</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [85] 0.44461406 0.46397246 0.48380322 0.50408657 0.52482042 0.54601322</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [91] 0.56766993 0.58978990</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
