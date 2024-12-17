@@ -71,6 +71,7 @@ reference:
   - iwls_1d
   - GLAM_1d_covariates
   - get_hazard_1d
+  - get_hazard_1d_LMM
   - get_hr
 - title: Two time scales
 - contents:
