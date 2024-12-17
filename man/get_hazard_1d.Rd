@@ -63,7 +63,10 @@ dt1ts <- prepare_data(
 mod1 <- fit1ts(dt1ts)
 # Obtain 1d hazard
 get_hazard_1d(mod1)
+<<<<<<< HEAD
 # Change grid
+=======
+>>>>>>> b2e5a85e6930a87fde08f12b1eac1f622c8d0d5f
 get_hazard_1d(mod1,
   plot_grid = c(smin = 0, smax = 2730, ds = 30)
 )

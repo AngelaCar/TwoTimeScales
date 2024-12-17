@@ -55,9 +55,15 @@ get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
     smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
     K <- ceiling((smax - smin) / ds)
     ints <- seq(smin, smin + K * ds, by = ds)
+<<<<<<< HEAD
    } else {
     if (!is.null(plot_grid) & length(plot_grid) != 3){
     stop ("Not enough elements provided in `plot_grid`.")
+=======
+  } else {
+    if (!is.null(plot_grid) & length(plot_grid) != 3){
+      stop ("Not enough elements provided in `plot_grid`.")
+>>>>>>> b2e5a85e6930a87fde08f12b1eac1f622c8d0d5f
     } else {
       smin <- plot_grid['smin']
       smax <- plot_grid['smax']
@@ -114,3 +120,4 @@ get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
 
   return(results)
 }
+
