@@ -68,8 +68,8 @@ method <code>plot</code>, implemented for object of class
 <code>'haz2ts'</code> and <code>'haz2tsLMM'</code>. We assume that the
 reader already knows how to estimate the smooth hazard model with two
 time scales. Therefore, here we will only discuss the plotting function.
-For illustration, we will use the PH model from the vignette <em>Smooth
-hazards with two time scales</em>.</p>
+For illustration, we will use the basic model from the vignette
+<em>Smooth hazards with two time scales</em>.</p>
 </div>
 <div class="section level2">
 <h2 id="the-function-plot">The function <code>plot()</code><a class="anchor" aria-label="anchor" href="#the-function-plot"></a>
@@ -96,7 +96,7 @@ by passing the fitted object, obtained from <code><a href="../reference/fit2ts.h
 of class <code>'haz2ts'</code>, or <code>'haz2tsLMM'</code>) to the
 function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span></span></code></pre></div>
 <p><img src="visualization_files/figure-html/basehaz-1.png" width="576" style="display: block; margin: auto;"></p>
 <div class="section level4">
 <h4 id="plot-on-the-ts-plane">Plot on the
@@ -113,7 +113,7 @@ title of the plots and the label of the axes.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, </span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       rectangular_grid <span class="op">=</span> <span class="cn">T</span>,               <span class="co"># for grid of rectangles</span></span>
 <span>       original <span class="op">=</span> <span class="cn">T</span>,                       <span class="co"># for plot in (t,s)-plane</span></span>
@@ -121,7 +121,7 @@ title of the plots and the label of the axes.</p>
 <span>       xlab <span class="op">=</span> <span class="st">"Time since randomization"</span>,</span>
 <span>       ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       rectangular_grid <span class="op">=</span> <span class="cn">F</span>,                <span class="co"># for grid of parallelograms</span></span>
 <span>       original <span class="op">=</span> <span class="cn">T</span>,                        <span class="co"># for plot in (t,s)-plane</span></span>
@@ -157,7 +157,7 @@ so by passing the specification for a grid where the bins are 10 days
 apart from each other (as opposed to 30). In this case it is a good idea
 to increase the number of shades in the color legend too.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>umin <span class="op">=</span> <span class="fl">0</span>, umax <span class="op">=</span> <span class="fl">2300</span>, du <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>                      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>smin <span class="op">=</span> <span class="fl">0</span>, smax <span class="op">=</span> <span class="fl">2730</span>, du <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>n_shades <span class="op">=</span> <span class="fl">100</span>,</span>
@@ -174,14 +174,14 @@ to increase the number of shades in the color legend too.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, </span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       loghazard <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>       main <span class="op">=</span> <span class="st">"Log-hazard (u,s)"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
 <span>       ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       original <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>       loghazard <span class="op">=</span> <span class="cn">T</span>,</span>
@@ -201,14 +201,14 @@ argument <code>log10hazard = T</code> in <code>plot_options</code>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, </span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       log10hazard <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>       main <span class="op">=</span> <span class="st">"Log10-hazard (u,s)"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
 <span>       ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       original <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>       log10hazard <span class="op">=</span> <span class="cn">T</span>,</span>
@@ -234,14 +234,14 @@ extrapolated. We do so by changing the values of
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span><span class="op">)</span>, </span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cut_extrapolated <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                         tmax <span class="op">=</span> <span class="fl">3214</span>,</span>
 <span>                         main <span class="op">=</span> <span class="st">"Cut extrapolated hazard"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
 <span>                         ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>cut_extrapolated <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>                         tmax <span class="op">=</span> <span class="fl">3214</span>,</span>
 <span>                         original <span class="op">=</span> <span class="cn">T</span>,</span>
@@ -260,7 +260,7 @@ so we need to code one extra line…</p>
 <code class="sourceCode R"><span><span class="va">mycol</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nshades</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html" class="external-link">sequential_hcl</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">nshades</span>, <span class="st">"Blues 3"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>col_palette <span class="op">=</span> <span class="va">mycol</span>,</span>
 <span>                         main <span class="op">=</span> <span class="st">"New colors"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
@@ -276,7 +276,7 @@ so we need to code one extra line…</p>
 <p>The same options apply for the SE surface, so we will just show how
 to produce the simplest version of the SE surface plot.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"SE"</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">"Standard Errors of the hazard"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
@@ -284,7 +284,7 @@ to produce the simplest version of the SE surface plot.</p>
 <p><img src="visualization_files/figure-html/SE-1.png" width="576" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"SE"</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       loghazard <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -294,7 +294,7 @@ to produce the simplest version of the SE surface plot.</p>
 <p><img src="visualization_files/figure-html/SE-2.png" width="576" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"SE"</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>       log10hazard <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -317,7 +317,7 @@ for selected values of time at recurrence
 Note: Adding an automated legend to this kind of plot is still not
 implemented in the package yet, but we can add one manually.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"slices"</span>,</span>
 <span>     where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>,</span>
 <span>     direction <span class="op">=</span> <span class="st">"u"</span>,</span>
@@ -338,7 +338,7 @@ The interpretation of these one-dimensional hazards is less clear at the
 individual level, but is meaningful at the population level. To obtain
 such plot, we specify <code>direction = "s"</code>.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"slices"</span>,</span>
 <span>     where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>,</span>
 <span>     direction <span class="op">=</span> <span class="st">"s"</span>,</span>
@@ -367,16 +367,17 @@ for selected values of
 <code class="sourceCode R"><span><span class="va">mycol2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nshades</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html" class="external-link">sequential_hcl</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">nshades</span>, <span class="st">"PurpOr"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"survival"</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>col_palette <span class="op">=</span> <span class="va">mycol2</span>,</span>
 <span>                         main <span class="op">=</span> <span class="st">"Survival function"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
 <span>                         ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span>,</span>
-<span>                        contour_nlev <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
+<span>                        contour_nlev <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="visualization_files/figure-html/survival-1.png" width="672" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"survival"</span>,</span>
 <span>     where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>,</span>
 <span>     direction <span class="op">=</span> <span class="st">"u"</span>,</span>
@@ -385,11 +386,16 @@ for selected values of
 <span>                         main <span class="op">=</span> <span class="st">"Slices of the survival function"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time since randomization"</span>,</span>
 <span>                         ylab <span class="op">=</span> <span class="st">"Survival"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3000</span>, y <span class="op">=</span> <span class="fl">.9</span>,</span>
+<span>       xpd <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       inset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.3</span>,<span class="fl">0</span><span class="op">)</span>,</span>
 <span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>, </span>
 <span>       lty <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>       lwd <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>       bty <span class="op">=</span> <span class="st">"n"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Time of\n recurrence"</span>,</span>
 <span>       col <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.colors.html" class="external-link">gray.colors</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/survival-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/survival-2.png" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="cumulative-hazard">Cumulative hazard<a class="anchor" aria-label="anchor" href="#cumulative-hazard"></a>
@@ -397,47 +403,39 @@ for selected values of
 <p>Similarly, we can plot the cumulative hazard either as a surface or
 as one-dimensional curves over <code>s</code> for selected values of
 <code>u</code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mycol3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nshades</span><span class="op">)</span><span class="op">{</span></span>
 <span>  <span class="fu">colorspace</span><span class="fu">::</span><span class="fu"><a href="https://colorspace.R-Forge.R-project.org/reference/hcl_palettes.html" class="external-link">sequential_hcl</a></span><span class="op">(</span>n <span class="op">=</span> <span class="va">nshades</span>, <span class="st">"BluGrn"</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
-<span>     which_plot <span class="op">=</span> <span class="st">"survival"</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
+<span>     which_plot <span class="op">=</span> <span class="st">"cumhaz"</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>col_palette <span class="op">=</span> <span class="va">mycol3</span>,</span>
 <span>                         main <span class="op">=</span> <span class="st">"Cumulative hazard"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
 <span>                         ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span>,</span>
-<span>                         contour_nlev <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
-<span>     which_plot <span class="op">=</span> <span class="st">"survival"</span>,</span>
+<span>                         contour_nlev <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="visualization_files/figure-html/cumhaz-1.png" width="672" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod1</span>,</span>
+<span>     which_plot <span class="op">=</span> <span class="st">"cumhaz"</span>,</span>
 <span>     where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>,</span>
 <span>     direction <span class="op">=</span> <span class="st">"u"</span>,</span>
 <span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>                         surv_slices <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                         cumhaz_slices <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                         main <span class="op">=</span> <span class="st">"Slices of the cumulative hazard"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time since randomization"</span>,</span>
 <span>                         ylab <span class="op">=</span> <span class="st">"Cumulative hazard"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>,</span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">3000</span>, y <span class="op">=</span> <span class="fl">3.5</span>,</span>
+<span>       xpd <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>       inset <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.3</span>,<span class="fl">0</span><span class="op">)</span>,</span>
 <span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>, </span>
 <span>       lty <span class="op">=</span> <span class="fl">1</span>, </span>
+<span>       lwd <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>       bty <span class="op">=</span> <span class="st">"n"</span>,</span>
+<span>       title <span class="op">=</span> <span class="st">"Time of\n recurrence"</span>,</span>
 <span>       col <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.colors.html" class="external-link">gray.colors</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/cumhaz-1.png" width="576" style="display: block; margin: auto;"></p>
-</div>
-<div class="section level3">
-<h3 id="covariates-plot">Covariates plot<a class="anchor" aria-label="anchor" href="#covariates-plot"></a>
-</h3>
-<p>Finally, we show how to plot the covariates’ effects. We have
-discussed this kind of plot in more details in the vignette <em>Smooth
-hazard with one time scale</em>, so here will only show the default
-plot.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_cov</span>,</span>
-<span>     which_plot <span class="op">=</span> <span class="st">"covariates"</span>,</span>
-<span>     plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>main <span class="op">=</span> <span class="st">""</span>,</span>
-<span>                         ylab <span class="op">=</span> <span class="st">"betas"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="visualization_files/figure-html/cov-1.png" width="576" style="display: block; margin: auto;"></p>
+<p><img src="visualization_files/figure-html/cumhaz-2.png" width="672" style="display: block; margin: auto;"></p>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Carollo:2024" class="csl-entry">
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
