@@ -30,75 +30,77 @@
 #'
 #' @examples
 #' ## preparing data - no covariates
-#' dt1ts <- prepare_data(data = reccolon2ts,
-#'                       s_in = "entrys",
-#'                       s_out = "timesr",
-#'                       events = "status",
-#'                       ds = 180)
+#' dt1ts <- prepare_data(
+#'   data = reccolon2ts,
+#'   s_in = "entrys",
+#'   s_out = "timesr",
+#'   events = "status",
+#'   ds = 180
+#' )
 #'
 #' ## fitting the model with fit1ts()
 #'
 #' mod1 <- fit1ts(dt1ts,
-#' optim_method = "LMMsolver")
+#'   optim_method = "LMMsolver"
+#' )
 #' # Obtain 1d hazard
 #' get_hazard_1d_LMM(mod1)
 #' # Change grid
 #' get_hazard_1d_LMM(mod1,
 #'   plot_grid = c(smin = 0, smax = 2730, ds = 30)
-#' )#'
+#' ) #'
 #'
 get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
-
   if (is.null(plot_grid)) {
     ds <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$dx
     smin <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin
     smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
     K <- ceiling((smax - smin) / ds)
     ints <- seq(smin, smin + K * ds, by = ds)
-<<<<<<< HEAD
-   } else {
-    if (!is.null(plot_grid) & length(plot_grid) != 3){
-    stop ("Not enough elements provided in `plot_grid`.")
-=======
   } else {
-    if (!is.null(plot_grid) & length(plot_grid) != 3){
-      stop ("Not enough elements provided in `plot_grid`.")
->>>>>>> b2e5a85e6930a87fde08f12b1eac1f622c8d0d5f
+    if (!is.null(plot_grid) & length(plot_grid) != 3) {
+      stop("Not enough elements provided in `plot_grid`.")
     } else {
-      smin <- plot_grid['smin']
-      smax <- plot_grid['smax']
-      ds <- plot_grid['ds']
-      if (smin < attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin) {
-        smin <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin
-        warning(
-          "`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ",
-          attributes(fitted_model$optimal_model$splRes[[1]]$knots[[2]])$xmin
-        )
+      if (!is.null(plot_grid) & length(plot_grid) != 3) {
+        stop("Not enough elements provided in `plot_grid`.")
+      } else {
+        smin <- plot_grid["smin"]
+        smax <- plot_grid["smax"]
+        ds <- plot_grid["ds"]
+        if (smin < attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin) {
+          smin <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin
+          warning(
+            "`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ",
+            attributes(fitted_model$optimal_model$splRes[[1]]$knots[[2]])$xmin
+          )
+        }
+        if (smax > attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax) {
+          smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
+          warning(
+            "`smax` is larger than the upper limit of the domain of Bs. Right boundary adjusted to  =  ",
+            attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
+          )
+        }
+        K <- ceiling((smax - smin) / ds)
+        ints <- seq(smin, smin + K * ds, by = ds)
       }
-      if (smax > attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax) {
-        smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
-        warning(
-          "`smax` is larger than the upper limit of the domain of Bs. Right boundary adjusted to  =  ",
-          attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
-        )
-      }
-      K <- ceiling((smax - smin) / ds)
-      ints <- seq(smin, smin + K * ds, by = ds)
     }
   }
+
 
   new_grid <- data.frame("s" = ints)
   # ---- Get hazard ----
   trend1D <- obtainSmoothTrend(fitted_model$optimal_model,
-                               newdata = new_grid,
-                               includeIntercept = TRUE)
+    newdata = new_grid,
+    includeIntercept = TRUE
+  )
   haz <- trend1D$ypred
   se_haz <- trend1D$se
   eta <- log(haz)
-  se_eta <- abs(1/haz) * se_haz
+  se_eta <- abs(1 / haz) * se_haz
   log10haz <- log10(haz)
   const <- log(10)
-  se_log10haz <- abs(1/(haz * const)) * se_haz
+  se_log10haz <- abs(1 / (haz * const)) * se_haz
 
   new_grid <- list(
     "ints" = ints,
@@ -120,4 +122,3 @@ get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
 
   return(results)
 }
-
