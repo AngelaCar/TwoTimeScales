@@ -21,10 +21,10 @@ library(TwoTimeScales)
 
 ## Introduction
 
-The topic of this vignette is visualization of the hazard of one event over two time scales. We show the complete set of options for the method `plot`, implemented for object of class `'haz2ts'` and `'haz2tsLMM'`. We assume that the reader already knows how to estimate the smooth hazard model with two time scales. Therefore, here we will only discuss the plotting function. For illustration, we will use the PH model from the vignette *Smooth hazards with two time scales*.
+The topic of this vignette is visualization of the hazard of one event over two time scales. We show the complete set of options for the method `plot`, implemented for object of class `'haz2ts'` and `'haz2tsLMM'`. We assume that the reader already knows how to estimate the smooth hazard model with two time scales. Therefore, here we will only discuss the plotting function. For illustration, we will use the basic model from the vignette *Smooth hazards with two time scales*.
 
 ```{r load-mod, cache=T, echo=F}
-load("modelcov.Rda")
+load("modelcolon.Rda")
 ```
 
 ## The function `plot()`
@@ -38,7 +38,7 @@ We will now examine each of these options and their use.
 The default plot is the hazard surface over the $(u,s)$-plane, with contour lines in white to mark levels of the hazard. It is obtained by passing the fitted object, obtained from `fit2ts()` (hence of class `'haz2ts'`, or `'haz2tsLMM'`) to the function `plot()`.
 
 ```{r basehaz, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
-plot(mod_cov)
+plot(mod1)
 ```
 
 #### Plot on the $(t,s)$-plane
@@ -48,7 +48,7 @@ The same plot can be obtained over the $(t,s)$-plan using a rectangular grid or 
 ```{r original, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=9}
 par(mfrow = c(2,1), 
     font.main = 1)
-plot(mod_cov,
+plot(mod1,
      plot_options = list(
        rectangular_grid = T,               # for grid of rectangles
        original = T,                       # for plot in (t,s)-plane
@@ -56,7 +56,7 @@ plot(mod_cov,
        xlab = "Time since randomization",
        ylab = "Time since recurrence"
      ))
-plot(mod_cov,
+plot(mod1,
      plot_options = list(
        rectangular_grid = F,                # for grid of parallelograms
        original = T,                        # for plot in (t,s)-plane
@@ -72,7 +72,7 @@ par(mfrow = c(1,1))
 With the default options, the $B$-splines bases used for estimation will be also used to compute the values of the hazard. If the grid of bins used for binning the data, and to evaluate the estimating $B$-splines bases, is already dense (many small bins), the plot of the estimated hazard will appear nicely smooth. However, in some cases, larger bins are used for the original binning of the data and for the estimation of the model. In such cases it may be worthwhile to evaluate the $B$-splines bases on a finer grid of points. The hazard surface will appear much smoother because it will be interpolated over more points. It is possible to change the grid for plotting by passing the specification for a new grid to the argument `plot_grid`. We show how to do so by passing the specification for a grid where the bins are 10 days apart from each other (as opposed to 30). In this case it is a good idea to increase the number of shades in the color legend too.
 
 ```{r new-grid, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
-plot(mod_cov,
+plot(mod1,
      plot_grid = list(c(umin = 0, umax = 2300, du = 10),
                       c(smin = 0, smax = 2730, du = 10)),
      plot_options = list(n_shades = 100,
@@ -88,14 +88,14 @@ We can plot the hazard on the log-scale by changing the argument `loghazard = T`
 ```{r loghaz, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=9}
 par(mfrow = c(2,1), 
     font.main = 1)
-plot(mod_cov,
+plot(mod1,
      plot_options = list(
        loghazard = T,
        main = "Log-hazard (u,s)",
        xlab = "Time at recurrence",
        ylab = "Time since recurrence"
      ))
-plot(mod_cov,
+plot(mod1,
      plot_options = list(
        original = T,
        loghazard = T,
@@ -113,14 +113,14 @@ Similarly, we can plot the hazard on the log10-scale by changing the argument `l
 ```{r log10haz, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=9}
 par(mfrow = c(2,1), 
     font.main = 1)
-plot(mod_cov,
+plot(mod1,
      plot_options = list(
        log10hazard = T,
        main = "Log10-hazard (u,s)",
        xlab = "Time at recurrence",
        ylab = "Time since recurrence"
      ))
-plot(mod_cov,
+plot(mod1,
      plot_options = list(
        original = T,
        log10hazard = T,
@@ -138,14 +138,14 @@ par(mfrow = c(1,1))
 ```{r cut-extra, fig = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=9}
 par(mfrow = c(2,1), 
     font.main = 1)
-plot(mod_cov,
+plot(mod1,
      plot_options = list(cut_extrapolated = T,
                          tmax = 3214,
                          main = "Cut extrapolated hazard",
                          xlab = "Time at recurrence",
                          ylab = "Time since recurrence"))
 
-plot(mod_cov,
+plot(mod1,
      plot_options = list(cut_extrapolated = T,
                          tmax = 3214,
                          original = T,
@@ -162,7 +162,7 @@ Let us try a new color palette and modify the options concerning the contour lin
 mycol <- function(nshades){
   colorspace::sequential_hcl(n = nshades, "Blues 3")
 }
-plot(mod_cov,
+plot(mod1,
      plot_options = list(col_palette = mycol,
                          main = "New colors",
                          xlab = "Time at recurrence",
@@ -176,13 +176,13 @@ plot(mod_cov,
 The same options apply for the SE surface, so we will just show how to produce the simplest version of the SE surface plot.
 
 ```{r SE, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
-plot(mod_cov,
+plot(mod1,
      which_plot = "SE",
      plot_options = list(main = "Standard Errors of the hazard",
                          xlab = "Time at recurrence",
                          ylab = "Time since recurrence"))
 
-plot(mod_cov,
+plot(mod1,
      which_plot = "SE",
      plot_options = list(
        loghazard = TRUE,
@@ -190,7 +190,7 @@ plot(mod_cov,
        xlab = "Time at recurrence",
        ylab = "Time since recurrence"))
 
-plot(mod_cov,
+plot(mod1,
      which_plot = "SE",
      plot_options = list(
        log10hazard = TRUE,
@@ -204,7 +204,7 @@ plot(mod_cov,
 Another very informative representation for the 2d hazard consists of plotting 'slices' (or cross-sections) of the two-dimensional hazard as curves over one of the time scales. For example, the 2d hazard surface is plotted as a series of one-dimensional hazard curves over time since recurrence $s$ for selected values of time at recurrence $u$. Note: Adding an automated legend to this kind of plot is still not implemented in the package yet, but we can add one manually.
 
 ```{r slices-u, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
-plot(mod_cov,
+plot(mod1,
      which_plot = "slices",
      where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
      direction = "u",
@@ -220,7 +220,7 @@ legend("topright",
 It is also possible to plot one-dimensional hazards over time since randomization ($t$) for selected values of time since recurrence ($s$). The interpretation of these one-dimensional hazards is less clear at the individual level, but is meaningful at the population level. To obtain such plot, we specify `direction = "s"`.
 
 ```{r slices-s, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
-plot(mod_cov,
+plot(mod1,
      which_plot = "slices",
      where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
      direction = "s",
@@ -236,12 +236,11 @@ legend("topright",
 ### Survival function
 We can represent the survival function as a two-dimensional surface over the $(u,s)$-plane (or the $(t,s)$-plane), or as cross-sectional one-dimensional curves over $s$, for selected values of $u$.
 
-```{r survival, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
+```{r survival, fig = T, chache = T, dependson="load-mod", fig.width=7, fig.align='center', fig.height=4.5}
 mycol2 <- function(nshades){
   colorspace::sequential_hcl(n = nshades, "PurpOr")
 }
-par(mfrow = c(1,2))
-plot(mod_cov,
+plot(mod1,
      which_plot = "survival",
      plot_options = list(col_palette = mycol2,
                          main = "Survival function",
@@ -249,7 +248,7 @@ plot(mod_cov,
                          ylab = "Time since recurrence",
                         contour_nlev = 20))
 
-plot(mod_cov,
+plot(mod1,
      which_plot = "survival",
      where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
      direction = "u",
@@ -258,50 +257,50 @@ plot(mod_cov,
                          main = "Slices of the survival function",
                          xlab = "Time since randomization",
                          ylab = "Survival"))
-legend("topright",
+legend(x = 3000, y = .9,
+       xpd = TRUE,
+       inset = c(-0.3,0),
        legend = c(30, 60, 90, 180, 365, 1000, 2000), 
        lty = 1, 
+       lwd = 2,
+       bty = "n",
+       title = "Time of\n recurrence",
        col = grDevices::gray.colors(7))
+
 ```
 
 ### Cumulative hazard 
 Similarly, we can plot the cumulative hazard either as a surface or as one-dimensional curves over `s` for selected values of `u`.
-```{r cumhaz, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
+```{r cumhaz, fig = T, chache = T, dependson="load-mod", fig.width=7, fig.align='center', fig.height=4.5}
 mycol3 <- function(nshades){
   colorspace::sequential_hcl(n = nshades, "BluGrn")
 }
-par(mfrow = c(1,2))
-plot(mod_cov,
-     which_plot = "survival",
+plot(mod1,
+     which_plot = "cumhaz",
      plot_options = list(col_palette = mycol3,
                          main = "Cumulative hazard",
                          xlab = "Time at recurrence",
                          ylab = "Time since recurrence",
                          contour_nlev = 20))
 
-plot(mod_cov,
-     which_plot = "survival",
+plot(mod1,
+     which_plot = "cumhaz",
      where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
      direction = "u",
      plot_options = list(
-                         surv_slices = TRUE,
+                         cumhaz_slices = TRUE,
                          main = "Slices of the cumulative hazard",
                          xlab = "Time since randomization",
                          ylab = "Cumulative hazard"))
-legend("topright",
+legend(x = 3000, y = 3.5,
+       xpd = TRUE,
+       inset = c(-0.3,0),
        legend = c(30, 60, 90, 180, 365, 1000, 2000), 
        lty = 1, 
+       lwd = 2,
+       bty = "n",
+       title = "Time of\n recurrence",
        col = grDevices::gray.colors(7))
 ```
 
 
-### Covariates plot
-
-Finally, we show how to plot the covariates' effects. We have discussed this kind of plot in more details in the vignette *Smooth hazard with one time scale*, so here will only show the default plot.
-
-```{r cov, fig = T, chache = T, dependson="load-mod", fig.width=6, fig.align='center', fig.height=4.5}
-plot(mod_cov,
-     which_plot = "covariates",
-     plot_options = list(main = "",
-                         ylab = "betas"))
-```

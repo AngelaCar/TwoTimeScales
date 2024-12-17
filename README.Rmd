@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 
+[![R-CMD-check](https://github.com/AngelaCar/TwoTimeScales/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AngelaCar/TwoTimeScales/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 `TwoTimeScales` provides a suite of functions for the analysis of time to event data with two time scales.
