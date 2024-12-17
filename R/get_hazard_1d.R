@@ -41,46 +41,52 @@
 #' mod1 <- fit1ts(dt1ts)
 #' # Obtain 1d hazard
 #' get_hazard_1d(mod1)
-#'
+#' get_hazard_1d(mod1,
+#'   plot_grid = c(smin = 0, smax = 2730, ds = 30)
+#' )
 #'
 get_hazard_1d <- function(fitted_model, plot_grid = NULL) {
   Bbases <- fitted_model$optimal_model$Bbases
 
-  if (!is.null(plot_grid) & length(plot_grid) != 3)
-    stop ("Not enough elements provided in `plot_grid`.")
-  if (is.null(plot_grid['smin'])){
-    smin <- attributes(Bbases$Bs)$xl
-    } else smin <- plot_grid['smin']
+  if (is.null(plot_grid)) {
+    Bs <- Bbases$Bs
+    new_grid <- list(
+      "ints" = attributes(Bs)$x,
+      "smin" = attributes(Bs)$xl,
+      "smax" = attributes(Bs)$xr
+    )
+    new_grid$ds <- new_grid$ints[2] - new_grid$ints[1]
+  } else {
+    if (!is.null(plot_grid) & length(plot_grid) != 3) {
+      stop("Not enough elements provided in `plot_grid`.")
+    } else {
+      smin <- plot_grid["smin"]
+      smax <- plot_grid["smax"]
+      ds <- plot_grid["ds"]
+      if (smin < attributes(Bbases$Bs)$xl) {
+        smin <- attributes(Bbases$Bs)$xl
+        warning("`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ", attributes(Bbases$Bs)$xl)
+      }
+      if (smax > attributes(Bbases$Bs)$xr) {
+        smax <- attributes(Bbases$Bs)$xr
+        warning("`smax` is larger than the upper limit of the domain of Bs. Right boundary adjusted to  =  ", attributes(Bbases$Bs)$xr)
+      }
+      K <- ceiling((smax - smin) / ds)
+      ints <- seq(smin, smin + K * ds, by = ds)
 
-  if (is.null(plot_grid['smax'])) {
-    smax <- attributes(Bbases$Bs)$xr
-    } else smax <- plot_grid['smax']
-  if (is.null(plot_grid['ds'])) {
-    ds <- diff(attributes(Bbases$Bs)$x)[1]
-    } else ds <- plot_grid['ds']
-
-
-  if (smin < attributes(Bbases$Bs)$xl) {
-    smin <- attributes(Bbases$Bs)$xl
-    warning("`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ", attributes(Bbases$Bs)$xl)
+      # Evaluate old basis in new grid of points
+      Bs <- JOPS::bbase(ints, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg)
+      new_grid <- list(
+        "ints" = ints,
+        "smin" = smin,
+        "smax" = smax,
+        "ds" = ds
+      )
+    }
   }
-  if (smax > attributes(Bbases$Bs)$xr) {
-    smax <- attributes(Bbases$Bs)$xr
-    warning("`smax` is larger than the upper limit of the domain of Bs. Right boundary adjusted to  =  ", attributes(Bbases$Bs)$xr)
-  }
-  K <- ceiling((smax - smin) / ds)
-  ints <- seq(smin, smin + K * ds, by = ds)
 
-  # Evaluate old basis in new grid of points
-  Bs <- JOPS::bbase(ints, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg)
-  new_grid <- list(
-    "ints" = ints,
-    "smin" = smin,
-    "smax" = smax,
-    "ds" = ds
-  )
 
- # ---- Calculate (baseline) hazard ----
+  # ---- Calculate (baseline) hazard ----
   eta <- Bs %*% fitted_model$optimal_model$alpha
   haz <- exp(eta)
 
@@ -95,7 +101,7 @@ get_hazard_1d <- function(fitted_model, plot_grid = NULL) {
 
   # ---- Calculate Standard Errors for the log10-hazard ----
   const <- log(10)
-  se_log10haz <- abs(1/(haz * const)) * se_haz
+  se_log10haz <- abs(1 / (haz * const)) * se_haz
 
   # ---- Return results in a list ----
   results <- list(

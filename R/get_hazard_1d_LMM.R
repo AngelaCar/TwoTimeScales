@@ -36,13 +36,16 @@
 #'                       events = "status",
 #'                       ds = 180)
 #'
-#' ## fitting the model with fit1ts() - default options
+#' ## fitting the model with fit1ts()
 #'
 #' mod1 <- fit1ts(dt1ts,
 #' optim_method = "LMMsolver")
 #' # Obtain 1d hazard
-#' get_hazard_1d(mod1)
-#'
+#' get_hazard_1d_LMM(mod1)
+#' # Change grid
+#' get_hazard_1d_LMM(mod1,
+#'   plot_grid = c(smin = 0, smax = 2730, ds = 30)
+#' )#'
 #'
 get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
 
@@ -50,48 +53,35 @@ get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
     ds <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$dx
     smin <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin
     smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
-    plot_grid <- list(
-      c("smin" = smin, "smax" = smax, "ds" = ds)
-    )
+    K <- ceiling((smax - smin) / ds)
+    ints <- seq(smin, smin + K * ds, by = ds)
   } else {
-    if (!is.null(plot_grid) & length(plot_grid) != 3)
-    stop ("Not enough elements provided in `plot_grid`.")
-  if (is.null(plot_grid['smin'])){
-    smin <-attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin
-  } else smin <- plot_grid['smin']
-
-  if (is.null(plot_grid['smax'])) {
-    smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
-  } else smax <- plot_grid['smax']
-  if (is.null(plot_grid['ds'])) {
-    ds <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$dx
-  } else ds <- plot_grid['ds']
+    if (!is.null(plot_grid) & length(plot_grid) != 3){
+      stop ("Not enough elements provided in `plot_grid`.")
+    } else {
+      smin <- plot_grid['smin']
+      smax <- plot_grid['smax']
+      ds <- plot_grid['ds']
+      if (smin < attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin) {
+        smin <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin
+        warning(
+          "`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ",
+          attributes(fitted_model$optimal_model$splRes[[1]]$knots[[2]])$xmin
+        )
+      }
+      if (smax > attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax) {
+        smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
+        warning(
+          "`smax` is larger than the upper limit of the domain of Bs. Right boundary adjusted to  =  ",
+          attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
+        )
+      }
+      K <- ceiling((smax - smin) / ds)
+      ints <- seq(smin, smin + K * ds, by = ds)
+    }
   }
 
-  if (smin < attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin) {
-    smin <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmin
-    warning(
-      "`smin` is smaller than the lower limit of the domain of Bs. Left boundary adjusted to  =  ",
-      attributes(fitted_model$optimal_model$splRes[[1]]$knots[[2]])$xmin
-    )
-  }
-  if (smax > attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax) {
-    smax <- attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
-    warning(
-      "`smax` is larger than the upper limit of the domain of Bs. Right boundary adjusted to  =  ",
-      attributes(fitted_model$optimal_model$splRes[[1]]$knots[[1]])$xmax
-    )
-  }
-  K <- ceiling((smax - smin) / ds)
-  ints <- seq(smin, smin + K * ds, by = ds)
-
-  new_grid <- list(
-    "ints" = ints,
-    "smin" = smin,
-    "smax" = smax,
-    "ds" = ds
-  )
-
+  new_grid <- data.frame("s" = ints)
   # ---- Get hazard ----
   trend1D <- obtainSmoothTrend(fitted_model$optimal_model,
                                newdata = new_grid,
@@ -103,6 +93,13 @@ get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
   log10haz <- log10(haz)
   const <- log(10)
   se_log10haz <- abs(1/(haz * const)) * se_haz
+
+  new_grid <- list(
+    "ints" = ints,
+    "smin" = smin,
+    "smax" = smax,
+    "ds" = ds
+  )
 
   # ---- Return results in a list ----
   results <- list(
@@ -117,3 +114,4 @@ get_hazard_1d_LMM <- function(fitted_model, plot_grid = NULL) {
 
   return(results)
 }
+

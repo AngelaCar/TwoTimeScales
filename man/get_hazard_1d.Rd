@@ -61,6 +61,8 @@ dt1ts <- prepare_data(data = reccolon2ts,
 mod1 <- fit1ts(dt1ts)
 # Obtain 1d hazard
 get_hazard_1d(mod1)
-
+get_hazard_1d(mod1,
+  plot_grid = c(smin = 0, smax = 2730, ds = 30)
+)
 
 }
