@@ -24,6 +24,12 @@ time scales are included.
 
 ## Installation
 
+### From CRAN
+
+Just run install.packages(“TwoTimeScales”)
+
+### From GitHub
+
 You can install the development version of TwoTimeScales from
 [GitHub](https://github.com/) with:
 
@@ -63,3 +69,9 @@ vignette("onetime")
 vignette("twotimes")
 vignette("visualization")
 ```
+
+## Acknowledgments
+
+We are very grateful to Guillermo Brise~{n}o Sanchez, José Carlos
+Andrade Santacruz and Lisa Rieker for testing the package and their
+helpful feedback.

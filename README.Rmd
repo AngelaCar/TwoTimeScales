@@ -36,10 +36,6 @@ You can install the development version of TwoTimeScales from [GitHub](https://g
 # install.packages("devtools")
 devtools::install_github("AngelaCar/TwoTimeScales")
 ```
-The development version differ from the version on CRAN because almost all functions, even the ones that are used internally by other functions (and most likely the user will not interact with) are exported.
-However, for these latter functions examples of usage might be missing.
-Additionally, new features will be first implemented in the development version.
-
 Vignettes need to be explicitly requested. To install a version of the package
 including the vignettes, please run:
 
