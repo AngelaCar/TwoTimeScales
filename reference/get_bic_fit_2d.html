@@ -11,7 +11,7 @@ See also fit2tsmodel_ucminf() and fit2ts()."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,7 +115,9 @@ n by p.</p></dd>
 
 
 <dt id="arg-ridge">ridge<a class="anchor" aria-label="anchor" href="#arg-ridge"></a></dt>
-<dd><p>A ridge penalty parameter: default is 0.</p></dd>
+<dd><p>A ridge penalty parameter: default is 0. This is useful when, in
+some cases the algorithm shows convergence problems. In this case, set to a small
+number, for example <code>1e-4</code>.</p></dd>
 
 
 <dt id="arg-control-algorithm">control_algorithm<a class="anchor" aria-label="anchor" href="#arg-control-algorithm"></a></dt>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,12 +67,13 @@
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Bin the colon cancer data over s (time since recurrence)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">colon1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span></span>
-<span class="r-in"><span>s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span></span>
-<span class="r-in"><span>events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span></span>
-<span class="r-in"><span>ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span></span>
+<span class="r-in"><span>                      s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span></span>
+<span class="r-in"><span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span></span>
+<span class="r-in"><span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span></span>
+<span class="r-in"><span>                      ds <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">colon1ts</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class 'data2ts'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data:</span>
@@ -84,27 +85,26 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Range covered by the bins: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bins_s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    0 2730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    0 2880</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of bins: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Overview of the binned data:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Total exposure time: 236006"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Total number of events: 409"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total exposure time: 236006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total number of events: 409</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Bin the colon cancer data over u (time at recurrence) and s (time since recurrence)</span></span></span>
-<span class="r-in"><span><span class="va">colon2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span></span>
-<span class="r-in"><span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span></span>
-<span class="r-in"><span>s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span></span>
-<span class="r-in"><span>events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>, ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">colon2ts</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span></span>
+<span class="r-in"><span>                      u <span class="op">=</span> <span class="st">"timer"</span>,</span></span>
+<span class="r-in"><span>                      s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span></span>
+<span class="r-in"><span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span></span>
+<span class="r-in"><span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span></span>
+<span class="r-in"><span>                      ds <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class 'data2ts'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Data:</span>
@@ -116,24 +116,23 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Range covered by the bins: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bins_u</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    8 2288</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    8 2348</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bins_s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    0 2730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    0 2880</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of bins: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $nu</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $ns</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 91</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Overview of the binned data:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Total exposure time: 236006"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Total number of events: 409"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total exposure time: 236006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Total number of events: 409</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

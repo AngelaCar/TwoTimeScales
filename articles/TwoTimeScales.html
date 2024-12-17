@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -173,13 +173,13 @@ with
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>,
 where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mo>≥</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">s \ge 0</annotation></semantics></math>
-and a variable which contains the event’s indicator. In the simplest
+and a variable which contains the event indicator. In the simplest
 time-to-event models, there is only one type of event, so that this
-event’s indicator can only assume values 0 and 1.</p>
+event indicator can only assume values 0 and 1.</p>
 <p>To apply the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>-splines
 model for the hazard we need to bin the individual data into aggregated
-vectors of exposure times and events’ indicators. Therefore, the first
+vectors of exposure times and event indicators. Therefore, the first
 step of the analysis, will be data preparation. This step involves the
 construction of the bins and the actual binning of the data. Both steps
 are implemented and performed by the function
@@ -196,12 +196,16 @@ cases.</p>
 only a vector of exit times (<code>s_out</code>), a vector of events’
 indicators (<code>events</code>) and the desired bins’ size
 (<code>ds</code>). If the data are left truncated, the entry times can
-be passed to the argument <code>s_in</code>.</p>
+be passed to the argument <code>s_in</code>. These can be either
+extracted from a dataset by using the argument <code>data</code> and
+passing the vector’s names in each respective argument, as illustrated
+below, or by directly passing the vectors.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span>
-<span>                      s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                      events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
+<code class="sourceCode R"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ bins   :List of 3</span></span>
@@ -209,7 +213,7 @@ be passed to the argument <code>s_in</code>.</p>
 <span><span class="co">#&gt;   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
 <span><span class="co">#&gt;   ..$ ns    : int 91</span></span>
 <span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;   ..$ r: num [1:91] 12613 12322 11793 11399 10969 ...</span></span>
+<span><span class="co">#&gt;   ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...</span></span>
 <span><span class="co">#&gt;   ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
 <span></span>
@@ -234,9 +238,8 @@ be passed to the argument <code>s_in</code>.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; [1] "Total exposure time: 236006"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span></code></pre></div>
+<span><span class="co">#&gt; Total exposure time: 246018</span></span>
+<span><span class="co">#&gt; Total number of events: 409</span></span></code></pre></div>
 <p>The object <code>dt1ts</code> is a list with two elements. The first
 element is a list of bins (<code>bins_s</code>) with their midpoints
 (<code>mids</code>) and the number of bins (<code>ns</code>). The second
@@ -267,11 +270,13 @@ and
 and defer the discussion of the preparation over the Lexis diagram to
 the vignette dedicated to the analysis with two time scales.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
-<span>                      s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span>
-<span>                      s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                      events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
+<code class="sourceCode R"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                      u <span class="op">=</span> <span class="st">"timer"</span>,</span>
+<span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
+<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ bins   :List of 6</span></span>
@@ -282,7 +287,7 @@ the vignette dedicated to the analysis with two time scales.</p>
 <span><span class="co">#&gt;   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
 <span><span class="co">#&gt;   ..$ ns    : int 91</span></span>
 <span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;   ..$ R: num [1:76, 1:91] 115 218 450 696 474 701 460 686 462 457 ...</span></span>
+<span><span class="co">#&gt;   ..$ R: num [1:76, 1:91] 205 243 540 796 474 812 506 746 657 517 ...</span></span>
 <span><span class="co">#&gt;   ..$ Y: num [1:76, 1:91] 1 1 0 1 1 2 1 1 1 2 ...</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
 <span></span>
@@ -313,9 +318,8 @@ the vignette dedicated to the analysis with two time scales.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; [1] "Total exposure time: 236006"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span></code></pre></div>
+<span><span class="co">#&gt; Total exposure time: 246018</span></span>
+<span><span class="co">#&gt; Total number of events: 409</span></span></code></pre></div>
 <p>We have now included only one additional input <code>u</code>, that
 is the vector with the individuals’ time at recurrence of the cancer.
 The object <code>dt2ts</code> has the same structure as
@@ -329,14 +333,14 @@ are now matrices <code>R</code> and <code>Y</code> of dimension
 <h4 id="including-covariates">Including covariates<a class="anchor" aria-label="anchor" href="#including-covariates"></a>
 </h4>
 <p>If we want to estimate a proportional hazard model with covariates a
-different structure of the data is required (see <span class="citation">Carollo et al. (2023)</span>). The data are augmented
+different structure of the data is required (see <span class="citation">Carollo et al. (2024)</span>). The data are augmented
 by one dimension. So, for the model with one time scale only, we need to
 create a matrix of exposure times <code>R</code> with dimension
 <code>n</code> (number of individuals in the data) by <code>ns</code>
-(number of bins). The same goes for the matrix of events’ count. For the
+(number of bins). The same goes for the matrix of event counts. For the
 model with two time scales, each observation in the sample will be
-represented by its own matrix of exposure times and matrix of events’
-indicator. Therefore, the data for the whole sample can be arranged in
+represented by its own matrix of exposure times and matrix of event
+indicators. Therefore, the data for the whole sample can be arranged in
 three-dimensional arrays, with dimensions <code>nu</code> by
 <code>ns</code> by <code>n</code>. The function
 <code><a href="../reference/prepare_data.html">prepare_data()</a></code> does exactly so by specifying the optional
@@ -347,14 +351,14 @@ preparation of the regression matrix <code>Z</code>. However, if
 desired, this can also be prepared externally (in which case a warning
 will be returned).</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">covs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">reccolon2ts</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">dt2ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
-<span>                          s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span>
-<span>                          s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                          events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
+<code class="sourceCode R"><span><span class="va">dt2ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                          u <span class="op">=</span> <span class="st">"timer"</span>,</span>
+<span>                          s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span>
+<span>                          s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                          events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                          ds <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>                          individual <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>                          covs <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
+<span>                          covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 2</span></span>
 <span><span class="co">#&gt;  $ bins   :List of 6</span></span>
@@ -370,7 +374,7 @@ will be returned).</p>
 <span><span class="co">#&gt;   ..$ Z: num [1:461, 1:4] 0 0 0 0 0 1 0 1 0 1 ...</span></span>
 <span><span class="co">#&gt;   .. ..- attr(*, "dimnames")=List of 2</span></span>
 <span><span class="co">#&gt;   .. .. ..$ : NULL</span></span>
-<span><span class="co">#&gt;   .. .. ..$ : chr [1:4] "Lev" "Lev_5FU" "node4" "male"</span></span>
+<span><span class="co">#&gt;   .. .. ..$ : chr [1:4] "rx_Lev" "rx_Lev+5FU" "node4" "sex_male"</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span>
 <span><span class="co">#&gt; An object of class 'data2ts'</span></span>
@@ -399,21 +403,19 @@ will be returned).</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; [1] "Total exposure time: 236006"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span>
-<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Total exposure time: 236006</span></span>
+<span><span class="co">#&gt; Total number of events: 409</span></span>
 <span><span class="co">#&gt; Covariates:</span></span>
-<span><span class="co">#&gt; [1] "Lev"     "Lev_5FU" "node4"   "male"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "rx_Lev"     "rx_Lev+5FU" "node4"      "sex_male"</span></span></code></pre></div>
 <p>The data are now the three-dimensional arrays, <code>R</code> and
 <code>Y</code> and a regression matrix <code>Z</code>, where the
 covariates are transformed in dummy variables (where needed). The print
 method returns also the names of the dummy variables, so we can see that
 from the variable <code>rx</code> we obtained the two dummies
-<code>Lev</code> and <code>Lev+5FU</code> and from the variable
-<code>sex</code> we obtained now the dummy variable <code>male</code>
-(<code>Obs</code> and <code>female</code> are reference categories, as
-well as not having more than four nodes).</p>
+<code>rx_Lev</code> and <code>rx_Lev+5FU</code> and from the variable
+<code>sex</code> we obtained now the dummy variable
+<code>sex_male</code> (<code>Obs</code> and <code>female</code> are
+reference categories, as well as not having more than four nodes).</p>
 </div>
 </div>
 <div class="section level3">
@@ -443,13 +445,13 @@ basis to more closely match the data structure.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">m1ts</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 3</span></span>
 <span><span class="co">#&gt;  $ optimal_model :List of 9</span></span>
-<span><span class="co">#&gt;   ..$ alpha   : num [1:23, 1] -6.69 -6.51 -6.34 -6.2 -6.14 ...</span></span>
-<span><span class="co">#&gt;   ..$ SE_alpha: num [1:23] 0.2264 0.1228 0.0761 0.0741 0.0794 ...</span></span>
-<span><span class="co">#&gt;   ..$ eta     : num [1:91, 1] -6.5 -6.46 -6.42 -6.38 -6.35 ...</span></span>
-<span><span class="co">#&gt;   ..$ H       : num [1:23, 1:23] 0.07393 0.04624 0.02013 0.00333 -0.00356 ...</span></span>
-<span><span class="co">#&gt;   ..$ deviance: num 79.5</span></span>
-<span><span class="co">#&gt;   ..$ ed      : num 4.23</span></span>
-<span><span class="co">#&gt;   ..$ aic     : num 88</span></span>
+<span><span class="co">#&gt;   ..$ alpha   : num [1:23, 1] -6.77 -6.58 -6.39 -6.25 -6.19 ...</span></span>
+<span><span class="co">#&gt;   ..$ SE_alpha: num [1:23] 0.2276 0.123 0.0763 0.0744 0.0797 ...</span></span>
+<span><span class="co">#&gt;   ..$ eta     : num [1:91, 1] -6.56 -6.52 -6.48 -6.44 -6.4 ...</span></span>
+<span><span class="co">#&gt;   ..$ H       : num [1:23, 1:23] 0.07508 0.04686 0.02027 0.00324 -0.00366 ...</span></span>
+<span><span class="co">#&gt;   ..$ deviance: num 79.4</span></span>
+<span><span class="co">#&gt;   ..$ ed      : num 4.25</span></span>
+<span><span class="co">#&gt;   ..$ aic     : num 87.9</span></span>
 <span><span class="co">#&gt;   ..$ bic     : num 98.6</span></span>
 <span><span class="co">#&gt;   ..$ Bbases  :List of 1</span></span>
 <span><span class="co">#&gt;   .. ..$ Bs: num [1:91, 1:23] 1.18e-01 5.02e-02 1.52e-02 2.05e-03 2.21e-07 ...</span></span>
@@ -459,8 +461,8 @@ basis to more closely match the data structure.</p>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "nseg")= num 20</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "bdeg")= num 3</span></span>
 <span><span class="co">#&gt;   .. .. ..- attr(*, "type")= chr "bbase"</span></span>
-<span><span class="co">#&gt;  $ optimal_logrho: num 2.03</span></span>
-<span><span class="co">#&gt;  $ P_optim       : num [1:23, 1:23] 108 -216 108 0 0 ...</span></span>
+<span><span class="co">#&gt;  $ optimal_logrho: num 2.02</span></span>
+<span><span class="co">#&gt;  $ P_optim       : num [1:23, 1:23] 105 -211 105 0 0 ...</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr "haz1ts"</span></span></code></pre></div>
 <p>Here, we specify a cubic (<code>bdeg = 3</code>)
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
@@ -501,25 +503,25 @@ bases, but otherwise use default values for the remaining inputs.</p>
 <span>                                  min_u <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2ts</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Number of events =  409 </span></span>
 <span><span class="co">#&gt; Model specifications:</span></span>
-<span><span class="co">#&gt;   number of events =  409 </span></span>
 <span><span class="co">#&gt;   nu =  76 </span></span>
 <span><span class="co">#&gt;   ns =  91 </span></span>
 <span><span class="co">#&gt;   cu =  19 </span></span>
 <span><span class="co">#&gt;   cs =  23 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Optimal smoothing: </span></span>
-<span><span class="co">#&gt;   log10(rho_u) =  1.57596 </span></span>
-<span><span class="co">#&gt;   log10(rho_s) =  0.4531702 </span></span>
-<span><span class="co">#&gt;   rho_u =  37.66688 </span></span>
-<span><span class="co">#&gt;   rho_s =  2.839032 </span></span>
+<span><span class="co">#&gt;   log10(rho_u) =  2.101479 </span></span>
+<span><span class="co">#&gt;   log10(rho_s) =  0.4089387 </span></span>
+<span><span class="co">#&gt;   rho_u =  126.3221 </span></span>
+<span><span class="co">#&gt;   rho_s =  2.564122 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model with no covariates</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model fit: </span></span>
-<span><span class="co">#&gt;   AIC =  1245.026 </span></span>
-<span><span class="co">#&gt;   BIC =  1319.057 </span></span>
-<span><span class="co">#&gt;   ED =  12.62961</span></span></code></pre></div>
+<span><span class="co">#&gt; Model diagnostics: </span></span>
+<span><span class="co">#&gt;   AIC =  1249.329 </span></span>
+<span><span class="co">#&gt;   BIC =  1313.994 </span></span>
+<span><span class="co">#&gt;   ED =  11.021</span></span></code></pre></div>
 <p>Whereas the estimates from <code>fit1ts</code> are vectors, the ones
 from <code>fit2ts</code> are organized in matrices: The matrix
 <code>optimal_model$Alpha</code>, containing the estimated
@@ -559,11 +561,11 @@ fit as measured by the AIC and BIC of the model.</p>
 <h4 id="one-time-scale-1">One time scale<a class="anchor" aria-label="anchor" href="#one-time-scale-1"></a>
 </h4>
 <p>Once the model is estimated, we can represent the results with the
-function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.The minimal input for <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
+function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>. The minimal input for <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
 is the fitted model. Here, we show how to evaluate the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
-basis on a finer grid of intervals that are only 10 days apart (as
-opposite to 30, option that was used for the estimating
+basis on a finer grid of points that are only 10 days apart (as opposite
+to 30, option that was used for the estimating
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines).
 Moreover, we pass as inputs some graphical parameters to obtain a nicer
 plot. The result is a plot of the one-dimensional hazard curve over
@@ -587,7 +589,7 @@ plot. The result is a plot of the one-dimensional hazard curve over
 time scales. Here, we will present only the most simple, yet very
 informative, way, which is also the default plot returned by the
 function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, applied to an object of class
-<code>"haz2ts"</code>. This is a surface plot of the hazard over the
+<code>'haz2ts'</code>. This is a surface plot of the hazard over the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
 with white contour lines. We provide a vignette that only focus on
 visualization of the hazard with two time scales <em>Visualize hazards
@@ -608,10 +610,10 @@ with two time scales</em>.</p>
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-Carollo:2023" class="csl-entry">
-Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
-<span>“Smooth Hazards with Multiple Time Scales.”</span> <em>arXiv
-Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/arXiv:2305.09342" class="external-link">https://arxiv.org/abs/arXiv:2305.09342</a>.
+<div id="ref-Carollo:2024" class="csl-entry">
+Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
+<span>“Smooth Hazards with Multiple Time Scales.”</span> <em>Statistics
+in Medicine</em>. https://doi.org/<a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
 </div>
 <div id="ref-Laurie:1989" class="csl-entry">
 Laurie, J. A., C. G. Moertel, T. R. Fleming, H. S. Wieand, J. E. Leigh,

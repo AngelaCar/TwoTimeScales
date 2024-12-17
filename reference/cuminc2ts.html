@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cuminc2ts</span><span class="op">(</span>haz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">surv</span>, <span class="va">ds</span>, cause <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">cuminc2ts</span><span class="op">(</span>haz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">ds</span>, cause <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -47,11 +47,6 @@
 
 <dl><dt id="arg-haz">haz<a class="anchor" aria-label="anchor" href="#arg-haz"></a></dt>
 <dd><p>a list of cause-specific hazards</p></dd>
-
-
-<dt id="arg-surv">surv<a class="anchor" aria-label="anchor" href="#arg-surv"></a></dt>
-<dd><p>the overall survival probability surface over two time scales, obtained
-from <code>surv2ts</code></p></dd>
 
 
 <dt id="arg-ds">ds<a class="anchor" aria-label="anchor" href="#arg-ds"></a></dt>
@@ -95,11 +90,8 @@ hazard (named if a vector of short names is passed to <code>cause</code>).</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Obtain the fake cumulated hazard</span></span></span>
 <span class="r-in"><span><span class="va">fakecumhaz2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="cumhaz2ts.html">cumhaz2ts</a></span><span class="op">(</span><span class="va">fakemod</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Fake survival curve</span></span></span>
-<span class="r-in"><span><span class="va">fakesurv2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="surv2ts.html">surv2ts</a></span><span class="op">(</span>cumhaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fakecumhaz2ts</span><span class="op">$</span><span class="va">CumHaz</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Fake cumulative incidence function 2ts</span></span></span>
 <span class="r-in"><span><span class="va">fakecif2ts</span> <span class="op">&lt;-</span> <span class="fu">cuminc2ts</span><span class="op">(</span>haz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fakecumhaz2ts</span><span class="op">$</span><span class="va">Haz</span><span class="op">$</span><span class="va">hazard</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                        surv <span class="op">=</span> <span class="va">fakesurv2ts</span><span class="op">$</span><span class="va">Surv2ts</span>,</span></span>
 <span class="r-in"><span>                        ds <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>

@@ -4,7 +4,7 @@ Three methods are implemented for the search of the optimal smoothing
 parameters (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of log_10 values for the smoothing parameters, and a
-solution that uses the mixed model representation of the P-spline model to
+solution that uses a sparse mixed model representation of the P-spline model to
 estimate the smoothing parameters.
 Construction of the B-splines bases and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
@@ -13,7 +13,7 @@ Three methods are implemented for the search of the optimal smoothing
 parameters (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of log_10 values for the smoothing parameters, and a
-solution that uses the mixed model representation of the P-spline model to
+solution that uses a sparse mixed model representation of the P-spline model to
 estimate the smoothing parameters.
 Construction of the B-splines bases and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
@@ -25,7 +25,7 @@ the function will estimate a model with covariates."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -56,7 +56,7 @@ the function will estimate a model with covariates."></head><body>
 parameters (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of <code>log_10</code> values for the smoothing parameters, and a
-solution that uses the mixed model representation of the P-spline model to
+solution that uses a sparse mixed model representation of the P-spline model to
 estimate the smoothing parameters.
 Construction of the B-splines bases and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
@@ -170,7 +170,9 @@ values is used for both <code>log_10(rho_u)</code> and <code>log_10(rho_s)</code
 
 
 <dt id="arg-ridge">ridge<a class="anchor" aria-label="anchor" href="#arg-ridge"></a></dt>
-<dd><p>A ridge penalty parameter: default is 0.</p></dd>
+<dd><p>A ridge penalty parameter: default is 0. This is useful when, in
+some cases the algorithm shows convergence problems. In this case, set to a small
+number, for example <code>1e-4</code>.</p></dd>
 
 
 <dt id="arg-control-algorithm">control_algorithm<a class="anchor" aria-label="anchor" href="#arg-control-algorithm"></a></dt>
@@ -209,17 +211,17 @@ values is returned, marks the optimal combination of <code>log_10(rho_u)</code> 
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>haz2ts</code>, or of class <code>haz2tsLMM</code>.
 For objects of class <code>haz2ts</code> this is</p><ul><li><p><code>optimal_model</code> A list with :</p><ul><li><p><code>Alpha</code> The matrix of estimated P-splines coefficients of dimension
-cu by cs.</p></li>
+\(c_u\) by \(c_s\).</p></li>
 <li><p><code>Cov_alpha</code> The variance-covariance matrix of the <code>Alpha</code> coefficients,
-of dimension cucs by cucs.</p></li>
+of dimension \(c_uc_s\) by \(c_uc_s\).</p></li>
 <li><p><code>beta</code> The vector of length p of estimated covariates coefficients
 (if model with covariates).</p></li>
 <li><p><code>Cov_beta</code> The variance-covariance matrix of the <code>beta</code> coefficients,
-of dimension p by p (if model with covariates).</p></li>
-<li><p><code>SE_beta</code> The vector of length p of estimated Standard Errors for the <code>beta</code>
+of dimension \(p\) by \(p\) (if model with covariates).</p></li>
+<li><p><code>SE_beta</code> The vector of length \(p\) of estimated Standard Errors for the <code>beta</code>
 coefficients (if model with covariates)..</p></li>
 <li><p><code>Eta</code> or <code>Eta0</code> The matrix of values of the (baseline) linear predictor
-(log-hazard) of dimension nu by ns.</p></li>
+(log-hazard) of dimension \(n_u\) by \(n_s\).</p></li>
 <li><p><code>H</code> The hat-matrix.</p></li>
 <li><p><code>deviance</code> The deviance.</p></li>
 <li><p><code>ed</code> The effective dimension of the model.</p></li>
@@ -269,16 +271,17 @@ https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1</p>
 <span class="r-in"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="co">#'</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fakedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">u</span>, <span class="va">s</span>, <span class="va">ev</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fakedata2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
-<span class="r-in"><span>                            s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
-<span class="r-in"><span>                            ev <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span>,</span></span>
+<span class="r-in"><span><span class="va">fakedata2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">fakedata</span>,</span></span>
+<span class="r-in"><span>                            u <span class="op">=</span> <span class="st">"u"</span>,</span></span>
+<span class="r-in"><span>                            s_out <span class="op">=</span> <span class="st">"s"</span>,</span></span>
+<span class="r-in"><span>                            ev <span class="op">=</span> <span class="st">"ev"</span>,</span></span>
 <span class="r-in"><span>                            ds <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-in"><span><span class="co"># Fit a fake model - not optimal smoothing</span></span></span>
 <span class="r-in"><span><span class="fu">fit2ts</span><span class="op">(</span><span class="va">fakedata2ts</span>,</span></span>
 <span class="r-in"><span>       optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
-<span class="r-in"><span>       lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>       lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optimal_model</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $optimal_model$Alpha</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]</span>
@@ -11093,7 +11096,7 @@ https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "haz2ts"</span>
-<span class="r-in"><span><span class="co"># For more example please check the vignettes!!! Run more complicated examples</span></span></span>
+<span class="r-in"><span><span class="co"># For more examples please check the vignettes!!! Running more complicated examples</span></span></span>
 <span class="r-in"><span><span class="co"># here would imply longer running times...</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

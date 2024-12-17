@@ -17,7 +17,7 @@ scale), and event's indicator."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,8 +81,8 @@ observations.</p></dd>
 
 <dt id="arg-bins-list">bins_list<a class="anchor" aria-label="anchor" href="#arg-bins-list"></a></dt>
 <dd><p>is a list with the following (necessary) elements
-(usually prepared by <code><a href="make_bins.html">make_bins()</a></code>):</p><ul><li><p><code>bins_u</code> a vector of extreme values for the bins over the u axis</p></li>
-<li><p><code>bins_s</code> a vector of extreme values for the bins over the s axis</p></li>
+(usually prepared by <code><a href="make_bins.html">make_bins()</a></code>):</p><ul><li><p><code>bins_u</code> a vector of extreme values for the bins over the <code>u</code> axis</p></li>
+<li><p><code>bins_s</code> a vector of extreme values for the bins over the <code>s</code> axis</p></li>
 </ul></dd>
 
 
@@ -109,7 +109,7 @@ are divided into \(nu\) and \(ns\) intervals, respectively. The extremes of thes
 intervals are provided as input to the function. First, the fixed-time at
 entry is located in one of the nu bins that cover the whole range of
 <code>u</code>. Then, the time-at-risk for each individual is split according to
-the ns bins that span the whole range of values for <code>s</code>, and an event
+the \(ns\) bins that span the whole range of values for <code>s</code>, and an event
 indicator is placed in the bin where the exit time is located. This is done
 by calling the function <code>exposure_events_1d</code>. If individual matrices of
 exposure and events are required, then the function returns two arrays of
