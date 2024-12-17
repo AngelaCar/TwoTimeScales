@@ -1,3 +1,3 @@
-# TwoTimeScales 0.4.0
+# TwoTimeScales 0.5.0
 
 * Initial CRAN submission.
