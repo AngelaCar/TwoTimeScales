@@ -98,7 +98,7 @@ of class <code>'haz2ts'</code>, or <code>'haz2tsLMM'</code>) to the
 function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../articles/visualization_files/figure-html/basehaz-1.png"></p>
+<p><img src="../reference/figures/visualization/basehaz-1.png"></p>
 <div class="section level4">
 <h4 id="plot-on-the-ts-plane">Plot on the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane<a class="anchor" aria-label="anchor" href="#plot-on-the-ts-plane"></a>
@@ -131,7 +131,7 @@ title of the plots and the label of the axes.</p>
 <span>       ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../articles/visualization_files/figure-html/original-1.png"></p>
+<p><img src="../reference/figures/visualization/original-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="evaluate-the-b-splines-on-a-finer-grid">Evaluate the
@@ -164,7 +164,7 @@ to increase the number of shades in the color legend too.</p>
 <span>                         main <span class="op">=</span> <span class="st">"Denser plotting grid"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
 <span>                         ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../articles/visualization_files/figure-html/new-grid-1.png"></p>
+<p><img src="../reference/figures/visualization/new-grid-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="plot-the-log-hazard">Plot the log-hazard<a class="anchor" aria-label="anchor" href="#plot-the-log-hazard"></a>
@@ -190,7 +190,7 @@ to increase the number of shades in the color legend too.</p>
 <span>       ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../articles/visualization_files/figure-html/loghaz-1.png"></p>
+<p><img src="../reference/figures/visualization/loghaz-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="plot-the-log10-hazard">Plot the log10-hazard<a class="anchor" aria-label="anchor" href="#plot-the-log10-hazard"></a>
@@ -217,7 +217,7 @@ argument <code>log10hazard = TRUE</code> in
 <span>       ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../articles/visualization_files/figure-html/log10haz-1.png"></p>
+<p><img src="../reference/figures/visualization/log10haz-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="cut-extrapolated-hazard">Cut extrapolated hazard<a class="anchor" aria-label="anchor" href="#cut-extrapolated-hazard"></a>
@@ -247,6 +247,7 @@ extrapolated. We do so by changing the values of
 <span>                         main <span class="op">=</span> <span class="st">"Cut extrapolated hazard"</span>,</span>
 <span>                         xlab <span class="op">=</span> <span class="st">"Time since randomization"</span>,</span>
 <span>                         ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/visualization/cut-extra-1.png"></p>
 </div>
 <div class="section level4">
 <h4 id="change-color-palette-and-color-of-the-contour-lines">Change color palette and color of the contour lines<a class="anchor" aria-label="anchor" href="#change-color-palette-and-color-of-the-contour-lines"></a>
@@ -265,6 +266,7 @@ so we need to code one extra line…</p>
 <span>                         ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span>,</span>
 <span>                         contour_col <span class="op">=</span> <span class="st">"pink"</span>,</span>
 <span>                         contour_nlev <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/visualization/colors-1.png"></p>
 </div>
 </div>
 <div class="section level3">
@@ -294,6 +296,8 @@ to produce the simplest version of the SE surface plot.</p>
 <span>       main <span class="op">=</span> <span class="st">"Standard Errors of the log10-hazard"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"Time at recurrence"</span>,</span>
 <span>       ylab <span class="op">=</span> <span class="st">"Time since recurrence"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/visualization/SE-1.png"></p>
+<p><img src="../reference/figures/visualization/SE-2.png"><img src="../reference/figures/visualization/SE-3.png"></p>
 </div>
 <div class="section level3">
 <h3 id="cross-sections-of-the-hazard">Cross-sections of the hazard<a class="anchor" aria-label="anchor" href="#cross-sections-of-the-hazard"></a>
@@ -320,6 +324,7 @@ implemented in the package yet, but we can add one manually.</p>
 <span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>, </span>
 <span>       lty <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>       col <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.colors.html" class="external-link">gray.colors</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/visualization/slices-u-1.png"></p>
 <p>It is also possible to plot one-dimensional hazards over time since
 randomization
 (<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>)
@@ -340,6 +345,7 @@ such plot, we specify <code>direction = "s"</code>.</p>
 <span>       legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>, </span>
 <span>       lty <span class="op">=</span> <span class="fl">1</span>, </span>
 <span>       col <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.colors.html" class="external-link">gray.colors</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/visualization/slices-s-1.png"></p>
 </div>
 <div class="section level3">
 <h3 id="survival-function">Survival function<a class="anchor" aria-label="anchor" href="#survival-function"></a>
@@ -383,12 +389,9 @@ for selected values of
 <span>       bty <span class="op">=</span> <span class="st">"n"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Time of\n recurrence"</span>,</span>
 <span>       col <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.colors.html" class="external-link">gray.colors</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="cumulative-hazard">Cumulative hazard<a class="anchor" aria-label="anchor" href="#cumulative-hazard"></a>
-</h3>
-<p>Similarly, we can plot the cumulative hazard either as a surface or
-as one-dimensional curves over <code>s</code> for selected values of
+<p><img src="../reference/figures/visualization/survival-1.png"><img src="../reference/figures/visualization/survival-2.png"> ### Cumulative
+hazard Similarly, we can plot the cumulative hazard either as a surface
+or as one-dimensional curves over <code>s</code> for selected values of
 <code>u</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mycol3</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">nshades</span><span class="op">)</span><span class="op">{</span></span>
@@ -420,6 +423,7 @@ as one-dimensional curves over <code>s</code> for selected values of
 <span>       bty <span class="op">=</span> <span class="st">"n"</span>,</span>
 <span>       title <span class="op">=</span> <span class="st">"Time of\n recurrence"</span>,</span>
 <span>       col <span class="op">=</span> <span class="fu">grDevices</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.colors.html" class="external-link">gray.colors</a></span><span class="op">(</span><span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/visualization/cumhaz-1.png"><img src="../reference/figures/visualization/cumhaz-2.png"></p>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-Carollo:2024" class="csl-entry">
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
