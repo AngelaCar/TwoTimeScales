@@ -8,6 +8,7 @@
 <url><loc>https://angelacar.github.io/TwoTimeScales/authors.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/index.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/LICENSE-text.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/news/index.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/covariates_plot.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/cumhaz2ts.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/cuminc2ts.html</loc></url>
@@ -24,6 +25,7 @@
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/get_bic_fit_1d.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/get_bic_fit_2d.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/get_hazard_1d.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/reference/get_hazard_1d_LMM.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/get_hazard_2d.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/get_hazard_2d_LMM.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/get_hr.html</loc></url>

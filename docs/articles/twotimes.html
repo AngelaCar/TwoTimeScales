@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +86,7 @@ vignette <em>Visualize hazards with two time scales</em>. We assume that
 the reader of this vignette has some familiarity with the model, and
 with the basic functions of the package introduced in <em>Introduction
 to TwoTimeScales</em>. For a full exposition of the model, we refer to
-<span class="citation">Carollo et al. (2023)</span>.</p>
+<span class="citation">Carollo et al. (2024)</span>.</p>
 <p>In the following, we once again analyse the dataset
 <code>reccolon2ts</code>, which includes data on patients with
 recurrence of colon cancer. The first part of this vignette deals with
@@ -120,50 +120,48 @@ bins on the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
 axis.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
-<span>                      s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                      events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
-<span>                      ds <span class="op">=</span> <span class="fl">30</span>, du <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Data:</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 6</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Range covered by the bins: </span></span>
-<span><span class="co">#&gt; $bins_u</span></span>
-<span><span class="co">#&gt; [1]    8 2288</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bins_s</span></span>
-<span><span class="co">#&gt; [1]    0 2730</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of bins: </span></span>
-<span><span class="co">#&gt; $nu</span></span>
-<span><span class="co">#&gt; [1] 76</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $ns</span></span>
-<span><span class="co">#&gt; [1] 91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; [1] "Total exposure time: 246018"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                      u <span class="op">=</span> <span class="st">"timer"</span>,</span>
+<span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
+<span>                      ds <span class="op">=</span> <span class="fl">30</span>, du <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; print(dt2ts)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 6
+ $ bindata:List of 2
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_u
+[1]    8 2288
+
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$nu
+[1] 76
+
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409</code></pre>
 <p>Here, we do not use the artificially created left truncated entry
 times on the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
-axis, therefore the function returns a message informing the user that
-an entry time of 0 is imputed to all observations.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>-axis,
+therefore the function returns a message informing the user that an
+entry time of 0 is imputed to all observations.</p>
 <p>After having prepared the data we can estimate the model. In the
 analysis presented in <span class="citation">Carollo et al.
-(2023)</span>, we build 23
+(2024)</span>, we build 23
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
 over each of the two dimensions, for a total of 529
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
@@ -173,7 +171,7 @@ parameters. We use cubic
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
 bases and a second order penalty. Here we explicitly specify all these
 parameters, even though some of them are the default options.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -182,39 +180,39 @@ parameters, even though some of them are the default options.</p>
 <span>                                  nseg_u <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                                  min_u <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span>,</span>
+<span>               lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span>,</span>
 <span>               pord <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>               optim_method <span class="op">=</span> <span class="st">"ucminf"</span>,</span>
 <span>               optim_criterion <span class="op">=</span> <span class="st">"aic"</span><span class="op">)</span> </span></code></pre></div>
 <p>The object returned by <code><a href="../reference/fit2ts.html">fit2ts()</a></code> is of class
-<code>"haz2ts"</code>. The optimal smoothing parameters are
+<code>'haz2ts'</code>. The optimal smoothing parameters are
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>𝜚</mo><mi>u</mi></msub><mo>=</mo><msup><mn>10</mn><mn>2.4</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_u = 10^{2.4}</annotation></semantics></math>
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>𝜚</mo><mi>s</mi></msub><mo>=</mo><msup><mn>10</mn><mn>0.3</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_s=10^{0.3}</annotation></semantics></math>,
 and the effective dimension of the model is 11.1.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model specifications:</span></span>
-<span><span class="co">#&gt;   number of events =  409 </span></span>
-<span><span class="co">#&gt;   nu =  76 </span></span>
-<span><span class="co">#&gt;   ns =  91 </span></span>
-<span><span class="co">#&gt;   cu =  23 </span></span>
-<span><span class="co">#&gt;   cs =  23 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Optimal smoothing: </span></span>
-<span><span class="co">#&gt;   log10(rho_u) =  2.402107 </span></span>
-<span><span class="co">#&gt;   log10(rho_s) =  0.3102379 </span></span>
-<span><span class="co">#&gt;   rho_u =  252.4104 </span></span>
-<span><span class="co">#&gt;   rho_s =  2.042857 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model with no covariates</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model fit: </span></span>
-<span><span class="co">#&gt;   AIC =  1249.297 </span></span>
-<span><span class="co">#&gt;   BIC =  1314.659 </span></span>
-<span><span class="co">#&gt;   ED =  11.13977</span></span></code></pre></div>
+<pre><code>&gt; summary(mod1)
+Number of events =  409 
+Model specifications:
+  nu =  76 
+  ns =  91 
+  cu =  23 
+  cs =  23 
+
+Optimal smoothing: 
+  log10(rho_u) =  2.402191 
+  log10(rho_s) =  0.3104794 
+  rho_u =  252.4593 
+  rho_s =  2.043993 
+
+Model with no covariates
+
+Model diagnostics: 
+  AIC =  1249.297 
+  BIC =  1314.651 
+  ED =  11.13843</code></pre>
 <p>We can change the optimization criterion to BIC, and compare the
 results in terms of smoothing parameters and effective dimensions:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -223,25 +221,23 @@ results in terms of smoothing parameters and effective dimensions:</p>
 <span>                                  nseg_u <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                                  min_u <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span>,</span>
+<span>               lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">)</span>,</span>
 <span>               pord <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>               optim_method <span class="op">=</span> <span class="st">"ucminf"</span>,</span>
-<span>               optim_criterion <span class="op">=</span> <span class="st">"bic"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">mod2</span><span class="op">$</span><span class="va">optimal_logrho</span></span>
-<span><span class="co">#&gt; [1] 5.500679 1.547580</span></span>
-<span><span class="va">mod2</span><span class="op">$</span><span class="va">optimal_model</span><span class="op">$</span><span class="va">ed</span></span>
-<span><span class="co">#&gt; [1] 5.460439</span></span></code></pre></div>
+<span>               optim_criterion <span class="op">=</span> <span class="st">"bic"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; mod2$optimal_logrho
+[1] 6.137452 1.550218
+&gt; mod2$optimal_model$ed
+[1] 5.451275</code></pre>
 <p>As expected, choosing BIC as optimization criterion results in larger
 smoothing parameters and a smaller effective dimension, as BIC penalizes
 model complexity more strongly than AIC. The following code-chunk shows
-how to use the grid search method to select the optimal pair of
-smoothing parameters and at the same time to produce plots of the AIC
+how to use the grid-search method to select the optimal pair of
+smoothing parameters and, at the same time, to produce plots of the AIC
 and BIC values of the grid of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>log</mo><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>
-values of both smoothing parameters. We do not evaluate this code chunk
-as it can be time consuming, but we encourage the readers to run the
-code on their console.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+values of both smoothing parameters.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -252,14 +248,15 @@ code on their console.</p>
 <span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span>,</span>
 <span>               optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span>
 <span>               optim_criterion <span class="op">=</span> <span class="st">"aic"</span>,</span>
-<span>               lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">3</span>, by<span class="op">=</span><span class="fl">.2</span><span class="op">)</span>,</span>
+<span>               lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">3</span>, by <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span>,</span>
 <span>                           <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>, <span class="fl">3</span>, by <span class="op">=</span> <span class="fl">.2</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>               par_gridsearch <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>                 plot_aic <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                 plot_bic <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                 mark_optimal <span class="op">=</span> <span class="cn">T</span>,</span>
-<span>                 plot_contour <span class="op">=</span> <span class="cn">T</span></span>
+<span>                 plot_aic <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                 plot_bic <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                 mark_optimal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                 plot_contour <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>               <span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/twotimes/grid-search-1.png" width="660"></p>
 <p>Alternatively, we can ask the function to return the matrices of AIC
 and/or BIC values as part of the fitted object and then plot them
 separately (here not shown).</p>
@@ -272,7 +269,7 @@ specifying the option <code>optim_method = "LMMsolver"</code>. This
 returns an object of class <code>haz2tsLMM</code>, which differ in
 structure from objects of class <code>haz2ts</code>, but has the same
 methods implemented.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_LMM</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>                  Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                     nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -283,27 +280,27 @@ methods implemented.</p>
 <span>                                     max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span>,</span>
 <span>                  pord <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                  optim_method <span class="op">=</span> <span class="st">"LMMsolver"</span>,</span>
-<span>                  optim_criterion <span class="op">=</span> <span class="st">"aic"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">mod_LMM</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Model specifications:</span></span>
-<span><span class="co">#&gt;   number of events =  409 </span></span>
-<span><span class="co">#&gt;   nu =  76 </span></span>
-<span><span class="co">#&gt;   ns =  91 </span></span>
-<span><span class="co">#&gt;   cu =  23 </span></span>
-<span><span class="co">#&gt;   cs =  23 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Optimal smoothing: </span></span>
-<span><span class="co">#&gt;   log10(rho_u) =  2.14465 </span></span>
-<span><span class="co">#&gt;   log10(rho_s) =  0.5217892 </span></span>
-<span><span class="co">#&gt;   rho_u =  139.5243 </span></span>
-<span><span class="co">#&gt;   rho_s =  3.324981 </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model with no covariates</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Model fit: </span></span>
-<span><span class="co">#&gt;   AIC =  1249.449 </span></span>
-<span><span class="co">#&gt;   BIC =  1314.151 </span></span>
-<span><span class="co">#&gt;   ED =  11.02726</span></span></code></pre></div>
+<span>                  optim_criterion <span class="op">=</span> <span class="st">"aic"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; summary(mod_LMM)
+Number of events =  409 
+Model specifications:
+  nu =  76 
+  ns =  91 
+  cu =  23 
+  cs =  23 
+
+Optimal smoothing: 
+  log10(rho_u) =  2.14465 
+  log10(rho_s) =  0.5217892 
+  rho_u =  139.5243 
+  rho_s =  3.324981 
+
+Model with no covariates
+
+Model diagnostics: 
+  AIC =  1249.449 
+  BIC =  1314.151 
+  ED =  11.02726</code></pre>
 <p>Note: the functions from LMMsolver needed to fit the two time scales
 hazard model are incorporated in the <code>TwoTimeScales</code> package.
 Nevertheless, we do recommend interested readers to check out the
@@ -318,58 +315,49 @@ covariates, then we see that there is no need to modify the estimation
 command, as the function <code><a href="../reference/fit2ts.html">fit2ts()</a></code> automatically recognizes
 that the data object includes a covariates’ matrix and then it correctly
 estimates a GLAM PH model.</p>
-<p>To prepare the covariates’ matrix, we need to pass a matrix with the
-individual values of the covariates, to the argument <code>covs</code>
-in <code>prepare_data</code>. We do so by subsetting the dataset and
-selecting the desired covariates.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">covs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">reccolon2ts</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"sex"</span>, <span class="st">"adhere"</span>, <span class="st">"obstruct"</span>, <span class="st">"node4"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">dt2ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
-<span>                          s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                          events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt2ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                          u <span class="op">=</span> <span class="st">"timer"</span>,</span>
+<span>                          s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                          events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                          ds <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>                          individual <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>                          covs <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span>
-<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Data:</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 6</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 3</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Range covered by the bins: </span></span>
-<span><span class="co">#&gt; $bins_u</span></span>
-<span><span class="co">#&gt; [1]    8 2288</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $bins_s</span></span>
-<span><span class="co">#&gt; [1]    0 2730</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of bins: </span></span>
-<span><span class="co">#&gt; $nu</span></span>
-<span><span class="co">#&gt; [1] 76</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $ns</span></span>
-<span><span class="co">#&gt; [1] 91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; [1] "Total exposure time: 246018"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Covariates:</span></span>
-<span><span class="co">#&gt; [1] "Lev"      "Lev_5FU"  "male"     "adhere"   "obstruct" "node4"</span></span></code></pre></div>
+<span>                          covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"sex"</span>, <span class="st">"adhere"</span>, <span class="st">"obstruct"</span>, <span class="st">"node4"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; print(dt2ts_cov)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 6
+ $ bindata:List of 3
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_u
+[1]    8 2288
+
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$nu
+[1] 76
+
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409
+Covariates:
+[1] "rx_Lev"     "rx_Lev+5FU" "sex_male"   "adhere"    
+[5] "obstruct"   "node4"   </code></pre>
 <p>Then, we pass the object <code>d2ts_cov</code> to
-<code><a href="../reference/fit2ts.html">fit2ts()</a></code> with the same arguments as before. We do not show
-the fitted object here, but encourage the readers to run the code on
-their console.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code><a href="../reference/fit2ts.html">fit2ts()</a></code> with the same arguments as before.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts_cov</span>,</span>
 <span>                  Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                     nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -381,6 +369,33 @@ their console.</p>
 <span>                  pord <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                  optim_method <span class="op">=</span> <span class="st">"ucminf"</span>,</span>
 <span>                  optim_criterion <span class="op">=</span> <span class="st">"aic"</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; summary(mod_cov)
+Number of events =  409 
+Model specifications:
+  nu =  76 
+  ns =  91 
+  cu =  23 
+  cs =  23 
+
+Optimal smoothing: 
+  log10(rho_u) =  3.086114 
+  log10(rho_s) =  0.2253687 
+  rho_u =  1219.309 
+  rho_s =  1.68023 
+
+                 beta  se(beta) exp(beta) lower .95 upper.95
+rx_Lev     0.06621986 0.1151591  1.068462 0.8272971 1.309626
+rx_Lev+5FU 0.38410555 0.1300922  1.468300 1.0939121 1.842689
+sex_male   0.25326405 0.1012150  1.288223 1.0326638 1.543783
+adhere     0.15249198 0.1306318  1.164733 0.8665169 1.462949
+obstruct   0.16664046 0.1218382  1.181329 0.8992247 1.463434
+node4      0.39348460 0.1047729  1.482136 1.1777726 1.786500
+
+
+Model diagnostics: 
+  AIC =  3073.101 
+  BIC =  3185.81 
+  ED =  16.01658</code></pre>
 <div class="section level3">
 <h3 id="prepare-the-data-over-the-lexis-diagram">Prepare the data over the Lexis diagram<a class="anchor" aria-label="anchor" href="#prepare-the-data-over-the-lexis-diagram"></a>
 </h3>
@@ -394,16 +409,14 @@ axis, rather than the vector of entry times
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>.
 From the image plot of the exposure times, we can see how the data are
 only present in the lower half-plane where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>≥</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">t\ge s</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dt2tsLex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>t_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>,</span>
-<span>                         t_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timedc</span>,</span>
-<span>                         s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                         events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>≥</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">t \ge s</annotation></semantics></math>.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt2tsLex</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                         t_in <span class="op">=</span> <span class="st">"timer"</span>,</span>
+<span>                         t_out <span class="op">=</span> <span class="st">"timedc"</span>,</span>
+<span>                         s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                         events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                         ds <span class="op">=</span> <span class="fl">30</span>, dt <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="co">#&gt; NOTE: entry.status has been set to 0 for all.</span></span>
 <span><span class="fu">fields</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/fields/man/image.plot.html" class="external-link">image.plot</a></span><span class="op">(</span><span class="va">dt2tsLex</span><span class="op">$</span><span class="va">bins</span><span class="op">$</span><span class="va">midt</span>, </span>
 <span>                   <span class="va">dt2tsLex</span><span class="op">$</span><span class="va">bins</span><span class="op">$</span><span class="va">mids</span>,</span>
 <span>                   <span class="va">dt2tsLex</span><span class="op">$</span><span class="va">bindata</span><span class="op">$</span><span class="va">R</span>,</span>
@@ -413,7 +426,7 @@ only present in the lower half-plane where
 <span>                   col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="fu">viridis</span><span class="fu">::</span><span class="fu"><a href="https://sjmgarnier.github.io/viridisLite/reference/viridis.html" class="external-link">plasma</a></span><span class="op">(</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>a<span class="op">=</span><span class="fl">0</span>,b<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="twotimes_files/figure-html/prep-data-Lexis-1.png" width="480"></p>
+<p><img src="../reference/figures/twotimes/prep-data-Lexis-1.png"></p>
 <p>Note: estimation over the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane
 with the same model is theoretically possible, but special care is
@@ -426,10 +439,10 @@ is currently under investigation. A future version of the package will
 include options for estimation over the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane.</p>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-Carollo:2023" class="csl-entry">
-Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
-<span>“Smooth Hazards with Multiple Time Scales.”</span> <em>arXiv
-Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1" class="external-link">https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1</a>.
+<div id="ref-Carollo:2024" class="csl-entry">
+Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
+<span>“Smooth Hazards with Multiple Time Scales.”</span> <em>Statistics
+in Medicine</em>. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
 </div>
 <div id="ref-Boer:2023" class="csl-entry">
 Martin P. Boer. 2023. <span>“Tensor Product <span>P</span>-Splines Using

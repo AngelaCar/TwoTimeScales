@@ -9,7 +9,7 @@ of the bins in a vector."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,8 +143,39 @@ If <code>NULL</code>, the maximum of <code>s_out</code> will be used.</p></dd>
 <code>s</code> and/or over the fixed-time axis <code>u</code>. The time scale
 <code>s</code> is always required. See also <code><a href="prepare_data.html">prepare_data()</a></code> to conveniently
 prepare individual data for the analysis with one, or two time scales.</p>
+<p>A few words about constructing the grid of bins. There is no 'golden rule' or
+optimal strategy for setting the number of bins over each time axis, or deciding
+on the bins' width. It very much depends on the data structure, however, we
+try to give some directions here. First, in most cases, more bins is better
+than less bins. A good number is about 30 bins.
+However, if data are scarce, the user might want to find a compromise between
+having a larger number of bins, and having many bins empty.
+Second, the chosen width of the bins (that is <code>du</code> and <code>ds</code>) does depend on
+the time unit over which the time scales are measured. For example, if the time
+is recorded in days, as in the example below, and several years of follow-up
+are available, the user can split the data in bins of width 30 (corresponding
+to about one month), 60 (about two months), 90 (about three months), etc.
+If the time scale is measured in years, then appropriate width could be 0.25
+(corresponding to a quarter of a year), or 0.5 (that is half year). However,
+in some cases, time might be measure in completed years, as is often the case
+for age. In this scenario, an appropriate bin width is 1.</p>
+<p>Finally, it is always a good idea to plot your data first, and explore the range
+of values over which the time scale(s) are recorded. This will give insight
+about reasonable values for the arguments <code>min_s</code>, <code>min_u</code>, <code>max_s</code> and <code>max_u</code>
+(that in any case are optional).</p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Make bins for colon cancer data by time at randomization and time since recurrence</span></span></span>
+<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">make_bins</span><span class="op">(</span>u <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timer</span>, s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span></span>
+<span class="r-in"><span>                 du <span class="op">=</span> <span class="fl">30</span>, ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
+<span class="r-in"><span><span class="co"># Make bins for colon cancer data only over time since recurrence</span></span></span>
+<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu">make_bins</span><span class="op">(</span>s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>, ds <span class="op">=</span> <span class="fl">60</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

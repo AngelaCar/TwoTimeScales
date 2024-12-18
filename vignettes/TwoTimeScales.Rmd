@@ -15,11 +15,12 @@ editor_options:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = FALSE,
+  fig.align = 'center'
 )
 ```
 
-```{r setup}
+```{r}
 library(TwoTimeScales)
 ```
 
@@ -62,7 +63,7 @@ In the original dataset, each individual enters the risk set after recurrence at
 Therefore, individual's observations are not left truncated.
 However, to show how the model can easily incorporate left truncation, we introduced some artificial left truncated entry times for 40 individuals in the dataset, `reccolon2ts$entrys` (on the time since recurrence scale), and `reccolon2ts$entryt` (on the time since randomization scale).
 
-```{r data}
+```{r}
 str(reccolon2ts)
 ```
 ```
@@ -118,14 +119,16 @@ We will now illustrate its use in both cases.
 For data over one time scale, the function requires as minimal inputs only a vector of exit times (`s_out`), a vector of events' indicators (`events`) and the desired bins' size (`ds`).
 If the data are left truncated, the entry times can be passed to the argument `s_in`. These can be either extracted from a dataset by using the argument `data` and passing the vector's names in each respective argument, as illustrated below, or by directly passing the vectors.
 
-```{r 1tsprep, cache=T}
+```{r}
 dt1ts <- prepare_data(data = reccolon2ts,
                       s_out = "timesr",
                       events = "status",
                       ds = 30)
-str(dt1ts)
 ```
+
 ```
+> str(dt1ts)
+
 List of 2
  $ bins   :List of 3
   ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
@@ -135,13 +138,7 @@ List of 2
   ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...
   ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...
  - attr(*, "class")= chr "data2ts"
- ```
 
-```{r}
-print(dt1ts)
-```
-
-```
 > print(dt1ts)
 An object of class 'data2ts'
 
@@ -178,13 +175,12 @@ The same function is used to bin the individual data in a two-dimensional grid o
 The two time scales model is estimated over the half-plane $(u,s)$.
 Therefore, we will here discuss only preparation of the data over $u$ and $s$, and defer the discussion of the preparation over the Lexis diagram to the vignette dedicated to the analysis with two time scales.
 
-```{r 2tsprep, cache=TRUE}
+```{r}
 dt2ts <- prepare_data(data = reccolon2ts,
                       u = "timer",
                       s_out = "timesr",
                       events = "status",
                       ds = 30)
-str(dt2ts)
 ```
 
 ```
@@ -201,12 +197,7 @@ List of 2
   ..$ R: num [1:76, 1:91] 205 243 540 796 474 812 506 746 657 517 ...
   ..$ Y: num [1:76, 1:91] 1 1 0 1 1 2 1 1 1 2 ...
  - attr(*, "class")= chr "data2ts"
-```
 
-```{r}
-print(dt2ts)
-```
-```
 > print(dt2ts)
 An object of class 'data2ts'
 
@@ -255,7 +246,7 @@ It is possible, and recommended, to provide the covariates that one wishes to us
 The function will take care of the preparation of the regression matrix `Z`.
 However, if desired, this can also be prepared externally (in which case a warning will be returned).
 
-```{r 2tscov, cache=TRUE}
+```{r}
 dt2ts_cov <- prepare_data(data = reccolon2ts,
                           u = "timer",
                           s_in = "entrys",
@@ -264,7 +255,6 @@ dt2ts_cov <- prepare_data(data = reccolon2ts,
                           ds = 30,
                           individual = TRUE, 
                           covs = c("rx", "node4", "sex"))
-str(dt2ts_cov)
 ```
 
 ```
@@ -285,12 +275,7 @@ List of 2
   .. .. ..$ : NULL
   .. .. ..$ : chr [1:6] "rx_Lev" "rx_Lev+5FU" "sex_male" "adhere" ...
  - attr(*, "class")= chr "data2ts"
-```
 
-```{r}
-print(dt2ts_cov)
-```
-```
 > print(dt2ts_cov)
 An object of class 'data2ts'
 
@@ -338,13 +323,12 @@ Without specifying additional parameters, the function estimates a $P$-splines m
 The $B$-splines basis is built using default options (see `help(fit1ts)` for details).
 However, for illustration, we now show how to specify the $B$-splines basis to more closely match the data structure.
 
-```{r 1ts-model, dependson = "1tsprep", cache=TRUE}
+```{r}
 m1ts <- fit1ts(data1ts = dt1ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
                                   min_s = 0,
                                   max_s = 2730))
-str(m1ts)
 ```
 ```
 > str(m1ts)
@@ -383,7 +367,7 @@ The vignette *Smooth hazards with one time scale* discusses alternative options 
 Estimation over the $(u,s)$-plane is performed in the same way.
 Here, we illustrate how to use the function `fit2ts()`, and again we will change the default specifications of the marginal $B$-spline bases, but otherwise use default values for the remaining inputs.
 
-```{r 2ts-mod, dependson = "2tsprep", cache=TRUE}
+```{r}
 m2ts <- fit2ts(data2ts = dt2ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -392,7 +376,6 @@ m2ts <- fit2ts(data2ts = dt2ts,
                                   nseg_u = 16,
                                   min_u = 0,
                                   max_u = 2300))
-summary(m2ts)
 ```
 
 ```
@@ -433,7 +416,7 @@ Here, we show how to evaluate the $B$-splines basis on a finer grid of points th
 Moreover, we pass as inputs some graphical parameters to obtain a nicer plot.
 The result is a plot of the one-dimensional hazard curve over $s$ (time since recurrence), with accompany 95% confidence bands.
 
-```{r 1ts-plot, fig = T, dependson="1ts-mod", fig.width=5, fig.align='center', fig.height=4}
+```{r}
 plot(x = m1ts,
      plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10),
      plot_options= list(
@@ -444,7 +427,7 @@ plot(x = m1ts,
        cex_main = 1))
 ```
 
-![](../vignettes/TwoTimeScales_files/figure-html/1ts-plot-1.png)
+![](../man/figures/TwoTimeScales/1ts-plot-1.png)
 #### Two time scales
 
 There are several options to represent the smooth hazard with two time scales.
@@ -452,7 +435,7 @@ Here, we will present only the most simple, yet very informative, way, which is 
 This is a surface plot of the hazard over the $(u,s)$-plane with white contour lines.
 We provide a vignette that only focus on visualization of the hazard with two time scales *Visualize hazards with two time scales*.
 
-```{r 2ts-plot, cache = T, fig = T, dependson="2ts-mod", fig.width=6, fig.height=4.5, fig.align='center'}
+```{r}
 plot(x = m2ts,
      plot_grid = list(c("umin" = 0, "umax" = 2300, "du" = 10),
                       c("smin" = 0, "smax" = 2730, "ds" = 10)),
@@ -463,6 +446,6 @@ plot(x = m2ts,
        cex_main = 1))
 ```
 
-![](..vignettes/TwoTimeScales_files/figure-html/2ts-plot-1.png)
+![](../man/figures/TwoTimeScales/2ts-plot-1.png)
 
 ## References

@@ -4,7 +4,7 @@ Three methods are implemented for the search of the optimal smoothing
 parameter (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of \(\log_{10}\) values for the smoothing parameter and the
-estimation through the mixed model representation of P-splines.
+estimation using a sparse mixed model representation of P-splines.
 Construction of the B-splines basis and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates."><meta property="og:description" content="fit1ts() fits a smooth hazard model with one time scale.
@@ -12,7 +12,7 @@ Three methods are implemented for the search of the optimal smoothing
 parameter (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of \(\log_{10}\) values for the smoothing parameter and the
-estimation through the mixed model representation of P-splines.
+estimation using a sparse mixed model representation of P-splines.
 Construction of the B-splines basis and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates."></head><body>
@@ -23,7 +23,7 @@ the function will estimate a model with covariates."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ the function will estimate a model with covariates."></head><body>
 parameter (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
 model over a grid of \(\log_{10}\) values for the smoothing parameter and the
-estimation through the mixed model representation of P-splines.
+estimation using a sparse mixed model representation of P-splines.
 Construction of the B-splines basis and of the penalty matrix is
 incorporated within the function. If a matrix of covariates is provided,
 the function will estimate a model with covariates.</p>
@@ -109,8 +109,8 @@ by n.</p></dd>
 <dd><p>a list with the specification for the bins. This is created by
 the function <code>prepare_data</code>. Alternatively, a list with the following elements
 can be provided:
-* <code>bins_s</code> is a vector of bins extremes for the time scale <code>s</code>.
-* <code>mids</code> is a vector with the midpoints of the bins over <code>s</code>.
+* <code>bins_s</code> is a vector of intervals for the time scale <code>s</code>.
+* <code>mids</code> is a vector with the midpoints of the intervals over <code>s</code>.
 * <code>ns</code> is the number of bins over <code>s</code>.</p></dd>
 
 
@@ -143,7 +143,9 @@ as sparse linear mixed model using the package LMMsolver.</p></dd>
 
 <dt id="arg-optim-criterion">optim_criterion<a class="anchor" aria-label="anchor" href="#arg-optim-criterion"></a></dt>
 <dd><p>The criterion to be used for optimization:
-<code>"aic"</code> (default) or <code>"bic"</code>.</p></dd>
+<code>"aic"</code> (default) or <code>"bic"</code>. BIC penalized model complexity more strongly
+than AIC, so that its usage is recommended when a smoother fit is preferable
+(see also Camarda, 2012).</p></dd>
 
 
 <dt id="arg-lrho">lrho<a class="anchor" aria-label="anchor" href="#arg-lrho"></a></dt>
@@ -187,15 +189,15 @@ values is returned, marks the optimal <code>log_10(rho_s)</code> in the plot.</p
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>An object of class <code>haz1ts</code>, or of class <code>haz1tsLMM</code>.
-For objects of class <code>haz1ts</code> this is</p><ul><li><p><code>optimal_model</code> A list with:</p><ul><li><p><code>alpha</code> The vector of estimated P-splines coefficients of length cs.</p></li>
+For objects of class <code>haz1ts</code> this is</p><ul><li><p><code>optimal_model</code> A list with:</p><ul><li><p><code>alpha</code> The vector of estimated P-splines coefficients of length \(cs\).</p></li>
 <li><p><code>SE_alpha</code> The vector of estimated Standard Errors for the <code>alpha</code> coefficients,
-of length cs.</p></li>
-<li><p><code>beta</code> The vector of estimated covariates coefficients of length p
+of length \(cs\).</p></li>
+<li><p><code>beta</code> The vector of estimated covariate coefficients of length \(p\)
 (if model with covariates).</p></li>
 <li><p><code>se_beta</code> The vector of estimated Standard Errors for the
-<code>beta</code> coefficients of length p (if model with covariates).</p></li>
+<code>beta</code> coefficients of length \(p\) (if model with covariates).</p></li>
 <li><p><code>eta</code> or <code>eta0</code>. The vector of values of the (baseline) linear predictor
-(log-hazard).</p></li>
+(log-hazard) of length \(ns\).</p></li>
 <li><p><code>H</code> The hat-matrix.</p></li>
 <li><p><code>Cov</code> The full variance-covariance matrix.</p></li>
 <li><p><code>deviance</code> The deviance.</p></li>
@@ -222,7 +224,7 @@ ED of the model</p></li>
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Some functions from the R-package <code>LMMsolver</code> are used here.
 We refer the interested readers to https://biometris.github.io/LMMsolver/
-for more details on <code>LMMsolver</code> and its usage.</p>
+for more detail on <code>LMMsolver</code> and its usage.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -232,34 +234,36 @@ Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="co">## preparing data - no covariates</span></span></span>
-<span class="r-in"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span></span>
-<span class="r-in"><span>                        s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span></span>
-<span class="r-in"><span>                        events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span></span>
-<span class="r-in"><span>                        ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">## preparing data - no covariates</span></span></span>
+<span class="r-in"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span></span>
+<span class="r-in"><span>                      s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span></span>
+<span class="r-in"><span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span></span>
+<span class="r-in"><span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span></span>
+<span class="r-in"><span>                      ds <span class="op">=</span> <span class="fl">180</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## fitting the model with fit1ts() - default options</span></span></span>
+<span class="r-in"><span><span class="co">## fitting the model with fit1ts() - default options, that is ucminf optimization</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">mod1</span> <span class="op">&lt;-</span> <span class="fu">fit1ts</span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## fitting with LMMsolver</span></span></span>
+<span class="r-in"><span><span class="va">mod2</span> <span class="op">&lt;-</span> <span class="fu">fit1ts</span><span class="op">(</span><span class="va">dt1ts</span>,</span></span>
+<span class="r-in"><span>              optim_method <span class="op">=</span> <span class="st">"LMMsolver"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## preparing the data - covariates</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">covs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">reccolon2ts</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dt1ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span></span>
-<span class="r-in"><span>                          s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span></span>
-<span class="r-in"><span>                          events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span></span>
-<span class="r-in"><span>                          ds <span class="op">=</span> <span class="fl">30</span>,</span></span>
-<span class="r-in"><span>                          individual <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
-<span class="r-in"><span>                          covs <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt1ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span></span>
+<span class="r-in"><span>                      s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span></span>
+<span class="r-in"><span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span></span>
+<span class="r-in"><span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span></span>
+<span class="r-in"><span>                      ds <span class="op">=</span> <span class="fl">180</span>,</span></span>
+<span class="r-in"><span>                      individual <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>                      covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">## fitting the model with fit1ts() - default options</span></span></span>
+<span class="r-in"><span><span class="co">## fitting the model with fit1ts() - grid search over only two log_10(rho_s) values</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">mod2</span> <span class="op">&lt;-</span> <span class="fu">fit1ts</span><span class="op">(</span><span class="va">d</span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">##</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">mod3</span> <span class="op">&lt;-</span> <span class="fu">fit1ts</span><span class="op">(</span><span class="va">dt1ts_cov</span>,</span></span>
+<span class="r-in"><span>               optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
+<span class="r-in"><span>               lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

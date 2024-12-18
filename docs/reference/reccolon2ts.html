@@ -3,25 +3,27 @@
 survival (Therneau, T.M. et al., 2022). Each observation is a transition from
 recurrence of colon cancer to death or censoring. The time scales are time
 from randomization to recurrence, time from randomization to death or
-censoring and time from recurrence of the cancer.
-In the original data all the individuals are observed in the
-state 'recurrence' right from entry in the state, that is, the data are not
-left truncated. To be able to illustrate
+censoring and time from recurrence of the cancer to death or censoring.
+Only observations about individuals with a recurrence of the cancer are selected.
+Additionally, 7 individuals with exit times from the risk set equal to entry times in the
+recurrence state (0 exposure time) were dropped from the sample.
+In the original dataset, all times of recurrence are known precisely, so that
+after recurrence all individuals are followed right from entry in the state,
+without left truncation. To be able to illustrate
 how to include left truncated times in the model, artificial left truncated
-entry in the 'recurrence' state are introduced for 40 individuals.
-Additionally, 7 individuals with exit from the risk set equal to entry in the
-recurrence state (0 exposure time) were dropped from the sample."><meta property="og:description" content="This dataset is a reduced version of the dataset colon from the package
+entry in the 'recurrence' state are introduced for 40 individuals."><meta property="og:description" content="This dataset is a reduced version of the dataset colon from the package
 survival (Therneau, T.M. et al., 2022). Each observation is a transition from
 recurrence of colon cancer to death or censoring. The time scales are time
 from randomization to recurrence, time from randomization to death or
-censoring and time from recurrence of the cancer.
-In the original data all the individuals are observed in the
-state 'recurrence' right from entry in the state, that is, the data are not
-left truncated. To be able to illustrate
+censoring and time from recurrence of the cancer to death or censoring.
+Only observations about individuals with a recurrence of the cancer are selected.
+Additionally, 7 individuals with exit times from the risk set equal to entry times in the
+recurrence state (0 exposure time) were dropped from the sample.
+In the original dataset, all times of recurrence are known precisely, so that
+after recurrence all individuals are followed right from entry in the state,
+without left truncation. To be able to illustrate
 how to include left truncated times in the model, artificial left truncated
-entry in the 'recurrence' state are introduced for 40 individuals.
-Additionally, 7 individuals with exit from the risk set equal to entry in the
-recurrence state (0 exposure time) were dropped from the sample."></head><body>
+entry in the 'recurrence' state are introduced for 40 individuals."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -29,7 +31,7 @@ recurrence state (0 exposure time) were dropped from the sample."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,14 +61,15 @@ recurrence state (0 exposure time) were dropped from the sample."></head><body>
 survival (Therneau, T.M. et al., 2022). Each observation is a transition from
 recurrence of colon cancer to death or censoring. The time scales are time
 from randomization to recurrence, time from randomization to death or
-censoring and time from recurrence of the cancer.
-In the original data all the individuals are observed in the
-state 'recurrence' right from entry in the state, that is, the data are not
-left truncated. To be able to illustrate
+censoring and time from recurrence of the cancer to death or censoring.
+Only observations about individuals with a recurrence of the cancer are selected.
+Additionally, 7 individuals with exit times from the risk set equal to entry times in the
+recurrence state (0 exposure time) were dropped from the sample.
+In the original dataset, all times of recurrence are known precisely, so that
+after recurrence all individuals are followed right from entry in the state,
+without left truncation. To be able to illustrate
 how to include left truncated times in the model, artificial left truncated
-entry in the 'recurrence' state are introduced for 40 individuals.
-Additionally, 7 individuals with exit from the risk set equal to entry in the
-recurrence state (0 exposure time) were dropped from the sample.</p>
+entry in the 'recurrence' state are introduced for 40 individuals.</p>
     </div>
 
     <div class="section level2">

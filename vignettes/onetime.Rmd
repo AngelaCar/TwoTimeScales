@@ -15,12 +15,13 @@ editor_options:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = FALSE,
+  fig.align = 'center'
 )
 ```
 
 
-```{r setup}
+```{r}
 library(TwoTimeScales)
 ```
 
@@ -41,12 +42,13 @@ The function returns an object of type `data2ts`.The `print` method can be used 
 
 First, we show how the function works with minimal input (that is, by using the default values for any optional parameter):
 
-```{r 1tsprep, cache=T}
+```{r}
 dt1ts <- prepare_data(data = reccolon2ts,
                       s_out = "timesr",
                       events = "status",
                       ds = 30)
 ```
+
 ```
 > str(dt1ts)
 List of 2
@@ -96,7 +98,7 @@ It is assumed that the entry times are not left truncated (everyone is observed 
 As explained in the introductory vignette, we included some artificial left truncated times for the entry into the risk set.
 In fact, when we use the variable that includes left truncation, the message disappears:
 
-```{r 1ts-lt, cache=T}
+```{r}
 dt1ts_lt <- prepare_data(data = reccolon2ts,
                          s_in = "entrys",
                          s_out = "timesr",
@@ -167,7 +169,7 @@ It is possible, and recommended, to provide the names of the covariates that one
 The function will take care of the preparation of the regression matrix `Z`.
 However, if desired, this can also be prepared externally (in which case a warning will be returned).
 
-```{r 1ts-data-cov, cache=T}
+```{r}
 dt1ts_cov <- prepare_data(data = reccolon2ts,
                           s_in = "entrys",
                           s_out = "timesr",
@@ -229,7 +231,7 @@ In this case is necessary to provide values for `bins` too, and it is important 
 First, we only pass as argument the object `dt1ts`, which was created before.
 Then, we show, only as illustration, how the same estimates of the $\alpha$ are obtained when we pass the arguments `y`, `r` and `bins`, taken from the same object.
 
-```{r fit1ts, dependson="1ts-data-prep"}
+```{r}
 # Model 1 - Default parameters (numerical optimization of aic, default param for
 #                               B-splines)
 m1 <- fit1ts(data1ts = dt1ts)
@@ -242,9 +244,7 @@ m2 <- fit1ts(y = dt1ts$bindata$y, r = dt1ts$bindata$r, bins = dt1ts$bins)
 
 TRUE 
   13 
-```
 
-```
 > str(m1)
 
 List of 3
@@ -277,7 +277,7 @@ The second element is the optimal smoothing parameter (on the $\log_{10}$-scale)
 In the following examples we show how to modify the arguments of the function, to obtain slightly different model specifications.
 The results are not shown here, but we encourage the reader to run these examples on their console.
 
-```{r fit1ts-other, eval = F}
+```{r}
 # Model 3 - Change specifications of the B-splines (degree, number of segments 
 #                                                   and range)
 m3 <- fit1ts(data1ts = dt1ts,
@@ -317,7 +317,7 @@ m6 <- fit1ts(data1ts = dt1ts,
 
 Finally, we demonstrate how to plot the AIC and BIC curves, mark the optimal values of the smoothing parameter, and extract the AIC and BIC vectors after a grid search of the optimal smoothing parameter.
 
-```{r fit1ts-grid, dependson="1ts-data-prep", fig.width=6, fig.align='center'}
+```{r}
 #| fig.alt: >
 #|   (Left) AIC curve over several values of log10(rho_s). 
 #|   The minimum is reached for log10(rho_s) around 2. 
@@ -341,6 +341,10 @@ m6 <- fit1ts(data1ts = dt1ts,
 par(mfrow = c(1,1))
 ```
 
+
+![](../man/figures/onetime/fit1ts-grid-1.png)
+
+
 ```{r}
 m6.aic <- m6$AIC
 m6.bic <- m6$BIC
@@ -352,14 +356,13 @@ m6.bic <- m6$BIC
 [1] 97.67005 96.78100 95.81061 94.79922 93.79740 92.84326
 [1] 135.6309 132.7852 129.7015 126.4681 123.1973 119.9904
 ```
-![](../vignettes/onetime_files/figure-html/fit1ts-grid-1.png)
 
 We notice how, for the same data and over the same grid of $\log_{10}(\varrho)$ values, the BIC criterion selects a larger smoothing parameter than the AIC.
 This behavior is well known, as the BIC penalizes differences in neighboring coefficients more strongly than AIC, leading to smoother results.
 
 Finally, we estimate a PH model including the covariates `rx`, `node4` and `sex`, and see how to extract the estimates of the regression parameters $\beta$s.
 
-```{r fit1ts-cov, dependson="1ts-data-cov", cache = T}
+```{r}
 m7 <- fit1ts(data1ts = dt1ts_cov,
              Bbases_spec = list(nseg_s = 15,
                                 min_s = 0,
@@ -388,7 +391,7 @@ When applied to a PH model, it returns the baseline hazard.
 We show how to provide specifications for the $B$-splines and how to use the function `get_hazard_1d()`.
 We will evaluate the $B$-splines basis on a finer grid, where the distance between the bins is of 10 days.
 
-```{r get-haz-1d, dependson = "fit1ts-cov"}
+```{r}
 basehaz <- get_hazard_1d(fitted_model = m7,
                          plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10))
 
@@ -423,7 +426,7 @@ List of 7
 The calls returns a list with several elements: The new grid for plotting `new_plot_grid`, a vector for the hazard values `hazard`, a vector for the log-hazard values `loghazard` , a vector with the $log_{10}$-hazard values `log10hazard` and three vectors with the associated standard errors, respectively `SE_hazard`, `SE_loghazard` ans `SE_log10hazard`.
 The hazard ratios and their standard errors are obtained by calling the function `get_hr`:
 
-```{r get-hr-1d, dependson = "fit1ts-cov"}
+```{r}
 hr <- get_hr(fitted_model = m7)
 ```
 
@@ -437,16 +440,16 @@ hr <- get_hr(fitted_model = m7)
 It is possible to call these two functions independently and to use the resulting objects to create a plot of the results.
 However, this is exactly what is done by the method `plot()`, implemented for objects of class `'haz1ts'`.
 
-```{r plot_haz1ts, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
+```{r}
 plot(m7)
 ```
 
-![](../vignettes/onetime_files/figure-html/plot_haz1ts-1.png)
+![](../man/figures/onetime/plot_haz1ts-1.png)
 
 This simple call produces, for a PH model, the plot of the baseline hazard curve.
 Now we interpolate the $B$-spline basis on a denser plotting grid, and change other parameters to obtain a nicer plot.
 
-```{r plot_haz1ts-3, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
+```{r}
 plot(m7,
      plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10),
      plot_options= list(
@@ -458,11 +461,11 @@ plot(m7,
 
 ```
 
-![](../vignettes/onetime_files/figure-html/plot_haz1ts-3-1.png)
+![](../man/figures/onetime/plot_haz1ts-3-1.png)
 
 The hazard can also be plotted on the log-scale, by setting the argument `plot_options$loghazard = TRUE`:
 
-```{r plot_haz1ts-3log, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
+```{r}
 plot(m7,
      plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10),
      plot_options= list(
@@ -475,17 +478,17 @@ plot(m7,
 
 ```
 
-![](../vignettes/onetime_files/figure-html/plot_haz1ts-3log-1.png)
+![](../man/figures/onetime/plot_haz1ts-3log-1.png)
 
-We can also plot the covariates' effects by calling:
+We can also plot the covariate effects by calling:
 
-```{r plot_haz1ts-4, fig.width = 5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
+```{r}
 plot(m7,
      which_plot = "covariates")
 
 ```
 
-![](../vignettes/onetime_files/figure-html/plot_haz1ts-4-1.png)
+![](../man/figures/onetime/plot_haz1ts-4-1.png)
 
 This call plots the point estimates for the $\beta$ parameters with their 95% confidence intervals.
 Alternatively, we can decide to plot the estimated hazard ratios, with their confidence intervals.
@@ -493,7 +496,7 @@ There are two options regarding the confidence intervals for the HRs: First, we 
 Second, we can exponentiate the confidence intervals for the $\beta$ parameters, and therefore obtain non-symmetric (but always positive) confidence intervals for the HRs.
 We show both options here:
 
-```{r CIs-lev, fig.width = 6, dependson="fit1ts-cov", fig.align='center', fig.height=4}
+```{r}
 par(mfrow = c(1,2),
     font.main = 1)
 # Option 1: symmetric CIs with delta method
@@ -521,12 +524,12 @@ abline(h=1, lty=2, col="grey")
 par(mfrow = c(1,1))
 ```
 
-![](../vignettes/onetime_files/figure-html/CIs-lev-1.png)
+![](../man/figures/onetime/CIs-lev-1.png)
 
 Finally, it is possible to change the level of confidence for the CIs.
 In the following we show three different levels for the same $\beta$.
 
-```{r HRs-plot, fig.width = 6.5, dependson="fit1ts-cov", fig.align='center', fig.height=4}
+```{r}
 par(mfrow = c(1,3),
     font.main = 1)
 plot(m7,
@@ -558,5 +561,5 @@ abline(h=0, lty=2, col="grey")
 par(mfrow = c(1,1))
 ```
 
-![](../vignettes/onetime_files/figure-html/HRs-plot-1.png)
+![](../man/figures/onetime/HRs-plot-1.png)
 # References
