@@ -21,7 +21,7 @@ or two time scales."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -83,7 +83,7 @@ or two time scales.</p>
 
 
 <dt id="arg-ev">ev<a class="anchor" aria-label="anchor" href="#arg-ev"></a></dt>
-<dd><p>A vector of event's indicators (possible values 0/1).</p></dd>
+<dd><p>A vector of event indicators (possible values 0/1).</p></dd>
 
 
 <dt id="arg-bins-list">bins_list<a class="anchor" aria-label="anchor" href="#arg-bins-list"></a></dt>
@@ -113,6 +113,23 @@ R package version 0.4.11, https://cran.r-project.org/package=popEpi.</p>
     <p>Angela Carollo <a href="mailto:carollo@demogr.mpg.de">carollo@demogr.mpg.de</a></p>
     </div>
 
+    <div class="section level2">
+    <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># ---- Bin colon cancer data by time since randomization and time since recurrence ----</span></span></span>
+<span class="r-in"><span><span class="co"># First create vectors of bins (using function `make_bins()`)</span></span></span>
+<span class="r-in"><span><span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_bins.html">make_bins</a></span><span class="op">(</span>t_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timedc</span>, s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span></span>
+<span class="r-in"><span>dt <span class="op">=</span> <span class="fl">90</span>, ds <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `t_in` not provided. I will use `t_in = t_out - s_in`.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
+<span class="r-in"><span><span class="co"># Now bin data (note: the t_in and s_in arguments are omitted because data are not left truncated)</span></span></span>
+<span class="r-in"><span><span class="va">bindata2d</span> <span class="op">&lt;-</span> <span class="fu">exposures_events_Lexis</span><span class="op">(</span>t_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timedc</span>,</span></span>
+<span class="r-in"><span>s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>, ev <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>, bins <span class="op">=</span> <span class="va">bins</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `t_in` not provided. I will use `t_in = t_out - s_in`.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NOTE: entry.status has been set to 0 for all.</span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
 

@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r}
 library(TwoTimeScales)
 ```
 
@@ -58,15 +58,6 @@ dt2ts <- prepare_data(data = reccolon2ts,
                       s_out = "timesr",
                       events = "status",
                       ds = 30, du = 30)
-```
-
-```         
-`s_in = NULL`. I will use `s_in = 0` for all observations.
-`s_in = NULL`. I will use `s_in = 0` for all observations.
-```
-
-```{r}
-print(dt2ts)
 ```
 
 ```         
@@ -127,10 +118,6 @@ mod1 <- fit2ts(data2ts = dt2ts,
 The object returned by `fit2ts()` is of class `'haz2ts'`.
 The optimal smoothing parameters are $\varrho_u = 10^{2.4}$ and $\varrho_s=10^{0.3}$, and the effective dimension of the model is 11.1.
 
-```{r}
-summary(mod1)
-```
-
 ```         
 > summary(mod1)
 Number of events =  409 
@@ -170,8 +157,6 @@ mod2 <- fit2ts(data2ts = dt2ts,
                optim_method = "ucminf",
                optim_criterion = "bic")
 
-mod2$optimal_logrho
-mod2$optimal_model$ed
 ```
 
 ```         
@@ -205,7 +190,7 @@ mod3 <- fit2ts(data2ts = dt2ts,
                ))
 ```
 
-![](../vignettes/twotimes_files/figure-html/grid-search-1.png){width="660"}
+![](../man/figures/twotimes/grid-search-1.png){width="660"}
 
 Alternatively, we can ask the function to return the matrices of AIC and/or BIC values as part of the fitted object and then plot them separately (here not shown).
 
@@ -225,7 +210,6 @@ mod_LMM <- fit2ts(data2ts = dt2ts,
                   pord = 2,
                   optim_method = "LMMsolver",
                   optim_criterion = "aic")
-summary(mod_LMM)
 ```
 
 ```         
@@ -266,7 +250,6 @@ dt2ts_cov <- prepare_data(data = reccolon2ts,
                           ds = 30,
                           individual = TRUE, 
                           covs = c("rx", "sex", "adhere", "obstruct", "node4"))
-print(dt2ts_cov)
 ```
 
 ```         
@@ -318,7 +301,6 @@ mod_cov <- fit2ts(data2ts = dt2ts_cov,
                   pord = 2,
                   optim_method = "ucminf",
                   optim_criterion = "aic")
-summary(mod_cov)
 ```
 
 ```         
@@ -375,7 +357,7 @@ abline(a=0,b=1)
 box()
 ```
 
-![](../vignettes/twotimes_files/figure-html/prep-data-Lexis-1.png)
+![](../man/figures/twotimes/prep-data-Lexis-1.png)
 
 Note: estimation over the $(t,s)$-plane with the same model is theoretically possible, but special care is needed to deal with the larger areas without data support (especially those where $t < s$).
 Comparison with the estimation over the $(u,s)$-plane is currently under investigation.

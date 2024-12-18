@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,16 +64,16 @@ the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>-splines
 model for the hazard, and with the basic functions of the package
 introduced in the vignette <em>Introduction to TwoTimeScales</em>.</p>
-<p>This vignette demonstrates in details how to use the package
+<p>This vignette demonstrates in detail how to use the package
 <code>TwoTimeScales</code> to estimate a smooth hazard model with one
 time scale, and how to plot the estimates. We use the dataset
 <code>reccolon2ts</code> included in the package, and we analyse
 mortality after recurrence of the colon cancer, over time since
 recurrence. For an overview of the data use:
 <code><a href="../reference/reccolon2ts.html">help(reccolon2ts)</a></code>.</p>
-<div class="section level3">
-<h3 id="data-preparation">Data preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
-</h3>
+<div class="section level2">
+<h2 id="data-preparation">Data preparation<a class="anchor" aria-label="anchor" href="#data-preparation"></a>
+</h2>
 <p>The first step of the analysis, is data preparation. Data are in wide
 format, with one row for each patient. To estimate a
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>P</mi><annotation encoding="application/x-tex">P</annotation></semantics></math>-spline
@@ -89,44 +89,43 @@ method can be used to analyse the structure of the resulting object.</p>
 <p>First, we show how the function works with minimal input (that is, by
 using the default values for any optional parameter):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                      events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
-<span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `s_in = NULL`. I will use `s_in = 0` for all observations.</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...</span></span>
-<span><span class="co">#&gt;   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   ..$ ns    : int 91</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;   ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...</span></span>
-<span><span class="co">#&gt;   ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span>
-<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Data:</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 3</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Range covered by the bins: </span></span>
-<span><span class="co">#&gt; $bins_s</span></span>
-<span><span class="co">#&gt; [1]    0 2730</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of bins: </span></span>
-<span><span class="co">#&gt; $ns</span></span>
-<span><span class="co">#&gt; [1] 91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; [1] "Total exposure time: 246018"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
+<span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; str(dt1ts)
+List of 2
+ $ bins   :List of 3
+  ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 91
+ $ bindata:List of 2
+  ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...
+  ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...
+ - attr(*, "class")= chr "data2ts"</code></pre>
+<pre><code>&gt; print(dt1ts)
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 3
+ $ bindata:List of 2
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 246018
+Total number of events: 409</code></pre>
 <p>The function requires as minimal inputs only a vector of exit times
 (<code>s_out</code>), a vector of event’s indicators
 (<code>events</code>) and the desired bins’ size (<code>ds</code>). The
@@ -145,10 +144,11 @@ considering <code>s_in = 0</code> is therefore correct. As explained in
 the introductory vignette, we included some artificial left truncated
 times for the entry into the risk set. In fact, when we use the variable
 that includes left truncation, the message disappears:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dt1ts_lt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span>
-<span>                         s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                         events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt1ts_lt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                         s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span>
+<span>                         s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                         events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                         ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
 <p>Without specifying additional inputs, the constructions of the bins
 is done by covering the minimum range of values for the time scale, with
@@ -157,93 +157,96 @@ bins by changing the argument <code>ds</code>. For example, the
 following code builds one bin each 90 days, approximately 3 months. As
 consequence, the number of bins is about 3 times less than in the
 previous case.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dt1ts_lt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span>
-<span>                          s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                          events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
-<span>                          ds <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
-<span><span class="va">dt1ts_lt2</span><span class="op">$</span><span class="va">bins</span><span class="op">$</span><span class="va">ns</span></span>
-<span><span class="co">#&gt; [1] 31</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt1ts_lt2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                          s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span>
+<span>                          s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                          events <span class="op">=</span> <span class="st">"status"</span>,</span>
+<span>                          ds <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; dt1ts_lt2$bins$ns
+
+[1] 31</code></pre>
 <p>It is also possible to specify minimum and maximum values for the
 bins. This option can be helpful when, for example, the event times are
 left-truncated but it is still desirable to have bins starting at 0.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1]    3 2725</span></span>
-<span><span class="va">dt1ts_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span>
-<span>                        s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                        events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
-<span>                        ds <span class="op">=</span> <span class="fl">30</span>, min_s <span class="op">=</span> <span class="fl">0</span>, max_s <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt1ts_2</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 3</span></span>
-<span><span class="co">#&gt;   ..$ bins_s: num [1:101] 0 30 60 90 120 150 180 210 240 270 ...</span></span>
-<span><span class="co">#&gt;   ..$ mids  : num [1:100] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   ..$ ns    : int 100</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 2</span></span>
-<span><span class="co">#&gt;   ..$ r: num [1:100] 12613 12322 11793 11399 10969 ...</span></span>
-<span><span class="co">#&gt;   ..$ y: num [1:100] 14 24 16 11 24 22 20 10 24 26 ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span></code></pre></div>
+<pre><code>&gt; range(reccolon2ts$timesr)
+
+[1]    3 2725</code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt1ts_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                        s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span>
+<span>                        s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                        events <span class="op">=</span> <span class="st">"status"</span>,</span>
+<span>                        ds <span class="op">=</span> <span class="fl">30</span>, min_s <span class="op">=</span> <span class="fl">0</span>, max_s <span class="op">=</span> <span class="fl">3000</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; str(dt1ts_2)
+
+List of 2
+ $ bins   :List of 3
+  ..$ bins_s: num [1:101] 0 30 60 90 120 150 180 210 240 270 ...
+  ..$ mids  : num [1:100] 15 45 75 105 135 165 195 225 255 285 ...
+  ..$ ns    : int 100
+ $ bindata:List of 2
+  ..$ r: num [1:100] 12613 12322 11793 11399 10969 ...
+  ..$ y: num [1:100] 14 24 16 11 24 22 20 10 24 26 ...
+ - attr(*, "class")= chr "data2ts"</code></pre>
 <p>Now 100 bins have been created, spanning the range from 0 days to
 3000 days of follow-up.</p>
 <p>When the aim of the analysis is to estimate a proportional hazard
-model, a different structure of the data is required (<span class="citation">Carollo et al. (2023)</span>). In particular, when only
+model, a different structure of the data is required (<span class="citation">Carollo et al. (2024)</span>). In particular, when only
 one time scale is considered, we need to create a matrix of exposure
 times <code>R</code> with dimension <code>n</code> (number of
 individuals in the data) by <code>ns</code> (number of bins). Similarly
 for the matrix of event counts. The function <code><a href="../reference/prepare_data.html">prepare_data()</a></code>
 returns data with this structure by specifying the optional input
 <code>individual = TRUE</code>. It is possible, and recommended, to
-provide the covariates that one wishes to use in the PH model in the
-extra argument <code>covs</code>. The function will take care of the
-preparation of the regression matrix <code>Z</code>. However, if
-desired, this can also be prepared externally (in which case a warning
-will be returned).</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">covs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">reccolon2ts</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">dt1ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>s_in <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">entrys</span>,</span>
-<span>                          s_out <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">timesr</span>,</span>
-<span>                          events <span class="op">=</span> <span class="va">reccolon2ts</span><span class="op">$</span><span class="va">status</span>,</span>
+provide the names of the covariates that one wishes to use in the PH
+model in the extra argument <code>covs</code>. The function will take
+care of the preparation of the regression matrix <code>Z</code>.
+However, if desired, this can also be prepared externally (in which case
+a warning will be returned).</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dt1ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
+<span>                          s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span>
+<span>                          s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
+<span>                          events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                          ds <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>                          individual <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>                          covs <span class="op">=</span> <span class="va">covs</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt1ts_cov</span><span class="op">)</span></span>
-<span><span class="co">#&gt; An object of class 'data2ts'</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Data:</span></span>
-<span><span class="co">#&gt; List of 2</span></span>
-<span><span class="co">#&gt;  $ bins   :List of 3</span></span>
-<span><span class="co">#&gt;  $ bindata:List of 3</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "data2ts"</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Range covered by the bins: </span></span>
-<span><span class="co">#&gt; $bins_s</span></span>
-<span><span class="co">#&gt; [1]    0 2730</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of bins: </span></span>
-<span><span class="co">#&gt; $ns</span></span>
-<span><span class="co">#&gt; [1] 91</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Overview of the binned data:</span></span>
-<span><span class="co">#&gt; [1] "Total exposure time: 236006"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [1] "Total number of events: 409"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Covariates:</span></span>
-<span><span class="co">#&gt; [1] "Lev"     "Lev_5FU" "node4"   "male"</span></span></code></pre></div>
+<span>                          covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; print(dt1ts_cov)
+
+An object of class 'data2ts'
+
+Data:
+List of 2
+ $ bins   :List of 3
+ $ bindata:List of 3
+ - attr(*, "class")= chr "data2ts"
+NULL
+
+Range covered by the bins: 
+$bins_s
+[1]    0 2730
+
+
+Number of bins: 
+$ns
+[1] 91
+
+
+Overview of the binned data:
+Total exposure time: 236006
+Total number of events: 409
+Covariates:
+[1] "rx_Lev"     "rx_Lev+5FU" "node4"      "sex_male"  </code></pre>
 <p>From <code>print(dt1ts_cov)</code>, we see that 4 covariates are
-included in the Z regression matrix. The variable <code>"rx"</code>
+included in the Z regression matrix. The variable <code>rx</code>
 includes 3 categories, and it is therefore represented in the regression
-matrix by two dummy variables (<code>"Lev"</code> and
-<code>"Lev+5FU"</code>).</p>
+matrix by two dummy variables (<code>rx_Lev</code> and
+<code>rx_Lev+5FU</code>).</p>
 </div>
-<div class="section level3">
-<h3 id="estimation">Estimation<a class="anchor" aria-label="anchor" href="#estimation"></a>
-</h3>
+<div class="section level2">
+<h2 id="estimation">Estimation<a class="anchor" aria-label="anchor" href="#estimation"></a>
+</h2>
 <p>First, we show how to estimate a model without covariates. The
 proportional hazard model is introduced in a second step. The function
 that estimates the model is <code><a href="../reference/fit1ts.html">fit1ts()</a></code>, that is a wrap around
@@ -277,41 +280,42 @@ estimates of the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>α</mi><annotation encoding="application/x-tex">\alpha</annotation></semantics></math>
 are obtained when we pass the arguments <code>y</code>, <code>r</code>
 and <code>bins</code>, taken from the same object.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model 1 - Default parameters (numerical optimization of aic, default param for</span></span>
 <span><span class="co">#                               B-splines)</span></span>
 <span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>data1ts <span class="op">=</span> <span class="va">dt1ts</span><span class="op">)</span></span>
 <span><span class="co"># Model 2 - Single data inputs</span></span>
-<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">dt1ts</span><span class="op">$</span><span class="va">bindata</span><span class="op">$</span><span class="va">y</span>, r <span class="op">=</span> <span class="va">dt1ts</span><span class="op">$</span><span class="va">bindata</span><span class="op">$</span><span class="va">r</span>, bins <span class="op">=</span> <span class="va">dt1ts</span><span class="op">$</span><span class="va">bins</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">m1</span><span class="op">$</span><span class="va">optimal_model</span><span class="op">$</span><span class="va">alpha</span> <span class="op">==</span> <span class="va">m2</span><span class="op">$</span><span class="va">optimal_model</span><span class="op">$</span><span class="va">alpha</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; TRUE </span></span>
-<span><span class="co">#&gt;   13</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 3</span></span>
-<span><span class="co">#&gt;  $ optimal_model :List of 9</span></span>
-<span><span class="co">#&gt;   ..$ alpha   : num [1:13, 1] -6.96 -6.57 -6.22 -6.14 -6.28 ...</span></span>
-<span><span class="co">#&gt;   ..$ SE_alpha: num [1:13] 0.3466 0.1197 0.0893 0.0983 0.1221 ...</span></span>
-<span><span class="co">#&gt;   ..$ eta     : num [1:91, 1] -6.55 -6.51 -6.48 -6.44 -6.4 ...</span></span>
-<span><span class="co">#&gt;   ..$ H       : num [1:13, 1:13] 0.16707 0.0782 0.00508 -0.01083 -0.00517 ...</span></span>
-<span><span class="co">#&gt;   ..$ deviance: num 79.8</span></span>
-<span><span class="co">#&gt;   ..$ ed      : num 4.04</span></span>
-<span><span class="co">#&gt;   ..$ aic     : num 87.9</span></span>
-<span><span class="co">#&gt;   ..$ bic     : num 98.1</span></span>
-<span><span class="co">#&gt;   ..$ Bbases  :List of 1</span></span>
-<span><span class="co">#&gt;   .. ..$ Bs: num [1:91, 1:13] 0.1407 0.0971 0.0636 0.0388 0.0215 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "x")= num [1:91] 15 45 75 105 135 165 195 225 255 285 ...</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xl")= num 0</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "xr")= num 2730</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "nseg")= num 10</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "bdeg")= num 3</span></span>
-<span><span class="co">#&gt;   .. .. ..- attr(*, "type")= chr "bbase"</span></span>
-<span><span class="co">#&gt;  $ optimal_logrho: num 1.13</span></span>
-<span><span class="co">#&gt;  $ P_optim       : num [1:13, 1:13] 13.4 -26.8 13.4 0 0 ...</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "haz1ts"</span></span></code></pre></div>
+<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">dt1ts</span><span class="op">$</span><span class="va">bindata</span><span class="op">$</span><span class="va">y</span>, r <span class="op">=</span> <span class="va">dt1ts</span><span class="op">$</span><span class="va">bindata</span><span class="op">$</span><span class="va">r</span>, bins <span class="op">=</span> <span class="va">dt1ts</span><span class="op">$</span><span class="va">bins</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; table(m1$optimal_model$alpha == m2$optimal_model$alpha)
+
+TRUE 
+  13 
+
+&gt; str(m1)
+
+List of 3
+ $ optimal_model :List of 9
+  ..$ alpha   : num [1:13, 1] -6.96 -6.57 -6.22 -6.14 -6.28 ...
+  ..$ SE_alpha: num [1:13] 0.3466 0.1197 0.0893 0.0983 0.1221 ...
+  ..$ eta     : num [1:91, 1] -6.55 -6.51 -6.48 -6.44 -6.4 ...
+  ..$ H       : num [1:13, 1:13] 0.16707 0.0782 0.00508 -0.01083 -0.00517 ...
+  ..$ deviance: num 79.8
+  ..$ ed      : num 4.04
+  ..$ aic     : num 87.9
+  ..$ bic     : num 98.1
+  ..$ Bbases  :List of 1
+  .. ..$ Bs: num [1:91, 1:13] 0.1407 0.0971 0.0636 0.0388 0.0215 ...
+  .. .. ..- attr(*, "x")= num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
+  .. .. ..- attr(*, "xl")= num 0
+  .. .. ..- attr(*, "xr")= num 2730
+  .. .. ..- attr(*, "nseg")= num 10
+  .. .. ..- attr(*, "bdeg")= num 3
+  .. .. ..- attr(*, "type")= chr "bbase"
+ $ optimal_logrho: num 1.13
+ $ P_optim       : num [1:13, 1:13] 13.4 -26.8 13.4 0 0 ...
+ - attr(*, "class")= chr "haz1ts"</code></pre>
 <p>The object returned by <code><a href="../reference/fit1ts.html">fit1ts()</a></code> is of class
-<code>"haz1ts"</code>. The first element is a list with the results of
+<code>'haz1ts'</code>. The first element is a list with the results of
 the optimal model. The second element is the optimal smoothing parameter
 (on the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>log</mo><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>-scale)
@@ -319,10 +323,10 @@ and the last element is the penalty matrix <code>P_optim</code>,
 incorporating the optimal value of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>𝜚</mo><annotation encoding="application/x-tex">\varrho</annotation></semantics></math>.</p>
 <p>In the following examples we show how to modify the arguments of the
-function, to obtain slightly different model’s specification. The
-results are not shown here, but we encourage the reader to run these
-examples on their console.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+function, to obtain slightly different model specifications. The results
+are not shown here, but we encourage the reader to run these examples on
+their console.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Model 3 - Change specifications of the B-splines (degree, number of segments </span></span>
 <span><span class="co">#                                                   and range)</span></span>
 <span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>data1ts <span class="op">=</span> <span class="va">dt1ts</span>,</span>
@@ -345,7 +349,7 @@ examples on their console.</p>
 <span>                                nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                                min_s <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                                max_s <span class="op">=</span> <span class="fl">2730</span><span class="op">)</span>,</span>
-<span>             optim_method <span class="op">=</span> <span class="st">"grid_search"</span><span class="op">)</span>         <span class="co"># search for optimal smoothing                                                                       over grid of values</span></span>
+<span>             optim_method <span class="op">=</span> <span class="st">"grid_search"</span><span class="op">)</span>         <span class="co"># search for optimal smoothing                                                                           over grid of values</span></span>
 <span></span>
 <span><span class="co"># Model 6 - As m5, but optimization criterion is "bic" and include grid of </span></span>
 <span><span class="co">#           values for log_10(rho)</span></span>
@@ -360,7 +364,7 @@ examples on their console.</p>
 <p>Finally, we demonstrate how to plot the AIC and BIC curves, mark the
 optimal values of the smoothing parameter, and extract the AIC and BIC
 vectors after a grid search of the optimal smoothing parameter.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">m6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>data1ts <span class="op">=</span> <span class="va">dt1ts</span>,</span>
 <span>             Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">2</span>,</span>
@@ -374,16 +378,16 @@ vectors after a grid search of the optimal smoothing parameter.</p>
 <span>               plot_aic <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>               plot_bic <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>               mark_optimal <span class="op">=</span> <span class="cn">T</span></span>
-<span>             <span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/fit1ts-grid-1.png" alt="(Left) AIC curve over several values of log10(rho_s). The minimum is reached for log10(rho_s) around 2. (Right) BIC curve over several values of log10(rho_s). The minimum is reached for log10(rho_s) around 2.7." width="576" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">m6.aic</span> <span class="op">&lt;-</span> <span class="va">m6</span><span class="op">$</span><span class="va">AIC</span></span>
-<span><span class="va">m6.bic</span> <span class="op">&lt;-</span> <span class="va">m6</span><span class="op">$</span><span class="va">BIC</span></span>
-<span></span>
-<span><span class="va">m6.aic</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>; <span class="va">m6.bic</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] 97.67005 96.78100 95.81061 94.79922 93.79740 92.84326</span></span>
-<span><span class="co">#&gt; [1] 135.6309 132.7852 129.7015 126.4681 123.1973 119.9904</span></span></code></pre></div>
+<span>             <span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/onetime/fit1ts-grid-1.png"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">m6.aic</span> <span class="op">&lt;-</span> <span class="va">m6</span><span class="op">$</span><span class="va">AIC</span></span>
+<span><span class="va">m6.bic</span> <span class="op">&lt;-</span> <span class="va">m6</span><span class="op">$</span><span class="va">BIC</span></span></code></pre></div>
+<pre><code>&gt; m6.aic[1:6]; m6.bic[1:6]
+
+[1] 97.67005 96.78100 95.81061 94.79922 93.79740 92.84326
+[1] 135.6309 132.7852 129.7015 126.4681 123.1973 119.9904</code></pre>
 <p>We notice how, for the same data and over the same grid of
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>𝜚</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\log_{10}(\varrho)</annotation></semantics></math>
 values, the BIC criterion selects a larger smoothing parameter than the
@@ -394,15 +398,15 @@ results.</p>
 <code>rx</code>, <code>node4</code> and <code>sex</code>, and see how to
 extract the estimates of the regression parameters
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>s.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>data1ts <span class="op">=</span> <span class="va">dt1ts_cov</span>,</span>
 <span>             Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>nseg_s <span class="op">=</span> <span class="fl">15</span>,</span>
 <span>                                min_s <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>                                max_s <span class="op">=</span> <span class="fl">2730</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">betas</span> <span class="op">&lt;-</span> <span class="va">m7</span><span class="op">$</span><span class="va">optimal_model</span><span class="op">$</span><span class="va">beta</span></span>
-<span><span class="va">betas</span></span>
-<span><span class="co">#&gt;        Lev    Lev_5FU      node4       male </span></span>
-<span><span class="co">#&gt; 0.07875399 0.27900614 0.50543144 0.21322565</span></span></code></pre></div>
+<span><span class="va">betas</span> <span class="op">&lt;-</span> <span class="va">m7</span><span class="op">$</span><span class="va">optimal_model</span><span class="op">$</span><span class="va">beta</span></span></code></pre></div>
+<pre><code>&gt; betas
+    rx_Lev rx_Lev+5FU      node4   sex_male 
+0.07875399 0.27900614 0.50543144 0.21322565 </code></pre>
 <p>In the next section, we will show how to get estimates of the
 (log-)hazard curve with one time scale, using the same
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
@@ -411,10 +415,10 @@ grid. We will also see how to obtain estimates of the hazard ratios, and
 how all these steps can be performed jointly and plotted using the
 function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>.</p>
 </div>
-<div class="section level3">
-<h3 id="presenting-the-results-of-the-smooth-one-time-scale-hazard-model">Presenting the results of the smooth one time scale hazard
+<div class="section level2">
+<h2 id="presenting-the-results-of-the-smooth-one-time-scale-hazard-model">Presenting the results of the smooth one time scale hazard
 model<a class="anchor" aria-label="anchor" href="#presenting-the-results-of-the-smooth-one-time-scale-hazard-model"></a>
-</h3>
+</h2>
 <p>We will explore several options for the presentation of the results
 of the one time scale model, using the last model we estimated in the
 previous section, which included four covariates. The object returned by
@@ -447,28 +451,29 @@ evaluate the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
 basis on a finer grid, where the distance between the bins is of 10
 days.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">basehaz</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hazard_1d.html">get_hazard_1d</a></span><span class="op">(</span>fitted_model <span class="op">=</span> <span class="va">m7</span>,</span>
-<span>                         plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">basehaz</span><span class="op">)</span></span>
-<span><span class="co">#&gt; List of 7</span></span>
-<span><span class="co">#&gt;  $ new_plot_grid :List of 4</span></span>
-<span><span class="co">#&gt;   ..$ ints: num [1:274] 0 10 20 30 40 50 60 70 80 90 ...</span></span>
-<span><span class="co">#&gt;   ..$ smin: Named num 0</span></span>
-<span><span class="co">#&gt;   .. ..- attr(*, "names")= chr "smin"</span></span>
-<span><span class="co">#&gt;   ..$ smax: Named num 2730</span></span>
-<span><span class="co">#&gt;   .. ..- attr(*, "names")= chr "smax"</span></span>
-<span><span class="co">#&gt;   ..$ ds  : Named num 10</span></span>
-<span><span class="co">#&gt;   .. ..- attr(*, "names")= chr "ds"</span></span>
-<span><span class="co">#&gt;  $ hazard        : num [1:274, 1] 0.00095 0.000964 0.000978 0.000992 0.001007 ...</span></span>
-<span><span class="co">#&gt;  $ loghazard     : num [1:274, 1] -6.96 -6.94 -6.93 -6.92 -6.9 ...</span></span>
-<span><span class="co">#&gt;  $ log10hazard   : num [1:274, 1] -3.02 -3.02 -3.01 -3 -3 ...</span></span>
-<span><span class="co">#&gt;  $ SE_hazard     : num [1:274, 1] 0.000169 0.000168 0.000166 0.000165 0.000164 ...</span></span>
-<span><span class="co">#&gt;  $ SE_loghazard  : num [1:274, 1] 0.178 0.174 0.17 0.166 0.163 ...</span></span>
-<span><span class="co">#&gt;  $ SE_log10hazard: num [1:274, 1] 0.0775 0.0756 0.0738 0.0721 0.0706 ...</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">basehaz</span><span class="op">$</span><span class="va">hazard</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.000191134 0.001517088</span></span></code></pre></div>
+<span>                         plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; str(basehaz)
+
+List of 7
+ $ new_plot_grid :List of 4
+  ..$ ints: num [1:274] 0 10 20 30 40 50 60 70 80 90 ...
+  ..$ smin: Named num 0
+  .. ..- attr(*, "names")= chr "smin"
+  ..$ smax: Named num 2730
+  .. ..- attr(*, "names")= chr "smax"
+  ..$ ds  : Named num 10
+  .. ..- attr(*, "names")= chr "ds"
+ $ hazard        : num [1:274, 1] 0.00095 0.000964 0.000978 0.000992 0.001007 ...
+ $ loghazard     : num [1:274, 1] -6.96 -6.94 -6.93 -6.92 -6.9 ...
+ $ log10hazard   : num [1:274, 1] -3.02 -3.02 -3.01 -3 -3 ...
+ $ SE_hazard     : num [1:274, 1] 0.000169 0.000168 0.000166 0.000165 0.000164 ...
+ $ SE_loghazard  : num [1:274, 1] 0.178 0.174 0.17 0.166 0.163 ...
+ $ SE_log10hazard: num [1:274, 1] 0.0775 0.0756 0.0738 0.0721 0.0706 ...</code></pre>
+<pre><code>&gt; range(basehaz$hazard)
+
+[1] 0.000191134 0.001517088</code></pre>
 <p>The calls returns a list with several elements: The new grid for
 plotting <code>new_plot_grid</code>, a vector for the hazard values
 <code>hazard</code>, a vector for the log-hazard values
@@ -479,25 +484,25 @@ standard errors, respectively <code>SE_hazard</code>,
 <code>SE_loghazard</code> ans <code>SE_log10hazard</code>. The hazard
 ratios and their standard errors are obtained by calling the function
 <code>get_hr</code>:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hr.html">get_hr</a></span><span class="op">(</span>fitted_model <span class="op">=</span> <span class="va">m7</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">hr</span><span class="op">$</span><span class="va">HR</span></span>
-<span><span class="co">#&gt;      Lev  Lev_5FU    node4     male </span></span>
-<span><span class="co">#&gt; 1.081938 1.321815 1.657701 1.237664</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">hr</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_hr.html">get_hr</a></span><span class="op">(</span>fitted_model <span class="op">=</span> <span class="va">m7</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; hr$HR
+
+    rx_Lev rx_Lev+5FU      node4   sex_male 
+  1.081938   1.321815   1.657701   1.237664 </code></pre>
 <p>It is possible to call these two functions independently and to use
 the resulting objects to create a plot of the results. However, this is
 exactly what is done by the method <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, implemented for
-objects of class <code>"haz1ts"</code>.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+objects of class <code>'haz1ts'</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/plot_haz1ts-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/onetime/plot_haz1ts-1.png"></p>
 <p>This simple call produces, for a PH model, the plot of the baseline
 hazard curve. Now we interpolate the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-spline
 basis on a denser plotting grid, and change other parameters to obtain a
 nicer plot.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>     plot_options<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -506,10 +511,10 @@ nicer plot.</p>
 <span>       ylab <span class="op">=</span> <span class="st">"hazard"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"time since recurrence"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/plot_haz1ts-3-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/onetime/plot_haz1ts-3-1.png"></p>
 <p>The hazard can also be plotted on the log-scale, by setting the
 argument <code>plot_options$loghazard = TRUE</code>:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>     plot_options<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -519,12 +524,12 @@ argument <code>plot_options$loghazard = TRUE</code>:</p>
 <span>       ylab <span class="op">=</span> <span class="st">"log-hazard"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"time since recurrence"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/plot_haz1ts-3log-1.png" width="480" style="display: block; margin: auto;"></p>
-<p>We can also plot the covariates’ effects by calling:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><img src="../reference/figures/onetime/plot_haz1ts-3log-1.png"></p>
+<p>We can also plot the covariate effects by calling:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span>,</span>
 <span>     which_plot <span class="op">=</span> <span class="st">"covariates"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/plot_haz1ts-4-1.png" width="480" style="display: block; margin: auto;"></p>
+<p><img src="../reference/figures/onetime/plot_haz1ts-4-1.png"></p>
 <p>This call plots the point estimates for the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
 parameters with their 95% confidence intervals. Alternatively, we can
@@ -536,7 +541,7 @@ the confidence intervals for the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>
 parameters, and therefore obtain non-symmetric (but always positive)
 confidence intervals for the HRs. We show both options here:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>,</span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co"># Option 1: symmetric CIs with delta method</span></span>
@@ -560,14 +565,13 @@ confidence intervals for the HRs. We show both options here:</p>
 <span>       main <span class="op">=</span> <span class="st">"HR with non-symmetric CIs"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fl">1</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/CIs-lev-1.png" width="576" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fl">1</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/onetime/CIs-lev-1.png"></p>
 <p>Finally, it is possible to change the level of confidence for the
 CIs. In the following we show three different levels for the same
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>β</mi><annotation encoding="application/x-tex">\beta</annotation></semantics></math>.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>,</span>
 <span>    font.main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m7</span>,</span>
@@ -595,19 +599,14 @@ CIs. In the following we show three different levels for the same
 <span>       main <span class="op">=</span> <span class="st">"99% CIs"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span></span>
 <span>     <span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fl">0</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="onetime_files/figure-html/HRs-plot-1.png" width="624" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fl">0</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../reference/figures/onetime/HRs-plot-1.png"> # References</p>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div id="ref-Carollo:2023" class="csl-entry">
-Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
-<span>“Smooth Hazards with Multiple Time Scales.”</span> <em>arXiv
-Preprint: arXiv:2305.09342</em>, May. <a href="https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1" class="external-link">https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1</a>.
+<div id="ref-Carollo:2024" class="csl-entry">
+Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
+<span>“Smooth Hazards with Multiple Time Scales.”</span> <em>Statistics
+in Medicine</em>. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
 </div>
 </div>
 </div>

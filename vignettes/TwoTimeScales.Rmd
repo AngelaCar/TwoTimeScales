@@ -463,6 +463,6 @@ plot(x = m2ts,
        cex_main = 1))
 ```
 
-![](..vignettes/TwoTimeScales_files/figure-html/2ts-plot-1.png)
+![](../vignettes/TwoTimeScales_files/figure-html/2ts-plot-1.png)
 
 ## References
