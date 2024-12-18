@@ -204,9 +204,10 @@ below, or by directly passing the vectors.</p>
 <code class="sourceCode R"><span><span class="va">dt1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
 <span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
 <span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
-<span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span></code></pre></div>
-<pre><code>List of 2
+<span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
+<pre><code>&gt; str(dt1ts)
+
+List of 2
  $ bins   :List of 3
   ..$ bins_s: num [1:92] 0 30 60 90 120 150 180 210 240 270 ...
   ..$ mids  : num [1:91] 15 45 75 105 135 165 195 225 255 285 ...
@@ -214,10 +215,9 @@ below, or by directly passing the vectors.</p>
  $ bindata:List of 2
   ..$ r: num [1:91] 13674 13070 12474 12002 11534 ...
   ..$ y: num [1:91] 14 24 16 11 24 22 20 10 24 26 ...
- - attr(*, "class")= chr "data2ts"</code></pre>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt1ts</span><span class="op">)</span></span></code></pre></div>
-<pre><code>&gt; print(dt1ts)
+ - attr(*, "class")= chr "data2ts"
+
+&gt; print(dt1ts)
 An object of class 'data2ts'
 
 Data:
@@ -269,13 +269,12 @@ and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>,
 and defer the discussion of the preparation over the Lexis diagram to
 the vignette dedicated to the analysis with two time scales.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
 <span>                      u <span class="op">=</span> <span class="st">"timer"</span>,</span>
 <span>                      s_out <span class="op">=</span> <span class="st">"timesr"</span>,</span>
 <span>                      events <span class="op">=</span> <span class="st">"status"</span>,</span>
-<span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span></code></pre></div>
+<span>                      ds <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></code></pre></div>
 <pre><code>&gt; str(dt2ts)
 List of 2
  $ bins   :List of 6
@@ -288,10 +287,9 @@ List of 2
  $ bindata:List of 2
   ..$ R: num [1:76, 1:91] 205 243 540 796 474 812 506 746 657 517 ...
   ..$ Y: num [1:76, 1:91] 1 1 0 1 1 2 1 1 1 2 ...
- - attr(*, "class")= chr "data2ts"</code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts</span><span class="op">)</span></span></code></pre></div>
-<pre><code>&gt; print(dt2ts)
+ - attr(*, "class")= chr "data2ts"
+
+&gt; print(dt2ts)
 An object of class 'data2ts'
 
 Data:
@@ -350,7 +348,7 @@ extra argument <code>covs</code>. The function will take care of the
 preparation of the regression matrix <code>Z</code>. However, if
 desired, this can also be prepared externally (in which case a warning
 will be returned).</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dt2ts_cov</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/prepare_data.html">prepare_data</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reccolon2ts</span>,</span>
 <span>                          u <span class="op">=</span> <span class="st">"timer"</span>,</span>
 <span>                          s_in <span class="op">=</span> <span class="st">"entrys"</span>,</span>
@@ -358,8 +356,7 @@ will be returned).</p>
 <span>                          events <span class="op">=</span> <span class="st">"status"</span>,</span>
 <span>                          ds <span class="op">=</span> <span class="fl">30</span>,</span>
 <span>                          individual <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span>                          covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span></code></pre></div>
+<span>                          covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rx"</span>, <span class="st">"node4"</span>, <span class="st">"sex"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>&gt; str(dt2ts_cov)
 List of 2
  $ bins   :List of 6
@@ -376,10 +373,9 @@ List of 2
   .. ..- attr(*, "dimnames")=List of 2
   .. .. ..$ : NULL
   .. .. ..$ : chr [1:6] "rx_Lev" "rx_Lev+5FU" "sex_male" "adhere" ...
- - attr(*, "class")= chr "data2ts"</code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">dt2ts_cov</span><span class="op">)</span></span></code></pre></div>
-<pre><code>&gt; print(dt2ts_cov)
+ - attr(*, "class")= chr "data2ts"
+
+&gt; print(dt2ts_cov)
 An object of class 'data2ts'
 
 Data:
@@ -440,13 +436,12 @@ basis is built using default options (see <code><a href="../reference/fit1ts.htm
 details). However, for illustration, we now show how to specify the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
 basis to more closely match the data structure.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m1ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit1ts.html">fit1ts</a></span><span class="op">(</span>data1ts <span class="op">=</span> <span class="va">dt1ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
 <span>                                  min_s <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>                                  max_s <span class="op">=</span> <span class="fl">2730</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">m1ts</span><span class="op">)</span></span></code></pre></div>
+<span>                                  max_s <span class="op">=</span> <span class="fl">2730</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>&gt; str(m1ts)
 List of 3
  $ optimal_model :List of 9
@@ -498,7 +493,7 @@ function <code><a href="../reference/fit2ts.html">fit2ts()</a></code>, and again
 specifications of the marginal
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-spline
 bases, but otherwise use default values for the remaining inputs.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">m2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
 <span>               Bbases_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>bdeg <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>                                  nseg_s <span class="op">=</span> <span class="fl">20</span>,</span>
@@ -506,8 +501,7 @@ bases, but otherwise use default values for the remaining inputs.</p>
 <span>                                  max_s <span class="op">=</span> <span class="fl">2730</span>,</span>
 <span>                                  nseg_u <span class="op">=</span> <span class="fl">16</span>,</span>
 <span>                                  min_u <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">m2ts</span><span class="op">)</span></span></code></pre></div>
+<span>                                  max_u <span class="op">=</span> <span class="fl">2300</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>&gt; summary(m2ts)
 Number of events =  409 
 Model specifications:
@@ -577,7 +571,7 @@ Moreover, we pass as inputs some graphical parameters to obtain a nicer
 plot. The result is a plot of the one-dimensional hazard curve over
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>
 (time since recurrence), with accompany 95% confidence bands.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m1ts</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>     plot_options<span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
@@ -586,8 +580,8 @@ plot. The result is a plot of the one-dimensional hazard curve over
 <span>       ylab <span class="op">=</span> <span class="st">"hazard"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"time since recurrence"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../articles/TwoTimeScales_files/figure-html/1ts-plot-1.png">
-#### Two time scales</p>
+<p><img src="../reference/figures/TwoTimeScales/1ts-plot-1.png"> #### Two
+time scales</p>
 <p>There are several options to represent the smooth hazard with two
 time scales. Here, we will present only the most simple, yet very
 informative, way, which is also the default plot returned by the
@@ -597,7 +591,7 @@ function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="ext
 with white contour lines. We provide a vignette that only focus on
 visualization of the hazard with two time scales <em>Visualize hazards
 with two time scales</em>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2ts</span>,</span>
 <span>     plot_grid <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"umin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"umax"</span> <span class="op">=</span> <span class="fl">2300</span>, <span class="st">"du"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
 <span>                      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"smin"</span> <span class="op">=</span> <span class="fl">0</span>, <span class="st">"smax"</span> <span class="op">=</span> <span class="fl">2730</span>, <span class="st">"ds"</span> <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -606,7 +600,7 @@ with two time scales</em>.</p>
 <span>       ylab <span class="op">=</span> <span class="st">"time since recurrence"</span>,</span>
 <span>       xlab <span class="op">=</span> <span class="st">"time since randomization"</span>,</span>
 <span>       cex_main <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../articles/TwoTimeScales_files/figure-html/2ts-plot-1.png"></p>
+<p><img src="../reference/figures/TwoTimeScales/2ts-plot-1.png"></p>
 </div>
 </div>
 <div class="section level2 unnumbered">
