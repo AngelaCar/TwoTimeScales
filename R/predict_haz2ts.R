@@ -66,7 +66,8 @@ predict_haz2ts <- function(x,
                            u, s, id = NULL) {
   if (!is.null(originaldata)) {
     n <- nrow(originaldata)
-    predicted <- subset(originaldata, select = c("id", "u", "s"))
+    var <- c(id, u, s)
+    predicted <- subset(originaldata, select = var)
     predicted$hazard <- NULL
     predicted$cumhazard <- NULL
     predicted$se_hazard <- NULL
