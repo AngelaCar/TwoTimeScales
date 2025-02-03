@@ -9,3 +9,9 @@ summary.haz2ts <- function(object,...) {
 summary.haz2tsLMM <- function(object,...){
   haz2tsLMM_summary(x = object, ...)
 }
+
+# Prediction method for `'haz2ts'` objects
+#' @export
+predict.haz2ts <- function(object,...){
+  predict_haz2ts(x = object, ...)
+}

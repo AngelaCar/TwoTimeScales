@@ -74,6 +74,7 @@ entry in the 'recurrence' state are introduced for 40 individuals.
 }
 \examples{
 data(reccolon2ts)
+rm(reccolon2ts)
 
 }
 \references{

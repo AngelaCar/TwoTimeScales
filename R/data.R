@@ -74,5 +74,6 @@
 #'
 #' @examples
 #' data(reccolon2ts)
+#' rm(reccolon2ts)
 #'
 "reccolon2ts"

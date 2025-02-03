@@ -150,29 +150,20 @@
 #'       surv_slices = TRUE
 #'       ))
 #'
-#' # Create a color pallete function from a RColorBrewer palette, using the function
-#' # colorRampPalette from grDevices.
 #'
-#' \dontrun{
-#' mypal <- function(n) {
-#'   colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
-#' }
-#' # if mod_haz is a fitted model of class `haz2ts`, the following code will
-#' # produce a cross-sections plot of the hazard over `s` for selected values
-#' # of `u`, with the palette specified above
+#' # Plot cross-sections of the hazard over `s` for selected values of `u`
 #'
-#' plot(mod_haz,
+#' plot(fakemod,
 #'   which_plot = "slices",
-#'   where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+#'   where_slices = c(4, 6, 8),
 #'   direction = "u",
 #'   plot_options = list(
-#'     col_palette = mypal,
 #'     main = "Cross-sections of the hazard",
-#'     xlab = "Time since recurrence",
+#'     xlab = "Time",
 #'     ylab = "Hazard"
 #'   )
 #' )
-#' }
+#'
 #'
 plot.haz2tsLMM <- function(x,
                            plot_grid = NULL,
