@@ -78,8 +78,6 @@ events.
 \item \code{col_palette} A function defining the color palette. The default palette
 is \code{viridis::rev(plasma())}. Specifying the color palette as a function
 allows for greater flexibility than passing the palette as a vector.
-We provide an example on how to create a function from any color palette
-below.
 \item \code{n_shades} The number of color shades to plot, default is 50.
 \item \code{breaks} The vector of breaks for the color legend. If \code{n_shades} is provided,
 this should be of length \code{n_shades + 1}.
@@ -178,28 +176,17 @@ fakemod <- fit2ts(fakedata2ts,
       surv_slices = TRUE
       ))
 
-# Create a color pallete function from a RColorBrewer palette, using the function
-# colorRampPalette from grDevices.
+# Plot cross-sections of the hazard over `s` for selected values of `u`
 
-\dontrun{
-mypal <- function(n) {
-  colorRampPalette(RColorBrewer::brewer.pal(9, "YlGnBu"))(n)
-}
-# if mod_haz is a fitted model of class `haz2ts`, the following code will
-# produce a cross-sections plot of the hazard over `s` for selected values
-# of `u`, with the palette specified above
-
-plot(mod_haz,
+plot(fakemod,
   which_plot = "slices",
-  where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
+  where_slices = c(4, 6, 8),
   direction = "u",
   plot_options = list(
-    col_palette = mypal,
     main = "Cross-sections of the hazard",
-    xlab = "Time since recurrence",
+    xlab = "Time",
     ylab = "Hazard"
   )
 )
-}
 
 }

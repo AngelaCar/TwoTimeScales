@@ -1,21 +1,14 @@
 Package: TwoTimeScales
 Title: Analysis of Event Data with Two Time Scales
 Type: Package
-Version: 1.0.0
+Version: 1.1.0
 Authors@R: c(person("Angela", "Carollo", email = "carollo@demogr.mpg.de",  role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-5625-6553")),
            person("Paul H.C.", "Eilers", email = "p.eilers@erasmusmc.nl", role = "aut"),
            person("Jutta", "Gampe", email = "gampe@demogr.mpg.de", role = "aut"))
 URL: https://github.com/AngelaCar/TwoTimeScales, https://angelacar.github.io/TwoTimeScales/
-Description: Tools for the analysis of time to event data with two time scales. 
-             The main goal of the analysis is to estimate a smooth hazard that varies 
-             over two time scales and also, if covariates are available, to estimate 
-             a proportional hazards model with such a two-dimensional baseline hazard. 
-             Functions are provided to prepare the raw data for estimation, 
-             to estimate and to plot the two-dimensional smooth hazard. 
-             Additionally, the cumulative incidence functions over two time scales
-             can be estimated in a competing risks model. 
-             For details about the method please refer to Carollo et al. (2024) 
-             <doi:10.1002/sim.10297>.
+Description: Analyse time to event data with two time scales by estimating a smooth hazard that varies over two time scales. If covariates are available, estimate a proportional hazards model with such a two-dimensional baseline hazard. 
+  Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. 
+  Extension to a competing risks model are implemented. For details about the method please refer to Carollo et al. (2024) <doi:10.1002/sim.10297>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
