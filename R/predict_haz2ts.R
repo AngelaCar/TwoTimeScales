@@ -8,16 +8,24 @@
 #' @param u The name of the variable in `newdata`, or in `originaldata` containing
 #'          values for the variable `u`.
 #' @param s The name of the variable in `newdata`, or in `originaldata` containing
-#'          values for the variable `s`.
+#'          values for the variable `s`. Note that over the `s` axis predictions
+#'          are provided only within intervals of values, as it is necessary to
+#'          approximate cumulated quantities.
 #' @param id (optional) The name of the variable in `newdata`, or in `originaldata` containing
 #'          the identification of each observation. It is not required for predictions on a
 #'          new dataset.
+#' @param ds (optional) The distance between two consecutive points on the `s` axis.
+#'           If not provided, an optimal minimum value will be chosen automatically and
+#'           a warning is returned.
 #'
 #' @return A dataframe. This can be the original dataframe (`originaldata`), where only the
 #'         variables `id`, `u` and `s` are selected, or the new data frame (`newdata`),
 #'         together with the predicted values for the hazard `hazard` and its
 #'         standard errors `se_hazard`, the cumulative hazard `cumhazard` and the
 #'         survival probability `survival`.
+#'
+#' @details
+#' Predictions of cumulated quantities can be provided only within intervals of values on the `s` time scale.
 #' @export
 #'
 #' @examples
@@ -63,7 +71,9 @@
 predict_haz2ts <- function(x,
                            newdata = NULL,
                            originaldata = NULL,
-                           u, s, id = NULL) {
+                           u, s, id = NULL, ds = NULL) {
+  if (!inherits(x, "haz2ts")) stop("'x' must be a 'haz2ts' object")
+
   if (!is.null(originaldata)) {
     n <- nrow(originaldata)
     var <- c(id, u, s)
@@ -72,11 +82,19 @@ predict_haz2ts <- function(x,
     predicted$cumhazard <- NULL
     predicted$se_hazard <- NULL
     predicted$survival <- NULL
+
+    if(is.null(ds)){
+      ds <- round(min((originaldata[, which(names(originaldata) == s)] -
+                         as.integer(originaldata[, which(names(originaldata) == s)]))),1)
+      if(ds == 0) ds <- .1 # make a minimal choice if ds is 0
+    }
+
     for (i in 1:n) {
       pred <- predict_haz2ts_pointwise(
         fitted_model = x,
         u = originaldata[i, which(names(originaldata) == u)],
-        s = originaldata[i, which(names(originaldata) == s)]
+        s = originaldata[i, which(names(originaldata) == s)],
+        ds = ds
       )
       predicted[i, "hazard"] <- pred$hazard
       predicted[i, "se_hazard"] <- pred$se_hazard
@@ -91,11 +109,20 @@ predict_haz2ts <- function(x,
       predicted$cumhazard <- NULL
       predicted$se_hazard <- NULL
       predicted$survival <- NULL
+
+      if(is.null(ds)){
+        ds <- round(min((newdata[, which(names(newdata) == s)] -
+                           as.integer(newdata[, which(names(newdata) == s)]))),1)
+        if(ds == 0) ds <- .1 # make a minimal choice if ds is 0
+        message("chosen interval: ds = ", ds)
+      }
+
       for (i in 1:n) {
         pred <- predict_haz2ts_pointwise(
           fitted_model = x,
           u = newdata[i, which(names(newdata) == u)],
-          s = newdata[i, which(names(newdata) == s)]
+          s = newdata[i, which(names(newdata) == s)],
+          ds = ds
         )
         predicted[i, "hazard"] <- pred$hazard
         predicted[i, "se_hazard"] <- pred$se_hazard

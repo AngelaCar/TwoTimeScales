@@ -66,6 +66,7 @@ get_hazard_2d <- function(fitted_model,
                           direction = c("u", "s", NULL),
                           tmax = NULL,
                           midpoints = FALSE) {
+
   Bbases <- fitted_model$optimal_model$Bbases
   direction <- match.arg(direction)
 
@@ -110,8 +111,14 @@ get_hazard_2d <- function(fitted_model,
 
       # Evaluate old bases in new grid of points
       if(midpoints){
-        Bu <- JOPS::bbase(midu, nseg = attributes(Bbases$Bu)$nseg, bdeg = attributes(Bbases$Bu)$bdeg)
-        Bs <- JOPS::bbase(mids, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg)
+        Bu <- JOPS::bbase(midu, nseg = attributes(Bbases$Bu)$nseg,
+                          bdeg = attributes(Bbases$Bu)$bdeg,
+                          xl = attributes(Bbases$Bu)$xl,
+                          xr = attributes(Bbases$Bu)$xr)
+        Bs <- JOPS::bbase(mids, nseg = attributes(Bbases$Bs)$nseg,
+                          bdeg = attributes(Bbases$Bs)$bdeg,
+                          xl = attributes(Bbases$Bs)$xl,
+                          xr = attributes(Bbases$Bs)$xr)
         new_grid <- list(
           "intu" = midu,
           "umin" = umin,
@@ -123,8 +130,14 @@ get_hazard_2d <- function(fitted_model,
           "ds" = ds
         )
       } else{
-        Bu <- JOPS::bbase(intu, nseg = attributes(Bbases$Bu)$nseg, bdeg = attributes(Bbases$Bu)$bdeg)
-        Bs <- JOPS::bbase(ints, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg)
+        Bu <- JOPS::bbase(intu, nseg = attributes(Bbases$Bu)$nseg,
+                          bdeg = attributes(Bbases$Bu)$bdeg,
+                          xl = attributes(Bbases$Bu)$xl,
+                          xr = attributes(Bbases$Bu)$xr)
+        Bs <- JOPS::bbase(ints, nseg = attributes(Bbases$Bs)$nseg,
+                          bdeg = attributes(Bbases$Bs)$bdeg,
+                          xl = attributes(Bbases$Bs)$xl,
+                          xr = attributes(Bbases$Bs)$xr)
         new_grid <- list(
           "intu" = intu,
           "umin" = umin,

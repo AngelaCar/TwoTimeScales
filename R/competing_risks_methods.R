@@ -76,25 +76,6 @@ cumhaz2ts <- function(fitted_model,
                       where_slices = NULL,
                       direction = c("u", "s", NULL),
                       tmax = NULL) {
-  if(is.null(plot_grid)){
-    Bbases <- fitted_model$optimal_model$Bbases
-    midu <- attributes(Bbases$Bu)$x
-    mids <- attributes(Bbases$Bs)$x
-    du <- midu[2] - midu[1]
-    ds <- mids[2] - mids[1]
-    intu <- midu + du / 2
-    intu <- c(intu[1] - du/2, intu)
-    umin <- min(intu)
-    umax <- max(intu)
-    ints <- mids + ds / 2
-    ints <- c(ints[1] - ds/2, ints)
-    smin <- min(ints)
-    smax <- max(ints)
-    plot_grid <- list(
-      c("umin" = umin, "umax" = umax, "du" = du),
-      c("smin" = smin, "smax" = smax, "ds" = ds)
-    )
-  }
 
   if (inherits(fitted_model, "haz2ts")) {
     Haz <- get_hazard_2d(
@@ -120,7 +101,7 @@ cumhaz2ts <- function(fitted_model,
   }
   # Cumulative Hazards
   ds <- Haz$new_plot_grid$ds
-  CumHaz <- t(apply(Haz$hazard, 1, cumsum) * ds)
+  CumHaz <- t(apply(Haz$hazard  * ds, 1, cumsum))
 
   res <- list(
     "Haz" = Haz,
@@ -262,7 +243,9 @@ surv2ts <- function(cumhaz = NULL,
       }
       # Cumulative Hazards
       ds <- Haz$new_plot_grid$ds
-      CumHaz <- t(apply(Haz$hazard, 1, cumsum) * ds)
+      Haz_to_cumulate <- cbind(rep(0, nrow(Haz$hazard)), Haz$hazard)
+      CumHaz <- t(apply(Haz_to_cumulate, 1, cumsum) * ds)
+
       Surv2ts <- list("vector", length = 1) # this is for compatibility
       Surv2ts$Surv2ts <- exp(-CumHaz)
       attr(Surv2ts, "plot_grid") <- Haz$new_plot_grid
@@ -325,13 +308,13 @@ cuminc2ts <- function(haz = list(),
   # First, calculate the cumulative hazards
   CumHaz <- vector("list", length = ncauses)
   for (i in 1:ncauses){
-    CumHaz[[i]] <- t(apply(haz[[i]], 1, cumsum) * ds)
+    CumHaz[[i]] <- t(apply(haz[[i]]  * ds , 1, cumsum))
   }
   # overall survival
   surv <- surv2ts(CumHaz)$Surv2ts
   CIF2ts <- vector("list", length = ncauses)
   for (i in 1:ncauses) {
-    CIF2ts[[i]] <- t(apply(haz[[i]] * surv, 1, cumsum) * ds)
+    CIF2ts[[i]] <- t(apply((haz[[i]] * surv) * ds, 1, cumsum))
     if (!is.null(cause)) {
       names(CIF2ts)[i] <- cause[i]
     }
@@ -340,4 +323,6 @@ cuminc2ts <- function(haz = list(),
   class(CIF2ts) <- "cif2ts"
   return(CIF2ts)
 }
+
+
 

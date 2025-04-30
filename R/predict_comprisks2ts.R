@@ -7,11 +7,18 @@
 #'                and the time scale `s` for which predictions are to be obtained.
 #' @param u The name of the variable in `newdata` containing values for the variable `u`.
 #' @param s The name of the variable in `newdata` containing values for the variable `s`.
+#' @param ds (optional) The distance between two consecutive points on the `s` axis.
+#'           If not provided, an optimal minimum value will be chosen automatically and
+#'           a warning is returned.
 #'
 #' @return A dataframe cointaing the values of `u` and `s` in `newdata`,
 #'        the predicted survival probability and the values of the cumulative incidence
 #'        functions (cif), for each combination of `u` and `s`. There will be as many values of
 #'        the cif as the number of cause-specific hazard models.
+#'
+#' @details
+#' Predictions of cumulated quantities can be provided only within intervals of values on the `s` time scale.
+#'
 #' @export
 #'
 #' @examples
@@ -51,18 +58,28 @@
 
 predict_comprisks2ts <- function(models = list(),
                                  newdata,
-                                 u, s) {
+                                 u, s, ds = NULL) {
   L <- length(models) # n. of competing causes
   n <- nrow(newdata)
   predicted <- newdata
   predicted$survival <- NULL
   names_cif <- paste0("cif_", 1:L)
   cifs <- matrix(0, 0, L)
+
+  if(is.null(ds)){
+    ds <- round(min((newdata[, which(names(newdata) == s)] -
+                       as.integer(newdata[, which(names(newdata) == s)]))),1)
+    if(ds == 0) ds <- .1 # make a minimal choice if ds is 0
+    message("chosen interval: ds = ", ds)
+
+  }
+
   for (i in 1:n) {
     pred <- predict_cif2ts_pointwise(
         fitted_models = models,
         u = newdata[i, which(names(newdata) == u)],
-        s = newdata[i, which(names(newdata) == s)]
+        s = newdata[i, which(names(newdata) == s)],
+        ds = ds
       )
     predicted[i, "survival"] <- pred$surv
     cifs <- rbind(cifs, subset(pred, select = names_cif))
