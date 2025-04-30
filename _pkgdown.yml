@@ -89,7 +89,7 @@ reference:
   - haz2ts_summary
   - haz2tsLMM_summary
   - predict_haz2ts_pointwise
-  - predict.haz2ts
+  - predict_haz2ts
 - title: Plotting functions
 - contents:
   - plot.haz1ts
