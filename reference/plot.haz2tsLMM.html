@@ -13,7 +13,7 @@ plane, that is only plots over u and s axes are produced."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -234,31 +234,23 @@ for more details on <code>LMMsolver</code> and its usage.</p>
 <span class="r-in"><span>      plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>      surv_slices <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>      <span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="plot.haz2tsLMM-2.png" alt="" width="700" height="433"></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in `$&lt;-.data.frame`(`*tmp*`, "to_plot", value = c(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.97273040452611, 0.95024251164889, 0.914307063529045, 0.87804857926737, 0.872923580672126, 0.852187473992417, 0.864265361030027, 0.89925155691784, 0.901865541583694, 0.941620912141093, 0.969021888637666, 0.984192851430613, 0.984357324763204, 0.992011184514615, 0.940629130747465, 0.896682809823287, 0.830774296343608, 0.768526526969763, 0.760067591909001, 0.727467288277429, 0.749364951561919, 0.809904743110189, 0.814492927809003, 0.885930986010608, 0.937445884407908, 0.96713202847361, 0.967460196981088, 0.982942981401069, 0.903086207514772, 0.839457954375865, 0.749869020058786, 0.670482315584986, 0.660096553314908, 0.622052470107692, 0.651790322825034, 0.730547491826072, 0.736594458351338, 0.832849710865119, 0.905315225163116, 0.948748067972408, 0.949237633424084, 0.972662373134333, 0.859525953680579, 0.778832255004485, 0.672045412345614, 0.583001261426366, 0.571769638242155, 0.532804557971871, 0.568670216726853, 0.659956178358024, 0.667048125187508, 0.782296746188977, 0.872678744960746, 0.928973732424846, 0.929620680863159, 0.96102388188771, 0.809467853607942, 0.715218237932336, 0.597734359278955, 0.505207835646193, 0.493937291965662, 0.457118111698859, 0.497647185442031, 0.597068806972824, 0.604874913397072, 0.734192031022092, 0.839591002722059, 0.907745551543114, 0.908543959540185, 0.947869662601457, 0.75261024371261, 0.64919405168592, 0.527332896691648, 0.436267569396033, 0.425537632854519, 0.392826535802905, 0.436779468777548, 0.540962234431939, 0.549219388740327, 0.688455891781353, 0.80611235885891, 0.885005644394289, 0.885947494415361, 0.93303009638429, 0.688937723035056, 0.581514098643896, 0.461193611179922, 0.375388548684467, 0.365592673161824, 0.338125153648644, 0.384462699758379, 0.490832792411392, 0.499333073250601, 0.645009149065097, 0.772308991238059, 0.860703841086397, 0.861778854991848, 0.916325060980545, 0.618848093833884, 0.51310903341407, 0.399614442614617, 0.321822504468397, 0.313204400421865, 0.29150827020463, 0.339367226690615, 0.445979773366041, 0.454560186045083, 0.603773221570733, 0.738252841276685, 0.83480011575957, 0.835995617449709, 0.897566092590679, 0.543285926013398, 0.445070942552281, 0.342829383531005, 0.274865502648705, 0.267550752644993, 0.251717588929327, 0.300387773598744, 0.405791334098588, 0.414325395121625, 0.564670226528998, 0.704021481010313, 0.807267331909456, 0.808568152136508, 0.87655969185423, 0.463857208504877, 0.378619796308879, 0.291000602393112, 0.233858245660502, 0.227881521819672, 0.21769986244208, 0.266602881982508, 0.369732444435718, 0.378123281900184, 0.527623076540245, 0.669697892273786, 0.778094286081802, 0.779482724383497, 0.853112062248619, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA)):</span> replacement has 168 rows, data has 154</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Create a color pallete function from a RColorBrewer palette, using the function</span></span></span>
-<span class="r-in"><span><span class="co"># colorRampPalette from grDevices.</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">mypal</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu">RColorBrewer</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html" class="external-link">brewer.pal</a></span><span class="op">(</span><span class="fl">9</span>, <span class="st">"YlGnBu"</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span><span class="co"># if mod_haz is a fitted model of class `haz2ts`, the following code will</span></span></span>
-<span class="r-in"><span><span class="co"># produce a cross-sections plot of the hazard over `s` for selected values</span></span></span>
-<span class="r-in"><span><span class="co"># of `u`, with the palette specified above</span></span></span>
+<span class="r-in"><span><span class="co"># Plot cross-sections of the hazard over `s` for selected values of `u`</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mod_haz</span>,</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fakemod</span>,</span></span>
 <span class="r-in"><span>  which_plot <span class="op">=</span> <span class="st">"slices"</span>,</span></span>
-<span class="r-in"><span>  where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>, <span class="fl">60</span>, <span class="fl">90</span>, <span class="fl">180</span>, <span class="fl">365</span>, <span class="fl">1000</span>, <span class="fl">2000</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>  direction <span class="op">=</span> <span class="st">"u"</span>,</span></span>
 <span class="r-in"><span>  plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    col_palette <span class="op">=</span> <span class="va">mypal</span>,</span></span>
 <span class="r-in"><span>    main <span class="op">=</span> <span class="st">"Cross-sections of the hazard"</span>,</span></span>
-<span class="r-in"><span>    xlab <span class="op">=</span> <span class="st">"Time since recurrence"</span>,</span></span>
+<span class="r-in"><span>    xlab <span class="op">=</span> <span class="st">"Time"</span>,</span></span>
 <span class="r-in"><span>    ylab <span class="op">=</span> <span class="st">"Hazard"</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-plt img"><img src="plot.haz2tsLMM-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -271,7 +263,7 @@ for more details on <code>LMMsolver</code> and its usage.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>

@@ -45,6 +45,10 @@
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot.haz2ts.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot.haz2tsLMM.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot_slices.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/reference/predict_cif2ts_pointwise.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/reference/predict_comprisks2ts.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/reference/predict_haz2ts.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/reference/predict_haz2ts_pointwise.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/prepare_data.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/prepare_data_LMMsolver.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/print.data2ts.html</loc></url>

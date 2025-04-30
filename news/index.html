@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,10 +32,20 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0" id="twotimescales-100">TwoTimeScales 1.0.0<a class="anchor" aria-label="anchor" href="#twotimescales-100"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.0" id="twotimescales-110">TwoTimeScales 1.1.0<a class="anchor" aria-label="anchor" href="#twotimescales-110"></a></h2>
+<div class="section level3">
+<h3 id="new-functions-1-1-0">New functions<a class="anchor" aria-label="anchor" href="#new-functions-1-1-0"></a></h3>
+<ul><li><p><code>predict.haz2ts()</code> method added to objects of class <code>'haz2ts'</code>. It allows prediction of the hazard, its standard errors, the cumulative hazard and the survival probability, from a fitted model of type <code>'haz2ts'</code>, for arbitrary values of the time scales. It can also be used to obtain individual predictions for the original data points.</p></li>
+<li><p><code>predict_comprisk2ts()</code> allows prediction for competing risks models. It takes as input a list of cause-specific hazard models over two time scales, all fitted with <code><a href="../reference/fit2ts.html">fit2ts()</a></code>, on the same grid, and a new data.frame with values of the two time scales for which predictions are requested.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="minor-changes-1-1-0">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-1-1-0"></a></h3>
+<ul><li>
+<code>DESCRIPTION</code> has been updated, to correct a small typo.</li>
+</ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.0" id="twotimescales-050">TwoTimeScales 0.5.0<a class="anchor" aria-label="anchor" href="#twotimescales-050"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0.0" id="twotimescales-100">TwoTimeScales 1.0.0<a class="anchor" aria-label="anchor" href="#twotimescales-100"></a></h2><p class="text-muted">CRAN release: 2024-12-23</p>
 <ul><li>Initial CRAN submission.</li>
 </ul></div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -47,7 +57,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>
