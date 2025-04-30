@@ -63,7 +63,7 @@
 get_hazard_2d <- function(fitted_model,
                           plot_grid = NULL,
                           where_slices = NULL,
-                          direction = c("u", "s", NULL),
+                          direction = c(NULL, "u", "s"),
                           tmax = NULL,
                           midpoints = FALSE) {
 
@@ -174,7 +174,10 @@ get_hazard_2d <- function(fitted_model,
         stop ("Desired cutting points outside of range of `B_u`.")
       } else {
         newu <- unique(sort(c(new_grid$intu, where_slices)))
-        Bu <- JOPS::bbase(newu, nseg = attributes(Bu)$nseg, bdeg = attributes(Bu)$bdeg)
+        Bu <- JOPS::bbase(newu, nseg = attributes(Bu)$nseg,
+                          bdeg = attributes(Bu)$bdeg,
+                          xl = attributes(Bbases$Bu)$xl,
+                          xr = attributes(Bbases$Bu)$xr)
         new_grid$intu <- newu
       }
     }
@@ -184,7 +187,9 @@ get_hazard_2d <- function(fitted_model,
       } else {
         news <- unique(sort(c(new_grid$ints, where_slices)))
         Bs <- JOPS::bbase(news, nseg = attributes(Bs)$nseg,
-                          bdeg = attributes(Bs)$bdeg)
+                          bdeg = attributes(Bs)$bdeg,
+                          xl = attributes(Bbases$Bs)$xl,
+                          xr = attributes(Bbases$Bs)$xr)
         new_grid$ints <- news
         grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
         grid_us$t <- with(grid_us, u + s)
@@ -200,7 +205,9 @@ get_hazard_2d <- function(fitted_model,
         newu <- newu[newu >= new_grid$umin & newu <= new_grid$umax]
         new_grid$intu <- sort(newu)
         Bu <- JOPS::bbase(new_grid$intu, nseg = attributes(Bu)$nseg,
-                          bdeg = attributes(Bu)$bdeg)
+                          bdeg = attributes(Bu)$bdeg,
+                          xl = attributes(Bbases$Bs)$xl,
+                          xr = attributes(Bbases$Bs)$xr)
       }
     }
 

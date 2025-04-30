@@ -243,8 +243,7 @@ surv2ts <- function(cumhaz = NULL,
       }
       # Cumulative Hazards
       ds <- Haz$new_plot_grid$ds
-      Haz_to_cumulate <- cbind(rep(0, nrow(Haz$hazard)), Haz$hazard)
-      CumHaz <- t(apply(Haz_to_cumulate, 1, cumsum) * ds)
+      CumHaz <- t(apply(Haz$hazard, 1, cumsum) * ds)
 
       Surv2ts <- list("vector", length = 1) # this is for compatibility
       Surv2ts$Surv2ts <- exp(-CumHaz)

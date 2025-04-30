@@ -3,6 +3,9 @@
 #' @param fitted_model An object of class `'haz2ts'` fitted via `fit2ts()`.
 #' @param u The value(s) of `u` where prediction is required
 #' @param s The value(s) of `s` where prediction is required
+#' @param ds (optional) The distance between two consecutive points on the `s` axis.
+#'           If not provided, an optimal minimum value will be chosen automatically and
+#'           a warning is returned.
 #'
 #' @return A data.frame with one row and 6 variable: the values of `u` and `s`
 #'         for which predictions of `hazard`, `se_hazard`, the cumulative hazard

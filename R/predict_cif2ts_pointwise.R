@@ -3,7 +3,9 @@
 #' @param fitted_models a list with cause-specific hazard models
 #' @param u The value(s) of `u` where prediction is required
 #' @param s The value(s) of `s` where prediction is required
-#'
+#' @param ds (optional) The distance between two consecutive points on the `s` axis.
+#'           If not provided, an optimal minimum value will be chosen automatically and
+#'           a warning is returned.
 #' @return A data.frame with one row containing:
 #'         the values of `u` and `s`for which predictions of the overall survival
 #'         (`surv`) probability, and the values of the cumulative incidence functions,

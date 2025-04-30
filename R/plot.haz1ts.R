@@ -146,8 +146,8 @@ plot.haz1ts <- function(x,
     ds <- mids[2] - mids[1]
     ints <- mids + ds / 2
     ints <- c(ints[1] - ds, ints)
-    smin <- min(ints)
-    smax <- max(ints)
+    smin <- attributes(Bbases$Bs)$xl
+    smax <- attributes(Bbases$Bs)$xr
     plot_grid <- c("smin" = smin, "smax" = smax, "ds" = ds)
   }
 

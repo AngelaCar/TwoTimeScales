@@ -263,12 +263,13 @@ plot.haz2ts <- function(x,
     ds <- mids[2] - mids[1]
     intu <- midu + du / 2
     intu <- c(intu[1] - du / 2, intu)
-    umin <- min(intu)
-    umax <- max(intu)
+    umin <- attributes(Bbases$Bu)$xl
+    umax <- attributes(Bbases$Bu)$xr
+    smin <- attributes(Bbases$Bs)$xl
+    smax <- attributes(Bbases$Bs)$xr
     ints <- mids + ds / 2
     ints <- c(ints[1] - ds / 2, ints)
-    smin <- min(ints)
-    smax <- max(ints)
+
     plot_grid <- list(
       c("umin" = umin, "umax" = umax, "du" = du),
       c("smin" = smin, "smax" = smax, "ds" = ds)

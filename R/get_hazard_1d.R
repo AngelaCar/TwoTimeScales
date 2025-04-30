@@ -78,7 +78,8 @@ get_hazard_1d <- function(fitted_model, plot_grid = NULL) {
       ints <- seq(smin, smin + K * ds, by = ds)
 
       # Evaluate old basis in new grid of points
-      Bs <- JOPS::bbase(ints, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg)
+      Bs <- JOPS::bbase(ints, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg,
+                        xl = attributes(Bbases$Bs)$xl, xr = attributes(Bbases$Bs)$xr)
       new_grid <- list(
         "ints" = ints,
         "smin" = smin,
