@@ -73,3 +73,4 @@ The \code{bic} value of the fitted model.
 level covariates and it returns the BIC of the model.
 See also \code{fit2tsmodel_ucminf()} and \code{fit2ts()}.
 }
+\keyword{internal}

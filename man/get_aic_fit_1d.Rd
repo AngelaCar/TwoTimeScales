@@ -54,3 +54,4 @@ The \code{aic} value of the fitted model.
 level covariates and it returns the AIC of the model.
 See also \code{fit1tsmodel_ucminf()} and \code{fit1ts()}.
 }
+\keyword{internal}

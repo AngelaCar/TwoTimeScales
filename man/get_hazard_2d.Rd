@@ -8,7 +8,7 @@ get_hazard_2d(
   fitted_model,
   plot_grid = NULL,
   where_slices = NULL,
-  direction = c("u", "s", NULL),
+  direction = c(NULL, "u", "s"),
   tmax = NULL,
   midpoints = FALSE
 )

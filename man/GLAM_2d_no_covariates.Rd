@@ -62,3 +62,4 @@ of dimension nu by ns.
 \code{GLAM_2d_no_covariates()} fits a GLAM for the hazard with two time
 scales, without covariates.
 }
+\keyword{internal}

@@ -25,3 +25,4 @@ A list with:
 \code{'LMMsolve'} fitted via \code{fit1ts()} or \code{fit2ts()} and calculates
 AIC, BIC and ED.
 }
+\keyword{internal}

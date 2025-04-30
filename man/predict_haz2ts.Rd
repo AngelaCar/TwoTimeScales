@@ -4,7 +4,15 @@
 \alias{predict_haz2ts}
 \title{Prediction method for objects of class \code{'haz2ts'}}
 \usage{
-predict_haz2ts(x, newdata = NULL, originaldata = NULL, u, s, id = NULL)
+predict_haz2ts(
+  x,
+  newdata = NULL,
+  originaldata = NULL,
+  u,
+  s,
+  id = NULL,
+  ds = NULL
+)
 }
 \arguments{
 \item{x}{an object of class \code{'haz2ts'}, the output of the function \code{fit2ts()}.}
@@ -19,11 +27,17 @@ for each observation in the data.}
 values for the variable \code{u}.}
 
 \item{s}{The name of the variable in \code{newdata}, or in \code{originaldata} containing
-values for the variable \code{s}.}
+values for the variable \code{s}. Note that over the \code{s} axis predictions
+are provided only within intervals of values, as it is necessary to
+approximate cumulated quantities.}
 
 \item{id}{(optional) The name of the variable in \code{newdata}, or in \code{originaldata} containing
 the identification of each observation. It is not required for predictions on a
 new dataset.}
+
+\item{ds}{(optional) The distance between two consecutive points on the \code{s} axis.
+If not provided, an optimal minimum value will be chosen automatically and
+a warning is returned.}
 }
 \value{
 A dataframe. This can be the original dataframe (\code{originaldata}), where only the
@@ -34,6 +48,9 @@ survival probability \code{survival}.
 }
 \description{
 Prediction method for objects of class \code{'haz2ts'}
+}
+\details{
+Predictions of cumulated quantities can be provided only within intervals of values on the \code{s} time scale.
 }
 \examples{
 # Create the same fake data as in other examples

@@ -4,7 +4,7 @@
 \alias{predict_haz2ts_pointwise}
 \title{Point-wise prediction hazard 2 time scale}
 \usage{
-predict_haz2ts_pointwise(fitted_model, u, s)
+predict_haz2ts_pointwise(fitted_model, u, s, ds = NULL)
 }
 \arguments{
 \item{fitted_model}{An object of class \code{'haz2ts'} fitted via \code{fit2ts()}.}
@@ -12,6 +12,10 @@ predict_haz2ts_pointwise(fitted_model, u, s)
 \item{u}{The value(s) of \code{u} where prediction is required}
 
 \item{s}{The value(s) of \code{s} where prediction is required}
+
+\item{ds}{(optional) The distance between two consecutive points on the \code{s} axis.
+If not provided, an optimal minimum value will be chosen automatically and
+a warning is returned.}
 }
 \value{
 A data.frame with one row and 6 variable: the values of \code{u} and \code{s}
@@ -23,20 +27,29 @@ Point-wise prediction hazard 2 time scale
 }
 \examples{
 id <- 1:20
-u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
-       4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
-s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
-       7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
+u <- c(
+  5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+  4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96
+)
+s <- c(
+  0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+  7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00
+)
 ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)
 fakedata <- as.data.frame(cbind(id, u, s, ev))
-fakedata2ts <- prepare_data(u = fakedata$u,
-                            s_out = fakedata$s,
-                            ev = fakedata$ev,
-                            ds = .5)
+fakedata2ts <- prepare_data(
+  u = fakedata$u,
+  s_out = fakedata$s,
+  ev = fakedata$ev,
+  ds = .5
+)
 # Fit a fake model - not optimal smoothing
 fakemod <- fit2ts(fakedata2ts,
-                  optim_method = "grid_search",
-                  lrho = list(seq(1 ,1.5 ,.5),
-                              seq(1 ,1.5 ,.5)))
+  optim_method = "grid_search",
+  lrho = list(
+    seq(1, 1.5, .5),
+    seq(1, 1.5, .5)
+  )
+)
 predict_haz2ts_pointwise(fakemod, u = 5, s = 4.44)
 }

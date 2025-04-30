@@ -91,3 +91,4 @@ Smoothing Poisson Counts with P-Splines."
 Journal of Statistical Software, 50(1), 1–24.
 https://doi.org/10.18637/jss.v050.i01
 }
+\keyword{internal}

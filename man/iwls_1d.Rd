@@ -54,3 +54,4 @@ compatibility with functions in 2d).
 \description{
 \code{iwls_1d()} fits the 1ts model with IWLS algorithm.
 }
+\keyword{internal}

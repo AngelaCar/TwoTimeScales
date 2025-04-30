@@ -60,3 +60,4 @@ compatibility with functions in 2d).
 \code{GLAM_1d_covariates()} fits a GLAM for the hazard with one time
 scale, with covariates.
 }
+\keyword{internal}

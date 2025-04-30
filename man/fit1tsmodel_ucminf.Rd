@@ -70,3 +70,4 @@ Nielsen H, Mortensen S (2024).
 \emph{ucminf: General-Purpose Unconstrained Non-Linear Optimization}.
 R package version 1.2.2, \url{https://CRAN.R-project.org/package=ucminf}
 }
+\keyword{internal}

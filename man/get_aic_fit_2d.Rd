@@ -73,3 +73,4 @@ The \code{aic} value of the fitted model.
 level covariates and it returns the AIC of the model.
 See also \code{fit2tsmodel_ucminf()} and \code{fit2ts()}.
 }
+\keyword{internal}

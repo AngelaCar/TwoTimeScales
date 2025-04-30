@@ -4,7 +4,7 @@
 \alias{predict_comprisks2ts}
 \title{Predict overall survival and cumulative incidence functions}
 \usage{
-predict_comprisks2ts(models = list(), newdata, u, s)
+predict_comprisks2ts(models = list(), newdata, u, s, ds = NULL)
 }
 \arguments{
 \item{models}{A list with cause-specific hazard models of class \code{'haz2ts'},
@@ -17,6 +17,10 @@ and the time scale \code{s} for which predictions are to be obtained.}
 \item{u}{The name of the variable in \code{newdata} containing values for the variable \code{u}.}
 
 \item{s}{The name of the variable in \code{newdata} containing values for the variable \code{s}.}
+
+\item{ds}{(optional) The distance between two consecutive points on the \code{s} axis.
+If not provided, an optimal minimum value will be chosen automatically and
+a warning is returned.}
 }
 \value{
 A dataframe cointaing the values of \code{u} and \code{s} in \code{newdata},
@@ -26,6 +30,9 @@ the cif as the number of cause-specific hazard models.
 }
 \description{
 Predict overall survival and cumulative incidence functions
+}
+\details{
+Predictions of cumulated quantities can be provided only within intervals of values on the \code{s} time scale.
 }
 \examples{
 id <- 1:20
