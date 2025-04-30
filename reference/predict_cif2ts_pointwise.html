@@ -38,7 +38,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_cif2ts_pointwise</span><span class="op">(</span>fitted_models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">u</span>, <span class="va">s</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_cif2ts_pointwise</span><span class="op">(</span>fitted_models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">u</span>, <span class="va">s</span>, ds <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -56,6 +56,12 @@
 <dt id="arg-s">s<a class="anchor" aria-label="anchor" href="#arg-s"></a></dt>
 <dd><p>The value(s) of <code>s</code> where prediction is required</p></dd>
 
+
+<dt id="arg-ds">ds<a class="anchor" aria-label="anchor" href="#arg-ds"></a></dt>
+<dd><p>(optional) The distance between two consecutive points on the <code>s</code> axis.
+If not provided, an optimal minimum value will be chosen automatically and
+a warning is returned.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -68,41 +74,60 @@ one for each cause, are obtained.</p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span></span></span>
-<span class="r-in"><span><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5.43</span>, <span class="fl">3.25</span>, <span class="fl">8.15</span>, <span class="fl">5.53</span>, <span class="fl">7.28</span>, <span class="fl">6.61</span>, <span class="fl">5.91</span>, <span class="fl">4.94</span>, <span class="fl">4.25</span>, <span class="fl">3.86</span>, <span class="fl">4.05</span>, <span class="fl">6.86</span>,</span></span>
-<span class="r-in"><span>       <span class="fl">4.94</span>, <span class="fl">4.46</span>, <span class="fl">2.14</span>, <span class="fl">7.56</span>, <span class="fl">5.55</span>, <span class="fl">7.60</span>, <span class="fl">6.46</span>, <span class="fl">4.96</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.44</span>, <span class="fl">4.89</span>, <span class="fl">0.92</span>, <span class="fl">1.81</span>, <span class="fl">2.02</span>, <span class="fl">1.55</span>, <span class="fl">3.16</span>, <span class="fl">6.36</span>, <span class="fl">0.66</span>, <span class="fl">2.02</span>, <span class="fl">1.22</span>, <span class="fl">3.96</span>,</span></span>
-<span class="r-in"><span>       <span class="fl">7.07</span>, <span class="fl">2.91</span>, <span class="fl">3.38</span>, <span class="fl">2.36</span>, <span class="fl">1.74</span>, <span class="fl">0.06</span>, <span class="fl">5.76</span>, <span class="fl">3.00</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="co">#'</span></span></span>
+<span class="r-in"><span><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fl">5.43</span>, <span class="fl">3.25</span>, <span class="fl">8.15</span>, <span class="fl">5.53</span>, <span class="fl">7.28</span>, <span class="fl">6.61</span>, <span class="fl">5.91</span>, <span class="fl">4.94</span>, <span class="fl">4.25</span>, <span class="fl">3.86</span>, <span class="fl">4.05</span>, <span class="fl">6.86</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">4.94</span>, <span class="fl">4.46</span>, <span class="fl">2.14</span>, <span class="fl">7.56</span>, <span class="fl">5.55</span>, <span class="fl">7.60</span>, <span class="fl">6.46</span>, <span class="fl">4.96</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fl">0.44</span>, <span class="fl">4.89</span>, <span class="fl">0.92</span>, <span class="fl">1.81</span>, <span class="fl">2.02</span>, <span class="fl">1.55</span>, <span class="fl">3.16</span>, <span class="fl">6.36</span>, <span class="fl">0.66</span>, <span class="fl">2.02</span>, <span class="fl">1.22</span>, <span class="fl">3.96</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">7.07</span>, <span class="fl">2.91</span>, <span class="fl">3.38</span>, <span class="fl">2.36</span>, <span class="fl">1.74</span>, <span class="fl">0.06</span>, <span class="fl">5.76</span>, <span class="fl">3.00</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fakedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">u</span>, <span class="va">s</span>, <span class="va">ev</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># cause 1</span></span></span>
-<span class="r-in"><span><span class="va">fakedata2ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
-<span class="r-in"><span>                            s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
-<span class="r-in"><span>                            ev <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span>,</span></span>
-<span class="r-in"><span>                            ds <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fakedata2ts1</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
+<span class="r-in"><span>  s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
+<span class="r-in"><span>  ev <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span>,</span></span>
+<span class="r-in"><span>  min_u <span class="op">=</span> <span class="fl">2</span>, min_s <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  ds <span class="op">=</span> <span class="fl">.5</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-in"><span><span class="co"># Fit a fake model - not optimal smoothing for cause type 1</span></span></span>
 <span class="r-in"><span><span class="va">fakemod1</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit2ts.html">fit2ts</a></span><span class="op">(</span><span class="va">fakedata2ts1</span>,</span></span>
-<span class="r-in"><span>                  optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
-<span class="r-in"><span>                  lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                              <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
+<span class="r-in"><span>  lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># cause 2</span></span></span>
-<span class="r-in"><span><span class="va">fakedata2ts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
-<span class="r-in"><span>                              s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
-<span class="r-in"><span>                              ev <span class="op">=</span> <span class="fl">1</span><span class="op">-</span><span class="op">(</span><span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                              ds <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fakedata2ts2</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
+<span class="r-in"><span>  s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
+<span class="r-in"><span>  ev <span class="op">=</span> <span class="fl">1</span> <span class="op">-</span> <span class="op">(</span><span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  min_u <span class="op">=</span> <span class="fl">2</span>, min_s <span class="op">=</span> <span class="fl">0</span>,</span></span>
+<span class="r-in"><span>  ds <span class="op">=</span> <span class="fl">.5</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-in"><span><span class="co"># Fit a fake model - not optimal smoothing for cause 2</span></span></span>
 <span class="r-in"><span><span class="va">fakemod2</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit2ts.html">fit2ts</a></span><span class="op">(</span><span class="va">fakedata2ts2</span>,</span></span>
-<span class="r-in"><span>                    optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
-<span class="r-in"><span>                    lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                                <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">predict_cif2ts_pointwise</span><span class="op">(</span>fitted_models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fakemod1</span>, <span class="va">fakemod2</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                         u <span class="op">=</span> <span class="fl">5.3</span>, s <span class="op">=</span> <span class="fl">4.4</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
+<span class="r-in"><span>  lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">predict_cif2ts_pointwise</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  fitted_models <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fakemod1</span>, <span class="va">fakemod2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  u <span class="op">=</span> <span class="fl">5.2</span>, s <span class="op">=</span> <span class="fl">4.4</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> chosen interval: ds = 0.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       u   s      surv     cif_1     cif_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 161 5.3 4.6 0.2085517 0.3832106 0.3597308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       u   s      surv     cif_1    cif_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 161 5.2 4.6 0.2133407 0.3975849 0.341374</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

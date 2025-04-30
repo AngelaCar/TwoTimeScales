@@ -38,7 +38,15 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_haz2ts</span><span class="op">(</span><span class="va">x</span>, newdata <span class="op">=</span> <span class="cn">NULL</span>, originaldata <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">u</span>, <span class="va">s</span>, id <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_haz2ts</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  newdata <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  originaldata <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">u</span>,</span>
+<span>  <span class="va">s</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ds <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -66,13 +74,21 @@ values for the variable <code>u</code>.</p></dd>
 
 <dt id="arg-s">s<a class="anchor" aria-label="anchor" href="#arg-s"></a></dt>
 <dd><p>The name of the variable in <code>newdata</code>, or in <code>originaldata</code> containing
-values for the variable <code>s</code>.</p></dd>
+values for the variable <code>s</code>. Note that over the <code>s</code> axis predictions
+are provided only within intervals of values, as it is necessary to
+approximate cumulated quantities.</p></dd>
 
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
 <dd><p>(optional) The name of the variable in <code>newdata</code>, or in <code>originaldata</code> containing
 the identification of each observation. It is not required for predictions on a
 new dataset.</p></dd>
+
+
+<dt id="arg-ds">ds<a class="anchor" aria-label="anchor" href="#arg-ds"></a></dt>
+<dd><p>(optional) The distance between two consecutive points on the <code>s</code> axis.
+If not provided, an optimal minimum value will be chosen automatically and
+a warning is returned.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -82,6 +98,10 @@ variables <code>id</code>, <code>u</code> and <code>s</code> are selected, or th
 together with the predicted values for the hazard <code>hazard</code> and its
 standard errors <code>se_hazard</code>, the cumulative hazard <code>cumhazard</code> and the
 survival probability <code>survival</code>.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Predictions of cumulated quantities can be provided only within intervals of values on the <code>s</code> time scale.</p>
     </div>
 
     <div class="section level2">
@@ -121,13 +141,40 @@ survival probability <code>survival</code>.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">fakemod</span>,</span></span>
 <span class="r-in"><span>  originaldata <span class="op">=</span> <span class="va">fakedata</span>, u <span class="op">=</span> <span class="st">"u"</span>, s <span class="op">=</span> <span class="st">"s"</span>, id <span class="op">=</span> <span class="st">"id"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in predict.haz2ts(object = fakemod, originaldata = fakedata, u = "u",     s = "s", id = "id"):</span> unused argument (object = fakemod)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id    u    s     hazard  se_hazard   cumhazard  survival</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 5.43 0.44 0.13740670 0.07599797 0.068130275 0.9341388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 3.25 4.89 0.19402638 0.26679324 0.878037756 0.4155976</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 8.15 0.92 0.07537982 0.08786874 0.072945278 0.9296517</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 5.53 1.81 0.14230098 0.05878897 0.261603915 0.7698159</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 7.28 2.02 0.09957468 0.07538578 0.197452069 0.8208195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 6.61 1.55 0.11306136 0.06689691 0.174471579 0.8399007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 5.91 3.16 0.13795103 0.07874811 0.419712583 0.6572357</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 4.94 6.36 0.17380895 0.16712236 1.023687049 0.3592679</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 4.25 0.66 0.16062214 0.09048239 0.111104019 0.8948457</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.86 2.02 0.17251792 0.08212664 0.350826575 0.7041059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 11 4.05 1.22 0.16653113 0.08299609 0.211805170 0.8091223</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 12 6.86 3.96 0.11983805 0.13696457 0.436677400 0.6461799</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 13 4.94 7.07 0.17804729 0.19944893 1.147048980 0.3175726</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 14 4.46 2.91 0.16848507 0.07543581 0.486023334 0.6150675</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 15 2.14 3.38 0.19342902 0.25092140 0.611328238 0.5426296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 16 7.56 2.36 0.09528778 0.08449232 0.212827761 0.8082953</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 17 5.55 1.74 0.14135558 0.05906538 0.246494518 0.7815356</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 18 7.60 0.06 0.08160222 0.10813840 0.008160222 0.9918730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 19 6.46 5.76 0.13931938 0.21728709 0.717137521 0.4881476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 20 4.96 3.00 0.15953865 0.06751365 0.475091887 0.6218279</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Now - predict on new dataset</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">fakemod</span>,</span></span>
 <span class="r-in"><span>  newdata <span class="op">=</span> <span class="va">newdata</span>, u <span class="op">=</span> <span class="st">"u"</span>, s <span class="op">=</span> <span class="st">"s"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in predict.haz2ts(object = fakemod, newdata = newdata, u = "u",     s = "s"):</span> unused argument (object = fakemod)</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> chosen interval: ds = 0.2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     u   s    hazard se_hazard  cumhazard  survival</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2.5 0.2 0.1689391 0.2039663 0.06733798 0.9348792</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.4 0.5 0.1670538 0.1338833 0.09949784 0.9052919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 6.0 1.3 0.1276804 0.0642310 0.17422551 0.8401074</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
