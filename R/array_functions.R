@@ -7,6 +7,7 @@
 #' @param A an array
 #'
 #' @noRd
+#' @keywords internal
 #'
 
 # Row tensor of a matrix X and a matrix Y

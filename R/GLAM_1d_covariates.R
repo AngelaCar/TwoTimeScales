@@ -34,7 +34,7 @@
 #' * `bic` The value of the BIC.
 #' * `Bbases` a list with the B-spline basis `Bs` (this is a list for
 #'    compatibility with functions in 2d).
-#'
+#' @keywords internal
 GLAM_1d_covariates <- function(R, Y,
                                Bs, Z = Z,
                                Wprior = NULL,

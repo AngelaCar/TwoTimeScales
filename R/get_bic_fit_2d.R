@@ -8,7 +8,7 @@
 #' @inheritParams get_aic_fit_2d
 #'
 #' @return The `bic` value of the fitted model.
-
+#' @keywords internal
 
 get_bic_fit_2d <- function(lrho,
                            R, Y,

@@ -21,7 +21,7 @@
 #' R package version 1.2.2, <https://CRAN.R-project.org/package=ucminf>
 #'
 #' @import ucminf
-
+#' @keywords internal
 
 fit2tsmodel_ucminf <- function(Y, R,
                                Z = NULL,

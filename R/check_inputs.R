@@ -18,7 +18,7 @@
 #'   This must be of dimension nu by ns.
 #'
 #' @noRd
-#'
+#' @keywords internal
 check_inputs <- function(R, Y,
                          Z = NULL,
                          Wprior = NULL) {

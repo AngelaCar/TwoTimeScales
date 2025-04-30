@@ -34,7 +34,7 @@
 #'     evaluation of the model over the `log_10(rho_s)` values.
 #'
 #' @return The `aic` value of the fitted model.
-
+#' @keywords internal
 
 get_aic_fit_2d <- function(lrho,
                            R, Y,

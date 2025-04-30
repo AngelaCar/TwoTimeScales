@@ -29,7 +29,7 @@
 #' * `bic` The value of the BIC.
 #' * `Bbases` a list with the B-spline basis `Bs` (this is a list for
 #'    compatibility with functions in 2d).
-
+#' @keywords internal
 
 iwls_1d <- function(r, y,
                     Bs, P,

@@ -4,6 +4,7 @@
 #' It is used by the function `plot_haz2ts`.
 #'
 #' @noRd
+#' @keywords internal
 
 utot <- function(u, s){
   t <- u + s

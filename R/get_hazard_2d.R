@@ -218,7 +218,7 @@ get_hazard_2d <- function(fitted_model,
 
   # ---- Calculates Standard Errors for log10(hazard) ----
   const <- log(10)
-  SE_log10haz <- abs(1/(Haz)*const) * SE_Haz
+  SE_log10haz <- abs(1/(Haz*const)) * SE_Haz
 
   # ---- Return results in a list ----
   results <- list(
