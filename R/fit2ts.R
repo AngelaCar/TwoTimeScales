@@ -94,6 +94,12 @@
 #' @details Some functions from the R-package `LMMsolver` are used here.
 #'          We refer the interested readers to https://biometris.github.io/LMMsolver/
 #'          for more details on `LMMsolver` and its usage.
+#'
+#'          For the numerical optimization using `ucminf` a tolerance parameter is
+#'          specified internally: `control = list(xtol = 1e-5)`. The default in
+#'          `ucminf` is `xtol = 1e-12`. As ucminf is used here to find the minimum
+#'          AIC or BIC, often this level of precision is not needed.
+#'          Nevertheless, this value can be adjusted in `control_algorithm`.
 #' @references Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed Model Formulation.”
 #'             Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178591.
 #'             Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
@@ -165,7 +171,8 @@ fit2ts <- function(data2ts = NULL,
     maxiter = 20,
     conv_crit = 1e-5,
     verbose = FALSE,
-    monitor_ev = FALSE
+    monitor_ev = FALSE,
+    xtol = 1e-5
   )
   Ncon <- names(con)
   namesCon <- names(control_algorithm)

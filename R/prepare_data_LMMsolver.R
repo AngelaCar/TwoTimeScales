@@ -52,8 +52,8 @@ prepare_data_LMMsolver <- function(Y = Y, R = R, Z = NULL, bins = bins){
                                                             x = namesZ[which(grepl(">", namesZ, fixed = T))] ,
                                                             fixed = T)
       }
-      colnames(Z) <- namesZ
       datalong = cbind(datalong, Z[datalong$id, ])
+      colnames(datalong) <- c(c('u_ind', 's_ind', 'id', 'r', 'y', 'u', 's'), namesZ)
       attr(datalong, "cov_names") <- namesZ
   }
     attr(datalong, "bininfo") <- bins

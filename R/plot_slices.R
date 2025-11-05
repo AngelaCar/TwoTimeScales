@@ -56,7 +56,8 @@ plot_slices <- function(x, y,
     ylim = NULL,
     cex_main = 1.2,
     cex_lab = 1,
-    lwd = 2
+    lwd = 2,
+    lty = 1
   )
 
   Nopts <- names(opts)
@@ -112,7 +113,7 @@ plot_slices <- function(x, y,
   matplot(x, to_plot,
     type = "l",
     lwd = opts$lwd,
-    lty = 1,
+    lty = opts$lty,
     col = col_palette,
     main = opts$main,
     cex.main = opts$cex_main,

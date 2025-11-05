@@ -192,7 +192,7 @@ plot.haz2tsLMM <- function(x,
     log10hazard = FALSE,
     cut_extrapolated = TRUE,
     tmax = NULL,
-     surv_slices = FALSE,
+    surv_slices = FALSE,
     cumhaz_slices = FALSE,
     col_palette = NULL,
     n_shades = 50,
@@ -214,7 +214,8 @@ plot.haz2tsLMM <- function(x,
     confidence = .95,
     col_beta = "blue",
     pch = 20,
-    lwd = 2
+    lwd = 2,
+    lty = 1
   )
 
   Nopts <- names(opts)
@@ -340,8 +341,8 @@ plot.haz2tsLMM <- function(x,
 
     to_plot <- to_plot * cut
 
-    # adjust legend breaks to match cutted surface
-    if (which_plot %in% c("hazard", "SE", "cumhaz")) {
+    # adjust legend breaks to match cut surface
+    if (which_plot %in% c("hazard", "SE", "cumhaz") & opts$cut_extrapolated) {
       K <- (max(to_plot, na.rm = T) - min(to_plot, na.rm = T)) / (opts$n_shades + 1)
       opts$breaks <- seq(min(to_plot, na.rm = T),
                          min(to_plot, na.rm = T) + K * (opts$n_shades + 1),
@@ -402,8 +403,7 @@ plot.haz2tsLMM <- function(x,
         contour_nlev = opts$contour_nlev,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab
-      ),
-      ...
+      )
     )
     return(invisible(plt))
   }
@@ -431,8 +431,7 @@ plot.haz2tsLMM <- function(x,
         contour_nlev = opts$contour_nlev,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab
-      ),
-      ...
+      )
     )
     return(invisible(plt))
   }
@@ -457,8 +456,7 @@ plot.haz2tsLMM <- function(x,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab,
         lwd = opts$lwd
-      ),
-      ...
+      )
     )
   }
   # ---- Plot survival / cumulative hazard slices ----

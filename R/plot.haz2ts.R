@@ -124,34 +124,44 @@
 #' @examples
 #' # Create some fake data - the bare minimum
 #' id <- 1:20
-#' u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
-#'        4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
-#' s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
-#'        7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
-#' ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)#'
+#' u <- c(
+#'   5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+#'   4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96
+#' )
+#' s <- c(
+#'   0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+#'   7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00
+#' )
+#' ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1) #'
 #'
 #' fakedata <- as.data.frame(cbind(id, u, s, ev))
-#' fakedata2ts <- prepare_data(u = fakedata$u,
-#'                             s_out = fakedata$s,
-#'                             ev = fakedata$ev,
-#'                             ds = .5)
+#' fakedata2ts <- prepare_data(
+#'   u = fakedata$u,
+#'   s_out = fakedata$s,
+#'   ev = fakedata$ev,
+#'   ds = .5
+#' )
 #' # Fit a fake model - not optimal smoothing
 #' fakemod <- fit2ts(fakedata2ts,
-#'                   optim_method = "grid_search",
-#'                   lrho = list(seq(1 ,1.5 ,.5),
-#'                               seq(1 ,1.5 ,.5)))
+#'   optim_method = "grid_search",
+#'   lrho = list(
+#'     seq(1, 1.5, .5),
+#'     seq(1, 1.5, .5)
+#'   )
+#' )
 #'
-#'  # plot the hazard surface
-#'  plot(fakemod)
+#' # plot the hazard surface
+#' plot(fakemod)
 #'
-#'  # plot the survival function as one-dimension curves over `s`
-#'  plot(fakemod,
-#'       which_plot = "survival",
-#'       direction = "u",
-#'       where_slices = c(4, 6, 8),
-#'       plot_options = list(
-#'       surv_slices = TRUE
-#'       ))
+#' # plot the survival function as one-dimension curves over `s`
+#' plot(fakemod,
+#'   which_plot = "survival",
+#'   direction = "u",
+#'   where_slices = c(4, 6, 8),
+#'   plot_options = list(
+#'     surv_slices = TRUE
+#'   )
+#' )
 #'
 #' # Plot cross-sections of the hazard over `s` for selected values of `u`
 #'
@@ -170,8 +180,10 @@
 
 plot.haz2ts <- function(x,
                         plot_grid = NULL,
-                        which_plot = c("hazard", "covariates", "SE", "slices",
-                                       "survival", "cumhaz"),
+                        which_plot = c(
+                          "hazard", "covariates", "SE", "slices",
+                          "survival", "cumhaz"
+                        ),
                         where_slices = NULL,
                         direction = c(NULL, "u", "s"),
                         plot_options = list(),
@@ -184,8 +196,9 @@ plot.haz2ts <- function(x,
     stop("Covariates plot required but x does not have covariates' parameters.")
   }
 
-  if((!is.null(where_slices)) & is.null(direction))
+  if ((!is.null(where_slices)) & is.null(direction)) {
     stop("Please provide a direction for the cutting points - see argument 'direction'")
+  }
 
 
   u <- s <- NULL
@@ -220,7 +233,8 @@ plot.haz2ts <- function(x,
     confidence = .95,
     col_beta = "blue",
     pch = 20,
-    lwd = 2
+    lwd = 2,
+    lty = 1
   )
 
   Nopts <- names(opts)
@@ -278,7 +292,7 @@ plot.haz2ts <- function(x,
 
   # ---- Get (baseline) (log-)hazard and hazard ratios if needed ----
   if (which_plot %in% c("hazard", "slices", "SE")) {
-     hazard_SE <- get_hazard_2d(
+    hazard_SE <- get_hazard_2d(
       fitted_model = x,
       plot_grid = plot_grid,
       where_slices = where_slices,
@@ -288,7 +302,7 @@ plot.haz2ts <- function(x,
     )
     new_grid <- hazard_SE$new_plot_grid
 
-        if (which_plot %in% c("hazard", "slices")) {
+    if (which_plot %in% c("hazard", "slices")) {
       if (opts$loghazard == TRUE) {
         to_plot <- hazard_SE$loghazard
       } else {
@@ -313,28 +327,30 @@ plot.haz2ts <- function(x,
     }
   }
   if (which_plot == "survival") {
-      surv <- surv2ts(
-        fitted_model = x,
-        plot_grid = plot_grid,
-        midpoints = opts$midpoints,
-        where_slices = where_slices,
-        direction = direction,
-        tmax = opts$tmax
-      )
-      new_grid <- attr(surv, "plot_grid")
-      to_plot <- surv$Surv2ts
-    }
+    surv <- surv2ts(
+      fitted_model = x,
+      plot_grid = plot_grid,
+      midpoints = opts$midpoints,
+      where_slices = where_slices,
+      direction = direction,
+      tmax = opts$tmax
+    )
+    new_grid <- attr(surv, "plot_grid")
+    to_plot <- surv$Surv2ts
+  }
 
-    if( which_plot == "cumhaz"){
-      CumHaz <- cumhaz2ts(fitted_model = x,
-                          plot_grid = plot_grid,
-                          midpoints = opts$midpoints,
-                          where_slices = where_slices,
-                          direction = direction,
-                          tmax = opts$tmax)
-      to_plot <- CumHaz$CumHaz
-      new_grid <- CumHaz$Haz$new_plot_grid
-    }
+  if (which_plot == "cumhaz") {
+    CumHaz <- cumhaz2ts(
+      fitted_model = x,
+      plot_grid = plot_grid,
+      midpoints = opts$midpoints,
+      where_slices = where_slices,
+      direction = direction,
+      tmax = opts$tmax
+    )
+    to_plot <- CumHaz$CumHaz
+    new_grid <- CumHaz$Haz$new_plot_grid
+  }
 
   if (is.null(opts$tmax)) {
     opts$tmax <- new_grid$umax + new_grid$smax
@@ -355,13 +371,15 @@ plot.haz2ts <- function(x,
 
     to_plot <- to_plot * cut
 
-    # adjust legend breaks to match cutted surface
+    # adjust legend breaks to match cut surface
     if (which_plot %in% c("hazard", "SE", "cumhaz")) {
-      K <- (max(to_plot, na.rm = T) - min(to_plot, na.rm = T)) / (opts$n_shades + 1)
-      opts$breaks <- seq(min(to_plot, na.rm = T),
-        min(to_plot, na.rm = T) + K * (opts$n_shades + 1),
-        length = (opts$n_shades + 1)
-      )
+      if (is.null(opts$breaks)) {
+        K <- (max(to_plot, na.rm = T) - min(to_plot, na.rm = T)) / (opts$n_shades + 1)
+        opts$breaks <- seq(min(to_plot, na.rm = T),
+          min(to_plot, na.rm = T) + K * (opts$n_shades + 1),
+          length = (opts$n_shades + 1)
+        )
+      }
     }
   }
 
@@ -406,7 +424,7 @@ plot.haz2ts <- function(x,
   }
 
   # ---- If slices, organize on grid and select only values where slices are ----
-  if (which_plot == "slices" | opts$surv_slices | opts$cumhaz_slices)  {
+  if (which_plot == "slices" | opts$surv_slices | opts$cumhaz_slices) {
     if (direction == "s") {
       grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
       grid_us$t <- grid_us$u + grid_us$s
@@ -419,7 +437,7 @@ plot.haz2ts <- function(x,
       to_plot <- to_plot_v
       X1 <- unique(sort(final_grid$t))
     } else {
-      if(is.null(where_slices)) stop("Please provide location for the cut-points over `u` (where_slices)")
+      if (is.null(where_slices)) stop("Please provide location for the cut-points over `u` (where_slices)")
       grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
       grid_us$to_plot <- c(to_plot)
       onlyslic <- subset(grid_us, u %in% where_slices)
@@ -431,7 +449,7 @@ plot.haz2ts <- function(x,
 
   # ---- Plot (log-)hazard ----
   if (which_plot %in% c("hazard", "survival", "cumhaz") &
-      !(opts$surv_slices) & !(opts$cumhaz_slices)) {
+    !(opts$surv_slices) & !(opts$cumhaz_slices)) {
     plt <- imageplot_2ts(
       x = X1, y = X2, z = to_plot,
       plot_options = list(
@@ -455,8 +473,7 @@ plot.haz2ts <- function(x,
         contour_nlev = opts$contour_nlev,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab
-      ),
-      ...
+      )
     )
     return(invisible(plt))
   }
@@ -516,8 +533,8 @@ plot.haz2ts <- function(x,
   }
 
   # ---- Plot survival / cumulative hazard slices ----
-  if( (which_plot == "survival" & opts$surv_slices)  |
-      (which_plot == "cumhaz" & opts$cumhaz_slices)){
+  if ((which_plot == "survival" & opts$surv_slices) |
+    (which_plot == "cumhaz" & opts$cumhaz_slices)) {
     x <- new_grid$ints
     plt <- plot_slices(
       x = x,

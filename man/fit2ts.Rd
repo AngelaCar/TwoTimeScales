@@ -183,6 +183,13 @@ the function will estimate a model with covariates.
 Some functions from the R-package \code{LMMsolver} are used here.
 We refer the interested readers to https://biometris.github.io/LMMsolver/
 for more details on \code{LMMsolver} and its usage.
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{     For the numerical optimization using `ucminf` a tolerance parameter is
+     specified internally: `control = list(xtol = 1e-5)`. The default in
+     `ucminf` is `xtol = 1e-12`. As ucminf is used here to find the minimum
+     AIC or BIC, often this level of precision is not needed.
+     Nevertheless, this value can be adjusted in `control_algorithm`.
+}\if{html}{\out{</div>}}
 }
 \examples{
 # Create some fake data - the bare minimum

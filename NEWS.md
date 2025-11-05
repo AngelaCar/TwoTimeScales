@@ -1,3 +1,22 @@
+# TwoTimeScales 1.1.1
+
+## Updates
+* `predict.haz2ts()` can now predict also including covariates fixed at arbitrary 
+  values.
+
+* `GLAM_2d_covariates()` returns covariances between the alpha and beta parameters
+
+* All functions that use ucminf to minimize the AIC/BIC of the model wrt the smoothing
+  parameter(s) now have a smaller value for the option `xtol`. 
+  Additionally, it can also be changed in the control lists.
+  
+* Fixed a small typo in `plot_haz1ts()` that did not allow to plot confidence intervals in
+  color specified by user.
+  
+* Fixed problem with variable names in `prepare_data_LMMsolver()`
+
+* `print.data2ts()` now prints rounded values for total exposure time
+
 # TwoTimeScales 1.1.0
 
 ## New functions

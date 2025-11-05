@@ -185,7 +185,8 @@ plot.haz1ts <- function(x,
         }
       }
 
-    if(is.null(opts$col_CI)) col_CI <- adjustcolor(opts$col, alpha.f = 0.5)
+    if(is.null(opts$col_CI)) {col_CI <- adjustcolor(opts$col, alpha.f = 0.5)}
+    else col_CI <- opts$col_CI
 
     if(is.null(opts$ylim)) {
       if(opts$add_CI){

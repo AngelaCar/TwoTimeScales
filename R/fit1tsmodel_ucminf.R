@@ -37,7 +37,8 @@ fit1tsmodel_ucminf <- function(r, y,
     maxiter = 20,
     conv_crit = 1e-5,
     verbose = FALSE,
-    monitor_ev = FALSE
+    monitor_ev = FALSE,
+    xtol = 1e-5
   )
   Ncon <- names(con)
   namesCon <- names(control_algorithm)
@@ -59,7 +60,8 @@ fit1tsmodel_ucminf <- function(r, y,
       Bs = Bs,
       Ds = Ds,
       Wprior = Wprior,
-      control_algorithm = con
+      control_algorithm = con,
+      control = list(xtol = con$xtol)
     )
   }
   if(optim_criterion == "bic"){
@@ -71,7 +73,8 @@ fit1tsmodel_ucminf <- function(r, y,
       Bs = Bs,
       Ds = Ds,
       Wprior = Wprior,
-      control_algorithm = con
+      control_algorithm = con,
+      control = list(xtol = con$xtol)
     )
   }
 

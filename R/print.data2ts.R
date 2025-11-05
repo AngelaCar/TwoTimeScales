@@ -51,7 +51,8 @@ print.data2ts <- function(x,...)
   else
     print(x$bins[c(3)])
   cat("\nOverview of the binned data:\n")
-  cat(paste0("Total exposure time: ", lapply(x$bindata[1], sum)))
+  exps <- unlist(lapply(x$bindata[1], sum))
+  cat(paste0("Total exposure time: ", round(exps, 2)))
   cat("\n")
   cat(paste0("Total number of events: ", lapply(x$bindata[2], sum)))
   # if covariates

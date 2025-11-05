@@ -11,6 +11,7 @@
 #'          values for the variable `s`. Note that over the `s` axis predictions
 #'          are provided only within intervals of values, as it is necessary to
 #'          approximate cumulated quantities.
+#' @param z Covariates value
 #' @param id (optional) The name of the variable in `newdata`, or in `originaldata` containing
 #'          the identification of each observation. It is not required for predictions on a
 #'          new dataset.
@@ -40,13 +41,18 @@
 #'   7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00
 #' )
 #' ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)
-#' fakedata <- as.data.frame(cbind(id, u, s, ev))
+#' z1 <- rbinom(n = 20, size = 20, prob = .5)
+#' z2 <- rnorm(n = 20)
+#'
+#' fakedata <- as.data.frame(cbind(id, u, s, ev, z1, z2))
 #' fakedata2ts <- prepare_data(
 #'   u = fakedata$u,
 #'   s_out = fakedata$s,
 #'   ev = fakedata$ev,
-#'   ds = .5
+#'   ds = .5, individual = TRUE,
+#'   covs = subset(fakedata, select = c("z1", "z2"))
 #' )
+#'
 #' # Fit a fake model - not optimal smoothing
 #' fakemod <- fit2ts(fakedata2ts,
 #'   optim_method = "grid_search",
@@ -56,32 +62,59 @@
 #'   )
 #' )
 #' # Create a new dataset for prediction
-#' newdata <- as.data.frame(cbind("u" = c(2.5, 3.4, 6), "s" = c(.2, .5, 1.3)))
+#' newdata <- as.data.frame(cbind("u" = c(2.5, 3.4, 6),
+#'                                "s" = c(.2, .5, 1.3)))
 #'
 #' # First - predict on original data
 #' predict(object = fakemod,
 #'   originaldata = fakedata, u = "u", s = "s", id = "id"
 #' )
 #'
+#'
 #' # Now - predict on new dataset
 #' predict(object = fakemod,
 #'   newdata = newdata, u = "u", s = "s"
 #' )
 #'
+#' # Now - predict including covariates
+#' predict(object = fakemod,
+#'         originaldata = fakedata,
+#'         u = "u", s = "s", id = "id",
+#'         z = c("z1", "z2")
+#' )
+#' # If one wants to predict with only one of the covariates at a different
+#' # value than the baseline, the other one(s) should be fixed at their
+#' # baseline levels
+#'
+#' newdata2 <- as.data.frame(cbind("u" = c(2.5, 3.4, 6),
+#'                                 "s" = c(.2, .5, 1.3),
+#'                                 "z1" = c(1, 2, 3),
+#'                                 "z2" = c(0, 0, 0)))
+#' predict(object = fakemod,
+#'         newdata = newdata2,
+#'         u = "u", s = "s", id = "id",
+#'         z = c("z1", "z2")
+#' )
+#'
+
 predict_haz2ts <- function(x,
                            newdata = NULL,
                            originaldata = NULL,
-                           u, s, id = NULL, ds = NULL) {
+                           u, s, z = NULL, id = NULL, ds = NULL) {
   if (!inherits(x, "haz2ts")) stop("'x' must be a 'haz2ts' object")
 
   if (!is.null(originaldata)) {
     n <- nrow(originaldata)
-    var <- c(id, u, s)
-    predicted <- subset(originaldata, select = var)
-    predicted$hazard <- NULL
-    predicted$cumhazard <- NULL
-    predicted$se_hazard <- NULL
-    predicted$survival <- NULL
+    vars <- c(id, u, s, z)
+    predicted <- subset(originaldata, select = vars)
+    predicted$hazard <- NA
+    predicted$se_hazard <- NA
+    predicted$cumhazard <- NA
+    predicted$survival <- NA
+    if(!is.null(z)){
+      predicted$basehazard <- NA
+      predicted$se_basehazard <- NA
+    }
 
     if(is.null(ds)){
       ds <- round(min((originaldata[, which(names(originaldata) == s)] -
@@ -89,26 +122,48 @@ predict_haz2ts <- function(x,
       if(ds == 0) ds <- .1 # make a minimal choice if ds is 0
     }
 
-    for (i in 1:n) {
+    if(is.null(z)) {
+      for (i in 1:n) {
+        pred <- predict_haz2ts_pointwise(
+          fitted_model = x,
+          upred = originaldata[i, which(names(originaldata) == u)],
+          spred = originaldata[i, which(names(originaldata) == s)],
+          ds = ds
+        )
+        predicted[i, "hazard"] <- pred$basehazard
+        predicted[i, "se_hazard"] <- pred$se_basehazard
+        predicted[i, "cumhazard"] <- pred$cumhaz
+        predicted[i, "survival"] <- pred$survival
+      }
+    } else {
+      for (i in 1:n) {
       pred <- predict_haz2ts_pointwise(
         fitted_model = x,
-        u = originaldata[i, which(names(originaldata) == u)],
-        s = originaldata[i, which(names(originaldata) == s)],
+        upred = originaldata[i, which(names(originaldata) == u)],
+        spred = originaldata[i, which(names(originaldata) == s)],
+        zpred = as.numeric(originaldata[i, which(names(originaldata) %in% z)]),
         ds = ds
       )
+
       predicted[i, "hazard"] <- pred$hazard
       predicted[i, "se_hazard"] <- pred$se_hazard
+      predicted[i, "basehazard"] <- pred$basehazard
+      predicted[i, "se_basehazard"] <- pred$se_basehazard
       predicted[i, "cumhazard"] <- pred$cumhaz
       predicted[i, "survival"] <- pred$survival
+      }
     }
   } else {
     if (!is.null(newdata)) {
       n <- nrow(newdata)
       predicted <- newdata
-      predicted$hazard <- NULL
-      predicted$cumhazard <- NULL
-      predicted$se_hazard <- NULL
-      predicted$survival <- NULL
+      predicted$hazard <- NA
+      predicted$cumhazard <- NA
+      predicted$se_hazard <- NA
+      predicted$survival <- NA
+      if(!is.null(z)){
+        predicted$basehazard <- NA
+      }
 
       if(is.null(ds)){
         ds <- round(min((newdata[, which(names(newdata) == s)] -
@@ -117,19 +172,38 @@ predict_haz2ts <- function(x,
         message("chosen interval: ds = ", ds)
       }
 
-      for (i in 1:n) {
-        pred <- predict_haz2ts_pointwise(
-          fitted_model = x,
-          u = newdata[i, which(names(newdata) == u)],
-          s = newdata[i, which(names(newdata) == s)],
-          ds = ds
-        )
-        predicted[i, "hazard"] <- pred$hazard
-        predicted[i, "se_hazard"] <- pred$se_hazard
-        predicted[i, "cumhazard"] <- pred$cumhaz
-        predicted[i, "survival"] <- pred$survival
+      if(is.null(z)) {
+        for (i in 1:n) {
+          pred <- predict_haz2ts_pointwise(
+            fitted_model = x,
+            upred = newdata[i, which(names(newdata) == u)],
+            spred = newdata[i, which(names(newdata) == s)],
+            ds = ds
+          )
+          predicted[i, "hazard"] <- pred$basehazard
+          predicted[i, "se_hazard"] <- pred$se_basehazard
+          predicted[i, "cumhazard"] <- pred$cumhaz
+          predicted[i, "survival"] <- pred$survival
+        }
+      } else {
+        for (i in 1:n) {
+          pred <- predict_haz2ts_pointwise(
+            fitted_model = x,
+            upred = newdata[i, which(names(newdata) == u)],
+            spred = newdata[i, which(names(newdata) == s)],
+            zpred = as.numeric(newdata[i, which(names(newdata) %in% z)]),
+            ds = ds
+          )
+          predicted[i, "hazard"] <- pred$hazard
+          predicted[i, "se_hazard"] <- pred$se_hazard
+          predicted[i, "basehazard"] <- pred$basehazard
+          predicted[i, "se_basehazard"] <- pred$se_basehazard
+          predicted[i, "cumhazard"] <- pred$cumhaz
+          predicted[i, "survival"] <- pred$survival
+        }
+      }
+
       }
     }
-  }
   return(predicted)
 }

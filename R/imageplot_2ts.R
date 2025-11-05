@@ -141,7 +141,8 @@ imageplot_2ts <- function(x, y, z,
     }
   }
   if (is.null(opts$ylim)) opts$ylim <- c(min(unique(y)), max(unique(y)))
-   # ---- No contour if original and not rectangular_grid
+
+  # ---- No contour if original and not rectangular_grid
   if (opts$original & (!opts$rectangular_grid)) opts$contour_lines <- FALSE
 
   # ---- Plot ----

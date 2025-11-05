@@ -1,8 +1,9 @@
 #' Point-wise prediction hazard 2 time scale
 #'
 #' @param fitted_model An object of class `'haz2ts'` fitted via `fit2ts()`.
-#' @param u The value(s) of `u` where prediction is required
-#' @param s The value(s) of `s` where prediction is required
+#' @param upred The value(s) of `u` where prediction is required
+#' @param spred The value(s) of `s` where prediction is required
+#' @param zpred (optional) is a vector of values for the covariates in the model
 #' @param ds (optional) The distance between two consecutive points on the `s` axis.
 #'           If not provided, an optimal minimum value will be chosen automatically and
 #'           a warning is returned.
@@ -38,9 +39,12 @@
 #'     seq(1, 1.5, .5)
 #'   )
 #' )
-#' predict_haz2ts_pointwise(fakemod, u = 5, s = 4.44)
+#' predict_haz2ts_pointwise(fakemod, upred = 5, spred = 4.44)
+
 predict_haz2ts_pointwise <- function(fitted_model,
-                                     u, s, ds = NULL) {
+                                     upred,
+                                     spred,
+                                     zpred = NULL, ds = NULL) {
   Bbases <- fitted_model$optimal_model$Bbases
   midu <- attributes(Bbases$Bu)$x
   umin <- attributes(Bbases$Bu)$xl
@@ -50,10 +54,9 @@ predict_haz2ts_pointwise <- function(fitted_model,
 
   # if ds is not provided, find the smallest `ds` given `s`
   if (is.null(ds)) {
-    ds <- round(min(s - as.integer(s)), 1)
+    ds <- round(min(spred - as.integer(spred)), 1)
     if(ds == 0) ds <- .1
     message("chosen interval: ds = ", ds)
-
   }
 
   # remake intervals over `s`
@@ -71,14 +74,15 @@ predict_haz2ts_pointwise <- function(fitted_model,
   )
 
   # if u is already = to one of the interval points, do nothing, otherwise
-  if (!(u %in% new_grid$intu)) {
-    if (u < new_grid$umin | u > new_grid$umax) {
-      stop("New `u` outside of range of `B_u`.")
+  if (!(upred %in% new_grid$intu)) {
+    if (upred < new_grid$umin | upred > new_grid$umax) {
+      stop("New `upred` outside of range of `B_u`.")
     } else {
-      newu <- unique(sort(c(new_grid$intu, u)))
+      newu <- unique(sort(c(new_grid$intu, upred)))
       new_grid$intu <- newu
     }
   }
+
   Bu <- JOPS::bbase(new_grid$intu,
     xl = umin, xr = umax,
     nseg = attributes(Bbases$Bu)$nseg,
@@ -96,8 +100,15 @@ predict_haz2ts_pointwise <- function(fitted_model,
   # Now calculate hazard and only select the value corresponding to the new u,s pair
 
   # ---- Calculate (baseline) hazard ----
-  Eta <- Bu %*% fitted_model$optimal_model$Alpha %*% t(Bs)
-  Haz <- exp(Eta)
+  Eta0 <- Bu %*% fitted_model$optimal_model$Alpha %*% t(Bs)
+  Haz0 <- exp(Eta0)
+
+  # ---- Calculate hazard after covariates ----
+  if(!is.null(zpred)){
+    risk <- (fitted_model$optimal_model$beta %*% t(zpred))[1,1]
+    Eta <- Eta0 + risk
+    Haz <- exp(Eta)
+    }
 
   # ---- Calculate Standard Errors for the log-hazard ----
   cu <- ncol(Bu)
@@ -108,25 +119,54 @@ predict_haz2ts_pointwise <- function(fitted_model,
 
   Cov_Alpha <- array(fitted_model$optimal_model$Cov_Alpha, c(cu, cs, cu, cs))
   Cov_Alpha <- aperm(Cov_Alpha, c(1, 3, 2, 4))
-  Cov_Alpha <- matrix(Cov_Alpha, c(cu^2, cs^2))
+  Cov_Alpha <- matrix(Cov_Alpha, c(cu ^ 2, cs ^ 2))
   Dim <- c(nrow(TBu), nrow(TBs))
-  Var_Eta <- matrix(TBu %*% Cov_Alpha %*% t(TBs), Dim)
-  SE_Eta <- sqrt(Var_Eta)
+  Var_Eta0 <- matrix(TBu %*% Cov_Alpha %*% t(TBs), Dim)
+  SE_Eta0 <- sqrt(Var_Eta0)
 
-  # ---- Calculate Standard Errors for the hazard ----
-  SE_Haz <- Haz * SE_Eta
+  # ---- Calculate Variance of risk factor and covariance with Eta0 ----
+  if(!is.null(zpred)){
+    if(length(zpred) > 1){
+    Var_Zbeta <- (t(zpred) %*% fitted_model$optimal_model$Cov_beta %*% zpred)[1,1]
+    B <- kronecker(Bs, Bu)
+    Cov_Eta0_Zbeta <- B %*% (fitted_model$optimal_model$Cov_Alpha_beta %*% zpred)
+    Cov_Eta0_Zbeta <- matrix(Cov_Eta0_Zbeta, Dim)
+    } else {
+      Var_Zbeta <- sum(zpred ^ 2 * fitted_model$optimal_model$Cov_beta)
+      B <- kronecker(Bs, Bu)
+      Cov_Eta0_Zbeta <- B %*% (fitted_model$optimal_model$Cov_Alpha_beta * zpred)
+      Cov_Eta0_Zbeta <- matrix(Cov_Eta0_Zbeta, Dim)
+      }
+    SE_Eta <- sqrt(Var_Eta0 + Var_Zbeta + 2*Cov_Eta0_Zbeta)
+  }
+
+  # ---- Calculate Standard Errors for the baseline hazard ----
+  SE_Haz0 <- Haz0 * SE_Eta0
+
+  # ---- Calculate Standard Errors for the full hazard ----
+  if(!is.null(zpred)){
+    SE_Haz <- Haz * SE_Eta
+  }
 
   # ---- Cumulative hazard ----
-  CumHaz <- t(apply(Haz * ds, 1, cumsum))
+  if(!is.null(zpred)){
+    CumHaz <- t(apply(Haz * ds, 1, cumsum))
+  } else {
+    CumHaz <- t(apply(Haz0 * ds, 1, cumsum))
+  }
 
   # select only value for u,s
   grid_us <- expand.grid(u = new_grid$intu, s = new_grid$ints)
-  grid_us$hazard <- c(Haz)
-  grid_us$se_hazard <- c(SE_Haz)
+  grid_us$basehazard <- c(Haz0)
+  grid_us$se_basehazard <- c(SE_Haz0)
+  if(!is.null(zpred)){
+    grid_us$hazard <- c(Haz)
+    grid_us$se_hazard <- c(SE_Haz)
+  }
   grid_us$cumhaz <- c(CumHaz)
   grid_us$survival <- exp(-grid_us$cumhaz)
 
-  which_ints <- findInterval(s, ints)
-  selection <- grid_us[grid_us$u == u & grid_us$s == new_grid$ints[which_ints], ]
+  which_ints <- findInterval(spred, ints)
+  selection <- grid_us[grid_us$u == upred & grid_us$s == new_grid$ints[which_ints], ]
   return(selection)
 }

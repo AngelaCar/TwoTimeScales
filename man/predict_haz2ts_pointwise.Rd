@@ -4,14 +4,16 @@
 \alias{predict_haz2ts_pointwise}
 \title{Point-wise prediction hazard 2 time scale}
 \usage{
-predict_haz2ts_pointwise(fitted_model, u, s, ds = NULL)
+predict_haz2ts_pointwise(fitted_model, upred, spred, zpred = NULL, ds = NULL)
 }
 \arguments{
 \item{fitted_model}{An object of class \code{'haz2ts'} fitted via \code{fit2ts()}.}
 
-\item{u}{The value(s) of \code{u} where prediction is required}
+\item{upred}{The value(s) of \code{u} where prediction is required}
 
-\item{s}{The value(s) of \code{s} where prediction is required}
+\item{spred}{The value(s) of \code{s} where prediction is required}
+
+\item{zpred}{(optional) is a vector of values for the covariates in the model}
 
 \item{ds}{(optional) The distance between two consecutive points on the \code{s} axis.
 If not provided, an optimal minimum value will be chosen automatically and
@@ -51,5 +53,5 @@ fakemod <- fit2ts(fakedata2ts,
     seq(1, 1.5, .5)
   )
 )
-predict_haz2ts_pointwise(fakemod, u = 5, s = 4.44)
+predict_haz2ts_pointwise(fakemod, upred = 5, spred = 4.44)
 }

@@ -39,7 +39,8 @@ fit2tsmodel_ucminf <- function(Y, R,
     maxiter = 20,
     conv_crit = 1e-5,
     verbose = FALSE,
-    monitor_ev = FALSE
+    monitor_ev = FALSE,
+    xtol = 1e-5
   )
   Ncon <- names(con)
   namesCon <- names(control_algorithm)
@@ -62,7 +63,8 @@ fit2tsmodel_ucminf <- function(Y, R,
       Du = Du, Ds = Ds,
       Wprior = Wprior,
       ridge = ridge,
-      control_algorithm = con
+      control_algorithm = con,
+      control = list(xtol = con$xtol)
     )
   }
   if(optim_criterion == "bic"){
@@ -75,7 +77,8 @@ fit2tsmodel_ucminf <- function(Y, R,
       Du = Du, Ds = Ds,
       Wprior = Wprior,
       ridge = ridge,
-      control_algorithm = con
+      control_algorithm = con,
+      control = list(xtol = con$xtol)
     )
   }
 

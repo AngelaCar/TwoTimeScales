@@ -10,6 +10,7 @@ predict_haz2ts(
   originaldata = NULL,
   u,
   s,
+  z = NULL,
   id = NULL,
   ds = NULL
 )
@@ -30,6 +31,8 @@ values for the variable \code{u}.}
 values for the variable \code{s}. Note that over the \code{s} axis predictions
 are provided only within intervals of values, as it is necessary to
 approximate cumulated quantities.}
+
+\item{z}{Covariates value}
 
 \item{id}{(optional) The name of the variable in \code{newdata}, or in \code{originaldata} containing
 the identification of each observation. It is not required for predictions on a
@@ -64,13 +67,18 @@ s <- c(
   7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00
 )
 ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)
-fakedata <- as.data.frame(cbind(id, u, s, ev))
+z1 <- rbinom(n = 20, size = 20, prob = .5)
+z2 <- rnorm(n = 20)
+
+fakedata <- as.data.frame(cbind(id, u, s, ev, z1, z2))
 fakedata2ts <- prepare_data(
   u = fakedata$u,
   s_out = fakedata$s,
   ev = fakedata$ev,
-  ds = .5
+  ds = .5, individual = TRUE,
+  covs = subset(fakedata, select = c("z1", "z2"))
 )
+
 # Fit a fake model - not optimal smoothing
 fakemod <- fit2ts(fakedata2ts,
   optim_method = "grid_search",
@@ -80,16 +88,38 @@ fakemod <- fit2ts(fakedata2ts,
   )
 )
 # Create a new dataset for prediction
-newdata <- as.data.frame(cbind("u" = c(2.5, 3.4, 6), "s" = c(.2, .5, 1.3)))
+newdata <- as.data.frame(cbind("u" = c(2.5, 3.4, 6),
+                               "s" = c(.2, .5, 1.3)))
 
 # First - predict on original data
 predict(object = fakemod,
   originaldata = fakedata, u = "u", s = "s", id = "id"
 )
 
+
 # Now - predict on new dataset
 predict(object = fakemod,
   newdata = newdata, u = "u", s = "s"
+)
+
+# Now - predict including covariates
+predict(object = fakemod,
+        originaldata = fakedata,
+        u = "u", s = "s", id = "id",
+        z = c("z1", "z2")
+)
+# If one wants to predict with only one of the covariates at a different
+# value than the baseline, the other one(s) should be fixed at their
+# baseline levels
+
+newdata2 <- as.data.frame(cbind("u" = c(2.5, 3.4, 6),
+                                "s" = c(.2, .5, 1.3),
+                                "z1" = c(1, 2, 3),
+                                "z2" = c(0, 0, 0)))
+predict(object = fakemod,
+        newdata = newdata2,
+        u = "u", s = "s", id = "id",
+        z = c("z1", "z2")
 )
 
 }
