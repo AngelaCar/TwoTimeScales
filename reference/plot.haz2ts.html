@@ -15,7 +15,7 @@ transformed (u,s) plane."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -207,37 +207,47 @@ can be plotted.</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Create some fake data - the bare minimum</span></span></span>
 <span class="r-in"><span><span class="va">id</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">20</span></span></span>
-<span class="r-in"><span><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5.43</span>, <span class="fl">3.25</span>, <span class="fl">8.15</span>, <span class="fl">5.53</span>, <span class="fl">7.28</span>, <span class="fl">6.61</span>, <span class="fl">5.91</span>, <span class="fl">4.94</span>, <span class="fl">4.25</span>, <span class="fl">3.86</span>, <span class="fl">4.05</span>, <span class="fl">6.86</span>,</span></span>
-<span class="r-in"><span>       <span class="fl">4.94</span>, <span class="fl">4.46</span>, <span class="fl">2.14</span>, <span class="fl">7.56</span>, <span class="fl">5.55</span>, <span class="fl">7.60</span>, <span class="fl">6.46</span>, <span class="fl">4.96</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.44</span>, <span class="fl">4.89</span>, <span class="fl">0.92</span>, <span class="fl">1.81</span>, <span class="fl">2.02</span>, <span class="fl">1.55</span>, <span class="fl">3.16</span>, <span class="fl">6.36</span>, <span class="fl">0.66</span>, <span class="fl">2.02</span>, <span class="fl">1.22</span>, <span class="fl">3.96</span>,</span></span>
-<span class="r-in"><span>       <span class="fl">7.07</span>, <span class="fl">2.91</span>, <span class="fl">3.38</span>, <span class="fl">2.36</span>, <span class="fl">1.74</span>, <span class="fl">0.06</span>, <span class="fl">5.76</span>, <span class="fl">3.00</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span><span class="co">#'</span></span></span>
+<span class="r-in"><span><span class="va">u</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fl">5.43</span>, <span class="fl">3.25</span>, <span class="fl">8.15</span>, <span class="fl">5.53</span>, <span class="fl">7.28</span>, <span class="fl">6.61</span>, <span class="fl">5.91</span>, <span class="fl">4.94</span>, <span class="fl">4.25</span>, <span class="fl">3.86</span>, <span class="fl">4.05</span>, <span class="fl">6.86</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">4.94</span>, <span class="fl">4.46</span>, <span class="fl">2.14</span>, <span class="fl">7.56</span>, <span class="fl">5.55</span>, <span class="fl">7.60</span>, <span class="fl">6.46</span>, <span class="fl">4.96</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">s</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fl">0.44</span>, <span class="fl">4.89</span>, <span class="fl">0.92</span>, <span class="fl">1.81</span>, <span class="fl">2.02</span>, <span class="fl">1.55</span>, <span class="fl">3.16</span>, <span class="fl">6.36</span>, <span class="fl">0.66</span>, <span class="fl">2.02</span>, <span class="fl">1.22</span>, <span class="fl">3.96</span>,</span></span>
+<span class="r-in"><span>  <span class="fl">7.07</span>, <span class="fl">2.91</span>, <span class="fl">3.38</span>, <span class="fl">2.36</span>, <span class="fl">1.74</span>, <span class="fl">0.06</span>, <span class="fl">5.76</span>, <span class="fl">3.00</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span> <span class="co">#'</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fakedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">u</span>, <span class="va">s</span>, <span class="va">ev</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fakedata2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span>u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
-<span class="r-in"><span>                            s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
-<span class="r-in"><span>                            ev <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span>,</span></span>
-<span class="r-in"><span>                            ds <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fakedata2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
+<span class="r-in"><span>  s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
+<span class="r-in"><span>  ev <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span>,</span></span>
+<span class="r-in"><span>  ds <span class="op">=</span> <span class="fl">.5</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-in"><span><span class="co"># Fit a fake model - not optimal smoothing</span></span></span>
 <span class="r-in"><span><span class="va">fakemod</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit2ts.html">fit2ts</a></span><span class="op">(</span><span class="va">fakedata2ts</span>,</span></span>
-<span class="r-in"><span>                  optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
-<span class="r-in"><span>                  lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                              <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span> ,<span class="fl">1.5</span> ,<span class="fl">.5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
+<span class="r-in"><span>  lrho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span> <span class="co"># plot the hazard surface</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fakemod</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># plot the hazard surface</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fakemod</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.haz2ts-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span> <span class="co"># plot the survival function as one-dimension curves over `s`</span></span></span>
-<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fakemod</span>,</span></span>
-<span class="r-in"><span>      which_plot <span class="op">=</span> <span class="st">"survival"</span>,</span></span>
-<span class="r-in"><span>      direction <span class="op">=</span> <span class="st">"u"</span>,</span></span>
-<span class="r-in"><span>      where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>      plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>      surv_slices <span class="op">=</span> <span class="cn">TRUE</span></span></span>
-<span class="r-in"><span>      <span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># plot the survival function as one-dimension curves over `s`</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fakemod</span>,</span></span>
+<span class="r-in"><span>  which_plot <span class="op">=</span> <span class="st">"survival"</span>,</span></span>
+<span class="r-in"><span>  direction <span class="op">=</span> <span class="st">"u"</span>,</span></span>
+<span class="r-in"><span>  where_slices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4</span>, <span class="fl">6</span>, <span class="fl">8</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  plot_options <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    surv_slices <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.haz2ts-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Plot cross-sections of the hazard over `s` for selected values of `u`</span></span></span>
@@ -265,7 +275,7 @@ can be plotted.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

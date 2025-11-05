@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,6 +44,7 @@
 <span>  originaldata <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">u</span>,</span>
 <span>  <span class="va">s</span>,</span>
+<span>  z <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ds <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -77,6 +78,10 @@ values for the variable <code>u</code>.</p></dd>
 values for the variable <code>s</code>. Note that over the <code>s</code> axis predictions
 are provided only within intervals of values, as it is necessary to
 approximate cumulated quantities.</p></dd>
+
+
+<dt id="arg-z">z<a class="anchor" aria-label="anchor" href="#arg-z"></a></dt>
+<dd><p>Covariates value</p></dd>
 
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
@@ -117,15 +122,20 @@ survival probability <code>survival</code>.</p>
 <span class="r-in"><span>  <span class="fl">7.07</span>, <span class="fl">2.91</span>, <span class="fl">3.38</span>, <span class="fl">2.36</span>, <span class="fl">1.74</span>, <span class="fl">0.06</span>, <span class="fl">5.76</span>, <span class="fl">3.00</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ev</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fakedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">u</span>, <span class="va">s</span>, <span class="va">ev</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">z1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span>, size <span class="op">=</span> <span class="fl">20</span>, prob <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">z2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">fakedata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">u</span>, <span class="va">s</span>, <span class="va">ev</span>, <span class="va">z1</span>, <span class="va">z2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fakedata2ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="prepare_data.html">prepare_data</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  u <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">u</span>,</span></span>
 <span class="r-in"><span>  s_out <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">s</span>,</span></span>
 <span class="r-in"><span>  ev <span class="op">=</span> <span class="va">fakedata</span><span class="op">$</span><span class="va">ev</span>,</span></span>
-<span class="r-in"><span>  ds <span class="op">=</span> <span class="fl">.5</span></span></span>
+<span class="r-in"><span>  ds <span class="op">=</span> <span class="fl">.5</span>, individual <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  covs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">fakedata</span>, select <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z1"</span>, <span class="st">"z2"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> `s_in = NULL`. I will use `s_in = 0` for all observations.</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Fit a fake model - not optimal smoothing</span></span></span>
 <span class="r-in"><span><span class="va">fakemod</span> <span class="op">&lt;-</span> <span class="fu"><a href="fit2ts.html">fit2ts</a></span><span class="op">(</span><span class="va">fakedata2ts</span>,</span></span>
 <span class="r-in"><span>  optim_method <span class="op">=</span> <span class="st">"grid_search"</span>,</span></span>
@@ -135,33 +145,35 @@ survival probability <code>survival</code>.</p>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Create a new dataset for prediction</span></span></span>
-<span class="r-in"><span><span class="va">newdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"u"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">3.4</span>, <span class="fl">6</span><span class="op">)</span>, <span class="st">"s"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">1.3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">newdata</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"u"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">3.4</span>, <span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                               <span class="st">"s"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">1.3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># First - predict on original data</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">fakemod</span>,</span></span>
 <span class="r-in"><span>  originaldata <span class="op">=</span> <span class="va">fakedata</span>, u <span class="op">=</span> <span class="st">"u"</span>, s <span class="op">=</span> <span class="st">"s"</span>, id <span class="op">=</span> <span class="st">"id"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    id    u    s     hazard  se_hazard   cumhazard  survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 5.43 0.44 0.13740670 0.07599797 0.068130275 0.9341388</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 3.25 4.89 0.19402638 0.26679324 0.878037756 0.4155976</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 8.15 0.92 0.07537982 0.08786874 0.072945278 0.9296517</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 5.53 1.81 0.14230098 0.05878897 0.261603915 0.7698159</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 7.28 2.02 0.09957468 0.07538578 0.197452069 0.8208195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 6.61 1.55 0.11306136 0.06689691 0.174471579 0.8399007</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 5.91 3.16 0.13795103 0.07874811 0.419712583 0.6572357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 4.94 6.36 0.17380895 0.16712236 1.023687049 0.3592679</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 4.25 0.66 0.16062214 0.09048239 0.111104019 0.8948457</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.86 2.02 0.17251792 0.08212664 0.350826575 0.7041059</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 11 4.05 1.22 0.16653113 0.08299609 0.211805170 0.8091223</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 12 6.86 3.96 0.11983805 0.13696457 0.436677400 0.6461799</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 13 4.94 7.07 0.17804729 0.19944893 1.147048980 0.3175726</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 14 4.46 2.91 0.16848507 0.07543581 0.486023334 0.6150675</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 15 2.14 3.38 0.19342902 0.25092140 0.611328238 0.5426296</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 16 7.56 2.36 0.09528778 0.08449232 0.212827761 0.8082953</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 17 5.55 1.74 0.14135558 0.05906538 0.246494518 0.7815356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 18 7.60 0.06 0.08160222 0.10813840 0.008160222 0.9918730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 19 6.46 5.76 0.13931938 0.21728709 0.717137521 0.4881476</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 20 4.96 3.00 0.15953865 0.06751365 0.475091887 0.6218279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 5.43 0.44 0.03691994 0.07373935 0.017762288 0.9823945</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 3.25 4.89 0.05969388 0.14566713 0.318814542 0.7270104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 8.15 0.92 0.01254272 0.03020352 0.010063143 0.9899873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 5.53 1.81 0.04679029 0.08544526 0.074861578 0.9278719</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 7.28 2.02 0.02916007 0.05555869 0.042053493 0.9588185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 6.61 1.55 0.03067085 0.05923700 0.038915022 0.9618324</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 5.91 3.16 0.05663655 0.09686140 0.129514882 0.8785215</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 4.94 6.36 0.09168009 0.16490913 0.410773191 0.6631373</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 4.25 0.66 0.05594961 0.10703447 0.038334704 0.9623908</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.86 2.02 0.06348879 0.12012883 0.130186889 0.8779313</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 11 4.05 1.22 0.06045518 0.11408250 0.076380018 0.9264641</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 12 6.86 3.96 0.06468261 0.11661949 0.141714009 0.8678694</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 13 4.94 7.07 0.10024826 0.18576795 0.478334160 0.6198150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 14 4.46 2.91 0.06337172 0.11600378 0.170531458 0.8432166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 15 2.14 3.38 0.05865931 0.14476898 0.247952176 0.7803973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 16 7.56 2.36 0.03046996 0.05772485 0.046086607 0.9549593</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 17 5.55 1.74 0.04565293 0.08387444 0.069676595 0.9326954</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 18 7.60 0.06 0.01081892 0.02878368 0.001081892 0.9989187</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 19 6.46 5.76 0.11317190 0.22381996 0.316835884 0.7284503</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 20 4.96 3.00 0.06187921 0.10936794 0.159733199 0.8523712</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Now - predict on new dataset</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">fakemod</span>,</span></span>
@@ -171,10 +183,84 @@ survival probability <code>survival</code>.</p>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     u   s    hazard se_hazard  cumhazard  survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2.5 0.2 0.1689391 0.2039663 0.06733798 0.9348792</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.4 0.5 0.1670538 0.1338833 0.09949784 0.9052919</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 6.0 1.3 0.1276804 0.0642310 0.17422551 0.8401074</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     u   s     hazard  cumhazard  se_hazard  survival</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2.5 0.2 0.08126274 0.03284834 0.16959485 0.9676853</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.4 0.5 0.06748275 0.04061256 0.13186860 0.9602011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 6.0 1.3 0.03576600 0.04321718 0.06870289 0.9577034</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Now - predict including covariates</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">fakemod</span>,</span></span>
+<span class="r-in"><span>        originaldata <span class="op">=</span> <span class="va">fakedata</span>,</span></span>
+<span class="r-in"><span>        u <span class="op">=</span> <span class="st">"u"</span>, s <span class="op">=</span> <span class="st">"s"</span>, id <span class="op">=</span> <span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>        z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z1"</span>, <span class="st">"z2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id    u    s z1          z2     hazard  se_hazard   cumhazard  survival</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   1 5.43 0.44 11 -0.97585062 0.12826298 0.08315898 0.061707682 0.9401577</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   2 3.25 4.89 13  1.06505732 0.26007865 0.38494470 1.389034543 0.2493159</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   3 8.15 0.92  5  0.13167063 0.02209166 0.03958472 0.017724344 0.9824318</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   4 5.53 1.81 13  0.48862881 0.20385936 0.12857413 0.326162404 0.7216880</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   5 7.28 2.02 16 -1.69945057 0.17842897 0.20855439 0.257323174 0.7731183</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6   6 6.61 1.55 10 -1.47073631 0.09514783 0.07311543 0.120723078 0.8862794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   7 5.91 3.16  9  0.28415034 0.15689263 0.09554667 0.358777657 0.6985296</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   8 4.94 6.36 12  1.33732041 0.35668318 0.40455787 1.598121205 0.2022762</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   9 4.25 0.66 10  0.23669628 0.17356818 0.10304473 0.118922801 0.8878763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 10 3.86 2.02 11  1.31829338 0.22056539 0.15702850 0.452280194 0.6361759</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 11 4.05 1.22 12  0.52390979 0.23520207 0.12539870 0.297157967 0.7429266</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 12 6.86 3.96 10  0.60674805 0.20065988 0.24511053 0.439628464 0.6442757</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 13 4.94 7.07  9 -0.10993567 0.27770427 0.31544402 1.325064787 0.2657857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 14 4.46 2.91 13  0.17218172 0.27610256 0.15489111 0.742983943 0.4756924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 15 2.14 3.38 12 -0.09032729 0.22821521 0.30601612 0.964662831 0.3811117</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 16 7.56 2.36  8  1.92434334 0.07537206 0.11387117 0.114002178 0.8922560</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 17 5.55 1.74  9  1.29839276 0.12646618 0.11188989 0.193015699 0.8244690</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 18 7.60 0.06 12  0.74879127 0.04209123 0.07113787 0.004209123 0.9957997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 19 6.46 5.76  7  0.55622433 0.24998257 0.39698896 0.699850819 0.4966594</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 20 4.96 3.00  8 -0.54825726 0.15306755 0.10775989 0.395124176 0.6735964</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    basehazard se_basehazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  0.03691994    0.07373935</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  0.05969388    0.14566713</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  0.01254272    0.03020352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  0.04679029    0.08544526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  0.02916007    0.05555869</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  0.03067085    0.05923700</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  0.05663655    0.09686140</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  0.09168009    0.16490913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  0.05594961    0.10703447</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 0.06348879    0.12012883</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 0.06045518    0.11408250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 0.06468261    0.11661949</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 0.10024826    0.18576795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 0.06337172    0.11600378</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 0.05865931    0.14476898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 0.03046996    0.05772485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 0.04565293    0.08387444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 0.01081892    0.02878368</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 0.11317190    0.22381996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 0.06187921    0.10936794</span>
+<span class="r-in"><span><span class="co"># If one wants to predict with only one of the covariates at a different</span></span></span>
+<span class="r-in"><span><span class="co"># value than the baseline, the other one(s) should be fixed at their</span></span></span>
+<span class="r-in"><span><span class="co"># baseline levels</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">newdata2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="st">"u"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>, <span class="fl">3.4</span>, <span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                <span class="st">"s"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">.5</span>, <span class="fl">1.3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                <span class="st">"z1"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                                <span class="st">"z2"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">fakemod</span>,</span></span>
+<span class="r-in"><span>        newdata <span class="op">=</span> <span class="va">newdata2</span>,</span></span>
+<span class="r-in"><span>        u <span class="op">=</span> <span class="st">"u"</span>, s <span class="op">=</span> <span class="st">"s"</span>, id <span class="op">=</span> <span class="st">"id"</span>,</span></span>
+<span class="r-in"><span>        z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"z1"</span>, <span class="st">"z2"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> chosen interval: ds = 0.2</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Right boundary adjusted to max(x) = 7.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     u   s z1 z2     hazard  cumhazard se_hazard  survival basehazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 2.5 0.2  1  0 0.09100364 0.03678584 0.1778449 0.9638825 0.08126274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 3.4 0.5  2  0 0.08463059 0.05093250 0.1406920 0.9503428 0.06748275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 6.0 1.3  3  0 0.05023105 0.06069576 0.0734553 0.9411095 0.03576600</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   se_basehazard</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    0.16959485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    0.13186860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    0.06870289</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -187,7 +273,7 @@ survival probability <code>survival</code>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

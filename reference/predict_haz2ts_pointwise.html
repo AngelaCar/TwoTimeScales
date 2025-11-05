@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_haz2ts_pointwise</span><span class="op">(</span><span class="va">fitted_model</span>, <span class="va">u</span>, <span class="va">s</span>, ds <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">predict_haz2ts_pointwise</span><span class="op">(</span><span class="va">fitted_model</span>, <span class="va">upred</span>, <span class="va">spred</span>, zpred <span class="op">=</span> <span class="cn">NULL</span>, ds <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -49,12 +49,16 @@
 <dd><p>An object of class <code>'haz2ts'</code> fitted via <code><a href="fit2ts.html">fit2ts()</a></code>.</p></dd>
 
 
-<dt id="arg-u">u<a class="anchor" aria-label="anchor" href="#arg-u"></a></dt>
+<dt id="arg-upred">upred<a class="anchor" aria-label="anchor" href="#arg-upred"></a></dt>
 <dd><p>The value(s) of <code>u</code> where prediction is required</p></dd>
 
 
-<dt id="arg-s">s<a class="anchor" aria-label="anchor" href="#arg-s"></a></dt>
+<dt id="arg-spred">spred<a class="anchor" aria-label="anchor" href="#arg-spred"></a></dt>
 <dd><p>The value(s) of <code>s</code> where prediction is required</p></dd>
+
+
+<dt id="arg-zpred">zpred<a class="anchor" aria-label="anchor" href="#arg-zpred"></a></dt>
+<dd><p>(optional) is a vector of values for the covariates in the model</p></dd>
 
 
 <dt id="arg-ds">ds<a class="anchor" aria-label="anchor" href="#arg-ds"></a></dt>
@@ -99,10 +103,10 @@ for which predictions of <code>hazard</code>, <code>se_hazard</code>, the cumula
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">.5</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">predict_haz2ts_pointwise</span><span class="op">(</span><span class="va">fakemod</span>, u <span class="op">=</span> <span class="fl">5</span>, s <span class="op">=</span> <span class="fl">4.44</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">predict_haz2ts_pointwise</span><span class="op">(</span><span class="va">fakemod</span>, upred <span class="op">=</span> <span class="fl">5</span>, spred <span class="op">=</span> <span class="fl">4.44</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> chosen interval: ds = 0.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     u   s    hazard se_hazard    cumhaz  survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 161 5 4.6 0.1632987 0.1021754 0.7466594 0.4739472</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     u   s basehazard se_basehazard    cumhaz  survival</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 161 5 4.6  0.1632987     0.1021754 0.7466594 0.4739472</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -114,7 +118,7 @@ for which predictions of <code>hazard</code>, <code>se_hazard</code>, the cumula
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

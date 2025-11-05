@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">TwoTimeScales</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,18 @@
       <small>Source: <a href="https://github.com/AngelaCar/TwoTimeScales/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.1" id="twotimescales-111">TwoTimeScales 1.1.1<a class="anchor" aria-label="anchor" href="#twotimescales-111"></a></h2>
+<div class="section level3">
+<h3 id="updates-1-1-1">Updates<a class="anchor" aria-label="anchor" href="#updates-1-1-1"></a></h3>
+<ul><li><p><code>predict.haz2ts()</code> can now predict also including covariates fixed at arbitrary values.</p></li>
+<li><p><code><a href="../reference/GLAM_2d_covariates.html">GLAM_2d_covariates()</a></code> returns covariances between the alpha and beta parameters</p></li>
+<li><p>All functions that use ucminf to minimize the AIC/BIC of the model wrt the smoothing parameter(s) now have a smaller value for the option <code>xtol</code>. Additionally, it can also be changed in the control lists.</p></li>
+<li><p>Fixed a small typo in <code>plot_haz1ts()</code> that did not allow to plot confidence intervals in color specified by user.</p></li>
+<li><p>Fixed problem with variable names in <code><a href="../reference/prepare_data_LMMsolver.html">prepare_data_LMMsolver()</a></code></p></li>
+<li><p><code><a href="../reference/print.data2ts.html">print.data2ts()</a></code> now prints rounded values for total exposure time</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1.0" id="twotimescales-110">TwoTimeScales 1.1.0<a class="anchor" aria-label="anchor" href="#twotimescales-110"></a></h2>
 <div class="section level3">
@@ -57,7 +69,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
