@@ -1,0 +1,76 @@
+# Bin data on one time scale
+
+`exposure_events_1d()` computes aggregated measures of exposure times
+and event counts starting from individual records of time at entry, time
+at exit and event's indicator, over one time scale (`s`).
+
+## Usage
+
+``` r
+exposures_events_1d(s_in = NULL, s_out, ev, bins)
+```
+
+## Arguments
+
+- s_in:
+
+  A vector of (possibly left truncated) times at entry. If this is not
+  provided by the user, the function will consider a value of 0 for all
+  observations.
+
+- s_out:
+
+  A vector of times at event or censoring.
+
+- ev:
+
+  A vector of events' indicators (possible values 0/1).
+
+- bins:
+
+  A vector of interval breaks for discretization (see also
+  [`make_bins()`](https://angelacar.github.io/TwoTimeScales/reference/make_bins.md)).
+
+## Value
+
+A list with the following elements:
+
+- `R` A matrix of dimension \\n\\ by \\ns\\ containing the exposure
+  times for each individual separately.
+
+- `r` A vector of exposure times.
+
+- `Y` A matrix of dimension \\n\\ by \\ns\\ containing the event counts
+  for each individual separately
+
+- `y` A vector of event counts.
+
+If the length of the input vectors do not match, an error message is
+returned.
+
+## Details
+
+The time scale `s` is divided into bins of equal size, which are
+provided as input to the function. Then, the time-at-risk for each
+individual is split according to these bins, and an event indicator is
+placed in the bin where the exit time is located. Finally, the
+individual contributions are summed in each bin to provide a vector of
+total exposure time and total event counts. See also
+[`prepare_data()`](https://angelacar.github.io/TwoTimeScales/reference/prepare_data.md)
+to conveniently prepare individual data for the analysis with one, or
+two time scales.
+
+## Author
+
+Angela Carollo <carollo@demogr.mpg.de> and Paul Eilers
+<p.eilers@erasmus.nl>
+
+## Examples
+
+``` r
+# ---- Bin colon cancer data by time since recurrence ----
+# First create vector of bins
+bins1ts <- make_bins(s_in = reccolon2ts$entrys, s_out = reccolon2ts$timesr, ds = 30)
+bindata <- exposures_events_1d(s_in = reccolon2ts$entrys,
+s_out = reccolon2ts$timesr, ev = reccolon2ts$status, bins = bins1ts$bins_s)
+```

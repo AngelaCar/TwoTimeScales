@@ -1,0 +1,62 @@
+# Cumulative incidence surface over two time scales
+
+Cumulative incidence surface over two time scales
+
+## Usage
+
+``` r
+cuminc2ts(haz = list(), ds, cause = NULL)
+```
+
+## Arguments
+
+- haz:
+
+  a list of cause-specific hazards
+
+- ds:
+
+  the distance between two consecutive intervals over the `s` time
+  scale. This has to be equal for all cause-specific hazards
+
+- cause:
+
+  is an optional vector of short names for the causes. It should be of
+  the same length as the number of cause-specific cumulated hazards
+  provided.
+
+## Value
+
+a list with one cumulative incidence matrix for each cause-specific
+hazard (named if a vector of short names is passed to `cause`).
+
+## Examples
+
+``` r
+# Create some fake data - the bare minimum
+id <- 1:20
+u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+       4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
+s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+       7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
+ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)#'
+
+fakedata <- as.data.frame(cbind(id, u, s, ev))
+fakedata2ts <- prepare_data(u = fakedata$u,
+                            s_out = fakedata$s,
+                            ev = fakedata$ev,
+                            ds = .5)
+#> `s_in = NULL`. I will use `s_in = 0` for all observations.
+#> `s_in = NULL`. I will use `s_in = 0` for all observations.
+# Fit a fake model - not optimal smoothing
+fakemod <- fit2ts(fakedata2ts,
+                  optim_method = "grid_search",
+                  lrho = list(seq(1 ,1.5 ,.5),
+                              seq(1 ,1.5 ,.5)))
+
+# Obtain the fake cumulated hazard
+fakecumhaz2ts <- cumhaz2ts(fakemod)
+# Fake cumulative incidence function 2ts
+fakecif2ts <- cuminc2ts(haz = list(fakecumhaz2ts$Haz$hazard),
+                        ds = .5)
+```
