@@ -7,6 +7,7 @@
   two time scales.
 * `select_model2ts()` added to compare several fitted models and identify the
   best-fitting one.
+* `make_grid()` facilitates the creation of a new plotting grid.
 
 ## Tests
 * Added unit tests for `prepare_data()`, `fit1ts()`, and `fit2ts()`.

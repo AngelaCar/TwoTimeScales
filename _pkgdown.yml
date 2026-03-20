@@ -92,6 +92,7 @@ reference:
   - haz2tsLMM_summary
   - haz2tsPGAM_summary
   - haz2tsVCM_summary
+  - make_grid
   - predict_haz2ts_pointwise
   - predict_haz2ts
   - select_model2ts
