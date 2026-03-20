@@ -39,7 +39,7 @@ by n.}
 \item{control_algorithm}{A list with optional values for the parameters of
 the iterative processes:
 \itemize{
-\item \code{maxiter} The maximum number of iteration for the IWSL algorithm.
+\item \code{maxiter} The maximum number of iteration for the IWLS algorithm.
 Default is 20.
 \item \code{conv_crit} The convergence criteria, expressed as difference between
 estimates at iteration i and i+1. Default is \code{1e-5}.
@@ -47,6 +47,8 @@ estimates at iteration i and i+1. Default is \code{1e-5}.
 process.
 \item \code{monitor_ev} A Boolean. Default is \code{FALSE}. If \code{TRUE} monitors the
 evaluation of the model over the \code{log_10(rho_s)} values.
+\item \code{xtol} The relative tolerance to stop the algorithm. For details see \code{help(ucminf)}.
+Here is it set to \code{1e-5}.
 }}
 }
 \value{

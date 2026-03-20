@@ -1,18 +1,18 @@
 Package: TwoTimeScales
 Title: Analysis of Event Data with Two Time Scales
 Type: Package
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: c(person("Angela", "Carollo", email = "carollo@demogr.mpg.de",  role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0002-5625-6553")),
            person("Paul H.C.", "Eilers", email = "p.eilers@erasmusmc.nl", role = "aut"),
            person("Jutta", "Gampe", email = "gampe@demogr.mpg.de", role = "aut"))
 URL: https://github.com/AngelaCar/TwoTimeScales, https://angelacar.github.io/TwoTimeScales/
 Description: Analyse time to event data with two time scales by estimating a smooth hazard that varies over two time scales. If covariates are available, estimate a proportional hazards model with such a two-dimensional baseline hazard. 
   Functions are provided to prepare the raw data for estimation, to estimate and to plot the two-dimensional smooth hazard. 
-  Extension to a competing risks model are implemented. For details about the method please refer to Carollo et al. (2024) <doi:10.1002/sim.10297>.
+  Extension to a competing risks model are implemented. For details about the method please refer to Carollo et al. (2025) <doi:10.1002/sim.10297>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
 Imports: colorspace,
          Epi,
@@ -29,7 +29,9 @@ Depends:
 Suggests: 
     knitr,
     rmarkdown,
+    spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 VignetteBuilder: knitr
 BugReports: https://github.com/AngelaCar/TwoTimeScales/issues
+Language: en-US

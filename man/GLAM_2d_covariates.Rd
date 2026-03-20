@@ -57,6 +57,8 @@ of dimension cucs by cucs.
 of dimension p by p.
 \item \code{SE_beta} The vector of length p of estimated Standard Errors for the \code{beta}
 coefficients.
+\item \code{Cov_Alpha_beta} The matrix with the covariance values between the \code{Alpha}
+and \code{beta} coefficients.
 \item \code{Eta0} The matrix of values of the baseline linear predictor (log-hazard)
 of dimension nu by ns.
 \item \code{H} The hat-matrix.

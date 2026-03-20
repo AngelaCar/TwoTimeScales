@@ -77,6 +77,8 @@ reference:
 - contents:
   - fit2ts
   - fit2tsmodel_ucminf
+  - fitpgam
+  - fitvcm
   - grid_search_2d
   - get_aic_fit_2d
   - get_bic_fit_2d
@@ -88,14 +90,19 @@ reference:
   - get_hr
   - haz2ts_summary
   - haz2tsLMM_summary
+  - haz2tsPGAM_summary
+  - haz2tsVCM_summary
   - predict_haz2ts_pointwise
   - predict_haz2ts
+  - select_model2ts
 - title: Plotting functions
 - contents:
   - plot.haz1ts
   - plot.haz1tsLMM
   - plot.haz2ts
   - plot.haz2tsLMM
+  - plot.haz2tsPGAM
+  - plot.haz2tsVCM
   - plot_slices
   - imageplot_2ts
   - imageplot_SE

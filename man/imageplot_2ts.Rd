@@ -67,5 +67,5 @@ An image plot of an estimated surface.
 \description{
 \code{imageplot_2ts()} plots an image of the two time scales hazard (or survival or
 cumulative hazard) with contour lines.
-This is the default call implemented in plot.haz2ts.
+This is the default call implemented in plot.haz2ts and other functions.
 }

@@ -10,7 +10,7 @@
 #' @param lrs A vector of `log_10(rho_s)` values.
 #' @inheritParams get_aic_fit_2d
 #' @param optim_criterion The criterion to be used for optimization:
-#' `"aic"` (default) or `"bic"`. BIC penalized model complexity more strongly
+#' `"aic"` (default) or `"bic"`. BIC penalizes model complexity more strongly
 #' than AIC, so that its usage is recommended when a smoother fit is preferable
 #' (see also Camarda, 2012).
 #'
@@ -31,7 +31,7 @@
 #'   * `main_aic` The title of the AIC plot. Default is `"AIC grid"`.
 #'   * `main_bic` The title of the BIC plot. Default is `"BIC grid"`.
 #'
-#' @return An object of class `h2tsfit` with the following elements:
+#' @return An object of class `"haz2ts"`, that is a list with the following elements:
 #'   * `optimal_model` A list containing the results of the optimal model.
 #'   * `optimal_logrho` The optimal couple of `log_10(rho_u)` and `log_10(rho_s)`
 #'      values.

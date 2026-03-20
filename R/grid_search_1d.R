@@ -9,7 +9,7 @@
 #' @param lrho A vector of `log_10(rho_s)` values.
 #' @inheritParams get_aic_fit_1d
 #' @param optim_criterion The criterion to be used for optimization:
-#' `"aic"` (default) or `"bic"`. BIC penalized model complexity more strongly
+#' `"aic"` (default) or `"bic"`. BIC penalizes model complexity more strongly
 #' than AIC, so that its usage is recommended when a smoother fit is preferable
 #' (see also Camarda, 2012).
 #' @param par_gridsearch A list of parameters for the grid_search:
@@ -24,7 +24,7 @@
 #'   * `main_aic` The title of the AIC plot. Default is `"AIC grid"`.
 #'   * `main_bic` The title of the BIC plot. Default is `"BIC grid"`.
 #'
-#' @return An object of class `h1tsfit` with the following elements:
+#' @return An list with the following elements:
 #'   * `optimal_model` A list containing the results of the optimal model.
 #'   * `optimal_logrho` The optimal value of `log10(rho_s)`.
 #'   * `P_optimal` The optimal penalty matrix P.
@@ -190,6 +190,6 @@ grid_search_1d <- function(r, y,
     results$BIC <- NULL
   }
 
-  class(results) <- "haz1ts"
+ # class(results) <- "haz1ts"
   return(results)
 }

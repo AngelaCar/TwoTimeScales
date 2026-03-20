@@ -7,7 +7,7 @@
 get_hr(fitted_model)
 }
 \arguments{
-\item{fitted_model}{A list returned by the function \code{fit2ts} or \code{fit1ts}.}
+\item{fitted_model}{A list returned by the function \code{fit2ts()} or \code{fit1ts()}.}
 }
 \value{
 A list with the following elements:
@@ -21,7 +21,7 @@ via the delta method.
 }
 \description{
 \code{get_hr()} takes as input the results of a model with covariates
-estimated by \code{fit2ts} or \code{fit1ts} and returns the estimated hazard ratios
+estimated by \code{fit2ts()} or \code{fit1ts()} and returns the estimated hazard ratios
 together with their standard errors.
 }
 \examples{

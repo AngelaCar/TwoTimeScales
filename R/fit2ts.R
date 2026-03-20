@@ -5,14 +5,14 @@
 #'   Three methods are implemented for the search of the optimal smoothing
 #'   parameters (and therefore optimal model): a numerical optimization of the
 #'   AIC or BIC of the model, a search for the minimum AIC or BIC of the
-#'   model over a grid of `log_10` values for the smoothing parameters, and a
+#'   model over a grid of \eqn{\log_{10}} values for the smoothing parameters, and a
 #'   solution that uses a sparse mixed model representation of the P-spline model to
 #'   estimate the smoothing parameters.
 #'   Construction of the B-splines bases and of the penalty matrix is
 #'   incorporated within the function. If a matrix of covariates is provided,
 #'   the function will estimate a model with covariates.
 #'
-#' @param data2ts (optional) an object of class created by the function
+#' @param data2ts (optional) an object of class `"data2ts"` created by the function
 #'   `prepare_data()`. Proving this input is the easiest way to use the function
 #'   `fit2ts`. However, the user can also provide the input data together with
 #'   a list of bins, as explained by the following parameters' descriptions.
@@ -43,7 +43,7 @@
 #' @param optim_method The method to be used for optimization:
 #'   `"ucminf"` (default) for the numerical optimization of the AIC (or BIC),
 #'    `"grid_search"` for a grid search of the minimum AIC (or BIC)
-#'     over a grid of `log_10(rho_u)` and `log_10(rho_s)` values,
+#'     over a grid of \eqn{\log_{10}(\rho_u)} and \eqn{\log_{10}(\rho_s)} values,
 #'     or `"LMMsolver"` to solve the model as sparse linear mixed model using the
 #'     package LMMsolver.
 #' @param lrho A vector of two elements if `optim_method == "ucminf"`.
@@ -51,6 +51,19 @@
 #'   and `log_10(rho_s)` if `optim_method == "grid_search"`. In the latter case,
 #'   if a list with two vectors is not provided, a default sequence of
 #'   values is used for both `log_10(rho_u)` and `log_10(rho_s)`.
+#' @param control_algorithm A list with optional values for the parameters of
+#'   the iterative processes:
+#'   * `maxiter` The maximum number of iteration for the IWSL algorithm.
+#'     Default is 20.
+#'   * `conv_crit` The convergence criteria, expressed as difference between
+#'     estimates at iteration i and i+1. Default is `1e-5`.
+#'   * `verbose` A Boolean. Default is `FALSE`. If `TRUE` monitors the iteration
+#'     process.
+#'   * `monitor_ev` A Boolean. Default is `FALSE`. If `TRUE` monitors the
+#'     evaluation of the model over the \eqn{\log_{10}(\rho_u)}  and \eqn{\log_{10}(\rho_s)} values.
+#'   * `xtol` The relative tolerance to stop the algorithm, only relevant for
+#'     numerical optimization algorithm. For details see `help(ucminf)`.
+#'      Here is it set to `1e-5`.
 #'
 #' @return An object of class `haz2ts`, or of class `haz2tsLMM`.
 #'    For objects of class `haz2ts` this is
@@ -59,7 +72,7 @@
 #'       \eqn{c_u} by \eqn{c_s}.
 #'     * `Cov_alpha` The variance-covariance matrix of the `Alpha` coefficients,
 #'       of dimension \eqn{c_uc_s} by \eqn{c_uc_s}.
-#'     * `beta` The vector of length p of estimated covariates coefficients
+#'     * `beta` The vector of length \eqn{p} of estimated covariates coefficients
 #'        (if model with covariates).
 #'     * `Cov_beta` The variance-covariance matrix of the `beta` coefficients,
 #'       of dimension \eqn{p} by \eqn{p} (if model with covariates).
@@ -73,8 +86,8 @@
 #'     * `aic` The value of the AIC.
 #'     * `bic` The value of the BIC.
 #'     * `Bbases` a list with the B-spline bases `Bu` and `Bs`
-#'   * `optimal_logrho` A vector with the optimal values of `log10(rho_u)` and
-#'     `log10(rho_s)`.
+#'   * `optimal_logrho` A vector with the optimal values of \eqn{\log_{10}(\rho_u)} and
+#'     \eqn{\log_{10}(\rho_u)}.
 #'   * `P_optimal` The optimal penalty matrix P.
 #'   * `AIC` (if `par_gridsearch$return_aic == TRUE`) The matrix of AIC values.
 #'   * `BIC` (if `par_gridsearch$return_bic == TRUE`) The matrix of BIC values.
@@ -101,10 +114,10 @@
 #'          AIC or BIC, often this level of precision is not needed.
 #'          Nevertheless, this value can be adjusted in `control_algorithm`.
 #' @references Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed Model Formulation.”
-#'             Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178591.
-#'             Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
-#'             “Smooth Hazards with Multiple Time Scales.” arXiv Preprint:
-#'             https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1
+#'             Statistical Modelling 23 (5-6): 465–79. \url{https://doi.org/10.1177/1471082X231178591}.
+#'             Carollo, A., Eilers, P., Putter, H. and Gampe, J. (2025),
+#'             "Smooth Hazards With Multiple Time Scales."
+#'              Statistics in Medicine, 44: e10297. \url{https://doi.org/10.1002/sim.10297}
 #'
 #' @import JOPS LMMsolver
 #' @importFrom grDevices grey.colors
@@ -113,23 +126,30 @@
 #' @examples
 #' # Create some fake data - the bare minimum
 #' id <- 1:20
-#' u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
-#'        4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
-#' s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
-#'        7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
-#' ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)#'
+#' u <- c(
+#'   5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+#'   4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96
+#' )
+#' s <- c(
+#'   0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+#'   7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00
+#' )
+#' ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1) #'
 #'
 #' fakedata <- as.data.frame(cbind(id, u, s, ev))
-#' fakedata2ts <- prepare_data(data = fakedata,
-#'                             u = "u",
-#'                             s_out = "s",
-#'                             ev = "ev",
-#'                             ds = .5)
+#' fakedata2ts <- prepare_data(
+#'   data = fakedata,
+#'   u = "u",
+#'   s_out = "s",
+#'   ev = "ev",
+#'   ds = .5
+#' )
 #' # Fit a fake model - not optimal smoothing
 #' fit2ts(fakedata2ts,
-#'        optim_method = "grid_search",
-#'        lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5)))
-#' # For more examples please check the vignettes!!! Running more complicated examples
+#'   optim_method = "grid_search",
+#'   lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5))
+#' )
+#' # For more examples please check the vignettes! Running more complicated examples
 #' # here would imply longer running times...
 #'
 fit2ts <- function(data2ts = NULL,
@@ -162,8 +182,8 @@ fit2ts <- function(data2ts = NULL,
   }
 
   # If optim_method == "LMMsolver" change format data
-  if(optim_method == "LMMsolver"){
-    dataLMM <- prepare_data_LMMsolver(Y=Y, R=R, Z=Z, bins=bins)
+  if (optim_method == "LMMsolver") {
+    dataLMM <- prepare_data_LMMsolver(Y = Y, R = R, Z = Z, bins = bins)
   }
 
   # ---- Controls for iterative process ----
@@ -255,11 +275,15 @@ fit2ts <- function(data2ts = NULL,
   }
 
   # ---- Construct B-splines ----
-  Bu <- JOPS::bbase(x = bins$midu, nseg = Bbases$nseg_u,
-                    xl = Bbases$min_u, xr = Bbases$max_u, bdeg = Bbases$bdeg)
+  Bu <- JOPS::bbase(
+    x = bins$midu, nseg = Bbases$nseg_u,
+    xl = Bbases$min_u, xr = Bbases$max_u, bdeg = Bbases$bdeg
+  )
   nbu <- ncol(Bu)
-  Bs <- JOPS::bbase(x = bins$mids, nseg = Bbases$nseg_s,
-                    xl = Bbases$min_s, xr = Bbases$max_s, bdeg = Bbases$bdeg)
+  Bs <- JOPS::bbase(
+    x = bins$mids, nseg = Bbases$nseg_s,
+    xl = Bbases$min_s, xr = Bbases$max_s, bdeg = Bbases$bdeg
+  )
   nbs <- ncol(Bs)
 
   # ---- Penalty parameters ----
@@ -284,7 +308,6 @@ fit2ts <- function(data2ts = NULL,
       par_gridsearch = gsp
     )
     results <- optimal_model
-
   }
   if (optim_method == "ucminf") {
     optimal_model <- fit2tsmodel_ucminf(
@@ -300,23 +323,26 @@ fit2ts <- function(data2ts = NULL,
       control_algorithm = con
     )
     results <- optimal_model
-
   }
-  if (optim_method == "LMMsolver"){
-    if(!is.null(Z)){
+  if (optim_method == "LMMsolver") {
+    if (!is.null(Z)) {
       xnam <- attr(dataLMM, "cov_names")
       formula_fixed <- as.formula(paste("y ~ ", paste(xnam, collapse = "+")))
     } else {
       formula_fixed <- as.formula("y ~ 1")
     }
-    optimal_model <- LMMsolver::LMMsolve(fixed = formula_fixed,
-                                         spline = ~spl2D(x1 = u, x2 = s,
-                                                         nseg = c(Bbases$nseg_u, Bbases$nseg_s),
-                                                         x1lim = c(Bbases$min_u, Bbases$max_u),
-                                                         x2lim = c(Bbases$min_s, Bbases$max_s)),
-                                         family = poisson(),
-                                         offset = log(dataLMM$r),
-                                         data = dataLMM)
+    optimal_model <- LMMsolver::LMMsolve(
+      fixed = formula_fixed,
+      spline = ~ spl2D(
+        x1 = u, x2 = s,
+        nseg = c(Bbases$nseg_u, Bbases$nseg_s),
+        x1lim = c(Bbases$min_u, Bbases$max_u),
+        x2lim = c(Bbases$min_s, Bbases$max_s)
+      ),
+      family = poisson(),
+      offset = log(dataLMM$r),
+      data = dataLMM
+    )
     AIC_BIC_LMM <- getAIC_BIC_LMM(fit = optimal_model, offset = dataLMM$r)
     results <- list(
       "optimal_model" = optimal_model,
@@ -332,7 +358,7 @@ fit2ts <- function(data2ts = NULL,
   }
 
   # ---- Save results in list and return list ----
-  #class(results) <- "haz2ts"
+  # class(results) <- "haz2ts"
 
   return(results)
 }

@@ -9,27 +9,29 @@ GLAM_1d_covariates(
   Y,
   Bs,
   Z = Z,
+  ns = NULL,
+  n = NULL,
   Wprior = NULL,
   P,
   control_algorithm = list(maxiter = 20, conv_crit = 1e-05, verbose = FALSE)
 )
 }
 \arguments{
-\item{R}{A 2d-array of dimensions ns by n containing exposure times.}
+\item{R}{A 2d-array of dimensions \eqn{n_s} by \eqn{n} containing exposure times.}
 
-\item{Y}{A 2d-array of dimensions ns by n containing event indicators.}
+\item{Y}{A 2d-array of dimensions \eqn{n_s} by \eqn{n} containing event indicators.}
 
-\item{Bs}{A matrix of B-splines for the \code{s} time scale of dimension ns by cs.}
+\item{Bs}{A matrix of B-splines for the \code{s} time scale of dimension \eqn{n_s} by \eqn{c_s}.}
 
-\item{Z}{A regression matrix of covariates values of dimensions n by p.}
+\item{Z}{A regression matrix of covariates values of dimensions \eqn{n} by \eqn{p}.}
 
-\item{Wprior}{An optional vector of length ns of a-priori weights.}
+\item{Wprior}{An optional vector of length \eqn{n_s} of a-priori weights.}
 
-\item{P}{The penalty matrix of dimension cs by cs.}
+\item{P}{The penalty matrix of dimension \eqn{c_s} by \eqn{c_s}.}
 
 \item{control_algorithm}{A list with optional values for the parameters of
 iterative processes:
-*\code{maxiter} The maximum number of iterations for the IWSL algorithm,
+*\code{maxiter} The maximum number of iterations for the IWLS algorithm,
 default is 20 .
 * \code{conv_crit} The convergence criteria, expressed as difference between
 estimates at iteration i and i+1, default is \code{1e-5}.
@@ -39,11 +41,11 @@ iteration process.}
 \value{
 A list with the following elements:
 \itemize{
-\item \code{alpha} The vector of estimated P-splines coefficients of length cs.
+\item \code{alpha} The vector of estimated P-splines coefficients of length \eqn{c_s}.
 \item \code{SE_alpha} The vector of estimated Standard Errors for the \code{alpha} coefficients,
-of length cs.
-\item \code{beta} The vector of length p of estimated covariates coefficients.
-\item \code{se_beta} The vector of length p of estimated Standard Errors for the \code{beta}
+of length \eqn{c_s}.
+\item \code{beta} The vector of length \eqn{p} of estimated covariates coefficients.
+\item \code{se_beta} The vector of length \eqn{p} of estimated Standard Errors for the \code{beta}
 coefficients.
 \item \code{eta0} The vector of values of the baseline linear predictor (log-hazard).
 \item \code{H} The hat-matrix.

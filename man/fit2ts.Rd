@@ -22,7 +22,7 @@ fit2ts(
 )
 }
 \arguments{
-\item{data2ts}{(optional) an object of class created by the function
+\item{data2ts}{(optional) an object of class \code{"data2ts"} created by the function
 \code{prepare_data()}. Proving this input is the easiest way to use the function
 \code{fit2ts}. However, the user can also provide the input data together with
 a list of bins, as explained by the following parameters' descriptions.}
@@ -67,12 +67,12 @@ Default is \code{max(bins_s)}.
 \item{optim_method}{The method to be used for optimization:
 \code{"ucminf"} (default) for the numerical optimization of the AIC (or BIC),
 \code{"grid_search"} for a grid search of the minimum AIC (or BIC)
-over a grid of \code{log_10(rho_u)} and \code{log_10(rho_s)} values,
+over a grid of \eqn{\log_{10}(\rho_u)} and \eqn{\log_{10}(\rho_s)} values,
 or \code{"LMMsolver"} to solve the model as sparse linear mixed model using the
 package LMMsolver.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
-\code{"aic"} (default) or \code{"bic"}. BIC penalized model complexity more strongly
+\code{"aic"} (default) or \code{"bic"}. BIC penalizes model complexity more strongly
 than AIC, so that its usage is recommended when a smoother fit is preferable
 (see also Camarda, 2012).}
 
@@ -98,7 +98,10 @@ estimates at iteration i and i+1. Default is \code{1e-5}.
 \item \code{verbose} A Boolean. Default is \code{FALSE}. If \code{TRUE} monitors the iteration
 process.
 \item \code{monitor_ev} A Boolean. Default is \code{FALSE}. If \code{TRUE} monitors the
-evaluation of the model over the \code{log_10(rho_s)} values.
+evaluation of the model over the \eqn{\log_{10}(\rho_u)}  and \eqn{\log_{10}(\rho_s)} values.
+\item \code{xtol} The relative tolerance to stop the algorithm, only relevant for
+numerical optimization algorithm. For details see \code{help(ucminf)}.
+Here is it set to \code{1e-5}.
 }}
 
 \item{par_gridsearch}{A list of parameters for the grid_search:
@@ -130,7 +133,7 @@ For objects of class \code{haz2ts} this is
 \eqn{c_u} by \eqn{c_s}.
 \item \code{Cov_alpha} The variance-covariance matrix of the \code{Alpha} coefficients,
 of dimension \eqn{c_uc_s} by \eqn{c_uc_s}.
-\item \code{beta} The vector of length p of estimated covariates coefficients
+\item \code{beta} The vector of length \eqn{p} of estimated covariates coefficients
 (if model with covariates).
 \item \code{Cov_beta} The variance-covariance matrix of the \code{beta} coefficients,
 of dimension \eqn{p} by \eqn{p} (if model with covariates).
@@ -145,8 +148,8 @@ coefficients (if model with covariates)..
 \item \code{bic} The value of the BIC.
 \item \code{Bbases} a list with the B-spline bases \code{Bu} and \code{Bs}
 }
-\item \code{optimal_logrho} A vector with the optimal values of \code{log10(rho_u)} and
-\code{log10(rho_s)}.
+\item \code{optimal_logrho} A vector with the optimal values of \eqn{\log_{10}(\rho_u)} and
+\eqn{\log_{10}(\rho_u)}.
 \item \code{P_optimal} The optimal penalty matrix P.
 \item \code{AIC} (if \code{par_gridsearch$return_aic == TRUE}) The matrix of AIC values.
 \item \code{BIC} (if \code{par_gridsearch$return_bic == TRUE}) The matrix of BIC values.
@@ -172,7 +175,7 @@ ED of the model
 Three methods are implemented for the search of the optimal smoothing
 parameters (and therefore optimal model): a numerical optimization of the
 AIC or BIC of the model, a search for the minimum AIC or BIC of the
-model over a grid of \code{log_10} values for the smoothing parameters, and a
+model over a grid of \eqn{\log_{10}} values for the smoothing parameters, and a
 solution that uses a sparse mixed model representation of the P-spline model to
 estimate the smoothing parameters.
 Construction of the B-splines bases and of the penalty matrix is
@@ -194,30 +197,37 @@ for more details on \code{LMMsolver} and its usage.
 \examples{
 # Create some fake data - the bare minimum
 id <- 1:20
-u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
-       4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
-s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
-       7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
-ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)#'
+u <- c(
+  5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+  4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96
+)
+s <- c(
+  0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+  7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00
+)
+ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1) #'
 
 fakedata <- as.data.frame(cbind(id, u, s, ev))
-fakedata2ts <- prepare_data(data = fakedata,
-                            u = "u",
-                            s_out = "s",
-                            ev = "ev",
-                            ds = .5)
+fakedata2ts <- prepare_data(
+  data = fakedata,
+  u = "u",
+  s_out = "s",
+  ev = "ev",
+  ds = .5
+)
 # Fit a fake model - not optimal smoothing
 fit2ts(fakedata2ts,
-       optim_method = "grid_search",
-       lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5)))
-# For more examples please check the vignettes!!! Running more complicated examples
+  optim_method = "grid_search",
+  lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5))
+)
+# For more examples please check the vignettes! Running more complicated examples
 # here would imply longer running times...
 
 }
 \references{
 Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed Model Formulation.”
-Statistical Modelling 23 (5-6): 465–79. https://doi.org/10.1177/1471082X231178591.
-Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2023.
-“Smooth Hazards with Multiple Time Scales.” arXiv Preprint:
-https://arxiv.org/abs/http://arxiv.org/abs/2305.09342v1
+Statistical Modelling 23 (5-6): 465–79. \url{https://doi.org/10.1177/1471082X231178591}.
+Carollo, A., Eilers, P., Putter, H. and Gampe, J. (2025),
+"Smooth Hazards With Multiple Time Scales."
+Statistics in Medicine, 44: e10297. \url{https://doi.org/10.1002/sim.10297}
 }

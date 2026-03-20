@@ -47,6 +47,8 @@
 #'     = 0.05).
 #'   * `col_beta` The color for the plot of the covariates' effects.
 #'   * `pch` The symbol for plotting the point estimates.
+#'   * `lwd` The line width.
+#'   * `lty` The line type.
 #' @param \dots Further arguments to plot.
 #'
 #' @return A plot of the type required.
@@ -58,12 +60,14 @@
 #' @export
 #'
 #' @examples
-#'## preparing data - no covariates
-#' dt1ts <- prepare_data(data = reccolon2ts,
-#'                       s_in = "entrys",
-#'                       s_out = "timesr",
-#'                       events = "status",
-#'                       ds = 180)
+#' ## preparing data - no covariates
+#' dt1ts <- prepare_data(
+#'   data = reccolon2ts,
+#'   s_in = "entrys",
+#'   s_out = "timesr",
+#'   events = "status",
+#'   ds = 180
+#' )
 #'
 #' ## fitting the model with fit1ts() - default options
 #'
@@ -71,20 +75,18 @@
 #'
 #' plot(mod1)
 #'
-
-
 plot.haz1ts <- function(x,
                         which_plot = c("hazard", "covariates"),
                         plot_grid = NULL,
                         plot_options = list(),
                         ...) {
-
   if (!inherits(x, "haz1ts")) stop("'x' must be a 'haz1ts' object")
 
   which_plot <- match.arg(which_plot)
 
-  if (which_plot == "covariates" & is.null(x$optimal_model$beta))
+  if (which_plot == "covariates" & is.null(x$optimal_model$beta)) {
     stop("Covariates plot required but x does not have covariates' parameters.")
+  }
 
   # ---- Options for plotting ----
   opts <- list(
@@ -104,7 +106,9 @@ plot.haz1ts <- function(x,
     symmetric_CI = TRUE,
     confidence = .95,
     col_beta = "blue",
-    pch = 20
+    pch = 20,
+    lwd = 1,
+    lty = 1
   )
 
   Nopts <- names(opts)
@@ -120,22 +124,22 @@ plot.haz1ts <- function(x,
   }
 
   # ---- Plot covariates (then exit) ----
-  if(which_plot == "covariates"){
+  if (which_plot == "covariates") {
     plt <- covariates_plot(x,
-                           confidence_lev = opts$confidence,
-                           plot_options = list(
-                             HR = opts$HR,
-                             symmetric_CI = opts$symmetric_CI,
-                             main = opts$main,
-                             ylab = opts$ylab,
-                             ylim = opts$ylim,
-                             col_beta = opts$col_beta,
-                             pch = opts$pch,
-                             cex_main = opts$cex_main,
-                             cex_lab = opts$cex_lab
-                           ))
+      confidence_lev = opts$confidence,
+      plot_options = list(
+        HR = opts$HR,
+        symmetric_CI = opts$symmetric_CI,
+        main = opts$main,
+        ylab = opts$ylab,
+        ylim = opts$ylim,
+        col_beta = opts$col_beta,
+        pch = opts$pch,
+        cex_main = opts$cex_main,
+        cex_lab = opts$cex_lab
+      )
+    )
     return(invisible(plt))
-
   }
 
   # ---- Plot (log-)hazard curve ----
@@ -152,44 +156,47 @@ plot.haz1ts <- function(x,
   }
 
   # ---- Z-value level for confidence intervals ----
-  cialp <- (1-opts$confidence)/2
+  cialp <- (1 - opts$confidence) / 2
   zval <- abs(qnorm(cialp))
 
   # ---- Get (baseline) (log-)hazard and hazard ratios if needed ----
-  if(which_plot == "hazard"){
+  if (which_plot == "hazard") {
     hazard_SE <- get_hazard_1d(x, plot_grid)
     new_grid <- hazard_SE$new_plot_grid
-    if(is.null(opts$xlim)) opts$xlim <- c(new_grid$smin, new_grid$smax)
+    if (is.null(opts$xlim)) opts$xlim <- c(new_grid$smin, new_grid$smax)
 
-    if(opts$loghazard){
+    if (opts$loghazard) {
       to_plot <- hazard_SE$loghazard
       lci <- hazard_SE$loghazard - zval * hazard_SE$SE_loghazard
       uci <- hazard_SE$loghazard + zval * hazard_SE$SE_loghazard
 
-      if(is.null(opts$main)) opts$main <- "log-hazard"
-      if(is.null(opts$ylab)) opts$ylab <- "log-hazard"
+      if (is.null(opts$main)) opts$main <- "log-hazard"
+      if (is.null(opts$ylab)) opts$ylab <- "log-hazard"
     } else {
-      if(opts$log10hazard) {
+      if (opts$log10hazard) {
         to_plot <- hazard_SE$log10hazard
         lci <- hazard_SE$log10hazard - zval * hazard_SE$SE_log10hazard
         uci <- hazard_SE$log10hazard + zval * hazard_SE$SE_log10hazard
 
-        if(is.null(opts$main)) opts$main <- "log10-hazard"
-        if(is.null(opts$ylab)) opts$ylab <- "log10-hazard"
+        if (is.null(opts$main)) opts$main <- "log10-hazard"
+        if (is.null(opts$ylab)) opts$ylab <- "log10-hazard"
       } else {
-      to_plot <- hazard_SE$hazard
-      lci <- exp(hazard_SE$loghazard - zval * hazard_SE$SE_loghazard)
-      uci <- exp(hazard_SE$loghazard + zval * hazard_SE$SE_loghazard)
-      if(is.null(opts$main)) opts$main <- "hazard"
-      if(is.null(opts$ylab)) opts$ylab <- "hazard"
-        }
+        to_plot <- hazard_SE$hazard
+        lci <- exp(hazard_SE$loghazard - zval * hazard_SE$SE_loghazard)
+        uci <- exp(hazard_SE$loghazard + zval * hazard_SE$SE_loghazard)
+        if (is.null(opts$main)) opts$main <- "hazard"
+        if (is.null(opts$ylab)) opts$ylab <- "hazard"
       }
+    }
 
-    if(is.null(opts$col_CI)) {col_CI <- adjustcolor(opts$col, alpha.f = 0.5)}
-    else col_CI <- opts$col_CI
+    if (is.null(opts$col_CI)) {
+      col_CI <- adjustcolor(opts$col, alpha.f = 0.5)
+    } else {
+      col_CI <- opts$col_CI
+    }
 
-    if(is.null(opts$ylim)) {
-      if(opts$add_CI){
+    if (is.null(opts$ylim)) {
+      if (opts$add_CI) {
         opts$ylim <- c(min(lci, na.rm = T), max(uci, na.rm = T))
       } else {
         opts$ylim <- c(min(to_plot), max(to_plot))
@@ -199,38 +206,36 @@ plot.haz1ts <- function(x,
 
 
   # ---- Plot (log-) hazard ----
-  if(which_plot == "hazard"){
+  if (which_plot == "hazard") {
     plot(new_grid$ints,
-         to_plot,
-         type = "l",
-         #lwd = 2,
-         xlim = opts$xlim,
-         ylim = opts$ylim,
-         col = opts$col,
-         main = opts$main,
-         cex.main = opts$cex_main,
-         xlab = opts$xlab,
-         ylab = opts$ylab,
-         cex.lab = opts$cex_lab,
-         axes = F,
-         ...
+      to_plot,
+      type = "l",
+      lwd = opts$lwd,
+      xlim = opts$xlim,
+      ylim = opts$ylim,
+      col = opts$col,
+      main = opts$main,
+      cex.main = opts$cex_main,
+      xlab = opts$xlab,
+      ylab = opts$ylab,
+      cex.lab = opts$cex_lab,
+      axes = F,
+      ...
     )
     axis(1, pos = min(opts$ylim))
     axis(2, pos = new_grid$smin)
     if (opts$add_CI) {
       lines(new_grid$ints, lci,
-            lwd = 1,
-            col = col_CI
+        lwd = 1,
+        col = col_CI
       )
       lines(new_grid$ints, uci,
-            lwd = 1,
-            col = col_CI
+        lwd = 1,
+        col = col_CI
       )
       polygon(c(rev(new_grid$ints), new_grid$ints), c(rev(lci), uci),
-              col = col_CI, border = NA
+        col = col_CI, border = NA
       )
-
     }
   }
 }
-

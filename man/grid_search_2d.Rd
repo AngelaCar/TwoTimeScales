@@ -59,7 +59,7 @@ some cases the algorithm shows convergence problems. In this case, set to a smal
 number, for example \code{1e-4}.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
-\code{"aic"} (default) or \code{"bic"}. BIC penalized model complexity more strongly
+\code{"aic"} (default) or \code{"bic"}. BIC penalizes model complexity more strongly
 than AIC, so that its usage is recommended when a smoother fit is preferable
 (see also Camarda, 2012).}
 
@@ -96,7 +96,7 @@ values is returned, marks the optimal combination of \code{log_10(rho_u)} and
 }}
 }
 \value{
-An object of class \code{h2tsfit} with the following elements:
+An object of class \code{"haz2ts"}, that is a list with the following elements:
 \itemize{
 \item \code{optimal_model} A list containing the results of the optimal model.
 \item \code{optimal_logrho} The optimal couple of \code{log_10(rho_u)} and \code{log_10(rho_s)}

@@ -3,15 +3,15 @@
 #' @description `GLAM_1d_covariates()` fits a GLAM for the hazard with one time
 #'   scale, with covariates.
 #'
-#' @param R A 2d-array of dimensions ns by n containing exposure times.
-#' @param Y A 2d-array of dimensions ns by n containing event indicators.
-#' @param Bs A matrix of B-splines for the `s` time scale of dimension ns by cs.
-#' @param Z A regression matrix of covariates values of dimensions n by p.
-#' @param Wprior An optional vector of length ns of a-priori weights.
-#' @param P The penalty matrix of dimension cs by cs.
+#' @param R A 2d-array of dimensions \eqn{n_s} by \eqn{n} containing exposure times.
+#' @param Y A 2d-array of dimensions \eqn{n_s} by \eqn{n} containing event indicators.
+#' @param Bs A matrix of B-splines for the `s` time scale of dimension \eqn{n_s} by \eqn{c_s}.
+#' @param Z A regression matrix of covariates values of dimensions \eqn{n} by \eqn{p}.
+#' @param Wprior An optional vector of length \eqn{n_s} of a-priori weights.
+#' @param P The penalty matrix of dimension \eqn{c_s} by \eqn{c_s}.
 #' @param control_algorithm A list with optional values for the parameters of
 #'   iterative processes:
-#'     *`maxiter` The maximum number of iterations for the IWSL algorithm,
+#'     *`maxiter` The maximum number of iterations for the IWLS algorithm,
 #'     default is 20 .
 #'     * `conv_crit` The convergence criteria, expressed as difference between
 #'     estimates at iteration i and i+1, default is `1e-5`.
@@ -19,11 +19,11 @@
 #'     iteration process.
 #'
 #' @return A list with the following elements:
-#' * `alpha` The vector of estimated P-splines coefficients of length cs.
+#' * `alpha` The vector of estimated P-splines coefficients of length \eqn{c_s}.
 #' * `SE_alpha` The vector of estimated Standard Errors for the `alpha` coefficients,
-#'   of length cs.
-#' * `beta` The vector of length p of estimated covariates coefficients.
-#' * `se_beta` The vector of length p of estimated Standard Errors for the `beta`
+#'   of length \eqn{c_s}.
+#' * `beta` The vector of length \eqn{p} of estimated covariates coefficients.
+#' * `se_beta` The vector of length \eqn{p} of estimated Standard Errors for the `beta`
 #'    coefficients.
 #' * `eta0` The vector of values of the baseline linear predictor (log-hazard).
 #' * `H` The hat-matrix.
@@ -37,11 +37,14 @@
 #' @keywords internal
 GLAM_1d_covariates <- function(R, Y,
                                Bs, Z = Z,
+                               ns = NULL, n = NULL,
                                Wprior = NULL,
                                P,
-                               control_algorithm = list(maxiter = 20,
-                                                        conv_crit = 1e-5,
-                                                        verbose = FALSE)) {
+                               control_algorithm = list(
+                                 maxiter = 20,
+                                 conv_crit = 1e-5,
+                                 verbose = FALSE
+                               )) {
   # ---- Preparatory steps ----
 
   # Controls iterative process
@@ -50,9 +53,11 @@ GLAM_1d_covariates <- function(R, Y,
   verbose <- control_algorithm$verbose
 
   # Dimensions
-  ns <- dim(R)[1]
+  if (is.null(ns) & is.null(n)) { # added so it can be used to fit the pgam model
+    ns <- dim(R)[1]
+    n <- dim(R)[2]
+  }
   cs <- ncol(Bs)
-  n <- dim(R)[2]
   p <- ncol(Z)
 
   # Vectors of 1
@@ -77,7 +82,7 @@ GLAM_1d_covariates <- function(R, Y,
   # Initialize the parameters vector
   theta <- rep(NA, length = (cs + p))
   theta[1:cs] <- log((sum(Y) / sum(R))) # B-splines coefficients
-  theta[(cs + 1):(cs + p)] <- 0  # Covariates coefficients
+  theta[(cs + 1):(cs + p)] <- 0 # Covariates coefficients
 
   for (iter in 1:maxiter) { # Start of IWLS algorithm
     alpha <- array(theta[1:cs], dim = c(cs, 1))
@@ -111,8 +116,8 @@ GLAM_1d_covariates <- function(R, Y,
 
     XX <- solve(ApP - (B %*% CinvBt))
     Inv11 <- XX
-    Inv12 <- - XX %*% BCinv
-    Inv21 <- - CinvBt %*% XX
+    Inv12 <- -XX %*% BCinv
+    Inv21 <- -CinvBt %*% XX
     Inv22 <- Cinv + CinvBt %*% XX %*% BCinv
 
     Inv <- cbind(rbind(Inv11, Inv21), rbind(Inv12, Inv22))
@@ -120,10 +125,10 @@ GLAM_1d_covariates <- function(R, Y,
     # Right side
     ZZ <- Eta * Mu + (Y - Mu)
     rs11 <- array(RHt(t(one.n), RHt(t(Bs), ZZ)),
-                  dim = cs * 1
+      dim = cs * 1
     )
     rs12 <- array(RHt(t(Z), RHt(t(one.ns), ZZ)),
-                  dim = 1 * 1 * p
+      dim = 1 * 1 * p
     )
     rs <- c(rs11, rs12)
 
@@ -134,16 +139,18 @@ GLAM_1d_covariates <- function(R, Y,
     # Check for convergence
     delta <- max(abs(theta - old.theta))
     # Monitor
-    if (verbose) cat(iter, delta, '\n')
-    if (delta > conv_crit & iter == maxiter)
+    if (verbose) cat(iter, delta, "\n")
+    if (delta > conv_crit & iter == maxiter) {
       warning("Max number of iterations ", iter, " reached but the algorithm did not converge.")
+    }
     if (delta <= conv_crit) break
   } # End of algorithm
 
   # ---- Compute optimal quantities after convergence ----
   alpha <- array(theta[1:cs], dim = c(cs, 1))
   beta <- array(theta[(cs + 1):(cs + p)],
-                dim = c(1, p))
+    dim = c(1, p)
+  )
   Base <- RHt(one.n, RHt(Bs, alpha))
   Risk <- RHt(Z, RHt(one.ns, beta))
   Eta <- Base + Risk
@@ -178,7 +185,7 @@ GLAM_1d_covariates <- function(R, Y,
   Mu_c[Mu_c == 0] <- 1e-7
   dev <- 2 * sum(Y_c * log(Y_c / Mu_c))
   aic <- dev + 2 * ed
-  #n_obs <- prod(dim(Y)) #
+  # n_obs <- prod(dim(Y)) #
   n_obs <- sum(R > 0)
   bic <- dev + ed * log(n_obs)
 
@@ -203,6 +210,7 @@ GLAM_1d_covariates <- function(R, Y,
     beta = beta,
     SE_beta = SE_beta,
     Cov = Cov,
+    Cov_alpha = Cov_alpha,
     deviance = dev,
     Eta = Eta,
     H = H,

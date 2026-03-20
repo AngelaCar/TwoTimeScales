@@ -35,8 +35,9 @@ list("ints", "smin", "smax", "ds")
 }
 \description{
 \code{get_hazard_1d_LMM()} takes as input the results of a model
-estimated by \code{fit1ts} and it returns the estimated values of the smooth log-hazard
-and the smooth hazard together with their standard errors.
+estimated by \code{fit1ts()} and it returns the estimated values of the smooth log-hazard
+and the smooth hazard together with their standard errors. This function is
+specific for objects of class \code{"haz1tsLMM"}.
 
 If the model includes covariates, then only the baseline (log-)hazard is returned.
 It is possible to provide values that define a new grid for evaluation of the

@@ -13,11 +13,11 @@
 #'
 #' @param data1ts (optional) an object created by the function
 #'   `prepare_data()`. Providing this input is the easiest way to use the function
-#'   `fit1ts`. However, the user can also provide the input data together with
+#'   `fit1ts()`. However, the user can also provide the input data together with
 #'   a list of bins, as explained by the following parameters' descriptions.
 #' @inheritParams grid_search_1d
 #' @param bins a list with the specification for the bins. This is created by
-#'   the function `prepare_data`. Alternatively, a list with the following elements
+#'   the function `prepare_data()`. Alternatively, a list with the following elements
 #'   can be provided:
 #'     * `bins_s` is a vector of intervals for the time scale `s`.
 #'     * `mids` is a vector with the midpoints of the intervals over `s`.
@@ -41,19 +41,32 @@
 #'   A vector of values for \eqn{\log_{10}(\varrho_s)}  if `optim_method == "grid_search"`.
 #'   In the latter case, if a vector is not provided, a default sequence of
 #'   values is used for \eqn{\log_{10}(\varrho_s)} .
+#' @param control_algorithm A list with optional values for the parameters of
+#'   the iterative processes:
+#'   * `maxiter` The maximum number of iteration for the IWSL algorithm.
+#'     Default is 20.
+#'   * `conv_crit` The convergence criteria, expressed as difference between
+#'     estimates at iteration i and i+1. Default is `1e-5`.
+#'   * `verbose` A Boolean. Default is `FALSE`. If `TRUE` monitors the iteration
+#'     process.
+#'   * `monitor_ev` A Boolean. Default is `FALSE`. If `TRUE` monitors the
+#'     evaluation of the model over the `log_10(rho_s)` values.
+#'   * `xtol` The relative tolerance to stop the algorithm, only relevant for
+#'     numerical optimization algorithm. For details see `help(ucminf)`.
+#'      Here is it set to `1e-5`.
 #'
 #' @return An object of class `haz1ts`, or of class `haz1tsLMM`.
 #'    For objects of class `haz1ts` this is
 #'   * `optimal_model` A list with:
-#'     * `alpha` The vector of estimated P-splines coefficients of length \eqn{cs}.
+#'     * `alpha` The vector of estimated P-splines coefficients of length \eqn{c_s}.
 #'     * `SE_alpha` The vector of estimated Standard Errors for the `alpha` coefficients,
-#'        of length \eqn{cs}.
+#'        of length \eqn{c_s}.
 #'     * `beta` The vector of estimated covariate coefficients of length \eqn{p}
 #'       (if model with covariates).
 #'     * `se_beta` The vector of estimated Standard Errors for the
 #'       `beta` coefficients of length \eqn{p} (if model with covariates).
 #'     * `eta` or `eta0`. The vector of values of the (baseline) linear predictor
-#'       (log-hazard) of length \eqn{ns}.
+#'       (log-hazard) of length \eqn{n_s}.
 #'     * `H` The hat-matrix.
 #'     * `Cov` The full variance-covariance matrix.
 #'     * `deviance` The deviance.
@@ -89,11 +102,13 @@
 #'
 #' @examples
 #' ## preparing data - no covariates
-#' dt1ts <- prepare_data(data = reccolon2ts,
-#'                       s_in = "entrys",
-#'                       s_out = "timesr",
-#'                       events = "status",
-#'                       ds = 180)
+#' dt1ts <- prepare_data(
+#'   data = reccolon2ts,
+#'   s_in = "entrys",
+#'   s_out = "timesr",
+#'   events = "status",
+#'   ds = 180
+#' )
 #'
 #' ## fitting the model with fit1ts() - default options, that is ucminf optimization
 #'
@@ -101,24 +116,27 @@
 #'
 #' ## fitting with LMMsolver
 #' mod2 <- fit1ts(dt1ts,
-#'               optim_method = "LMMsolver")
+#'   optim_method = "LMMsolver"
+#' )
 #'
 #' ## preparing the data - covariates
 #'
-#' dt1ts_cov <- prepare_data(data = reccolon2ts,
-#'                       s_in = "entrys",
-#'                       s_out = "timesr",
-#'                       events = "status",
-#'                       ds = 180,
-#'                       individual = TRUE,
-#'                       covs = c("rx", "node4", "sex"))
+#' dt1ts_cov <- prepare_data(
+#'   data = reccolon2ts,
+#'   s_in = "entrys",
+#'   s_out = "timesr",
+#'   events = "status",
+#'   ds = 180,
+#'   individual = TRUE,
+#'   covs = c("rx", "node4", "sex")
+#' )
 #'
 #' ## fitting the model with fit1ts() - grid search over only two log_10(rho_s) values
 #'
 #' mod3 <- fit1ts(dt1ts_cov,
-#'                optim_method = "grid_search",
-#'                lrho = c(1, 1.5))
-#'
+#'   optim_method = "grid_search",
+#'   lrho = c(1, 1.5)
+#' )
 #'
 fit1ts <- function(data1ts = NULL,
                    y = NULL, r = NULL,
@@ -133,7 +151,6 @@ fit1ts <- function(data1ts = NULL,
                    ridge = 0,
                    control_algorithm = list(),
                    par_gridsearch = list()) {
-
   # ---- Check all arguments ----
   optim_method <- match.arg(optim_method)
   optim_criterion <- match.arg(optim_criterion)
@@ -151,8 +168,8 @@ fit1ts <- function(data1ts = NULL,
   }
 
   # If optim_method == "LMMsolver" change format data
-  if(optim_method == "LMMsolver"){
-    if(is.null(Z)){
+  if (optim_method == "LMMsolver") {
+    if (is.null(Z)) {
       dataLMM <- as.data.frame(cbind("s" = bins$mids, "r" = r, "y" = y))
       dataLMM <- subset(dataLMM, r > 0)
       attr(dataLMM, "bininfo") <- bins
@@ -168,7 +185,8 @@ fit1ts <- function(data1ts = NULL,
     maxiter = 20,
     conv_crit = 1e-5,
     verbose = FALSE,
-    monitor_ev = FALSE
+    monitor_ev = FALSE,
+    xtol = 1e-5
   )
   Ncon <- names(con)
   namesCon <- names(control_algorithm)
@@ -212,7 +230,7 @@ fit1ts <- function(data1ts = NULL,
   }
 
   # ---- Bbases specification ----
-    Bbases <- list(
+  Bbases <- list(
     bdeg = 3,
     nseg_s = 10,
     min_s = min(bins$bins_s),
@@ -271,20 +289,24 @@ fit1ts <- function(data1ts = NULL,
     class(results) <- "haz1ts"
   }
 
-  if (optim_method == "LMMsolver"){
-    if(!is.null(Z)){
+  if (optim_method == "LMMsolver") {
+    if (!is.null(Z)) {
       xnam <- colnames(data1ts$bindata$Z)
       formula_fixed <- as.formula(paste("y ~ ", paste(xnam, collapse = "+")))
     } else {
       formula_fixed <- as.formula("y ~ 1")
     }
-    optimal_model <- LMMsolver::LMMsolve(fixed = formula_fixed,
-                                         spline = ~spl1D(x = s,
-                                                         nseg = Bbases$nseg_s,
-                                                         xlim = c(Bbases$min_s, Bbases$max_s)),
-                                         family = poisson(),
-                                         offset = log(dataLMM$r),
-                                         data = dataLMM)
+    optimal_model <- LMMsolver::LMMsolve(
+      fixed = formula_fixed,
+      spline = ~ spl1D(
+        x = s,
+        nseg = Bbases$nseg_s,
+        xlim = c(Bbases$min_s, Bbases$max_s)
+      ),
+      family = poisson(),
+      offset = log(dataLMM$r),
+      data = dataLMM
+    )
     AIC_BIC_LMM <- getAIC_BIC_LMM(fit = optimal_model, offset = dataLMM$r)
     results <- list(
       "optimal_model" = optimal_model,
@@ -297,5 +319,5 @@ fit1ts <- function(data1ts = NULL,
     class(results) <- "haz1tsLMM"
   }
   # ---- Save results in list and return list ----
-    return(results)
+  return(results)
 }

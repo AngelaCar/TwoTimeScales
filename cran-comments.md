@@ -1,19 +1,10 @@
-## R CMD check results
+This is a new minor version (1.2.0) of TwoTimeScales, previously accepted as 1.0.0.
+The main additions in this version are:
 
-0 errors | 0 warnings | 1 note
+Two new model families: a log-additive model (fitpgam()) and a varying-coefficient model (fitvcm()), each with associated helper and plotting functions.
+A new model comparison function select_model2ts() to compare fitted models and identify the best fit.
+Functions to predict values of the hazard for specific values of the time scales and of the covariates are also added.
+Minor fixes in functions and documentation.
+Unit tests for prepare_data(), fit1ts(), and fit2ts().
 
-* This is a new release.
-
-## This is a resubmission
-
-### Response to comments from Konstanze Lauseker - 19.12.2024
-
-- We have rewritten the Description field in DESCRIPTION
-- We have removed line breaks
-- We have rewritten the two examples that were wrapped in \dontrun{} to be fully executable
-
-### Response to comments from Uwe Ligges - 17.12.2024
-
-- We have removed the LICENSE file
-- We have modified the field LICENSE in the description, removing + LICENSE as requested
-- We have reduced the size of the package by modifying the vignettes
+The major changes are documented in the NEWS file.

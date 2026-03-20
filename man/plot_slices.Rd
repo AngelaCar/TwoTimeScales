@@ -34,7 +34,8 @@ on the x axis.
 on the y axis.
 \item \code{cex_main} The magnification to be used for the main title, default is \code{1.2}.
 \item \code{cex_lab} The magnification to be used for the axis labels, default is \code{1}.
-\item \code{lwd} The line's width. Default is \code{2}.
+\item \code{lwd} The line width. Default is \code{2}.
+\item \code{lty} The line type.
 }}
 }
 \value{

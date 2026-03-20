@@ -47,6 +47,8 @@
 #'     = 0.05).
 #'   * `col_beta` The color for the plot of the covariates' effects.
 #'   * `pch` The symbol for plotting the point estimates.
+#'   * `lwd` The line width.
+#'   * `lty` The line type.
 #' @param \dots Further arguments to plot.
 #'
 #' @details The function `obtainSmoothTrend` from the R-package `LMMsolver` is
@@ -106,7 +108,9 @@ plot.haz1tsLMM <- function(x,
     symmetric_CI = TRUE,
     confidence = .95,
     col_beta = "blue",
-    pch = 20
+    pch = 20,
+    lwd = 1,
+    lty = 1
   )
 
   Nopts <- names(opts)
@@ -227,7 +231,6 @@ plot.haz1tsLMM <- function(x,
     plot(new_grid$s,
          to_plot,
          type = "l",
-         lwd = 2,
          xlim = opts$xlim,
          ylim = opts$ylim,
          col = opts$col,
@@ -236,7 +239,8 @@ plot.haz1tsLMM <- function(x,
          xlab = opts$xlab,
          ylab = opts$ylab,
          cex.lab = opts$cex_lab,
-         axes = F
+         axes = F,
+         lwd = opts$lwd
     )
     axis(1, pos = min(opts$ylim))
     axis(2, pos = new_grid$smin)

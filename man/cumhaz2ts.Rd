@@ -15,8 +15,8 @@ cumhaz2ts(
 )
 }
 \arguments{
-\item{fitted_model}{(optional) The output of the function \code{fit2ts}.
-This is an object of class \code{'haz2ts'} or \code{'haz2tsLMM'}.}
+\item{fitted_model}{(optional) An object of class \code{'haz2ts'}, \code{'haz2tsLMM'},
+\code{'haz2tsPGAM'}, or \code{'haz2tsVCM'}.}
 
 \item{plot_grid}{(optional) A list containing the parameters to build a new
 finer grid of intervals over \code{u} and \code{s} for plotting. This must be of the
@@ -58,7 +58,7 @@ indicates whether the cutting points are located on the \code{u} time, or on the
 \value{
 A list with the following elements:
 * \code{Haz} a list of estimated hazard and associated SEs
-(obtained from the function \code{get_hazard_2d});
+(obtained from the function \code{get_hazard_2d()});
 * \code{CumHaz} the cumulated hazard estimate over \code{u} and \code{s};
 * \code{cause} (if provided) the short name for the cause.
 }

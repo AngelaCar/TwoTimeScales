@@ -5,15 +5,16 @@
 #'
 #' Given the raw data, this function first constructs the bins over one or two
 #'   time axes and then computes the aggregated (or individual)
-#'   vectors or matrices of exposure times and events indicators. A data.frame with
-#'   covariates values can be provided by the user.
+#'   vectors, or matrices, of exposure times and events indicators.
 #'
 #' @inheritParams make_bins
-#' @param data A data frame.
+#' @param data A data frame. If the object provided is a tibble, or a data.table,
+#'   it will be converted to data.frame.
 #' @param events A vector of event's indicators (possible values 0/1).
 #' @param individual A Boolean. Default is `FALSE`: if `FALSE` computes the matrices `R` and `Y`
 #'   collectively for all observations; if `TRUE` computes the matrices `R` and `Y` separately for each individual record.
-#' @param covs A data.frame with the variables to be used as covariates.
+#' @param covs A data.frame with the variables to be used as covariates, or a
+#'   vector with the names of the covariates to be included.
 #'   The function will create dummy variables for any factor variable passed as argument in `covs`.
 #'   If a variable of class character is passed as argument, it will be converted to factor.
 #'
@@ -49,6 +50,8 @@
 #' on the bins' width. It very much depends on the data structure, however, we
 #' try to give some directions here. First, in most cases, more bins is better
 #' than less bins. A good number is about 30 bins.
+#' It also depends on the user's expectation about how rapidly the hazard of the event
+#' changes over the time scales.
 #' However, if data are scarce, the user might want to find a compromise between
 #' having a larger number of bins, and having many bins empty.
 #' Second, the chosen width of the bins (that is `du` and `ds`) does depend on
@@ -66,9 +69,9 @@
 #' about reasonable values for the arguments `min_s`, `min_u`, `max_s` and `max_u`
 #' (that in any case are optional).
 #'
-#' Regarding names of covariates or levels of categorical covariates/factors:
-#' When using "LMMsolver" to fit a model with covariates that which have names
-#' (or factor labels) including a symbol such as "+", "-", "<" or ">" will result
+#' Regarding the names of covariates or levels of categorical covariates/factors:
+#' When using "LMMsolver" to fit a model with covariates that have names
+#' (or factor labels) including a symbol such as "+", "-", "<" or ">", these will result
 #' in an error. To avoid this, the responsible names (labels) will be rewritten
 #' without mathematical symbols. For example: "Lev+5FU" (in the colon cancer data)
 #' is replaced by "Lev&5FU".
@@ -152,7 +155,7 @@ prepare_data <- function(data = NULL,
 
   # If argument data is provided, check that all names are in data
   if(!is.null(data)){
-    if(is.data.frame(data) == FALSE) data <- as.data.frame(data)
+    if(class(data)[1] != "data.frame") data <- as.data.frame(data)
     listnames <- c(t_in , t_out , u, s_in , s_out, events, covs)
     missing_cols <- setdiff(listnames, names(data))
     if (length(missing_cols) > 0) { # some variables are not in the data

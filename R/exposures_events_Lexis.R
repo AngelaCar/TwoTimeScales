@@ -18,8 +18,8 @@
 #' * `bins_s` a vector of extreme values for the bins over the `t` axis.
 #' * `ns` the number of bins over `s`.
 #' @return A list with the following elements:
-#' * `R` an array of exposure times of dimension \eqn{nt} by \eqn{ns}
-#' * `Y` an array of event counts of dimension \eqn{nt} by \eqn{ns}
+#' * `R` an array of exposure times of dimension \eqn{n_t} by \eqn{n_s}
+#' * `Y` an array of event counts of dimension \eqn{n_t} by \eqn{n_s}
 
 #' @examples
 #' # ---- Bin colon cancer data by time since randomization and time since recurrence ----

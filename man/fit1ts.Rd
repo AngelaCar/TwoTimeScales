@@ -24,7 +24,7 @@ fit1ts(
 \arguments{
 \item{data1ts}{(optional) an object created by the function
 \code{prepare_data()}. Providing this input is the easiest way to use the function
-\code{fit1ts}. However, the user can also provide the input data together with
+\code{fit1ts()}. However, the user can also provide the input data together with
 a list of bins, as explained by the following parameters' descriptions.}
 
 \item{y}{A vector of event counts of length ns, or an array of dimension ns
@@ -36,7 +36,7 @@ by n.}
 \item{Z}{(optional) A regression matrix of covariates of dimension n by p.}
 
 \item{bins}{a list with the specification for the bins. This is created by
-the function \code{prepare_data}. Alternatively, a list with the following elements
+the function \code{prepare_data()}. Alternatively, a list with the following elements
 can be provided:
 * \code{bins_s} is a vector of intervals for the time scale \code{s}.
 * \code{mids} is a vector with the midpoints of the intervals over \code{s}.
@@ -64,7 +64,7 @@ over a grid of \eqn{\log_{10}(\varrho_s)} values, and \code{"LMMsolver"} to solv
 as sparse linear mixed model using the package LMMsolver.}
 
 \item{optim_criterion}{The criterion to be used for optimization:
-\code{"aic"} (default) or \code{"bic"}. BIC penalized model complexity more strongly
+\code{"aic"} (default) or \code{"bic"}. BIC penalizes model complexity more strongly
 than AIC, so that its usage is recommended when a smoother fit is preferable
 (see also Camarda, 2012).}
 
@@ -86,6 +86,9 @@ estimates at iteration i and i+1. Default is \code{1e-5}.
 process.
 \item \code{monitor_ev} A Boolean. Default is \code{FALSE}. If \code{TRUE} monitors the
 evaluation of the model over the \code{log_10(rho_s)} values.
+\item \code{xtol} The relative tolerance to stop the algorithm, only relevant for
+numerical optimization algorithm. For details see \code{help(ucminf)}.
+Here is it set to \code{1e-5}.
 }}
 
 \item{par_gridsearch}{A list of parameters for the grid_search:
@@ -108,15 +111,15 @@ For objects of class \code{haz1ts} this is
 \itemize{
 \item \code{optimal_model} A list with:
 \itemize{
-\item \code{alpha} The vector of estimated P-splines coefficients of length \eqn{cs}.
+\item \code{alpha} The vector of estimated P-splines coefficients of length \eqn{c_s}.
 \item \code{SE_alpha} The vector of estimated Standard Errors for the \code{alpha} coefficients,
-of length \eqn{cs}.
+of length \eqn{c_s}.
 \item \code{beta} The vector of estimated covariate coefficients of length \eqn{p}
 (if model with covariates).
 \item \code{se_beta} The vector of estimated Standard Errors for the
 \code{beta} coefficients of length \eqn{p} (if model with covariates).
 \item \code{eta} or \code{eta0}. The vector of values of the (baseline) linear predictor
-(log-hazard) of length \eqn{ns}.
+(log-hazard) of length \eqn{n_s}.
 \item \code{H} The hat-matrix.
 \item \code{Cov} The full variance-covariance matrix.
 \item \code{deviance} The deviance.
@@ -163,11 +166,13 @@ for more detail on \code{LMMsolver} and its usage.
 }
 \examples{
 ## preparing data - no covariates
-dt1ts <- prepare_data(data = reccolon2ts,
-                      s_in = "entrys",
-                      s_out = "timesr",
-                      events = "status",
-                      ds = 180)
+dt1ts <- prepare_data(
+  data = reccolon2ts,
+  s_in = "entrys",
+  s_out = "timesr",
+  events = "status",
+  ds = 180
+)
 
 ## fitting the model with fit1ts() - default options, that is ucminf optimization
 
@@ -175,24 +180,27 @@ mod1 <- fit1ts(dt1ts)
 
 ## fitting with LMMsolver
 mod2 <- fit1ts(dt1ts,
-              optim_method = "LMMsolver")
+  optim_method = "LMMsolver"
+)
 
 ## preparing the data - covariates
 
-dt1ts_cov <- prepare_data(data = reccolon2ts,
-                      s_in = "entrys",
-                      s_out = "timesr",
-                      events = "status",
-                      ds = 180,
-                      individual = TRUE,
-                      covs = c("rx", "node4", "sex"))
+dt1ts_cov <- prepare_data(
+  data = reccolon2ts,
+  s_in = "entrys",
+  s_out = "timesr",
+  events = "status",
+  ds = 180,
+  individual = TRUE,
+  covs = c("rx", "node4", "sex")
+)
 
 ## fitting the model with fit1ts() - grid search over only two log_10(rho_s) values
 
 mod3 <- fit1ts(dt1ts_cov,
-               optim_method = "grid_search",
-               lrho = c(1, 1.5))
-
+  optim_method = "grid_search",
+  lrho = c(1, 1.5)
+)
 
 }
 \references{

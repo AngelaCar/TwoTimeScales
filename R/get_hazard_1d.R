@@ -1,7 +1,7 @@
 #' Get estimated (log-)hazard values with 1 time scale
 #'
 #' @description `get_hazard_1d()` takes as input the results of a model
-#' estimated by `fit1ts` and it returns the estimated values of the smooth log-hazard
+#' estimated by `fit1ts()` and it returns the estimated values of the smooth log-hazard
 #' and the smooth hazard together with their standard errors.
 #'
 #' If the model includes covariates, then only the baseline (log-)hazard is returned.
@@ -78,8 +78,10 @@ get_hazard_1d <- function(fitted_model, plot_grid = NULL) {
       ints <- seq(smin, smin + K * ds, by = ds)
 
       # Evaluate old basis in new grid of points
-      Bs <- JOPS::bbase(ints, nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg,
-                        xl = attributes(Bbases$Bs)$xl, xr = attributes(Bbases$Bs)$xr)
+      Bs <- JOPS::bbase(ints,
+        nseg = attributes(Bbases$Bs)$nseg, bdeg = attributes(Bbases$Bs)$bdeg,
+        xl = attributes(Bbases$Bs)$xl, xr = attributes(Bbases$Bs)$xr
+      )
       new_grid <- list(
         "ints" = ints,
         "smin" = smin,

@@ -33,12 +33,12 @@ R and Y separately for each individual record.}
 A list with the following elements:
 \itemize{
 \item \code{R} an array of exposure times: if \code{individual == TRUE},
-then \code{R} is an array of dimension \eqn{nu} by \eqn{ns} by \eqn{n},
-otherwise is an array of dimension \eqn{nu} by \eqn{ns}
+then \code{R} is an array of dimension \eqn{n_u} by \eqn{n_s} by \eqn{n},
+otherwise is an array of dimension \eqn{n_u} by \eqn{n_s}
 \item \code{Y}an array of event counts: if \code{individual == TRUE},
 then \code{Y} is an array of
-dimension \eqn{nu} by \eqn{ns} by \eqn{n}, otherwise is an array of
-dimension \eqn{nu} by \eqn{ns}
+dimension \eqn{n_u} by \eqn{n_s} by \eqn{n}, otherwise is an array of
+dimension \eqn{n_u} by \eqn{n_s}
 }
 }
 \description{
@@ -51,18 +51,18 @@ scale), and event's indicator.
 }
 \details{
 The fixed-time variable \code{u} and the second time scale \code{s}
-are divided into \eqn{nu} and \eqn{ns} intervals, respectively. The extremes of these
-intervals are provided as input to the function. First, the fixed-time at
-entry is located in one of the nu bins that cover the whole range of
+are divided into \eqn{n_u} and \eqn{n_s} intervals, respectively.
+The extremes of these intervals are provided as input to the function. First, the fixed-time at
+entry is located in one of the \eqn{n_u} bins that cover the whole range of
 \code{u}. Then, the time-at-risk for each individual is split according to
-the \eqn{ns} bins that span the whole range of values for \code{s}, and an event
+the \eqn{n_s} bins that span the whole range of values for \code{s}, and an event
 indicator is placed in the bin where the exit time is located. This is done
-by calling the function \code{exposure_events_1d}. If individual matrices of
+by calling the function \code{exposure_events_1d()}. If individual matrices of
 exposure and events are required, then the function returns two arrays of
-dimension \eqn{nu} by \eqn{ns} by \eqn{n}. If aggregated results are preferred, the
+dimension \eqn{n_u} by \eqn{n_s} by \eqn{n}. If aggregated results are preferred, the
 individual contributions are summed in each bin to provide a matrix of
-total exposure time and a matrix of total event counts, both of dimensions
-\eqn{nu} by \eqn{ns}. See also \code{\link[=prepare_data]{prepare_data()}} to conveniently prepare individual data
+total exposure times and a matrix of total event counts, both of dimensions
+\eqn{n_u} by \eqn{n_s}. See also \code{\link[=prepare_data]{prepare_data()}} to conveniently prepare individual data
 for the analysis with one, or two time scales.
 }
 \examples{

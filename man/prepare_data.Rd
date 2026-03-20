@@ -26,7 +26,8 @@ prepare_data(
 )
 }
 \arguments{
-\item{data}{A data frame.}
+\item{data}{A data frame. If the object provided is a tibble, or a data.table,
+it will be converted to data.frame.}
 
 \item{t_in}{(optional) A vector of entry times on the time scale \code{t}.}
 
@@ -67,7 +68,8 @@ If \code{NULL}, the maximum of \code{s_out} will be used.}
 \item{individual}{A Boolean. Default is \code{FALSE}: if \code{FALSE} computes the matrices \code{R} and \code{Y}
 collectively for all observations; if \code{TRUE} computes the matrices \code{R} and \code{Y} separately for each individual record.}
 
-\item{covs}{A data.frame with the variables to be used as covariates.
+\item{covs}{A data.frame with the variables to be used as covariates, or a
+vector with the names of the covariates to be included.
 The function will create dummy variables for any factor variable passed as argument in \code{covs}.
 If a variable of class character is passed as argument, it will be converted to factor.}
 }
@@ -109,8 +111,7 @@ for hazard estimation in 1d or 2d.
 
 Given the raw data, this function first constructs the bins over one or two
 time axes and then computes the aggregated (or individual)
-vectors or matrices of exposure times and events indicators. A data.frame with
-covariates values can be provided by the user.
+vectors, or matrices, of exposure times and events indicators.
 }
 \details{
 A few words about constructing the grid of bins.
@@ -119,6 +120,8 @@ optimal strategy for setting the number of bins over each time axis, or deciding
 on the bins' width. It very much depends on the data structure, however, we
 try to give some directions here. First, in most cases, more bins is better
 than less bins. A good number is about 30 bins.
+It also depends on the user's expectation about how rapidly the hazard of the event
+changes over the time scales.
 However, if data are scarce, the user might want to find a compromise between
 having a larger number of bins, and having many bins empty.
 Second, the chosen width of the bins (that is \code{du} and \code{ds}) does depend on
@@ -136,9 +139,9 @@ of values over which the time scale(s) are recorded. This will give insight
 about reasonable values for the arguments \code{min_s}, \code{min_u}, \code{max_s} and \code{max_u}
 (that in any case are optional).
 
-Regarding names of covariates or levels of categorical covariates/factors:
-When using "LMMsolver" to fit a model with covariates that which have names
-(or factor labels) including a symbol such as "+", "-", "<" or ">" will result
+Regarding the names of covariates or levels of categorical covariates/factors:
+When using "LMMsolver" to fit a model with covariates that have names
+(or factor labels) including a symbol such as "+", "-", "<" or ">", these will result
 in an error. To avoid this, the responsible names (labels) will be rewritten
 without mathematical symbols. For example: "Lev+5FU" (in the colon cancer data)
 is replaced by "Lev&5FU".

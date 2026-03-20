@@ -1,8 +1,21 @@
+# TwoTimeScales 1.2.0
+
+## New functions
+* `fitpgam()` and related functions added to fit a log-additive model over two
+  time scales.
+* `fitvcm()` and related functions added to fit a varying-coefficient model over
+  two time scales.
+* `select_model2ts()` added to compare several fitted models and identify the
+  best-fitting one.
+
+## Tests
+* Added unit tests for `prepare_data()`, `fit1ts()`, and `fit2ts()`.
+
 # TwoTimeScales 1.1.1
 
 ## Updates
 * `predict.haz2ts()` can now predict also including covariates fixed at arbitrary 
-  values.
+  values
 
 * `GLAM_2d_covariates()` returns covariances between the alpha and beta parameters
 

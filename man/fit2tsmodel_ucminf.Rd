@@ -81,7 +81,7 @@ An object of class \code{haz2ts} with the following elements:
 \code{fit2tsmodel_ucminf()} performs a numerical optimization of the
 AIC or BIC of the two time scales model.
 
-It finds the optimal values of \code{log_10(rho_u)} and \code{log_10(rho_s)}
+It finds the optimal values of \eqn{\log_{10}(\rho_u)} and \eqn{\log_{10}(\rho_s)}
 and returns the estimated optimal model.
 See also \code{\link[ucminf:ucminf]{ucminf::ucminf()}}.
 }

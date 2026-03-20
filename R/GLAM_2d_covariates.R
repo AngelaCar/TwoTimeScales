@@ -31,6 +31,8 @@
 #'     of dimension p by p.
 #'   * `SE_beta` The vector of length p of estimated Standard Errors for the `beta`
 #'      coefficients.
+#'   * `Cov_Alpha_beta` The matrix with the covariance values between the `Alpha`
+#'      and `beta` coefficients.
 #'   * `Eta0` The matrix of values of the baseline linear predictor (log-hazard)
 #'     of dimension nu by ns.
 #'   * `H` The hat-matrix.

@@ -35,7 +35,7 @@ list("ints", "smin", "smax", "ds")
 }
 \description{
 \code{get_hazard_1d()} takes as input the results of a model
-estimated by \code{fit1ts} and it returns the estimated values of the smooth log-hazard
+estimated by \code{fit1ts()} and it returns the estimated values of the smooth log-hazard
 and the smooth hazard together with their standard errors.
 
 If the model includes covariates, then only the baseline (log-)hazard is returned.

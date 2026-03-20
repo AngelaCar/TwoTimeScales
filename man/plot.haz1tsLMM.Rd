@@ -61,6 +61,8 @@ If \code{FALSE}, then CIs are obtained by exponentiating the CIs for the betas.
 = 0.05).
 \item \code{col_beta} The color for the plot of the covariates' effects.
 \item \code{pch} The symbol for plotting the point estimates.
+\item \code{lwd} The line width.
+\item \code{lty} The line type.
 }}
 
 \item{\dots}{Further arguments to plot.}

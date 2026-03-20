@@ -35,8 +35,8 @@ fakedata2ts <- prepare_data(data = fakedata,
 # Fit a fake model - not optimal smoothing
 fakemod <- fit2ts(fakedata2ts,
                   optim_method = "grid_search",
-                  lrho = list(seq(1 ,1.5 ,.5),
-                              seq(1 ,1.5 ,.5)))
+                  lrho = list(seq(1, 1.5, .5),
+                              seq(1, 1.5, .5)))
 summary(fakemod)
 
 }

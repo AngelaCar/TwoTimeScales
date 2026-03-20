@@ -1,10 +1,10 @@
 #' Get the Hazard Ratios with their Standard Errors
 #'
 #' @description `get_hr()` takes as input the results of a model with covariates
-#' estimated by `fit2ts` or `fit1ts` and returns the estimated hazard ratios
+#' estimated by `fit2ts()` or `fit1ts()` and returns the estimated hazard ratios
 #' together with their standard errors.
 #'
-#' @param fitted_model A list returned by the function `fit2ts` or `fit1ts`.
+#' @param fitted_model A list returned by the function `fit2ts()` or `fit1ts()`.
 #'
 #' @return A list with the following elements:
 #'   * `HR` A vector of hazard ratios (calculated as \eqn{\exp(\hat\beta)}).

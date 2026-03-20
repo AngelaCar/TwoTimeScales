@@ -27,7 +27,8 @@
 #'    on the y axis.
 #'  * `cex_main` The magnification to be used for the main title, default is `1.2`.
 #'  * `cex_lab` The magnification to be used for the axis labels, default is `1`.
-#'  * `lwd` The line's width. Default is `2`.
+#'  * `lwd` The line width. Default is `2`.
+#'  * `lty` The line type.
 #'
 #' @return A plot of the slices of the hazard cut at selected points.
 #'

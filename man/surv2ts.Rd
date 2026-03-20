@@ -21,8 +21,8 @@ matrices (minimum one element needs to be supplied).
 If more than one cause-specific cumulated hazard is provided,
 then they should all be matrices of the same dimension.}
 
-\item{fitted_model}{(optional) The output of the function \code{fit2ts}.
-This is an object of class \code{'haz2ts'} or \code{'haz2tsLMM'}.}
+\item{fitted_model}{(optional) An object of class \code{'haz2ts'}, \code{'haz2tsLMM'},
+\code{'haz2tsPGAM'}, or \code{'haz2tsVCM'}.}
 
 \item{plot_grid}{(optional) A list containing the parameters to build a new
 finer grid of intervals over \code{u} and \code{s} for plotting. This must be of the
@@ -64,13 +64,14 @@ indicates whether the cutting points are located on the \code{u} time, or on the
 a matrix containing the values of the survival function over \code{s} and \code{u}.
 }
 \description{
-Computes the survival matrix, that contains the probability of not
+Computes the survival matrix containing the probability of not
 experiencing an event (of any cause) by time \code{s} and fixed entry time \code{u}.
 The survival function can be obtained from one fitted model with only one
 event type, or combining information from several cause-specific hazard
-in a competing risks model. In the first case, a fitted object of class \code{'haz2ts'}
-or \code{'haz2tsLMM'} can be passed directly as argument to the function. In the
-competing risks framework, the user should provide a list of cause-specific
+in a competing risks model. In the first case, a fitted object of class \code{'haz2ts'},
+\code{'haz2tsLMM'}, \code{'haz2tsPGAM'}, or \code{'haz2tsVCM'} can be passed directly as
+argument to the function.
+In the competing risks framework, the user should provide a list of cause-specific
 cumulative hazard matrices. The function is also called internally from \code{plot()}
 if the user wants to plot the cumulative hazard from a fitted model.
 }

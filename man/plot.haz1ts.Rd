@@ -61,6 +61,8 @@ If \code{FALSE}, then CIs are obtained by exponentiating the CIs for the betas.
 = 0.05).
 \item \code{col_beta} The color for the plot of the covariates' effects.
 \item \code{pch} The symbol for plotting the point estimates.
+\item \code{lwd} The line width.
+\item \code{lty} The line type.
 }}
 
 \item{\dots}{Further arguments to plot.}
@@ -73,11 +75,13 @@ A plot of the type required.
 }
 \examples{
 ## preparing data - no covariates
-dt1ts <- prepare_data(data = reccolon2ts,
-                      s_in = "entrys",
-                      s_out = "timesr",
-                      events = "status",
-                      ds = 180)
+dt1ts <- prepare_data(
+  data = reccolon2ts,
+  s_in = "entrys",
+  s_out = "timesr",
+  events = "status",
+  ds = 180
+)
 
 ## fitting the model with fit1ts() - default options
 

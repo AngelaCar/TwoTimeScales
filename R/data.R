@@ -1,18 +1,18 @@
 #' Data from the chemotherapy for stace B/C colon cancer study
 #'
 #' This dataset is a reduced version of the dataset colon from the package
-#' survival (Therneau, T.M. et al., 2022). Each observation is a transition from
+#' survival (Therneau, T., 2023). Each observation is a transition from
 #' recurrence of colon cancer to death or censoring. The time scales are time
 #' from randomization to recurrence, time from randomization to death or
 #' censoring and time from recurrence of the cancer to death or censoring.
 #' Only observations about individuals with a recurrence of the cancer are selected.
 #' Additionally, 7 individuals with exit times from the risk set equal to entry times in the
 #' recurrence state (0 exposure time) were dropped from the sample.
-#' In the original dataset, all times of recurrence are known precisely, so that
-#' after recurrence all individuals are followed right from entry in the state,
+#' In the original dataset, all times of recurrence are known, so that
+#' after recurrence all individuals are followed from entry in the state,
 #' without left truncation. To be able to illustrate
 #' how to include left truncated times in the model, artificial left truncated
-#' entry in the 'recurrence' state are introduced for 40 individuals.
+#' entry in the 'recurrence' state are randomly introduced for 40 individuals.
 #'
 #'
 #'

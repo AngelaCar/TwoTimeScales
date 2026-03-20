@@ -527,7 +527,8 @@ plot.haz2ts <- function(x,
         ylim = opts$ylim,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab,
-        lwd = opts$lwd
+        lwd = opts$lwd,
+        lty = opts$lty
       )
     )
   }
@@ -552,7 +553,8 @@ plot.haz2ts <- function(x,
         ylim = opts$ylim,
         cex_main = opts$cex_main,
         cex_lab = opts$cex_lab,
-        lwd = opts$lwd
+        lwd = opts$lwd,
+        lty = opts$lty
       )
     )
   }

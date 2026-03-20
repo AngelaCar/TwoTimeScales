@@ -3,7 +3,8 @@
 #' @description `covariates_plot()` produces a plot of the covariates' effects (\eqn{\hat\beta})
 #'   with confidence intervals, or of the Hazard Ratios (\eqn{\exp(\hat\beta)}) with confidence intervals.
 #'
-#' @param fitted_model A list returned by the function `fit2ts` or `fit1ts`.
+#' @param fitted_model A list returned by the function `fit2ts()`,
+#'        `fitpgam()` or `fit1ts()`.
 #' @param confidence_lev The level of confidence for the CIs. Default is 0.95 (\eqn{\alpha
 #'   = 0.05}).
 #' @param plot_options A list of options for the plot:
@@ -31,59 +32,69 @@
 #' @examples
 #' # Create some fake data - the bare minimum
 #' id <- 1:20
-#' u <- c(5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
-#'        4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96)
-#' s <- c(0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
-#'        7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00)
+#' u <- c(
+#'   5.43, 3.25, 8.15, 5.53, 7.28, 6.61, 5.91, 4.94, 4.25, 3.86, 4.05, 6.86,
+#'   4.94, 4.46, 2.14, 7.56, 5.55, 7.60, 6.46, 4.96
+#' )
+#' s <- c(
+#'   0.44, 4.89, 0.92, 1.81, 2.02, 1.55, 3.16, 6.36, 0.66, 2.02, 1.22, 3.96,
+#'   7.07, 2.91, 3.38, 2.36, 1.74, 0.06, 5.76, 3.00
+#' )
 #' ev <- c(1, 0, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1)
 #' x1 <- c(0, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0)
 #'
 #' fakedata <- as.data.frame(cbind(id, u, s, ev, x1))
 #' covs <- subset(fakedata, select = c("x1"))
-#' fakedata2ts <- prepare_data(u = fakedata$u,
-#'                             s_out = fakedata$s,
-#'                             ev = fakedata$ev,
-#'                             ds = .5,
-#'                             individual = TRUE,
-#'                             covs = covs)
+#' fakedata2ts <- prepare_data(
+#'   u = fakedata$u,
+#'   s_out = fakedata$s,
+#'   ev = fakedata$ev,
+#'   ds = .5,
+#'   individual = TRUE,
+#'   covs = covs
+#' )
 #' # Fit a fake model - not optimal smoothing
 #' fakemod <- fit2ts(fakedata2ts,
-#'                   optim_method = "grid_search",
-#'                   lrho = list(seq(1 ,1.5 ,.5),
-#'                               seq(1 ,1.5 ,.5)))
+#'   optim_method = "grid_search",
+#'   lrho = list(
+#'     seq(1, 1.5, .5),
+#'     seq(1, 1.5, .5)
+#'   )
+#' )
 #' # Covariates plot with default options
 #' covariates_plot(fakemod)
 #'
 #' # Plot the hazard ratios instead
 #' covariates_plot(fakemod,
-#'                 plot_options = list(
-#'                 HR = TRUE))
+#'   plot_options = list(
+#'     HR = TRUE
+#'   )
+#' )
 #'
 #' # Change confidence level
 #' covariates_plot(fakemod,
-#'                 confidence_lev = .99)
+#'   confidence_lev = .99
+#' )
 #' @export
 #'
 
 covariates_plot <- function(fitted_model,
                             confidence_lev = .95,
-                            plot_options = list(), ...){
-
+                            plot_options = list(), ...) {
   # ---- Get estimates ----
-  if(inherits(fitted_model, "haz2ts") | inherits(fitted_model, "haz1ts")){
+  if (inherits(fitted_model, c("haz2ts", "haz2tsPGAM")) | inherits(fitted_model, "haz1ts")) {
     HR_SE <- get_hr(fitted_model)
     namesb <- attributes(fitted_model$optimal_model$beta)$dimnames[[1]]
-
   } else {
-    namesCov <- fitted_model$optimal_model$term.labels.f[-c(1,length(fitted_model$optimal_model$term.labels.f))]
+    namesCov <- fitted_model$optimal_model$term.labels.f[-c(1, length(fitted_model$optimal_model$term.labels.f))]
     coefLMM <- coef(fitted_model$optimal_model, se = T)[namesCov]
     coeftab <- matrix(0, length(namesCov), 3)
-    for(ind in 1:length(namesCov)){
-      coeftab[ind,2] <- round(as.numeric(coefLMM[[ind]]$value), 4)
-      coeftab[ind,3] <- as.numeric(coefLMM[[ind]]$se)
+    for (ind in 1:length(namesCov)) {
+      coeftab[ind, 2] <- round(as.numeric(coefLMM[[ind]]$value), 4)
+      coeftab[ind, 3] <- as.numeric(coefLMM[[ind]]$se)
     }
     coeftab <- as.data.frame(coeftab)
-    #coeftab[,1] <- namesCov
+    # coeftab[,1] <- namesCov
     colnames(coeftab) <- c("coef", "beta", "SE_beta")
     HR_SE <- list(
       "beta" = coeftab$beta,
@@ -118,19 +129,19 @@ covariates_plot <- function(fitted_model,
     )
   }
 
-  if(is.null(opts$main_cov)) {
+  if (is.null(opts$main_cov)) {
     opts$main_cov <- ifelse(opts$HR, "hazard ratios", "betas")
   }
-  if(is.null(opts$ylab)) {
+  if (is.null(opts$ylab)) {
     opts$ylab <- ifelse(opts$HR, "hazard ratios", "betas")
   }
 
   # ---- Z-value level for confidence intervals ----
-  cialp <- (1-confidence_lev)/2
+  cialp <- (1 - confidence_lev) / 2
   zval <- abs(qnorm(cialp))
 
   # ---- what to plot ----
-  if(opts$HR & opts$symmetric_CI){
+  if (opts$HR & opts$symmetric_CI) {
     y <- HR_SE$HR
     se_y <- HR_SE$SE_HR
   } else {
@@ -139,7 +150,7 @@ covariates_plot <- function(fitted_model,
   }
 
 
-  if(opts$HR & !(opts$symmetric_CI)){
+  if (opts$HR & !(opts$symmetric_CI)) {
     LCIs <- exp(y - zval * se_y)
     UCIs <- exp(y + zval * se_y)
     y <- exp(y)
@@ -148,8 +159,8 @@ covariates_plot <- function(fitted_model,
     UCIs <- y + zval * se_y
   }
 
-  if(is.null(opts$ylim)) {
-      opts$ylim <- c(min(LCIs, na.rm = T)+.005, max(UCIs, na.rm = T)+.005)
+  if (is.null(opts$ylim)) {
+    opts$ylim <- c(min(LCIs, na.rm = T) + .005, max(UCIs, na.rm = T) + .005)
   }
   # ---- Plot ----
   p <- length(HR_SE$beta)
@@ -157,35 +168,35 @@ covariates_plot <- function(fitted_model,
 
   plt <- {
     plot(
-    x, y,
-    xlab = "",
-    ylab = opts$ylab,
-    xaxt = "n",
-    xlim = c(0, p + 1),
-    ylim = opts$ylim,
-    pch = opts$pch,
-    col = opts$col_beta,
-    main = opts$main,
-    cex.main = opts$cex_main,
-    cex.lab = opts$cex_lab,
-    ...
-  )
-  abline(h = 0, col = "grey", lty = 2)
-  segments(x, LCIs, x, UCIs,
-           col = opts$col_beta
-  )
-  segments((x - .15), LCIs, (x + .15), LCIs,
-           col = opts$col_beta
-  )
-  segments((x - .15), UCIs, (x + .15), UCIs,
-           col = opts$col_beta
-  )
-  axis(1,
-       at = x,
-       tick = F,
-       labels = namesb,
-       las = 2
-  )
+      x, y,
+      xlab = "",
+      ylab = opts$ylab,
+      xaxt = "n",
+      xlim = c(0, p + 1),
+      ylim = opts$ylim,
+      pch = opts$pch,
+      col = opts$col_beta,
+      main = opts$main,
+      cex.main = opts$cex_main,
+      cex.lab = opts$cex_lab,
+      ...
+    )
+    abline(h = 0, col = "grey", lty = 2)
+    segments(x, LCIs, x, UCIs,
+      col = opts$col_beta
+    )
+    segments((x - .15), LCIs, (x + .15), LCIs,
+      col = opts$col_beta
+    )
+    segments((x - .15), UCIs, (x + .15), UCIs,
+      col = opts$col_beta
+    )
+    axis(1,
+      at = x,
+      tick = F,
+      labels = namesb,
+      las = 2
+    )
   }
   return(plt)
 }

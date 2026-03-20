@@ -10,6 +10,18 @@
 #' @inheritParams get_aic_fit_1d
 #' @param optim_criterion The criterion to be used for optimization:
 #' `"aic"` (default) or `"bic"`.
+#' @param control_algorithm A list with optional values for the parameters of
+#'   the iterative processes:
+#'   * `maxiter` The maximum number of iteration for the IWLS algorithm.
+#'     Default is 20.
+#'   * `conv_crit` The convergence criteria, expressed as difference between
+#'     estimates at iteration i and i+1. Default is `1e-5`.
+#'   * `verbose` A Boolean. Default is `FALSE`. If `TRUE` monitors the iteration
+#'     process.
+#'   * `monitor_ev` A Boolean. Default is `FALSE`. If `TRUE` monitors the
+#'     evaluation of the model over the `log_10(rho_s)` values.
+#'   * `xtol` The relative tolerance to stop the algorithm. For details see `help(ucminf)`.
+#'      Here is it set to `1e-5`.
 #'
 #' @return An object of class `haz1ts` with the following elements:
 #'   * `optimal_model` A list containing the results of the optimal model.
@@ -31,7 +43,6 @@ fit1tsmodel_ucminf <- function(r, y,
                                Wprior = NULL,
                                optim_criterion = c("aic", "bic"),
                                control_algorithm = list()) {
-
   # ---- Controls for iterative process ----
   con <- list(
     maxiter = 20,
@@ -44,14 +55,16 @@ fit1tsmodel_ucminf <- function(r, y,
   namesCon <- names(control_algorithm)
 
   con[namesCon] <- control_algorithm
-  if(length(namesCon[!namesCon %in% Ncon])>0) {
+  if (length(namesCon[!namesCon %in% Ncon]) > 0) {
     warning("Undefined entries in control! Default settings are used.\n")
-    warning("undefined keyword(s): ",
-            paste(namesCon[! namesCon %in% Ncon], collapse = ", "))
+    warning(
+      "undefined keyword(s): ",
+      paste(namesCon[!namesCon %in% Ncon], collapse = ", ")
+    )
   }
 
   # ---- Find optimal smoothing parameters ----
-  if (optim_criterion == "aic"){
+  if (optim_criterion == "aic") {
     op <- ucminf::ucminf(
       par = lrho,
       fn = get_aic_fit_1d,
@@ -64,7 +77,7 @@ fit1tsmodel_ucminf <- function(r, y,
       control = list(xtol = con$xtol)
     )
   }
-  if(optim_criterion == "bic"){
+  if (optim_criterion == "bic") {
     op <- ucminf::ucminf(
       par = lrho,
       fn = get_bic_fit_1d,
@@ -85,7 +98,7 @@ fit1tsmodel_ucminf <- function(r, y,
   # ---- Construct penalty matrix P  ----
   P <- optim_r * t(Ds) %*% Ds
 
-  if(is.null(Z)){
+  if (is.null(Z)) {
     opt_mod <- iwls_1d(
       r = r, y = y,
       Bs = Bs,
@@ -93,20 +106,23 @@ fit1tsmodel_ucminf <- function(r, y,
       control_algorithm = con
     )
   } else {
-    opt_mod <- GLAM_1d_covariates(R = r,
-                                  Y = y,
-                                  Z = Z,
-                                  Bs = Bs,
-                                  P = P,
-                                  Wprior = Wprior,
-                                  control_algorithm = con)
+    opt_mod <- GLAM_1d_covariates(
+      R = r,
+      Y = y,
+      Z = Z,
+      Bs = Bs,
+      P = P,
+      Wprior = Wprior,
+      control_algorithm = con
+    )
   }
 
   # ---- save results in a list ----
   results <- list(
     "optimal_model" = opt_mod,
     "optimal_logrho" = optim_lr,
-    "P_optim" = P)
+    "P_optim" = P
+  )
 
   class(results) <- "haz1ts"
   return(results)
