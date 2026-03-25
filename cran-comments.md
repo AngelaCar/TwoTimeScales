@@ -11,3 +11,11 @@ The major changes are documented in the NEWS file.
 
 Version 1.1.0 was never submitted to CRAN, but only published on GitHub.
 
+── R CMD check results ──────────────── TwoTimeScales 1.2.0 ────
+Duration: 3m 52.9s
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+R CMD check succeeded
+
+
