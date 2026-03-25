@@ -8,3 +8,6 @@ Minor fixes in functions and documentation.
 Unit tests for prepare_data(), fit1ts(), and fit2ts().
 
 The major changes are documented in the NEWS file.
+
+Version 1.1.0 was never submitted to CRAN, but only published on GitHub.
+
