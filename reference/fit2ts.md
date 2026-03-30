@@ -268,10 +268,10 @@ more details on `LMMsolver` and its usage.
 
 Boer, Martin P. 2023. “Tensor Product P-Splines Using a Sparse Mixed
 Model Formulation.” Statistical Modelling 23 (5-6): 465–79.
-<https://doi.org/10.1177/1471082X231178591>. Carollo, A., Eilers, P.,
-Putter, H. and Gampe, J. (2025), "Smooth Hazards With Multiple Time
-Scales." Statistics in Medicine, 44: e10297.
-<https://doi.org/10.1002/sim.10297>
+[doi:10.1177/1471082X231178591](https://doi.org/10.1177/1471082X231178591)
+. Carollo, A., Eilers, P., Putter, H. and Gampe, J. (2025), "Smooth
+Hazards With Multiple Time Scales." Statistics in Medicine, 44: e10297.
+[doi:10.1002/sim.10297](https://doi.org/10.1002/sim.10297)
 
 ## Examples
 

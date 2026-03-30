@@ -147,7 +147,8 @@ elements:
 @references Carollo, A., Putter, H., Eilers, P. H. C., & Gampe, J.
 (2025). Analysis of Time-to-Event Data With Two Time Scales. An
 Application to Transitions out of Cohabitation. Sociological Methods &
-Research, 0(0). <https://doi.org/10.1177/00491241251374193>
+Research, 0(0).
+[doi:10.1177/00491241251374193](https://doi.org/10.1177/00491241251374193)
 
 ## Examples
 
