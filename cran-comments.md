@@ -1,3 +1,16 @@
+## R CMD check results
+
+0 errors | 0 warnings | 0 notes
+
+## Resubmission
+
+This is a resubmission of version 1.2.1. The previous version (1.2.0) failed 
+the CRAN `noLD` (no long double) check on Linux due to a computationally 
+singular matrix error in the `fitpgam()` example. This has been fixed by 
+improving the numerical stability of the example code.
+
+## Original resubmission
+
 This is a new minor version (1.2.0) of TwoTimeScales, previously accepted as 1.0.0.
 The main additions in this version are:
 

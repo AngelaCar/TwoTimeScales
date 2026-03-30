@@ -61,9 +61,9 @@ full2d <- fit2ts(fakedata2ts,
   lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5))
 )
 pgam <- fitpgam(fakedata2ts,
-  optim_method = "ucminf",
+  optim_method = "grid_search",
   optim_criterion = "aic",
-  lrho = c(2, 2)
+  lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5))
 )
 vcm <- fitvcm(fakedata2ts)
 
