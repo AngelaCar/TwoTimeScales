@@ -2,6 +2,8 @@
 
 ## TwoTimeScales 1.2.0
 
+CRAN release: 2026-03-25
+
 ### New functions
 
 - [`fitpgam()`](https://angelacar.github.io/TwoTimeScales/reference/fitpgam.md)
