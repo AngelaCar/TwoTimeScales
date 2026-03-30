@@ -68,19 +68,10 @@ full2d <- fit2ts(fakedata2ts,
   lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5))
 )
 pgam <- fitpgam(fakedata2ts,
-  optim_method = "ucminf",
+  optim_method = "grid_search",
   optim_criterion = "aic",
-  lrho = c(2, 2)
+  lrho = list(seq(1, 1.5, .5), seq(1, 1.5, .5))
 )
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
 vcm <- fitvcm(fakedata2ts)
 
 select_model2ts(model_list = list(
@@ -90,7 +81,7 @@ select_model2ts(model_list = list(
 ))
 #>              Model       Type      AIC      BIC Best
 #> 1 full interaction     haz2ts 42.86643 52.93603 <NA>
-#> 2         additive haz2tsPGAM 39.17734 48.58791    *
+#> 2         additive haz2tsPGAM 39.98714 49.07529    *
 #> 3    varying coeff  haz2tsVCM 47.23913 66.04327 <NA>
 
 ```
