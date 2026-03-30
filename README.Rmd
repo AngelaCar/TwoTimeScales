@@ -13,6 +13,8 @@ knitr::opts_chunk$set(
 )
 ```
 
+# TwoTimeScales <a href="https://angelacar.github.io/TwoTimeScales/"><img src="man/figures/logo.png" align="right" height="139" alt="TwoTimeScales website" /></a>
+
 # TwoTimeScales
 
 <!-- badges: start -->
