@@ -50,10 +50,13 @@ GLAM_1d_covariates(
 
   A list with optional values for the parameters of iterative processes:
   \*`maxiter` The maximum number of iterations for the IWLS algorithm,
-  default is 20 . \* `conv_crit` The convergence criteria, expressed as
-  difference between estimates at iteration i and i+1, default is
-  `1e-5`. \* `verbose` A Boolean. Default is `FALSE`. If `TRUE`, monitor
-  the iteration process.
+  default is 20 .
+
+  - `conv_crit` The convergence criteria, expressed as difference
+    between estimates at iteration i and i+1, default is `1e-5`.
+
+  - `verbose` A Boolean. Default is `FALSE`. If `TRUE`, monitor the
+    iteration process.
 
 ## Value
 

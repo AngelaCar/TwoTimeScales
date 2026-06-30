@@ -11,6 +11,7 @@
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/GLAM_1d_covariates.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/GLAM_2d_covariates.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/GLAM_2d_no_covariates.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/reference/boot_cuminc2ts.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/covariates_plot.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/cumhaz2ts.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/cuminc2ts.html</loc></url>
@@ -55,6 +56,7 @@
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot.haz2tsLMM.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot.haz2tsPGAM.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot.haz2tsVCM.html</loc></url>
+<url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot_boot_cuminc2ts.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/plot_slices.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/predict_cif2ts_pointwise.html</loc></url>
 <url><loc>https://angelacar.github.io/TwoTimeScales/reference/predict_comprisks2ts.html</loc></url>

@@ -28,6 +28,7 @@ You can install the development version of TwoTimeScales from
 [GitHub](https://github.com/) with:
 
 ``` r
+
 # install.packages("devtools")
 devtools::install_github("AngelaCar/TwoTimeScales")
 ```
@@ -36,6 +37,7 @@ Vignettes need to be explicitly requested. To install a version of the
 package including the vignettes, please run:
 
 ``` r
+
 devtools::install_github("AngelaCar/TwoTimeScales",
                           dependencies = TRUE, build_vignettes = TRUE)
 ```
@@ -50,6 +52,7 @@ vignettes online here:
 A general introduction to the usage of the package is given in:
 
 ``` r
+
 vignette("TwoTimeScales")
 ```
 
@@ -59,6 +62,7 @@ or here
 Further examples on can be found in the vignettes.
 
 ``` r
+
 vignette("onetime")
 vignette("twotimes")
 vignette("visualization")

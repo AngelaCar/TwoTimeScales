@@ -1,6 +1,7 @@
 # Visualize hazards with two time scales
 
 ``` r
+
 library(TwoTimeScales)
 ```
 
@@ -24,7 +25,7 @@ the hazard surface `which_plot == "hazard"`, plotting the standard error
 surface `which_plot == "SE"`, plotting cross-sections (also called
 “slices”) of the surface at specific values of one of the two time
 dimensions `which_plot == "slices"`, and finally, for a model with
-covariates’ effects, it is possible to plot only the estimated $\beta$
+covariates’ effects, it is possible to plot only the estimated $`\beta`$
 coefficients with their confidence intervals (or on the hazard ratios
 scale) with `which_plot == "covariates"`.
 
@@ -32,7 +33,7 @@ We will now examine each of these options and their use.
 
 ### Baseline hazard and log-hazard
 
-The default plot is the hazard surface over the $(u,s)$-plane, with
+The default plot is the hazard surface over the $`(u,s)`$-plane, with
 contour lines in white to mark levels of the hazard. It is obtained by
 passing the fitted object, obtained from
 [`fit2ts()`](https://angelacar.github.io/TwoTimeScales/reference/fit2ts.md)
@@ -40,21 +41,23 @@ passing the fitted object, obtained from
 [`plot()`](https://rdrr.io/r/graphics/plot.default.html).
 
 ``` r
+
 plot(mod)
 ```
 
 ![](../reference/figures/visualization/basehaz-1.png)
 
-#### Plot on the $(t,s)$-plane
+#### Plot on the $`(t,s)`$-plane
 
-The same plot can be obtained over the $(t,s)$-plan using a rectangular
-grid or a grid of parallelograms (in which case it is not possible to
-plot contour lines). This is done by modifying the arguments `original`
-and `rectangular_grid` in the list of options for the plotting
-parameters in `plot_options`. Additionally, we will here customize the
-title of the plots and the label of the axes.
+The same plot can be obtained over the $`(t,s)`$-plan using a
+rectangular grid or a grid of parallelograms (in which case it is not
+possible to plot contour lines). This is done by modifying the arguments
+`original` and `rectangular_grid` in the list of options for the
+plotting parameters in `plot_options`. Additionally, we will here
+customize the title of the plots and the label of the axes.
 
 ``` r
+
 par(mfrow = c(2,1), 
     font.main = 1)
 plot(mod,
@@ -78,24 +81,25 @@ par(mfrow = c(1,1))
 
 ![](../reference/figures/visualization/original-1.png)
 
-#### Evaluate the $B$-splines on a finer grid
+#### Evaluate the $`B`$-splines on a finer grid
 
-With the default options, the $B$-splines bases used for estimation will
-be also used to compute the values of the hazard. If the grid of bins
-used for binning the data, and to evaluate the estimating $B$-splines
-bases, is already dense (many small bins), the plot of the estimated
-hazard will appear nicely smooth. However, in some cases, larger bins
-are used for the original binning of the data and for the estimation of
-the model. In such cases it may be worthwhile to evaluate the
-$B$-splines bases on a finer grid of points. The hazard surface will
-appear much smoother because it will be interpolated over more points.
-It is possible to change the grid for plotting by passing the
+With the default options, the $`B`$-splines bases used for estimation
+will be also used to compute the values of the hazard. If the grid of
+bins used for binning the data, and to evaluate the estimating
+$`B`$-splines bases, is already dense (many small bins), the plot of the
+estimated hazard will appear nicely smooth. However, in some cases,
+larger bins are used for the original binning of the data and for the
+estimation of the model. In such cases it may be worthwhile to evaluate
+the $`B`$-splines bases on a finer grid of points. The hazard surface
+will appear much smoother because it will be interpolated over more
+points. It is possible to change the grid for plotting by passing the
 specification for a new grid to the argument `plot_grid`. We show how to
 do so by passing the specification for a grid where the bins are 10 days
 apart from each other (as opposed to 30). In this case it is a good idea
 to increase the number of shades in the color legend too.
 
 ``` r
+
 plot(mod,
      plot_grid = list(c(umin = 0, umax = 2300, du = 10),
                       c(smin = 0, smax = 2730, du = 10)),
@@ -113,6 +117,7 @@ We can plot the hazard on the log-scale by changing the argument
 `loghazard = TRUE` in `plot_options`:
 
 ``` r
+
 par(mfrow = c(2,1), 
     font.main = 1)
 plot(mod,
@@ -141,6 +146,7 @@ Similarly, we can plot the hazard on the log10-scale by changing the
 argument `log10hazard = TRUE` in `plot_options`:
 
 ``` r
+
 par(mfrow = c(2,1), 
     font.main = 1)
 plot(mod,
@@ -166,12 +172,13 @@ par(mfrow = c(1,1))
 #### Cut extrapolated hazard
 
 Carollo et al. (2024) discusses the issue of extrapolated hazard beyond
-the maximum value observed for the time scale $t$. We can limit the plot
-of the hazard to those areas where it is not extrapolated. We do so by
-changing the values of `cut_extrapolated = TRUE` and `tmax` in
+the maximum value observed for the time scale $`t`$. We can limit the
+plot of the hazard to those areas where it is not extrapolated. We do so
+by changing the values of `cut_extrapolated = TRUE` and `tmax` in
 `plot_options`.
 
 ``` r
+
 par(mfrow = c(2,1), 
     font.main = 1)
 plot(mod,
@@ -199,6 +206,7 @@ contour lines. The palette should be a function of the number of shades,
 so we need to code one extra line…
 
 ``` r
+
 mycol <- function(nshades){
   colorspace::sequential_hcl(n = nshades, "Blues 3")
 }
@@ -219,6 +227,7 @@ The same options apply for the SE surface, so we will just show how to
 produce the simplest version of the SE surface plot.
 
 ``` r
+
 plot(mod,
      which_plot = "SE",
      plot_options = list(main = "Standard Errors of the hazard",
@@ -252,11 +261,12 @@ Another very informative representation for the 2d hazard consists of
 plotting ‘slices’ (or cross-sections) of the two-dimensional hazard as
 curves over one of the time scales. For example, the 2d hazard surface
 is plotted as a series of one-dimensional hazard curves over time since
-recurrence $s$ for selected values of time at recurrence $u$. Note:
+recurrence $`s`$ for selected values of time at recurrence $`u`$. Note:
 Adding an automated legend to this kind of plot is still not implemented
 in the package yet, but we can add one manually.
 
 ``` r
+
 plot(mod,
      which_plot = "slices",
      where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
@@ -273,12 +283,13 @@ legend("topright",
 ![](../reference/figures/visualization/slices-u-1.png)
 
 It is also possible to plot one-dimensional hazards over time since
-randomization ($t$) for selected values of time since recurrence ($s$).
-The interpretation of these one-dimensional hazards is less clear at the
-individual level, but is meaningful at the population level. To obtain
-such plot, we specify `direction = "s"`.
+randomization ($`t`$) for selected values of time since recurrence
+($`s`$). The interpretation of these one-dimensional hazards is less
+clear at the individual level, but is meaningful at the population
+level. To obtain such plot, we specify `direction = "s"`.
 
 ``` r
+
 plot(mod,
      which_plot = "slices",
      where_slices = c(30, 60, 90, 180, 365, 1000, 2000),
@@ -297,10 +308,11 @@ legend("topright",
 ### Survival function
 
 We can represent the survival function as a two-dimensional surface over
-the $(u,s)$-plane (or the $(t,s)$-plane), or as cross-sectional
-one-dimensional curves over $s$, for selected values of $u$.
+the $`(u,s)`$-plane (or the $`(t,s)`$-plane), or as cross-sectional
+one-dimensional curves over $`s`$, for selected values of $`u`$.
 
 ``` r
+
 mycol2 <- function(nshades){
   colorspace::sequential_hcl(n = nshades, "PurpOr")
 }
@@ -338,6 +350,7 @@ either as a surface or as one-dimensional curves over `s` for selected
 values of `u`.
 
 ``` r
+
 mycol3 <- function(nshades){
   colorspace::sequential_hcl(n = nshades, "BluGrn")
 }
@@ -372,5 +385,5 @@ legend(x = 3000, y = 3.5,
 ![](../reference/figures/visualization/cumhaz-1.png)![](../reference/figures/visualization/cumhaz-2.png)
 
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
-“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*.
-<https://doi.org/10.1002/sim.10297>.
+“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*,
+ahead of print. <https://doi.org/10.1002/sim.10297>.

@@ -61,15 +61,15 @@ summary(fakemod)
 #>   cs =  13 
 #> 
 #> Optimal smoothing: 
-#>   log10(rho_u) =  -0.2779936 
-#>   log10(rho_s) =  6.832826 
-#>   rho_u =  0.5272377 
-#>   rho_s =  6804970 
+#>   log10(rho_u) =  -0.2248942 
+#>   log10(rho_s) =  6.374816 
+#>   rho_u =  0.5958073 
+#>   rho_s =  2370370 
 #> 
 #> Model with no covariates
 #> 
 #> Model diagnostics: 
-#>   AIC =  41.81362 
-#>   BIC =  53.51648 
-#>   ED =  4.887498
+#>   AIC =  41.82325 
+#>   BIC =  53.40773 
+#>   ED =  4.838058
 ```

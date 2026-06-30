@@ -51,12 +51,19 @@ fitvcm(
   function
   [`prepare_data()`](https://angelacar.github.io/TwoTimeScales/reference/prepare_data.md).
   If a list prepared externally from such function if provided, it
-  should contain the following elements: \* `bins_u` A vector of bins
-  extremes for the time scale `u`. \* `midu` A vector with the midpoints
-  of the bins over `u`. \* `nu` The number of bins over `u`. \* `bins_s`
-  A vector of bins extremes for the time scale `s`. \* `mids` A vector
-  with the midpoints of the bins over `s`. \* `ns` The number of bins
-  over `s`.
+  should contain the following elements:
+
+  - `bins_u` A vector of bins extremes for the time scale `u`.
+
+  - `midu` A vector with the midpoints of the bins over `u`.
+
+  - `nu` The number of bins over `u`.
+
+  - `bins_s` A vector of bins extremes for the time scale `s`.
+
+  - `mids` A vector with the midpoints of the bins over `s`.
+
+  - `ns` The number of bins over `s`.
 
 - Bbases_spec:
 

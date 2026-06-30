@@ -1,11 +1,12 @@
 # Smooth hazards with one time scale
 
 ``` r
+
 library(TwoTimeScales)
 ```
 
 We assume that the reader of this vignette has some familiarity with the
-$P$-splines model for the hazard, and with the basic functions of the
+$`P`$-splines model for the hazard, and with the basic functions of the
 package introduced in the vignette *Introduction to TwoTimeScales*.
 
 This vignette demonstrates in detail how to use the package
@@ -18,7 +19,7 @@ cancer, over time since recurrence. For an overview of the data use:
 ## Data preparation
 
 The first step of the analysis, is data preparation. Data are in wide
-format, with one row for each patient. To estimate a $P$-spline model
+format, with one row for each patient. To estimate a $`P`$-spline model
 for the hazard we need to bin the individual data, that is exposure
 times and event counts, into many small bins of equal size, that cover
 the whole range of values for the time scale. Data preparation involves
@@ -34,6 +35,7 @@ First, we show how the function works with minimal input (that is, by
 using the default values for any optional parameter):
 
 ``` r
+
 dt1ts <- prepare_data(data = reccolon2ts,
                       s_out = "timesr",
                       events = "status",
@@ -94,6 +96,7 @@ risk set. In fact, when we use the variable that includes left
 truncation, the message disappears:
 
 ``` r
+
 dt1ts_lt <- prepare_data(data = reccolon2ts,
                          s_in = "entrys",
                          s_out = "timesr",
@@ -109,6 +112,7 @@ bin each 90 days, approximately 3 months. As consequence, the number of
 bins is about 3 times less than in the previous case.
 
 ``` r
+
 dt1ts_lt2 <- prepare_data(data = reccolon2ts,
                           s_in = "entrys",
                           s_out = "timesr",
@@ -129,6 +133,7 @@ left-truncated but it is still desirable to have bins starting at 0.
     [1]    3 2725
 
 ``` r
+
 dt1ts_2 <- prepare_data(data = reccolon2ts,
                         s_in = "entrys",
                         s_out = "timesr",
@@ -166,6 +171,7 @@ the regression matrix `Z`. However, if desired, this can also be
 prepared externally (in which case a warning will be returned).
 
 ``` r
+
 dt1ts_cov <- prepare_data(data = reccolon2ts,
                           s_in = "entrys",
                           s_out = "timesr",
@@ -251,10 +257,11 @@ provided and that the length of `y`, `r` and `bins$mids` are the same.
 
 First, we only pass as argument the object `dt1ts`, which was created
 before. Then, we show, only as illustration, how the same estimates of
-the $\alpha$ are obtained when we pass the arguments `y`, `r` and
+the $`\alpha`$ are obtained when we pass the arguments `y`, `r` and
 `bins`, taken from the same object.
 
 ``` r
+
 # Model 1 - Default parameters (numerical optimization of aic, default param for
 #                               B-splines)
 m1 <- fit1ts(data1ts = dt1ts)
@@ -295,8 +302,8 @@ The object returned by
 [`fit1ts()`](https://angelacar.github.io/TwoTimeScales/reference/fit1ts.md)
 is of class `'haz1ts'`. The first element is a list with the results of
 the optimal model. The second element is the optimal smoothing parameter
-(on the $\log_{10}$-scale) and the last element is the penalty matrix
-`P_optim`, incorporating the optimal value of $\varrho$.
+(on the $`\log_{10}`$-scale) and the last element is the penalty matrix
+`P_optim`, incorporating the optimal value of $`\varrho`$.
 
 In the following examples we show how to modify the arguments of the
 function, to obtain slightly different model specifications. The results
@@ -304,6 +311,7 @@ are not shown here, but we encourage the reader to run these examples on
 their console.
 
 ``` r
+
 # Model 3 - Change specifications of the B-splines (degree, number of segments 
 #                                                   and range)
 m3 <- fit1ts(data1ts = dt1ts,
@@ -345,6 +353,7 @@ optimal values of the smoothing parameter, and extract the AIC and BIC
 vectors after a grid search of the optimal smoothing parameter.
 
 ``` r
+
 par(mfrow = c(1,2))
 m6 <- fit1ts(data1ts = dt1ts,
              Bbases_spec = list(bdeg = 2,
@@ -365,6 +374,7 @@ par(mfrow = c(1,1))
 ![](../reference/figures/onetime/fit1ts-grid-1.png)
 
 ``` r
+
 m6.aic <- m6$AIC
 m6.bic <- m6$BIC
 ```
@@ -375,16 +385,17 @@ m6.bic <- m6$BIC
     [1] 135.6309 132.7852 129.7015 126.4681 123.1973 119.9904
 
 We notice how, for the same data and over the same grid of
-$\log_{10}\left( \varrho \right)$ values, the BIC criterion selects a
-larger smoothing parameter than the AIC. This behavior is well known, as
-the BIC penalizes differences in neighboring coefficients more strongly
-than AIC, leading to smoother results.
+$`\log_{10}(\varrho)`$ values, the BIC criterion selects a larger
+smoothing parameter than the AIC. This behavior is well known, as the
+BIC penalizes differences in neighboring coefficients more strongly than
+AIC, leading to smoother results.
 
 Finally, we estimate a PH model including the covariates `rx`, `node4`
 and `sex`, and see how to extract the estimates of the regression
-parameters $\beta$s.
+parameters $`\beta`$s.
 
 ``` r
+
 m7 <- fit1ts(data1ts = dt1ts_cov,
              Bbases_spec = list(nseg_s = 15,
                                 min_s = 0,
@@ -397,11 +408,11 @@ betas <- m7$optimal_model$beta
     0.07875399 0.27900614 0.50543144 0.21322565 
 
 In the next section, we will show how to get estimates of the
-(log-)hazard curve with one time scale, using the same $B$-splines basis
-as for the estimation, or evaluating this old basis in a denser grid. We
-will also see how to obtain estimates of the hazard ratios, and how all
-these steps can be performed jointly and plotted using the function
-[`plot()`](https://rdrr.io/r/graphics/plot.default.html).
+(log-)hazard curve with one time scale, using the same $`B`$-splines
+basis as for the estimation, or evaluating this old basis in a denser
+grid. We will also see how to obtain estimates of the hazard ratios, and
+how all these steps can be performed jointly and plotted using the
+function [`plot()`](https://rdrr.io/r/graphics/plot.default.html).
 
 ## Presenting the results of the smooth one time scale hazard model
 
@@ -409,31 +420,34 @@ We will explore several options for the presentation of the results of
 the one time scale model, using the last model we estimated in the
 previous section, which included four covariates. The object returned by
 [`fit1ts()`](https://angelacar.github.io/TwoTimeScales/reference/fit1ts.md)
-provides the estimates of both the parameters of the $B$-splines, that
-is a vector of $\widehat{\alpha}$ values, and the estimates of the
-covariates’ effects, a vector of $\widehat{\beta}$ values. The hazard is
-obtained from the $\widehat{\alpha}$ by multiplying each coefficient to
-the corresponding $B$-spline, summing up the contributions of each
-scaled $B$-spline in a specific point and finally exponentiating the
+provides the estimates of both the parameters of the $`B`$-splines, that
+is a vector of $`\hat{\alpha}`$ values, and the estimates of the
+covariates’ effects, a vector of $`\hat{\beta}`$ values. The hazard is
+obtained from the $`\hat{\alpha}`$ by multiplying each coefficient to
+the corresponding $`B`$-spline, summing up the contributions of each
+scaled $`B`$-spline in a specific point and finally exponentiating the
 result:
-$$\widehat{\lambda} = \exp\left\{ \sum\limits_{k = 1}^{n_{s}}b_{kl}\alpha_{l} \right\}.$$
+``` math
+\hat\lambda = \exp\left\{\sum^{n_s}_{k=1} b_{kl}\alpha_l\right\}.
+```
 
 The function
 [`get_hazard_1d()`](https://angelacar.github.io/TwoTimeScales/reference/get_hazard_1d.md)
 returns a vector of estimates for the (log-)hazard, and the associated
 standard errors, given as input the object returned by
 [`fit1ts()`](https://angelacar.github.io/TwoTimeScales/reference/fit1ts.md)
-and, optionally, a list of specifications for evaluating the $B$-splines
-basis on a new grid. When applied to a PH model, it returns the baseline
-hazard.
+and, optionally, a list of specifications for evaluating the
+$`B`$-splines basis on a new grid. When applied to a PH model, it
+returns the baseline hazard.
 
-We show how to provide specifications for the $B$-splines and how to use
-the function
+We show how to provide specifications for the $`B`$-splines and how to
+use the function
 [`get_hazard_1d()`](https://angelacar.github.io/TwoTimeScales/reference/get_hazard_1d.md).
-We will evaluate the $B$-splines basis on a finer grid, where the
+We will evaluate the $`B`$-splines basis on a finer grid, where the
 distance between the bins is of 10 days.
 
 ``` r
+
 basehaz <- get_hazard_1d(fitted_model = m7,
                          plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10))
 ```
@@ -463,12 +477,13 @@ basehaz <- get_hazard_1d(fitted_model = m7,
 The calls returns a list with several elements: The new grid for
 plotting `new_plot_grid`, a vector for the hazard values `hazard`, a
 vector for the log-hazard values `loghazard` , a vector with the
-$log_{10}$-hazard values `log10hazard` and three vectors with the
+$`log_{10}`$-hazard values `log10hazard` and three vectors with the
 associated standard errors, respectively `SE_hazard`, `SE_loghazard` ans
 `SE_log10hazard`. The hazard ratios and their standard errors are
 obtained by calling the function `get_hr`:
 
 ``` r
+
 hr <- get_hr(fitted_model = m7)
 ```
 
@@ -484,16 +499,18 @@ exactly what is done by the method
 for objects of class `'haz1ts'`.
 
 ``` r
+
 plot(m7)
 ```
 
 ![](../reference/figures/onetime/plot_haz1ts-1.png)
 
 This simple call produces, for a PH model, the plot of the baseline
-hazard curve. Now we interpolate the $B$-spline basis on a denser
+hazard curve. Now we interpolate the $`B`$-spline basis on a denser
 plotting grid, and change other parameters to obtain a nicer plot.
 
 ``` r
+
 plot(m7,
      plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10),
      plot_options= list(
@@ -510,6 +527,7 @@ The hazard can also be plotted on the log-scale, by setting the argument
 `plot_options$loghazard = TRUE`:
 
 ``` r
+
 plot(m7,
      plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10),
      plot_options= list(
@@ -526,23 +544,25 @@ plot(m7,
 We can also plot the covariate effects by calling:
 
 ``` r
+
 plot(m7,
      which_plot = "covariates")
 ```
 
 ![](../reference/figures/onetime/plot_haz1ts-4-1.png)
 
-This call plots the point estimates for the $\beta$ parameters with
+This call plots the point estimates for the $`\beta`$ parameters with
 their 95% confidence intervals. Alternatively, we can decide to plot the
 estimated hazard ratios, with their confidence intervals. There are two
 options regarding the confidence intervals for the HRs: First, we can
 use the delta method to find confidence intervals that are symmetric
 around the HRs estimates. Second, we can exponentiate the confidence
-intervals for the $\beta$ parameters, and therefore obtain non-symmetric
-(but always positive) confidence intervals for the HRs. We show both
-options here:
+intervals for the $`\beta`$ parameters, and therefore obtain
+non-symmetric (but always positive) confidence intervals for the HRs. We
+show both options here:
 
 ``` r
+
 par(mfrow = c(1,2),
     font.main = 1)
 # Option 1: symmetric CIs with delta method
@@ -573,9 +593,10 @@ par(mfrow = c(1,1))
 ![](../reference/figures/onetime/CIs-lev-1.png)
 
 Finally, it is possible to change the level of confidence for the CIs.
-In the following we show three different levels for the same $\beta$.
+In the following we show three different levels for the same $`\beta`$.
 
 ``` r
+
 par(mfrow = c(1,3),
     font.main = 1)
 plot(m7,
@@ -610,5 +631,5 @@ par(mfrow = c(1,1))
 ![](../reference/figures/onetime/HRs-plot-1.png) \# References
 
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
-“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*.
-<https://doi.org/10.1002/sim.10297>.
+“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*,
+ahead of print. <https://doi.org/10.1002/sim.10297>.

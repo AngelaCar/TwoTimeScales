@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Smooth hazards with two time scales • TwoTimeScales</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Smooth hazards with two time scales">
 </head>
@@ -67,9 +67,9 @@ time scales. We show how to use the functions of the package
 we show:</p>
 <ul>
 <li>how to bin data over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-
 or the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane</li>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane</li>
 <li>how to bin data when covariates are presents</li>
 <li>how to perform a grid search of the optimal couple of smoothing
 parameters</li>
@@ -105,7 +105,7 @@ recurrence<a class="anchor" aria-label="anchor" href="#hazard-of-death-by-time-s
 = time at recurrence, is the fixed time at entry in the risk set
 recorded as number of days from randomization to recurrence. The
 analysis is performed over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane,
 so we need to bin the data over
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
 and
@@ -185,9 +185,9 @@ parameters, even though some of them are the default options.</p>
 <span>               optim_criterion <span class="op">=</span> <span class="st">"aic"</span><span class="op">)</span> </span></code></pre></div>
 <p>The object returned by <code><a href="../reference/fit2ts.html">fit2ts()</a></code> is of class
 <code>'haz2ts'</code>. The optimal smoothing parameters are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>𝜚</mo><mi>u</mi></msub><mo>=</mo><msup><mn>10</mn><mn>2.4</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_u = 10^{2.4}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝜚</mi><mi>u</mi></msub><mo>=</mo><msup><mn>10</mn><mn>2.4</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_u = 10^{2.4}</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>𝜚</mo><mi>s</mi></msub><mo>=</mo><msup><mn>10</mn><mn>0.3</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_s=10^{0.3}</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>𝜚</mi><mi>s</mi></msub><mo>=</mo><msup><mn>10</mn><mn>0.3</mn></msup></mrow><annotation encoding="application/x-tex">\varrho_s=10^{0.3}</annotation></semantics></math>,
 and the effective dimension of the model is 11.1.</p>
 <pre><code>&gt; summary(mod1)
 Number of events =  409 
@@ -234,7 +234,7 @@ model complexity more strongly than AIC. The following code-chunk shows
 how to use the grid-search method to select the optimal pair of
 smoothing parameters and, at the same time, to produce plots of the AIC
 and BIC values of the grid of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>log</mo><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>
 values of both smoothing parameters.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mod3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/fit2ts.html">fit2ts</a></span><span class="op">(</span>data2ts <span class="op">=</span> <span class="va">dt2ts</span>,</span>
@@ -399,7 +399,7 @@ Model diagnostics:
 <h3 id="prepare-the-data-over-the-lexis-diagram">Prepare the data over the Lexis diagram<a class="anchor" aria-label="anchor" href="#prepare-the-data-over-the-lexis-diagram"></a>
 </h3>
 <p>It is, in principle, possible to prepare the data over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane.
 To do so, we pass as arguments to the function
 <code><a href="../reference/prepare_data.html">prepare_data()</a></code> a vector of entry times and a vector of exit
 times over the
@@ -427,21 +427,21 @@ only present in the lower half-plane where
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="../reference/figures/twotimes/prep-data-Lexis-1.png"></p>
 <p>Note: estimation over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane
 with the same model is theoretically possible, but special care is
 needed to deal with the larger areas without data support (especially
 those where
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mo>&lt;</mo><mi>s</mi></mrow><annotation encoding="application/x-tex">t &lt; s</annotation></semantics></math>).
 Comparison with the estimation over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
 is currently under investigation. A future version of the package will
 include options for estimation over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane.</p>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>t</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(t,s)</annotation></semantics></math>-plane.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Carollo:2024" class="csl-entry">
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
 <span>“Smooth Hazards with Multiple Time Scales.”</span> <em>Statistics
-in Medicine</em>. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
+in Medicine</em>, ahead of print. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
 </div>
 <div id="ref-Boer:2023" class="csl-entry">
 Martin P. Boer. 2023. <span>“Tensor Product <span>P</span>-Splines Using

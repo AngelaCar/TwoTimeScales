@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Smooth hazards with one time scale • TwoTimeScales</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Smooth hazards with one time scale">
 </head>
@@ -317,10 +317,10 @@ List of 3
 <code>'haz1ts'</code>. The first element is a list with the results of
 the optimal model. The second element is the optimal smoothing parameter
 (on the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>log</mo><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>-scale)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>-scale)
 and the last element is the penalty matrix <code>P_optim</code>,
 incorporating the optimal value of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>𝜚</mo><annotation encoding="application/x-tex">\varrho</annotation></semantics></math>.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝜚</mi><annotation encoding="application/x-tex">\varrho</annotation></semantics></math>.</p>
 <p>In the following examples we show how to modify the arguments of the
 function, to obtain slightly different model specifications. The results
 are not shown here, but we encourage the reader to run these examples on
@@ -388,7 +388,7 @@ vectors after a grid search of the optimal smoothing parameter.</p>
 [1] 97.67005 96.78100 95.81061 94.79922 93.79740 92.84326
 [1] 135.6309 132.7852 129.7015 126.4681 123.1973 119.9904</code></pre>
 <p>We notice how, for the same data and over the same grid of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>10</mn></msub><mrow><mo stretchy="true" form="prefix">(</mo><mo>𝜚</mo><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\log_{10}(\varrho)</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><mo stretchy="false" form="prefix">(</mo><mi>𝜚</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">\log_{10}(\varrho)</annotation></semantics></math>
 values, the BIC criterion selects a larger smoothing parameter than the
 AIC. This behavior is well known, as the BIC penalizes differences in
 neighboring coefficients more strongly than AIC, leading to smoother
@@ -435,7 +435,7 @@ by multiplying each coefficient to the corresponding
 summing up the contributions of each scaled
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-spline
 in a specific point and finally exponentiating the result:
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">{</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>s</mi></msub></munderover><msub><mi>b</mi><mrow><mi>k</mi><mi>l</mi></mrow></msub><msub><mi>α</mi><mi>l</mi></msub><mo stretchy="true" form="postfix">}</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\hat\lambda = \exp\left\{\sum^{n_s}_{k=1} b_{kl}\alpha_l\right\}.</annotation></semantics></math></p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mover><mi>λ</mi><mo accent="true">̂</mo></mover><mo>=</mo><mrow><mi mathvariant="normal">exp</mi><mo>⁡</mo></mrow><mrow><mo stretchy="true" form="prefix">{</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><msub><mi>n</mi><mi>s</mi></msub></munderover><msub><mi>b</mi><mrow><mi>k</mi><mi>l</mi></mrow></msub><msub><mi>α</mi><mi>l</mi></msub><mo stretchy="true" form="postfix">}</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">\hat\lambda = \exp\left\{\sum^{n_s}_{k=1} b_{kl}\alpha_l\right\}.</annotation></semantics></math></p>
 <p>The function <code><a href="../reference/get_hazard_1d.html">get_hazard_1d()</a></code> returns a vector of
 estimates for the (log-)hazard, and the associated standard errors,
 given as input the object returned by <code><a href="../reference/fit1ts.html">fit1ts()</a></code> and,
@@ -601,11 +601,11 @@ CIs. In the following we show three different levels for the same
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span>h<span class="op">=</span><span class="fl">0</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="../reference/figures/onetime/HRs-plot-1.png"> # References</p>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Carollo:2024" class="csl-entry">
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
 <span>“Smooth Hazards with Multiple Time Scales.”</span> <em>Statistics
-in Medicine</em>. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
+in Medicine</em>, ahead of print. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
 </div>
 </div>
 </div>

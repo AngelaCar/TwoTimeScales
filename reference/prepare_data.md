@@ -206,6 +206,7 @@ Angela Carollo <carollo@demogr.mpg.de>
 ## Examples
 
 ``` r
+
 # Bin data over s = time since recurrence only, with intervals of length 30 days
 # aggregated data (no covariates)
 # The following example provide the vectors of data directly from the dataset

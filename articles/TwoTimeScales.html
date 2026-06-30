@@ -7,8 +7,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Introduction to TwoTimeScales • TwoTimeScales</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to TwoTimeScales">
 </head>
@@ -261,7 +261,7 @@ or parallelograms in a Lexis diagram over
 and
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>s</mi><annotation encoding="application/x-tex">s</annotation></semantics></math>.
 The two time scales model is estimated over the half-plane
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>.
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>.
 Therefore, we will here discuss only preparation of the data over
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>u</mi><annotation encoding="application/x-tex">u</annotation></semantics></math>
 and
@@ -473,10 +473,10 @@ The object returned by <code>fit1ts</code> is of class
 <code>"haz1ts"</code>. The first element is a list with the results of
 the optimal model. The second element is the optimal smoothing parameter
 (on the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mo>log</mo><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>-scale)
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><annotation encoding="application/x-tex">\log_{10}</annotation></semantics></math>-scale)
 and the last element is the penalty matrix, which incorporates the
 optimal value of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>𝜚</mo><annotation encoding="application/x-tex">\varrho</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>𝜚</mi><annotation encoding="application/x-tex">\varrho</annotation></semantics></math>,
 <code>P_optim</code>.</p>
 <p>The vignette <em>Smooth hazards with one time scale</em> discusses
 alternative options for estimation, in particular concerning the search
@@ -486,7 +486,7 @@ for the optimal smoothing parameter.</p>
 <h4 id="two-time-scales-1">Two time scales<a class="anchor" aria-label="anchor" href="#two-time-scales-1"></a>
 </h4>
 <p>Estimation over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
 is performed in the same way. Here, we illustrate how to use the
 function <code><a href="../reference/fit2ts.html">fit2ts()</a></code>, and again we will change the default
 specifications of the marginal
@@ -541,9 +541,9 @@ by
 (90 by 91). Additionally, we have a list with the marginal
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>B</mi><annotation encoding="application/x-tex">B</annotation></semantics></math>-splines
 used for estimation (<code>optimal_model$Bbases</code>), a vector of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>10</mn></msub><msub><mo>𝜚</mo><mi>u</mi></msub></mrow><annotation encoding="application/x-tex">\log_{10}\varrho_u</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><msub><mi>𝜚</mi><mi>u</mi></msub></mrow><annotation encoding="application/x-tex">\log_{10}\varrho_u</annotation></semantics></math>
 and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>log</mo><mn>10</mn></msub><msub><mo>𝜚</mo><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">\log_{10}\varrho_s</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi mathvariant="normal">log</mi><mo>⁡</mo></mrow><mn>10</mn></msub><msub><mi>𝜚</mi><mi>s</mi></msub></mrow><annotation encoding="application/x-tex">\log_{10}\varrho_s</annotation></semantics></math>
 values (<code>optimal_logrho</code>) and finally the penalty matrix
 (<code>P_optim</code>) that incorporates the optimal penalty
 parameters.</p>
@@ -586,7 +586,7 @@ time scales. Here, we will present only the most simple, yet very
 informative, way, which is also the default plot returned by the
 function <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>, applied to an object of class
 <code>'haz2ts'</code>. This is a surface plot of the hazard over the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="true" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">(</mo><mi>u</mi><mo>,</mo><mi>s</mi><mo stretchy="false" form="postfix">)</mo></mrow><annotation encoding="application/x-tex">(u,s)</annotation></semantics></math>-plane
 with white contour lines. We provide a vignette that only focus on
 visualization of the hazard with two time scales <em>Visualize hazards
 with two time scales</em>.</p>
@@ -605,28 +605,25 @@ with two time scales</em>.</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-Carollo:2024" class="csl-entry">
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
 <span>“Smooth Hazards with Multiple Time Scales.”</span> <em>Statistics
-in Medicine</em>. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
+in Medicine</em>, ahead of print. <a href="https://doi.org/10.1002/sim.10297" class="external-link">https://doi.org/10.1002/sim.10297</a>.
 </div>
 <div id="ref-Laurie:1989" class="csl-entry">
-Laurie, J. A., C. G. Moertel, T. R. Fleming, H. S. Wieand, J. E. Leigh,
-J. Rubin, G. W. McCormack, J. B. Gerstner, J. E. Krook, and J. Malliard.
-1989. <span>“<span class="nocase">Surgical adjuvant therapy of
-large-bowel carcinoma: an evaluation of levamisole and the combination
-of levamisole and fluorouracil. The North Central Cancer Treatment Group
-and the Mayo Clinic.</span>”</span> <em>Journal of Clinical
-Oncology</em> 7 (10): 1447–56. <a href="https://doi.org/10.1200/JCO.1989.7.10.1447" class="external-link">https://doi.org/10.1200/JCO.1989.7.10.1447</a>.
+Laurie, J. A., C. G. Moertel, T. R. Fleming, et al. 1989. <span>“<span class="nocase">Surgical adjuvant therapy of large-bowel carcinoma: an
+evaluation of levamisole and the combination of levamisole and
+fluorouracil. The North Central Cancer Treatment Group and the Mayo
+Clinic.</span>”</span> <em>Journal of Clinical Oncology</em> 7 (10):
+1447–56. <a href="https://doi.org/10.1200/JCO.1989.7.10.1447" class="external-link">https://doi.org/10.1200/JCO.1989.7.10.1447</a>.
 </div>
 <div id="ref-Moertel:1995" class="csl-entry">
-Moertel, Charles G., Thomas R. Fleming, John S. Macdonald, Daniel G.
-Haller, John A. Laurie, Catherine M. Tangen, James S. Ungerleider, et
-al. 1995. <span>“<span class="nocase">Fluorouracil plus
-<span>L</span>evamisole as Effective Adjuvant Therapy after Resection of
-Stage III Colon Carcinoma: A Final Report</span>.”</span> <em>Annals of
-Internal Medicine</em> 122 (5): 321–26. <a href="https://doi.org/10.7326/0003-4819-122-5-199503010-00001" class="external-link">https://doi.org/10.7326/0003-4819-122-5-199503010-00001</a>.
+Moertel, Charles G., Thomas R. Fleming, John S. Macdonald, et al. 1995.
+<span>“<span class="nocase">Fluorouracil plus <span>L</span>evamisole as
+Effective Adjuvant Therapy after Resection of Stage III Colon Carcinoma:
+A Final Report</span>.”</span> <em>Annals of Internal Medicine</em> 122
+(5): 321–26. <a href="https://doi.org/10.7326/0003-4819-122-5-199503010-00001" class="external-link">https://doi.org/10.7326/0003-4819-122-5-199503010-00001</a>.
 </div>
 <div id="ref-R:survival" class="csl-entry">
 Therneau, Terry M. 2020. <em>A <span>P</span>ackage for

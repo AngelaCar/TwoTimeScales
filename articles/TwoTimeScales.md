@@ -1,6 +1,7 @@
 # Introduction to TwoTimeScales
 
 ``` r
+
 library(TwoTimeScales)
 ```
 
@@ -14,8 +15,8 @@ the hazard of one event as a smooth function of two time dimensions (the
 two time scales). Additionally, it provides functions to estimate and
 visualize a smooth hazard with one time scale.
 
-The hazard is estimated as a two-dimensional $P$-splines model for count
-data with offset.
+The hazard is estimated as a two-dimensional $`P`$-splines model for
+count data with offset.
 
 When working with time-to-event data with multiple time scales, there
 are three main steps involved:
@@ -67,6 +68,7 @@ truncated entry times for 40 individuals in the dataset,
 `reccolon2ts$entryt` (on the time since randomization scale).
 
 ``` r
+
 str(reccolon2ts)
 ```
 
@@ -99,21 +101,22 @@ str(reccolon2ts)
 
 Before we illustrate how to work with the package, a clarification about
 notation is needed. In our two time scales model notation, we indicate
-the two time scales with $t$ and $s$, and the fixed time at entry in the
-process is indicated with $u$. Whenever we refer to models with one time
-scale only, we mostly consider this to be the time scale indicated by
-$s$ (as opposed to the most common used notation $t$). Therefore, in all
-the functions that require the individual times as inputs, the only
-required inputs will be indicated with $s$ (rather than $t$).
+the two time scales with $`t`$ and $`s`$, and the fixed time at entry in
+the process is indicated with $`u`$. Whenever we refer to models with
+one time scale only, we mostly consider this to be the time scale
+indicated by $`s`$ (as opposed to the most common used notation $`t`$).
+Therefore, in all the functions that require the individual times as
+inputs, the only required inputs will be indicated with $`s`$ (rather
+than $`t`$).
 
 ### Step 1: data preparation
 
 Time-to-event data come in the form of a time variable, indicated with
-$s$, where $s \geq 0$ and a variable which contains the event indicator.
-In the simplest time-to-event models, there is only one type of event,
-so that this event indicator can only assume values 0 and 1.
+$`s`$, where $`s \ge 0`$ and a variable which contains the event
+indicator. In the simplest time-to-event models, there is only one type
+of event, so that this event indicator can only assume values 0 and 1.
 
-To apply the $P$-splines model for the hazard we need to bin the
+To apply the $`P`$-splines model for the hazard we need to bin the
 individual data into aggregated vectors of exposure times and event
 indicators. Therefore, the first step of the analysis, will be data
 preparation. This step involves the construction of the bins and the
@@ -137,6 +140,7 @@ passing the vector’s names in each respective argument, as illustrated
 below, or by directly passing the vectors.
 
 ``` r
+
 dt1ts <- prepare_data(data = reccolon2ts,
                       s_out = "timesr",
                       events = "status",
@@ -190,14 +194,15 @@ total exposure time and the total number of events.
 #### Two time scales
 
 The same function is used to bin the individual data in a
-two-dimensional grid of rectangles (or squares) over $u$ and $s$, or
-parallelograms in a Lexis diagram over $t$ and $s$. The two time scales
-model is estimated over the half-plane $(u,s)$. Therefore, we will here
-discuss only preparation of the data over $u$ and $s$, and defer the
-discussion of the preparation over the Lexis diagram to the vignette
-dedicated to the analysis with two time scales.
+two-dimensional grid of rectangles (or squares) over $`u`$ and $`s`$, or
+parallelograms in a Lexis diagram over $`t`$ and $`s`$. The two time
+scales model is estimated over the half-plane $`(u,s)`$. Therefore, we
+will here discuss only preparation of the data over $`u`$ and $`s`$, and
+defer the discussion of the preparation over the Lexis diagram to the
+vignette dedicated to the analysis with two time scales.
 
 ``` r
+
 dt2ts <- prepare_data(data = reccolon2ts,
                       u = "timer",
                       s_out = "timesr",
@@ -252,7 +257,7 @@ dt2ts <- prepare_data(data = reccolon2ts,
 We have now included only one additional input `u`, that is the vector
 with the individuals’ time at recurrence of the cancer. The object
 `dt2ts` has the same structure as `dt1ts`, but with additional bins over
-$u$ (`bins_u`, `midu` and `nu`). The data are now matrices `R` and `Y`
+$`u`$ (`bins_u`, `midu` and `nu`). The data are now matrices `R` and `Y`
 of dimension `nu` by `ns`.
 
 #### Including covariates
@@ -277,6 +282,7 @@ desired, this can also be prepared externally (in which case a warning
 will be returned).
 
 ``` r
+
 dt2ts_cov <- prepare_data(data = reccolon2ts,
                           u = "timer",
                           s_in = "entrys",
@@ -354,14 +360,15 @@ To estimate the model we use the function
 [`fit1ts()`](https://angelacar.github.io/TwoTimeScales/reference/fit1ts.md).
 As input to this function we pass the object returned from
 `prepare_data`. Without specifying additional parameters, the function
-estimates a $P$-splines model, by using numerical optimization of the
-AIC to find the optimal smoothing parameter. The $B$-splines basis is
+estimates a $`P`$-splines model, by using numerical optimization of the
+AIC to find the optimal smoothing parameter. The $`B`$-splines basis is
 built using default options (see
 [`help(fit1ts)`](https://angelacar.github.io/TwoTimeScales/reference/fit1ts.md)
 for details). However, for illustration, we now show how to specify the
-$B$-splines basis to more closely match the data structure.
+$`B`$-splines basis to more closely match the data structure.
 
 ``` r
+
 m1ts <- fit1ts(data1ts = dt1ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -392,13 +399,14 @@ m1ts <- fit1ts(data1ts = dt1ts,
      $ P_optim       : num [1:23, 1:23] 105 -211 105 0 0 ...
      - attr(*, "class")= chr "haz1ts"
 
-Here, we specify a cubic (`bdeg = 3`) $B$-splines basis that covers the
-range of $s$ from 0 to 2730 days (`min_s` and `max_s` respectively), and
-is built on 20 segments (`nseg_s = 20`). The object returned by `fit1ts`
-is of class `"haz1ts"`. The first element is a list with the results of
-the optimal model. The second element is the optimal smoothing parameter
-(on the $\log_{10}$-scale) and the last element is the penalty matrix,
-which incorporates the optimal value of $\varrho$, `P_optim`.
+Here, we specify a cubic (`bdeg = 3`) $`B`$-splines basis that covers
+the range of $`s`$ from 0 to 2730 days (`min_s` and `max_s`
+respectively), and is built on 20 segments (`nseg_s = 20`). The object
+returned by `fit1ts` is of class `"haz1ts"`. The first element is a list
+with the results of the optimal model. The second element is the optimal
+smoothing parameter (on the $`\log_{10}`$-scale) and the last element is
+the penalty matrix, which incorporates the optimal value of $`\varrho`$,
+`P_optim`.
 
 The vignette *Smooth hazards with one time scale* discusses alternative
 options for estimation, in particular concerning the search for the
@@ -406,14 +414,15 @@ optimal smoothing parameter.
 
 #### Two time scales
 
-Estimation over the $(u,s)$-plane is performed in the same way. Here, we
-illustrate how to use the function
+Estimation over the $`(u,s)`$-plane is performed in the same way. Here,
+we illustrate how to use the function
 [`fit2ts()`](https://angelacar.github.io/TwoTimeScales/reference/fit2ts.md),
 and again we will change the default specifications of the marginal
-$B$-spline bases, but otherwise use default values for the remaining
+$`B`$-spline bases, but otherwise use default values for the remaining
 inputs.
 
 ``` r
+
 m2ts <- fit2ts(data2ts = dt2ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -447,12 +456,12 @@ m2ts <- fit2ts(data2ts = dt2ts,
 
 Whereas the estimates from `fit1ts` are vectors, the ones from `fit2ts`
 are organized in matrices: The matrix `optimal_model$Alpha`, containing
-the estimated $B$-splines’ coefficients $\alpha_{lm}$, for
-$l \in 1,\ldots,c_{u}$ (here $c_{u} = 19$) and $m \in 1,\ldots,c_{s}$
-($c_{s} = 23$). And the matrix Eta of dimension $n_{u}$ by $n_{s}$ (90
-by 91). Additionally, we have a list with the marginal $B$-splines used
-for estimation (`optimal_model$Bbases`), a vector of
-$\log_{10}\varrho_{u}$ and $\log_{10}\varrho_{s}$ values
+the estimated $`B`$-splines’ coefficients $`\alpha_{lm}`$, for
+$`l \in 1,\dots,c_u`$ (here $`c_u = 19`$) and $`m \in 1,\dots, c_s`$
+($`c_s = 23`$). And the matrix Eta of dimension $`n_u`$ by $`n_s`$ (90
+by 91). Additionally, we have a list with the marginal $`B`$-splines
+used for estimation (`optimal_model$Bbases`), a vector of
+$`\log_{10}\varrho_u`$ and $`\log_{10}\varrho_s`$ values
 (`optimal_logrho`) and finally the penalty matrix (`P_optim`) that
 incorporates the optimal penalty parameters.
 
@@ -469,14 +478,15 @@ Once the model is estimated, we can represent the results with the
 function [`plot()`](https://rdrr.io/r/graphics/plot.default.html). The
 minimal input for
 [`plot()`](https://rdrr.io/r/graphics/plot.default.html) is the fitted
-model. Here, we show how to evaluate the $B$-splines basis on a finer
+model. Here, we show how to evaluate the $`B`$-splines basis on a finer
 grid of points that are only 10 days apart (as opposite to 30, option
-that was used for the estimating $B$-splines). Moreover, we pass as
+that was used for the estimating $`B`$-splines). Moreover, we pass as
 inputs some graphical parameters to obtain a nicer plot. The result is a
-plot of the one-dimensional hazard curve over $s$ (time since
+plot of the one-dimensional hazard curve over $`s`$ (time since
 recurrence), with accompany 95% confidence bands.
 
 ``` r
+
 plot(x = m1ts,
      plot_grid = c("smin" = 0, "smax" = 2730, "ds" = 10),
      plot_options= list(
@@ -495,11 +505,12 @@ scales. Here, we will present only the most simple, yet very
 informative, way, which is also the default plot returned by the
 function [`plot()`](https://rdrr.io/r/graphics/plot.default.html),
 applied to an object of class `'haz2ts'`. This is a surface plot of the
-hazard over the $(u,s)$-plane with white contour lines. We provide a
+hazard over the $`(u,s)`$-plane with white contour lines. We provide a
 vignette that only focus on visualization of the hazard with two time
 scales *Visualize hazards with two time scales*.
 
 ``` r
+
 plot(x = m2ts,
      plot_grid = list(c("umin" = 0, "umax" = 2300, "du" = 10),
                       c("smin" = 0, "smax" = 2730, "ds" = 10)),
@@ -515,22 +526,19 @@ plot(x = m2ts,
 ## References
 
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
-“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*.
-<https://doi.org/10.1002/sim.10297>.
+“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*,
+ahead of print. <https://doi.org/10.1002/sim.10297>.
 
-Laurie, J. A., C. G. Moertel, T. R. Fleming, H. S. Wieand, J. E. Leigh,
-J. Rubin, G. W. McCormack, J. B. Gerstner, J. E. Krook, and J. Malliard.
-1989. “Surgical adjuvant therapy of large-bowel carcinoma: an evaluation
-of levamisole and the combination of levamisole and fluorouracil. The
-North Central Cancer Treatment Group and the Mayo Clinic.” *Journal of
-Clinical Oncology* 7 (10): 1447–56.
-<https://doi.org/10.1200/JCO.1989.7.10.1447>.
+Laurie, J. A., C. G. Moertel, T. R. Fleming, et al. 1989. “Surgical
+adjuvant therapy of large-bowel carcinoma: an evaluation of levamisole
+and the combination of levamisole and fluorouracil. The North Central
+Cancer Treatment Group and the Mayo Clinic.” *Journal of Clinical
+Oncology* 7 (10): 1447–56. <https://doi.org/10.1200/JCO.1989.7.10.1447>.
 
-Moertel, Charles G., Thomas R. Fleming, John S. Macdonald, Daniel G.
-Haller, John A. Laurie, Catherine M. Tangen, James S. Ungerleider, et
-al. 1995. “Fluorouracil plus Levamisole as Effective Adjuvant Therapy
-after Resection of Stage III Colon Carcinoma: A Final Report.” *Annals
-of Internal Medicine* 122 (5): 321–26.
+Moertel, Charles G., Thomas R. Fleming, John S. Macdonald, et al. 1995.
+“Fluorouracil plus Levamisole as Effective Adjuvant Therapy after
+Resection of Stage III Colon Carcinoma: A Final Report.” *Annals of
+Internal Medicine* 122 (5): 321–26.
 <https://doi.org/10.7326/0003-4819-122-5-199503010-00001>.
 
 Therneau, Terry M. 2020. *A Package for Survival Analysis in R*.

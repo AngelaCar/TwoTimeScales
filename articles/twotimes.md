@@ -1,6 +1,7 @@
 # Smooth hazards with two time scales
 
 ``` r
+
 library(TwoTimeScales)
 ```
 
@@ -10,7 +11,7 @@ This vignette focuses on the analysis of time-to-event data with two
 time scales. We show how to use the functions of the package
 `TwoTimeScales` with their different options. In particular we show:
 
-- how to bin data over the $(u,s)$- or the $(t,s)$-plane
+- how to bin data over the $`(u,s)`$- or the $`(t,s)`$-plane
 - how to bin data when covariates are presents
 - how to perform a grid search of the optimal couple of smoothing
   parameters
@@ -35,15 +36,16 @@ part.
 
 ## Hazard of death by time since randomization and time since recurrence
 
-The two time variables are $t$ = time since randomization and $s$ = time
-since recurrence. Additionally, $u$ = time at recurrence, is the fixed
-time at entry in the risk set recorded as number of days from
+The two time variables are $`t`$ = time since randomization and $`s`$ =
+time since recurrence. Additionally, $`u`$ = time at recurrence, is the
+fixed time at entry in the risk set recorded as number of days from
 randomization to recurrence. The analysis is performed over the
-$(u,s)$-plane, so we need to bin the data over $u$ and $s$. We consider
-bins of width 30 days on both axes, and we obtain 77 bins on the $u$
-axis and $91$ bins on the $s$ axis.
+$`(u,s)`$-plane, so we need to bin the data over $`u`$ and $`s`$. We
+consider bins of width 30 days on both axes, and we obtain 77 bins on
+the $`u`$ axis and $`91`$ bins on the $`s`$ axis.
 
 ``` r
+
 dt2ts <- prepare_data(data = reccolon2ts,
                       u = "timer",
                       s_out = "timesr",
@@ -82,19 +84,20 @@ dt2ts <- prepare_data(data = reccolon2ts,
     Total number of events: 409
 
 Here, we do not use the artificially created left truncated entry times
-on the $s$-axis, therefore the function returns a message informing the
-user that an entry time of 0 is imputed to all observations.
+on the $`s`$-axis, therefore the function returns a message informing
+the user that an entry time of 0 is imputed to all observations.
 
 After having prepared the data we can estimate the model. In the
-analysis presented in Carollo et al. (2024), we build 23 $B$-splines
-over each of the two dimensions, for a total of 529 $\alpha$ parameters.
-The optimal smoothing parameters are chosen by numerical optimization of
-the AIC of the model as function of the smoothing parameters. We use
-cubic $B$-splines bases and a second order penalty. Here we explicitly
-specify all these parameters, even though some of them are the default
-options.
+analysis presented in Carollo et al. (2024), we build 23 $`B`$-splines
+over each of the two dimensions, for a total of 529 $`\alpha`$
+parameters. The optimal smoothing parameters are chosen by numerical
+optimization of the AIC of the model as function of the smoothing
+parameters. We use cubic $`B`$-splines bases and a second order penalty.
+Here we explicitly specify all these parameters, even though some of
+them are the default options.
 
 ``` r
+
 mod1 <- fit2ts(data2ts = dt2ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -112,7 +115,7 @@ mod1 <- fit2ts(data2ts = dt2ts,
 The object returned by
 [`fit2ts()`](https://angelacar.github.io/TwoTimeScales/reference/fit2ts.md)
 is of class `'haz2ts'`. The optimal smoothing parameters are
-$\varrho_{u} = 10^{2.4}$ and $\varrho_{s} = 10^{0.3}$, and the effective
+$`\varrho_u = 10^{2.4}`$ and $`\varrho_s=10^{0.3}`$, and the effective
 dimension of the model is 11.1.
 
     > summary(mod1)
@@ -140,6 +143,7 @@ We can change the optimization criterion to BIC, and compare the results
 in terms of smoothing parameters and effective dimensions:
 
 ``` r
+
 mod2 <- fit2ts(data2ts = dt2ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -164,10 +168,11 @@ smoothing parameters and a smaller effective dimension, as BIC penalizes
 model complexity more strongly than AIC. The following code-chunk shows
 how to use the grid-search method to select the optimal pair of
 smoothing parameters and, at the same time, to produce plots of the AIC
-and BIC values of the grid of $\log_{10}$ values of both smoothing
+and BIC values of the grid of $`\log_{10}`$ values of both smoothing
 parameters.
 
 ``` r
+
 mod3 <- fit2ts(data2ts = dt2ts,
                Bbases_spec = list(bdeg = 3,
                                   nseg_s = 20,
@@ -205,6 +210,7 @@ object of class `haz2tsLMM`, which differ in structure from objects of
 class `haz2ts`, but has the same methods implemented.
 
 ``` r
+
 mod_LMM <- fit2ts(data2ts = dt2ts,
                   Bbases_spec = list(bdeg = 3,
                                      nseg_s = 20,
@@ -255,6 +261,7 @@ automatically recognizes that the data object includes a covariates’
 matrix and then it correctly estimates a GLAM PH model.
 
 ``` r
+
 dt2ts_cov <- prepare_data(data = reccolon2ts,
                           u = "timer",
                           s_out = "timesr",
@@ -302,6 +309,7 @@ Then, we pass the object `d2ts_cov` to
 with the same arguments as before.
 
 ``` r
+
 mod_cov <- fit2ts(data2ts = dt2ts_cov,
                   Bbases_spec = list(bdeg = 3,
                                      nseg_s = 20,
@@ -346,14 +354,15 @@ mod_cov <- fit2ts(data2ts = dt2ts_cov,
 ### Prepare the data over the Lexis diagram
 
 It is, in principle, possible to prepare the data over the
-$(t,s)$-plane. To do so, we pass as arguments to the function
+$`(t,s)`$-plane. To do so, we pass as arguments to the function
 [`prepare_data()`](https://angelacar.github.io/TwoTimeScales/reference/prepare_data.md)
-a vector of entry times and a vector of exit times over the $t$ axis,
-rather than the vector of entry times $u$. From the image plot of the
+a vector of entry times and a vector of exit times over the $`t`$ axis,
+rather than the vector of entry times $`u`$. From the image plot of the
 exposure times, we can see how the data are only present in the lower
-half-plane where $t \geq s$.
+half-plane where $`t \ge s`$.
 
 ``` r
+
 dt2tsLex <- prepare_data(data = reccolon2ts,
                          t_in = "timer",
                          t_out = "timedc",
@@ -373,16 +382,16 @@ box()
 
 ![](../reference/figures/twotimes/prep-data-Lexis-1.png)
 
-Note: estimation over the $(t,s)$-plane with the same model is
+Note: estimation over the $`(t,s)`$-plane with the same model is
 theoretically possible, but special care is needed to deal with the
-larger areas without data support (especially those where $t < s$).
-Comparison with the estimation over the $(u,s)$-plane is currently under
-investigation. A future version of the package will include options for
-estimation over the $(t,s)$-plane.
+larger areas without data support (especially those where $`t < s`$).
+Comparison with the estimation over the $`(u,s)`$-plane is currently
+under investigation. A future version of the package will include
+options for estimation over the $`(t,s)`$-plane.
 
 Carollo, Angela, Paul H. C. Eilers, Hein Putter, and Jutta Gampe. 2024.
-“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*.
-<https://doi.org/10.1002/sim.10297>.
+“Smooth Hazards with Multiple Time Scales.” *Statistics in Medicine*,
+ahead of print. <https://doi.org/10.1002/sim.10297>.
 
 Martin P. Boer. 2023. “Tensor Product P-Splines Using a Sparse Mixed
 Model Formulation.” *Statistical Modelling* 23 (5-6): 465–79.

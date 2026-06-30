@@ -155,3 +155,9 @@
   : Point-wise prediction of cumulative incidence over 2 time scale
 - [`predict_comprisks2ts()`](https://angelacar.github.io/TwoTimeScales/reference/predict_comprisks2ts.md)
   : Predict overall survival and cumulative incidence functions
+- [`boot_cuminc2ts()`](https://angelacar.github.io/TwoTimeScales/reference/boot_cuminc2ts.md)
+  : Bootstrap confidence intervals for cumulative incidence functions
+  with two time scales
+- [`plot_boot_cuminc2ts()`](https://angelacar.github.io/TwoTimeScales/reference/plot_boot_cuminc2ts.md)
+  : Image Plot of Bootstrap Uncertainty for Cumulative Incidence
+  Functions

@@ -62,10 +62,13 @@ fit1ts(
   a list with the specification for the bins. This is created by the
   function
   [`prepare_data()`](https://angelacar.github.io/TwoTimeScales/reference/prepare_data.md).
-  Alternatively, a list with the following elements can be provided: \*
-  `bins_s` is a vector of intervals for the time scale `s`. \* `mids` is
-  a vector with the midpoints of the intervals over `s`. \* `ns` is the
-  number of bins over `s`.
+  Alternatively, a list with the following elements can be provided:
+
+  - `bins_s` is a vector of intervals for the time scale `s`.
+
+  - `mids` is a vector with the midpoints of the intervals over `s`.
+
+  - `ns` is the number of bins over `s`.
 
 - Bbases_spec:
 
