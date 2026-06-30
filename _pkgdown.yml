@@ -115,3 +115,5 @@ reference:
   - cuminc2ts
   - predict_cif2ts_pointwise
   - predict_comprisks2ts
+  - boot_cuminc2ts
+  - plot_boot_cuminc2ts
