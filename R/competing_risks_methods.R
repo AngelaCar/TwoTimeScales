@@ -105,7 +105,8 @@ cumhaz2ts <- function(fitted_model,
 
   res <- list(
     "Haz" = Haz,
-    "CumHaz" = CumHaz
+    "CumHaz" = CumHaz,
+    "plot_grid" = Haz$new_plot_grid
   )
   if (!is.null(cause)) {
     res$cause <- cause

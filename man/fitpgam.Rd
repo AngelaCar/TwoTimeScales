@@ -38,12 +38,14 @@ n by p.}
 \item{bins}{a list with the specification for the bins. This is created by
 the function \code{prepare_data()}. If a list prepared externally from such function
 if provided, it should contain the following elements:
-* \code{bins_u} A vector of bins extremes for the time scale \code{u}.
-* \code{midu} A vector with the midpoints of the bins over \code{u}.
-* \code{nu} The number of bins over \code{u}.
-* \code{bins_s} A vector of bins extremes for the time scale \code{s}.
-* \code{mids} A vector with the midpoints of the bins over \code{s}.
-* \code{ns} The number of bins over \code{s}.}
+\itemize{
+\item \code{bins_u} A vector of bins extremes for the time scale \code{u}.
+\item \code{midu} A vector with the midpoints of the bins over \code{u}.
+\item \code{nu} The number of bins over \code{u}.
+\item \code{bins_s} A vector of bins extremes for the time scale \code{s}.
+\item \code{mids} A vector with the midpoints of the bins over \code{s}.
+\item \code{ns} The number of bins over \code{s}.
+}}
 
 \item{Bbases_spec}{A list with the specification for the B-splines basis
 with the following elements:

@@ -105,7 +105,7 @@ predict_haz2ts_pointwise <- function(fitted_model,
 
   # ---- Calculate hazard after covariates ----
   if(!is.null(zpred)){
-    risk <- (fitted_model$optimal_model$beta %*% t(zpred))[1,1]
+    risk <- (fitted_model$optimal_model$beta %*% zpred)[1,1]
     Eta <- Eta0 + risk
     Haz <- exp(Eta)
     }

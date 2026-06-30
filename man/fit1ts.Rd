@@ -38,9 +38,11 @@ by n.}
 \item{bins}{a list with the specification for the bins. This is created by
 the function \code{prepare_data()}. Alternatively, a list with the following elements
 can be provided:
-* \code{bins_s} is a vector of intervals for the time scale \code{s}.
-* \code{mids} is a vector with the midpoints of the intervals over \code{s}.
-* \code{ns} is the number of bins over \code{s}.}
+\itemize{
+\item \code{bins_s} is a vector of intervals for the time scale \code{s}.
+\item \code{mids} is a vector with the midpoints of the intervals over \code{s}.
+\item \code{ns} is the number of bins over \code{s}.
+}}
 
 \item{Bbases_spec}{A list with the specification for the B-splines basis
 with the following elements:
