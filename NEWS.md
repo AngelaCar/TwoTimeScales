@@ -1,3 +1,12 @@
+# TwoTimeScales 1.3.0
+
+## New functions
+* `boot_cuminc2ts()` a wrapper function to perform non-parametric bootstrap 
+   to obtain uncertainty measures for the cumulative incidence functions and survival
+   function.
+* `plot_boot_cuminc2ts()` plots an image of the point wise bootstrap SEs or 
+   confidence intervals of the cumulative incidence functions.
+
 # TwoTimeScales 1.2.0
 
 ## New functions
