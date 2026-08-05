@@ -33,12 +33,10 @@ GLAM_1d_covariates(
 iterative processes:
 *\code{maxiter} The maximum number of iterations for the IWLS algorithm,
 default is 20 .
-\itemize{
-\item \code{conv_crit} The convergence criteria, expressed as difference between
+* \code{conv_crit} The convergence criteria, expressed as difference between
 estimates at iteration i and i+1, default is \code{1e-5}.
-\item \code{verbose} A Boolean. Default is \code{FALSE}. If \code{TRUE}, monitor the
-iteration process.
-}}
+* \code{verbose} A Boolean. Default is \code{FALSE}. If \code{TRUE}, monitor the
+iteration process.}
 }
 \value{
 A list with the following elements:
