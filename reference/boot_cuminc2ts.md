@@ -211,7 +211,7 @@ boot_cif <- boot_cuminc2ts(
     )
   ),
   ds         = .2,
-  nboot      = 10,
+  nboot      = 5,
   seed       = 1234,
   conf_level = 0.95,
   parallel   = FALSE
@@ -221,20 +221,7 @@ boot_cif <- boot_cuminc2ts(
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#>   |                                                                              |=======                                                               |  10%
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #>   |                                                                              |==============                                                        |  20%
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#>   |                                                                              |=====================                                                 |  30%
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
@@ -242,19 +229,12 @@ boot_cif <- boot_cuminc2ts(
 #>   |                                                                              |============================                                          |  40%
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#>   |                                                                              |===================================                                   |  50%
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
+#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
+#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
+#> Warning: Max number of iterations 20 reached but the algorithm did not converge.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #>   |                                                                              |==========================================                            |  60%
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#>   |                                                                              |=================================================                     |  70%
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
@@ -264,16 +244,11 @@ boot_cif <- boot_cuminc2ts(
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#>   |                                                                              |===============================================================       |  90%
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #>   |                                                                              |======================================================================| 100%
-#> Warning: 2 out of 10 bootstrap replicates failed and were discarded.
+#> Warning: 1 out of 5 bootstrap replicates failed and were discarded.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
 #> `s_in = NULL`. I will use `s_in = 0` for all observations.
-#> Done. 8 successful replicates out of 10 attempted.
+#> Done. 4 successful replicates out of 5 attempted.
 
 # --- Inspect output ------------------------------------------------------
 # Names of causes
@@ -287,9 +262,9 @@ dim(boot_cif$results_cif[["cause1"]]$lower)
 # Pointwise standard errors for cause 2 (first few rows and columns)
 boot_cif$results_cif[["cause2"]]$se[1:5, 1:5]
 #>             [,1]        [,2]        [,3]        [,4]        [,5]
-#> [1,] 0.002609207 0.005180806 0.007717291 0.010221142 0.012694819
-#> [2,] 0.002444048 0.004861595 0.007254613 0.009625085 0.011975006
-#> [3,] 0.002287397 0.004557973 0.006813294 0.009054959 0.011284593
-#> [4,] 0.002138211 0.004267947 0.006390467 0.008507070 0.010619098
-#> [5,] 0.001995467 0.003989552 0.005983281 0.007977729 0.009974023
+#> [1,] 0.002625831 0.005197270 0.007718355 0.010193135 0.012625668
+#> [2,] 0.002455607 0.004869887 0.007246149 0.009587752 0.011898107
+#> [3,] 0.002296476 0.004563190 0.006802872 0.009018332 0.011212457
+#> [4,] 0.002147718 0.004275884 0.006386778 0.008482777 0.010566357
+#> [5,] 0.002008660 0.004006754 0.005996221 0.007979107 0.009957569
 ```
