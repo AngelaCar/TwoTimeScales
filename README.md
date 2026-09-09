@@ -3,6 +3,10 @@
 
 # TwoTimeScales
 
+<a href="https://angelacar.github.io/TwoTimeScales/"><img src="man/figures/logo.png" align="right" height="139" alt="TwoTimeScales website" /></a>
+
+# TwoTimeScales
+
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/AngelaCar/TwoTimeScales/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/AngelaCar/TwoTimeScales/actions/workflows/R-CMD-check.yaml)
@@ -48,9 +52,7 @@ devtools::install_github("AngelaCar/TwoTimeScales",
                           dependencies = TRUE, build_vignettes = TRUE)
 ```
 
-Note: This will take more time than installing the version of the
-package without vignettes. Alternatively, we suggest to read the
-vignettes online here:
+Vignettes can be also read online here:
 [TwoTimeScales](https://angelacar.github.io/TwoTimeScales/)
 
 ## How to use TwoTimeScales

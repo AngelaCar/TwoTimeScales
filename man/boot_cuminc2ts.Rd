@@ -165,7 +165,7 @@ boot_cif <- boot_cuminc2ts(
     )
   ),
   ds         = .2,
-  nboot      = 10,
+  nboot      = 5,
   seed       = 1234,
   conf_level = 0.95,
   parallel   = FALSE

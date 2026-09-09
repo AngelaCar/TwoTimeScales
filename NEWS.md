@@ -1,4 +1,4 @@
-# TwoTimeScales 1.3.0
+# TwoTimeScales 1.3.1
 
 ## New functions
 * `boot_cuminc2ts()` a wrapper function to perform non-parametric bootstrap 
